@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24 Stories — Make Pre-Build Decisions</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: Georgia, serif; background: #F7F5F2; color: #1A1A1A; font-size: 15px; line-height: 1.65; }
+    .top-bar { background: #1A1A1A; color: #F7F5F2; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .top-bar h1 { font-size: 18px; font-weight: normal; letter-spacing: 0.02em; }
+    .top-bar span { font-size: 13px; color: #B8976A; }
+    .container { max-width: 960px; margin: 0 auto; padding: 36px 24px 80px; }
+    .intro { font-size: 14px; color: #555; margin: 16px 0 28px; line-height: 1.75; }
+    h2 { font-size: 20px; font-weight: normal; border-bottom: 1px solid #D4C4B0; padding-bottom: 8px; margin: 48px 0 20px; letter-spacing: 0.01em; }
+    h3 { font-size: 15px; font-weight: bold; margin: 28px 0 10px; }
+
+    .decision-card {
+      background: #fff;
+      border: 1px solid #D4C4B0;
+      border-radius: 4px;
+      padding: 18px 22px 20px;
+      margin-bottom: 18px;
+    }
+    .decision-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #EDE7DF;
+    }
+    .sc-tag {
+      background: #1A1A1A;
+      color: #F7F5F2;
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-family: sans-serif;
+      white-space: nowrap;
+    }
+    .decision-title { font-size: 15px; font-weight: bold; }
+    .flag-text { font-size: 13px; color: #777; font-style: italic; margin-bottom: 10px; }
+    .resolved {
+      background: #f0fff4;
+      border-left: 3px solid #2E7D32;
+      padding: 10px 14px;
+      font-size: 14px;
+      color: #1A1A1A;
+    }
+    .resolved strong { color: #2E7D32; }
+    .note {
+      background: #FFF8EC;
+      border-left: 3px solid #B8976A;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+    }
+    .warn {
+      background: #fff3f3;
+      border-left: 3px solid #c0392b;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
+    }
+    .warn strong { color: #c0392b; }
+
+    .extra-scenarios {
+      background: #1A1A1A;
+      color: #F7F5F2;
+      padding: 20px 24px;
+      border-radius: 4px;
+      margin-top: 16px;
+    }
+    .extra-scenarios h3 { color: #B8976A; margin-top: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .extra-scenarios ul { padding-left: 18px; margin-top: 10px; }
+    .extra-scenarios li { margin-bottom: 8px; font-size: 14px; line-height: 1.6; }
+    .extra-scenarios li span { color: #B8976A; }
+
+    .toc { background: #fff; border: 1px solid #D4C4B0; border-radius: 4px; padding: 18px 22px; margin: 24px 0 0; }
+    .toc h3 { margin-top: 0; font-size: 13px; color: #B8976A; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .toc ul { padding-left: 18px; margin: 0; }
+    .toc li { margin-bottom: 4px; font-size: 14px; }
+    .toc a { color: #1A1A1A; text-decoration: none; border-bottom: 1px solid #D4C4B0; }
+    .toc a:hover { color: #B8976A; }
+
+    code { font-family: 'Courier New', monospace; background: #EDE7DF; padding: 1px 5px; font-size: 13px; border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>24 Stories — Make Pre-Build Decisions</h1>
+  <span>2026-04-14 — All flags resolved — open alongside make-build-reference.html</span>
+</div>
+
+<div class="container">
+
+  <p class="intro">Every "decide at build time" flag from the 13 scenario module maps — resolved here before you open Make. No decisions to make mid-build. Work through this document once, then build without stopping.</p>
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <ul>
+      <li><a href="#s1">Section 1 — Scenario flag decisions (all 13 scenarios)</a></li>
+      <li><a href="#s2">Section 2 — Additional Make scenarios beyond the 13</a></li>
+      <li><a href="#s3">Section 3 — Build order for Make</a></li>
+    </ul>
+  </div>
+
+
+  <!-- ===================== SECTION 1 ===================== -->
+  <h2 id="s1">Section 1 — Scenario Flag Decisions</h2>
+
+
+  <!-- Scenario 1 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 1</span>
+      <span class="decision-title">Signup — data flow and LibraryToken</span>
+    </div>
+
+    <h3>Flag 1A — How subscriber data flows from form to Airtable</h3>
+    <p class="flag-text">PayFast IPN carries payment data only. Subscriber name, emails, family list etc. must reach Make separately.</p>
+    <div class="resolved">
+      <strong>Decision: Two-stage flow (Option A).</strong><br>
+      Stage 1: Checkout form POSTs subscriber data to a Make webhook → Make creates Subscribers record with Status = <code>Pending</code>.<br>
+      Stage 2: PayFast IPN fires to Scenario 1 webhook with <code>payment_status = COMPLETE</code> and <code>custom_str1</code> = the Pending record's Airtable record ID → Make looks up and updates the record: Status = Active, SubscriptionStartDate = today, PromptNumber = 0, LibraryToken = record ID.
+    </div>
+    <div class="note">Stage 1 is a small separate Make scenario — see Section 2. Stage 2 is Scenario 1 proper. Emails 1–3 fire only after Stage 2 completes. The Pending record is ignored by all other scheduled scenarios (they filter Status = Active).</div>
+
+    <h3>Flag 1B — LibraryToken format</h3>
+    <p class="flag-text">What value goes into LibraryToken and who generates it?</p>
+    <div class="resolved">
+      <strong>Decision: Use the Airtable record ID.</strong><br>
+      Stage 2 sets LibraryToken = <code>custom_str1</code> (which is the record ID passed from Stage 1 via PayFast). Library URL format: <code>library.html?id={{LibraryToken}}</code>. Airtable record IDs do not change during normal use.
+    </div>
+
+    <h3>Flag 1C — Story Helper Welcome (Scenario 2)</h3>
+    <p class="flag-text">Implement as separate scenario or as Route B within Scenario 1?</p>
+    <div class="resolved">
+      <strong>Decision: Route B within Scenario 1.</strong><br>
+      After sending email-1, add a Router. Route A: GiftGiverEmail not empty → send email-2. Route B: StoryHelperEmail not empty → send email-3. No separate Make scenario needed. Scenario 2 is listed in the architecture for clarity but is not a separate build item.
+    </div>
+  </div>
+
+
+  <!-- Scenario 3 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 3</span>
+      <span class="decision-title">Week 1 Prompt — timing</span>
+    </div>
+    <h3>Flag — When does Week 1 prompt send?</h3>
+    <p class="flag-text">Send immediately on signup or on the next scheduled Monday?</p>
+    <div class="resolved">
+      <strong>Decision: Immediately on signup.</strong><br>
+      Scenario 3 is triggered by Airtable Watch Records detecting the new Active subscriber. It fires automatically, no delay. After sending, sets PromptNumber = 1 and LastPromptSentDate = today.
+    </div>
+    <div class="note">Week 2 will then arrive on the next Monday send, which may be fewer than 7 days if signup is mid-week. Acceptable at this volume.</div>
+  </div>
+
+
+  <!-- Scenario 4 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 4</span>
+      <span class="decision-title">Regular Prompt Delivery — prompt pace</span>
+    </div>
+    <h3>Flag — How to handle accelerated subscribers (free testers)</h3>
+    <p class="flag-text">Weekly schedule affects all subscribers simultaneously. Cannot change cadence for one subscriber without affecting all.</p>
+    <div class="resolved">
+      <strong>Decision: Build Option B — separate "Send Next Prompt — Manual" scenario.</strong><br>
+      A webhook-triggered scenario that accepts a SubscriberID, looks up that subscriber's PromptNumber, fetches the next prompt, sends email-8, and increments PromptNumber. Tamara fires it manually for specific subscribers only. Main weekly scenario untouched. Build this alongside Scenario 4 — see Section 2.
+    </div>
+    <div class="note">After sending, Scenario 4 always sets LastPromptSentDate = today on the subscriber record. The manual scenario does the same.</div>
+  </div>
+
+
+  <!-- Scenario 5 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 5</span>
+      <span class="decision-title">Day 4 Reminder — date logic and double-send guard</span>
+    </div>
+    <h3>Flag 5A — How to know when the last prompt was sent</h3>
+    <p class="flag-text">Scenario 5 runs daily and needs to know if today is exactly day 4 after the last prompt send.</p>
+    <div class="resolved">
+      <strong>Decision: Use LastPromptSentDate field (Option A).</strong><br>
+      New Date field added to Subscribers table. Scenarios 3, 4, and the manual prompt scenario all write today's date to this field after sending. Scenario 5 calculates: <code>today - LastPromptSentDate = 3 days</code> (day 4 is 3 days after send date). Filter on this before sending email-5.
+    </div>
+
+    <h3>Flag 5B — Prevent double-sending the reminder</h3>
+    <p class="flag-text">Scenario 5 runs daily. Could send the reminder more than once if not guarded.</p>
+    <div class="resolved">
+      <strong>Decision: Option B — rely on day-specific calculation only. No extra field.</strong><br>
+      The filter <code>today - LastPromptSentDate = exactly 3</code> means the scenario only acts on day 4. On day 5 and beyond, the condition fails. At this volume, this is a sufficient guard. No ReminderSentWeek field needed.
+    </div>
+  </div>
+
+
+  <!-- Scenario 6 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 6</span>
+      <span class="decision-title">Story Edited — double-send guard and FamilyEmails delimiter</span>
+    </div>
+    <h3>Flag 6A — Prevent double-sending when Tamara edits a typo in EditedText</h3>
+    <p class="flag-text">Airtable Watch re-triggers on any update to the Stories record, including typo fixes after emails have already been sent.</p>
+    <div class="resolved">
+      <strong>Decision: Add EmailsSent checkbox to Stories table.</strong><br>
+      Scenario 6 filter: <code>EditedText not empty AND EmailsSent is not checked</code>. After email-6 and email-7 send successfully, Make sets <code>EmailsSent = true</code>. All subsequent edits to that Stories record are ignored.
+    </div>
+
+    <h3>Flag 6B — FamilyEmails delimiter</h3>
+    <p class="flag-text">Split Text module needs to know the separator character.</p>
+    <div class="resolved">
+      <strong>Decision: Newline (\n) — one email address per line.</strong><br>
+      This is the format the checkout form will use (confirmed). In Make, use the Split Text module with separator = <code>\n</code>. The resulting array feeds the Iterator for family email sends.
+    </div>
+  </div>
+
+
+  <!-- Scenario 7 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 7</span>
+      <span class="decision-title">Resend Library Link — email format</span>
+    </div>
+    <h3>Flag — Use inline HTML or Mailjet template?</h3>
+    <p class="flag-text">The "here is your library link" email is not one of the 16 numbered emails.</p>
+    <div class="resolved">
+      <strong>Decision: Write inline in Make.</strong><br>
+      Simple one-paragraph email. Write the HTML directly in the Mailjet module — no template needed. Subject: "Your 24 Stories library link". Body: one sentence + the library URL. Signed: "With warmth, The 24 Stories Team."
+    </div>
+    <div class="note">The "not found" Route B email is also inline. One sentence: "We could not find an account linked to this email address. Please contact hello@24stories.co.za."</div>
+  </div>
+
+
+  <!-- Scenario 8 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 8</span>
+      <span class="decision-title">Book Onboarding — date field for reminders</span>
+    </div>
+    <h3>Flag — How does Scenario 9 know when email-9 was sent?</h3>
+    <p class="flag-text">Scenario 9 needs the exact date email-9 was sent to calculate Day 3, 7, and 14 offsets.</p>
+    <div class="resolved">
+      <strong>Decision: Add BookOnboardingEmailDate field (Date) to Subscribers.</strong><br>
+      Scenario 8 writes today's date to this field after sending email-9. Scenario 9 reads it to calculate days elapsed. Cleaner and more reliable than deriving from the weekly schedule.
+    </div>
+  </div>
+
+
+  <!-- Scenario 9 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 9</span>
+      <span class="decision-title">Book Onboarding Reminders — escalation limit</span>
+    </div>
+    <h3>Flag — What happens after Day 14?</h3>
+    <div class="resolved">
+      <strong>Decision: No further automated reminders. Tamara follows up manually.</strong><br>
+      After email-11 (Day 14), the scenario takes no further automated action for that subscriber. Tamara handles individually. No additional Make logic needed.
+    </div>
+  </div>
+
+
+  <!-- Scenario 10 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 10</span>
+      <span class="decision-title">Daily Book Production Alert — quiet days</span>
+    </div>
+    <h3>Flag — Suppress alert when no books are overdue</h3>
+    <div class="resolved">
+      <strong>Decision: Filter after search — stop if no overdue records.</strong><br>
+      After searching Subscribers (BookFormCompleted not empty AND BookSentToPrintDate empty), add a filter: at least one record has BookFormCompleted 42+ days ago. If none qualify, the scenario ends silently — no email to Tamara. This prevents daily noise.
+    </div>
+    <div class="note">Use a Text Aggregator to build the alert email body: one row per overdue subscriber — name, date pressed Complete, days elapsed, current BookProductionStatus. Feed this aggregated text into the Mailjet module body.</div>
+  </div>
+
+
+  <!-- Scenario 11 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 11</span>
+      <span class="decision-title">Book Sent to Print — double-send guard</span>
+    </div>
+    <h3>Flag — Prevent re-sending email-12 if Tamara corrects the date</h3>
+    <p class="flag-text">If Tamara sets BookSentToPrintDate, email-12 fires. If she then corrects the date (typo), the Watch triggers again.</p>
+    <div class="resolved">
+      <strong>Decision: Add BookDispatchEmailSent checkbox to Subscribers.</strong><br>
+      Scenario 11 filter: <code>BookSentToPrintDate not empty AND BookDispatchEmailSent is not checked</code>. After email-12 sends, Make sets <code>BookDispatchEmailSent = true</code>. Date corrections after that are ignored.
+    </div>
+    <div class="note">Gift Giver copy of email-12: Tamara sends manually from hello@24stories.co.za if a Gift Giver exists. Not automated at launch.</div>
+  </div>
+
+
+  <!-- Scenario 12 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 12</span>
+      <span class="decision-title">Extra Copies — webhook and intermediate step</span>
+    </div>
+    <h3>Flag 12A — Separate webhook URL or same as Scenario 1?</h3>
+    <div class="resolved">
+      <strong>Decision: Separate webhook URL.</strong><br>
+      Scenario 12 uses its own Make webhook URL, distinct from Scenario 1. PayFast distinguishes by URL. No need to filter by item_name or custom_str flags.
+    </div>
+
+    <h3>Flag 12B — Quantity tracking</h3>
+    <div class="resolved">
+      <strong>Decision: Track via Payments table only.</strong><br>
+      Each extra copies transaction creates one Payments record. Quantity = <code>Amount ÷ 1200</code>. No ExtraCopiesOrdered field needed.
+    </div>
+
+    <h3>Flag 12C — Intermediate step (library → Make → PayFast link → subscriber pays)</h3>
+    <p class="flag-text">The library needs to initiate the extra copies order. Make then needs to get a PayFast payment link to the subscriber. Dynamic PayFast link generation in Make is complex.</p>
+    <div class="resolved">
+      <strong>Decision: Manual intermediate step at launch.</strong><br>
+      Library "Order extra copies" button fires a webhook to Make (separate from the 4 library webhooks — see Section 2). Make sends a notification email to Tamara: "Subscriber X has requested N extra copies (R[N×1200]). Please send them a PayFast payment link." Tamara sends the link manually. Subscriber pays → IPN → Scenario 12 → email-14. Fully automating the link generation can be added later without touching any other scenario.
+    </div>
+    <div class="warn"><strong>Library webhook gap:</strong> The extra copies request webhook is a 5th library webhook not listed in the original library_config_checklist. Build it when building Scenario 12. Add the URL to library.html at that point.</div>
+  </div>
+
+
+  <!-- Scenario 13 -->
+  <div class="decision-card">
+    <div class="decision-header">
+      <span class="sc-tag">Scenario 13</span>
+      <span class="decision-title">Pause Expiry Reminder — auto-cancel</span>
+    </div>
+    <h3>Flag — Auto-cancel after 12 months?</h3>
+    <div class="resolved">
+      <strong>Decision: No auto-cancel. Tamara handles manually.</strong><br>
+      After 365 days, if subscriber does not respond to the reminder, Tamara sets Status = Cancelled in Airtable at her discretion. Make takes no automated action beyond sending the reminder email.
+    </div>
+  </div>
+
+
+  <!-- ===================== SECTION 2 ===================== -->
+  <h2 id="s2">Section 2 — Additional Make Scenarios Beyond the 13</h2>
+
+  <p style="font-size:14px; color:#555; margin-bottom:16px;">The 13 scenarios cover email automation. The following additional Make scenarios are required for the system to function. Build these in Make alongside the 13 — they are simple (2–4 modules each).</p>
+
+  <div class="extra-scenarios">
+    <h3>Additional scenarios to build</h3>
+    <ul>
+      <li><span>Scenario 1 — Stage 1 (pre-payment):</span> Webhook receives checkout form data → creates Subscribers record with Status = Pending. Passes record ID to PayFast via redirect. 3 modules: webhook, create Airtable record, update record (set LibraryToken = record ID).</li>
+      <li><span>Library webhook A — Story photo:</span> Webhook receives { subscriberId, week, photoUrl } → updates Stories.StoryImageURL for matching record. 3 modules.</li>
+      <li><span>Library webhook B — Story caption:</span> Webhook receives { subscriberId, week, caption } → updates Stories.StoryImageCaption. 3 modules.</li>
+      <li><span>Library webhook C — Book photo:</span> Webhook receives { subscriberId, fieldType, photoUrl } → if fieldType = "portrait", updates Subscribers.PortraitPhotoURL; if "cover", updates Subscribers.CoverPhotoURL. 3–4 modules with router.</li>
+      <li><span>Library webhook D — Book text:</span> Webhook receives { subscriberId, fieldType, value } → routes to correct Subscribers field: DedicationText / DeliveryAddress / BookTitle / BookFormCompleted (when fieldType = "bookComplete", sets BookFormCompleted = today). 4–5 modules with router.</li>
+      <li><span>Library webhook E — Extra copies request:</span> Webhook receives { subscriberId, quantity } → emails Tamara at hello@24stories.co.za with subscriber name and amount. 3 modules. (Tamara then sends PayFast link manually.)</li>
+      <li><span>Manual prompt scenario — "Send Next Prompt":</span> Webhook receives { subscriberId } → looks up subscriber → fetches Prompts record where Week = PromptNumber + 1 → sends email-8 → increments PromptNumber → sets LastPromptSentDate. 6 modules. Tamara fires manually for accelerated testers.</li>
+    </ul>
+  </div>
+
+  <div class="note" style="margin-top:16px;">
+    <strong>Total Make scenarios to build: 20</strong> (13 main + Stage 1 pre-payment + 5 library webhooks + 1 manual prompt). Library webhooks A–D are all simple — webhook → Airtable update. Allow 2–3 hours for all 20.
+  </div>
+
+  <div class="note" style="margin-top:10px;">
+    <strong>BookFormCompleted is set via Library webhook D</strong> (fieldType = "bookComplete"), not a separate webhook. The "Mark as Complete" button in library.html fires webhook D with fieldType = "bookComplete" and value = today's date. Make sets BookFormCompleted = that date. This triggers Scenario 10 to start watching that subscriber.
+  </div>
+
+
+  <!-- ===================== SECTION 3 ===================== -->
+  <h2 id="s3">Section 3 — Build Order for Make</h2>
+
+  <p style="font-size:14px; color:#555; margin-bottom:16px;">Build in this order. Each scenario is testable before moving to the next. Test each one with manually sent webhook data before proceeding.</p>
+
+  <ol style="font-size:14px; line-height:2; padding-left:20px; color:#333;">
+    <li><strong>Scenario 1 — Stage 1</strong> (pre-payment webhook → create Pending record)</li>
+    <li><strong>Scenario 1 — Stage 2</strong> (PayFast IPN → activate record → emails 1, 2, 3)</li>
+    <li><strong>Scenario 3</strong> — Week 1 Prompt (Airtable Watch → send email-4 → set PromptNumber = 1, LastPromptSentDate)</li>
+    <li><strong>Scenario 4</strong> — Regular Prompt Delivery Weeks 2–26 (scheduled weekly → loop → send email-8 → increment PromptNumber, update LastPromptSentDate)</li>
+    <li><strong>Manual Prompt scenario</strong> — webhook-triggered single-subscriber prompt send</li>
+    <li><strong>Scenario 5</strong> — Day 4 Reminder (daily schedule → check LastPromptSentDate → send email-5)</li>
+    <li><strong>Scenario 6</strong> — Story Edited (Airtable Watch → send email-6 → send email-7 to family → set EmailsSent)</li>
+    <li><strong>Scenario 7</strong> — Resend Library Link (webhook → lookup → send link or not-found email)</li>
+    <li><strong>Library webhooks A–E</strong> — all five simple webhook → Airtable update scenarios</li>
+    <li><strong>Scenario 8</strong> — Book Onboarding Week 26 (routed from Scenario 4 → send email-9 → set BookOnboardingEmailDate)</li>
+    <li><strong>Scenario 9</strong> — Book Onboarding Reminders (daily schedule → check BookOnboardingEmailDate → send email-10 or email-11)</li>
+    <li><strong>Scenario 10</strong> — Daily Book Production Alert (daily schedule → check overdue books → email Tamara)</li>
+    <li><strong>Scenario 11</strong> — Book Sent to Print (Airtable Watch → send email-12 → set BookDispatchEmailSent)</li>
+    <li><strong>Scenario 12</strong> — Extra Copies (PayFast IPN → Payments record → send email-14)</li>
+    <li><strong>Scenario 13</strong> — Pause Expiry Reminder (daily schedule → check PauseStartDate → send reminder)</li>
+  </ol>
+
+  <div class="note" style="margin-top: 24px;">
+    <strong>Once all scenarios are built and tested:</strong> Update library.html with the 5 webhook URLs (A–E). Replace MAKE_WEBHOOK_URL_PLACEHOLDER in index.html with the Scenario 7 webhook URL. Both are in the library_config_checklist.
+  </div>
+
+  <!-- Footer -->
+  <div style="margin-top:60px; padding-top:20px; border-top:1px solid #D4C4B0; font-size:13px; color:#888;">
+    <p>24 Stories — Make Pre-Build Decisions — 2026-04-14 — All flags resolved. Open alongside make-build-reference.html during build.</p>
+  </div>
+
+</div>
+</body>
+</html>

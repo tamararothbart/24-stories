@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 12 — Legacy Book Dispatch</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 12 — LEGACY BOOK DISPATCH CONFIRMATION</strong><br>
+  Trigger: Make — fires when Tamara sets BookSentToPrintDate in Airtable &nbsp;|&nbsp; To: Storyteller (and Gift Giver if gifted — send separately)<br>
+  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
+  Instructions for Tamara: Enter BookSentToPrintDate in Airtable when book goes to printer — this fires the email. Send a separate copy from hello@24stories.co.za to Gift Giver if the purchase was a gift.<br><br>
+  Variables:
+  <span class="var">RecipientFirstName</span>
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+
+  <p class="gold">Your Legacy Book</p>
+
+  <p class="h1">Your book is on its way.</p>
+
+  <p>Hello <strong>[RecipientFirstName]</strong>,</p>
+
+  <p>
+    Twenty-six stories. Six months. One book.
+  </p>
+
+  <p>
+    Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us.
+    Please allow up to three weeks for print and delivery.
+  </p>
+
+  <hr class="divider">
+
+  <p>
+    We hope it is everything you imagined — and more.
+    Hearing from families who have been through this journey means a great deal to us.
+    If you have a moment to share your experience, please write to us at
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>.
+  </p>
+
+  <hr class="divider">
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+  </p>
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
+    Any questions or issues — please get in touch immediately.<br>
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

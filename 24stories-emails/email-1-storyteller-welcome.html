@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 1 — Storyteller Welcome</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 1 — STORYTELLER WELCOME</strong><br>
+  Scenario: 1 (Signup) &nbsp;|&nbsp; Trigger: PayFast payment confirmed (payment_status = COMPLETE) &nbsp;|&nbsp; To: Storyteller<br>
+  Testing override: call the Make webhook directly with a test subscriber payload — PayFast activation not required during testing.<br>
+  Status: <strong style="color:#FF9800;">NEEDS UPDATE IN MAKE — v3.1 content</strong><br><br>
+  Variables in this email:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">GiftGiverName</span>
+  <span class="var">StoryHelperFirstName</span> (conditional — only shown if populated)
+  <span class="var">LibraryURL</span><br><br>
+  Status updated: 2026-04-11 — library description expanded; library block added; v3.1 language throughout.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:40px;">
+
+  <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
+
+  <!-- CONDITIONAL — Make will pick A or B based on whether StorytellerEmail = GiftGiverEmail -->
+  <!-- OPTION A (gifted): StorytellerEmail ≠ GiftGiverEmail -->
+  <p><strong>[GiftGiverName]</strong> has given you a beautiful gift.</p>
+  <!-- OPTION B (self-signup): StorytellerEmail = GiftGiverEmail -->
+  <!--
+  <p>You have given yourself a beautiful gift.</p>
+  -->
+  <!-- Make syntax (single module, inline):
+  {{if(1.StorytellerEmail = 1.GiftGiverEmail;
+    "You have given yourself a beautiful gift.";
+    1.GiftGiverName + " has given you a beautiful gift.")}}
+  -->
+
+  <p>
+    Each week, a gentle prompt will arrive to help you recall and record a piece of your life.
+    Share it as spoken words or written text — whatever feels natural — and we'll send it directly
+    to the people who will treasure them.
+  </p>
+
+  <p>
+    You have a week to respond to each prompt. Don't overthink it.
+    The best stories aren't polished — they're true.
+    Speak as if you're sitting across the table from someone you love.
+  </p>
+
+  <p>
+    These weekly gifts will land in your family and friends' inboxes — eagerly awaited, deeply cherished.
+  </p>
+
+  <hr class="divider">
+
+  <p class="gold">Your First Prompt</p>
+
+  <p>Your first prompt arrives today — look out for a second email from us shortly.</p>
+
+  <p>
+    There's no rush. Read the prompt, let a memory surface, and come back when you're ready.
+    The link embedded in this email works all week — you don't need to record the moment it arrives.
+  </p>
+
+  <hr class="divider">
+
+  <p class="gold">Your Story Library</p>
+
+  <p>
+    Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order. Your library is where you return to fill gaps — a missed prompt, a missing image. It is also where you complete the details for your Legacy Book. You can do so any time before the end of week 26.
+  </p>
+
+  <p>
+    Your library link is in every email from us — <span style="color: #C0392B; font-weight: bold;">see below</span>. Save it somewhere safe. You can use it on any device, at any time.
+  </p>
+
+  <!-- CONDITIONAL — Story Helper notification -->
+  <!-- Only shown if StoryHelperFirstName is populated — subheading included in conditional -->
+  <!-- Make syntax:
+  {{if(1.StoryHelperFirstName;
+    "<p class=\"gold\">Your Story Helper</p><p>" + 1.StoryHelperFirstName + " is your designated helper. They have been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>";
+    "")}}
+  -->
+  <hr class="divider">
+
+  <p class="gold">Your Story Helper</p>
+  <p>
+    <strong>[StoryHelperFirstName]</strong> is your designated helper. They have been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.
+  </p>
+
+  <p style="font-size: 16px; font-style: italic; color: #5C4A30; line-height: 1.9; margin: 0 0 22px 0;">
+    When your final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — yours to hold, share, and keep for generations.
+  </p>
+
+  <hr class="divider">
+
+  <!-- LIBRARY LINK BLOCK — red in this email to draw attention on first read -->
+  <div style="border-top: 3px solid #C0392B; padding: 28px 0 24px; margin: 40px 0 32px;">
+    <p style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #C0392B; font-weight: bold; margin: 0 0 14px 0;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display: inline-block; background: #C0392B; color: #ffffff; text-decoration: none; padding: 15px 32px; font-size: 16px; letter-spacing: 0.03em; margin-bottom: 14px;">Open your library &#8594;</a><br>
+    <p style="font-size: 13px; color: #555; line-height: 1.7; margin: 4px 0 0 0;">Direct link: <a href="[LibraryURL]" style="color: #C0392B; text-decoration: underline; word-break: break-all;">[LibraryURL]</a></p>
+  </div>
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="color: #1A1A1A; font-size: 17px;">The 24 Stories Team</strong>
+  </p>
+
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
+    Questions? We are here to help.<br>
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

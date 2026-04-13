@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>24 Stories — Marketing Campaign Brief</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            font-size: 11pt;
+            font-weight: 300;
+            line-height: 1.75;
+            color: #1A1A1A;
+            background: #fff;
+        }
+
+        @page {
+            size: A4;
+            margin: 22mm 20mm 22mm 20mm;
+        }
+
+        @media print {
+            body { padding: 0; }
+            .no-print { display: none; }
+            .page-break { page-break-before: always; }
+            h2 { page-break-after: avoid; }
+            h3 { page-break-after: avoid; }
+            table { page-break-inside: avoid; }
+            .card { page-break-inside: avoid; }
+        }
+
+        @media screen {
+            body { max-width: 820px; margin: 0 auto; padding: 48px 40px; }
+            .no-print {
+                background: #1A1A1A;
+                color: #fff;
+                text-align: center;
+                padding: 14px 24px;
+                font-size: 12px;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                margin-bottom: 48px;
+                cursor: pointer;
+                border: none;
+                width: 100%;
+            }
+            .no-print:hover { background: #B8976A; }
+        }
+
+        /* COVER */
+        .cover {
+            border-bottom: 2px solid #1A1A1A;
+            padding-bottom: 32px;
+            margin-bottom: 40px;
+        }
+        .cover-eyebrow {
+            font-size: 9pt;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #B8976A;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .cover h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26pt;
+            font-weight: 300;
+            line-height: 1.15;
+            color: #1A1A1A;
+            margin-bottom: 12px;
+        }
+        .cover-meta { font-size: 9.5pt; color: #5C5C5C; margin-top: 8px; }
+
+        /* GOAL BANNER */
+        .goal-banner {
+            background: #1A1A1A;
+            color: #fff;
+            padding: 20px 24px;
+            margin-bottom: 36px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .goal-item { text-align: center; }
+        .goal-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28pt;
+            font-weight: 300;
+            color: #B8976A;
+            display: block;
+            line-height: 1;
+        }
+        .goal-label {
+            font-size: 8.5pt;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            display: block;
+            margin-top: 4px;
+        }
+        .goal-divider {
+            color: rgba(255,255,255,0.2);
+            font-size: 20pt;
+            font-weight: 300;
+        }
+
+        /* HEADINGS */
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 17pt;
+            font-weight: 400;
+            color: #1A1A1A;
+            margin: 36px 0 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #D0CCC6;
+        }
+        h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13pt;
+            font-weight: 500;
+            color: #1A1A1A;
+            margin: 22px 0 8px;
+        }
+        h4 {
+            font-size: 8.5pt;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #1A1A1A;
+            margin: 16px 0 5px;
+        }
+
+        /* BODY */
+        p { margin-bottom: 9px; color: #1A1A1A; }
+        ul, ol { margin: 6px 0 12px 20px; }
+        li { margin-bottom: 5px; color: #1A1A1A; }
+        strong { font-weight: 500; }
+
+        /* CALLOUTS */
+        .callout {
+            border-left: 3px solid #B8976A;
+            padding: 11px 15px;
+            background: #F7F5F2;
+            margin: 12px 0;
+        }
+        .callout p { margin: 0; font-size: 10.5pt; }
+        .callout-label {
+            font-size: 8pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #B8976A;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .callout-dark { border-left-color: #1A1A1A; background: #EDE9E3; }
+        .callout-dark .callout-label { color: #1A1A1A; }
+        .callout-red { border-left-color: #C0392B; background: #FDF5F5; }
+        .callout-red .callout-label { color: #C0392B; }
+
+        /* CHANNEL CARDS */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 16px 0;
+        }
+        .card {
+            border: 1px solid #D0CCC6;
+            padding: 14px 16px;
+            break-inside: avoid;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E4E0DA;
+        }
+        .card-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 12pt;
+            font-weight: 500;
+        }
+        .card-yield {
+            font-size: 9pt;
+            color: #B8976A;
+            font-weight: 500;
+        }
+        .card p { font-size: 10pt; margin: 0 0 6px; }
+        .card-who {
+            font-size: 8.5pt;
+            color: #5C5C5C;
+            letter-spacing: 0.04em;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px solid #E4E0DA;
+        }
+
+        /* TABLES */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 9.5pt;
+            margin: 14px 0;
+        }
+        thead tr { background: #1A1A1A; color: #fff; }
+        thead th {
+            padding: 7px 10px;
+            text-align: left;
+            font-weight: 400;
+            font-size: 8.5pt;
+            letter-spacing: 0.04em;
+        }
+        tbody td {
+            padding: 7px 10px;
+            border-bottom: 1px solid #E4E0DA;
+            vertical-align: top;
+        }
+        tbody tr:nth-child(even) { background: #F7F5F2; }
+
+        /* TIMELINE */
+        .timeline { margin: 16px 0; }
+        .timeline-row {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 0;
+            margin-bottom: 0;
+            break-inside: avoid;
+        }
+        .timeline-week {
+            background: #F7F5F2;
+            border: 1px solid #D0CCC6;
+            border-bottom: none;
+            padding: 8px 10px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11pt;
+            font-weight: 500;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .timeline-week span {
+            font-size: 8pt;
+            font-family: 'Inter', sans-serif;
+            font-weight: 300;
+            color: #5C5C5C;
+            letter-spacing: 0.04em;
+        }
+        .timeline-content {
+            border: 1px solid #D0CCC6;
+            border-left: none;
+            border-bottom: none;
+            padding: 8px 12px;
+            font-size: 10pt;
+        }
+        .timeline-row:last-child .timeline-week,
+        .timeline-row:last-child .timeline-content {
+            border-bottom: 1px solid #D0CCC6;
+        }
+        .timeline-target {
+            font-size: 8.5pt;
+            color: #B8976A;
+            font-weight: 500;
+            float: right;
+        }
+
+        /* CHECKLIST */
+        .checklist { list-style: none; margin-left: 0; }
+        .checklist li {
+            padding: 6px 0 6px 28px;
+            position: relative;
+            border-bottom: 1px solid #F0EDE8;
+            font-size: 10.5pt;
+        }
+        .checklist li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid #D0CCC6;
+            background: #fff;
+        }
+        .checklist-section {
+            font-size: 8.5pt;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #B8976A;
+            font-weight: 500;
+            margin: 16px 0 4px;
+            padding-bottom: 4px;
+        }
+
+        /* PROMPT BOX */
+        .prompt-box {
+            border: 1.5px solid #1A1A1A;
+            padding: 18px 20px;
+            margin: 16px 0;
+            background: #F7F5F2;
+        }
+        .prompt-box-label {
+            font-size: 8pt;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #B8976A;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 10px;
+        }
+        .prompt-box p {
+            font-style: italic;
+            font-size: 10.5pt;
+            line-height: 1.7;
+            margin: 0;
+            color: #1A1A1A;
+        }
+
+        /* DIVIDER */
+        .divider { border: none; border-top: 1px solid #D0CCC6; margin: 24px 0; }
+
+        /* FOOTER */
+        .doc-footer {
+            margin-top: 48px;
+            padding-top: 14px;
+            border-top: 1px solid #D0CCC6;
+            font-size: 8.5pt;
+            color: #999;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+
+<button class="no-print" onclick="window.print()">Print This Document</button>
+
+<!-- COVER -->
+<div class="cover">
+    <span class="cover-eyebrow">24 Stories — Marketing Reference Document</span>
+    <h1>200-Subscriber Acquisition<br>Campaign Brief</h1>
+    <p class="cover-meta">Prepared: March 2026 &nbsp;|&nbsp; Confidential — Tamara Rothbart &nbsp;|&nbsp; 24stories.co.za</p>
+</div>
+
+<!-- GOAL BANNER -->
+<div class="goal-banner">
+    <div class="goal-item">
+        <span class="goal-num">200</span>
+        <span class="goal-label">Subscribers by launch</span>
+    </div>
+    <span class="goal-divider">—</span>
+    <div class="goal-item">
+        <span class="goal-num">10</span>
+        <span class="goal-label">Weeks to launch</span>
+    </div>
+    <span class="goal-divider">—</span>
+    <div class="goal-item">
+        <span class="goal-num">20</span>
+        <span class="goal-label">New subscribers per week</span>
+    </div>
+    <span class="goal-divider">—</span>
+    <div class="goal-item">
+        <span class="goal-num">8 Jun</span>
+        <span class="goal-label">Launch date, 7pm SAST</span>
+    </div>
+</div>
+
+
+<!-- =====================
+     SECTION 1: THE COLLABORATION
+===================== -->
+<h2>The Collaboration — Claude Code + OpenClaw</h2>
+
+<p>This campaign will be planned and built by Claude Code, and executed autonomously by OpenClaw — a free, open-source, self-hosted AI agent that runs on your local Mac. The combination means the campaign runs with approximately 3–5 hours of your time per week, rather than requiring you to personally send every email and message.</p>
+
+<h3>What Claude Code Does</h3>
+<ul>
+    <li>Full campaign strategy — channels, messaging hierarchy, weekly targets, escalation plan</li>
+    <li>Every piece of written content: outreach emails, WhatsApp scripts, social posts, PR pitch letters, ad copy, referral programme copy</li>
+    <li>Technical builds: campaign landing pages, referral tracking, UTM links, Make automation extensions</li>
+    <li>The complete OpenClaw task brief — a structured instruction file telling OpenClaw exactly what to send, to whom, when, and what to do with responses</li>
+    <li>Airtable tracking dashboard — subscriber count by channel, weekly targets, conversion rates</li>
+</ul>
+
+<h3>What OpenClaw Does</h3>
+<ul>
+    <li>Sends outreach emails from your email account on schedule</li>
+    <li>Manages follow-up sequences — follows up with non-responders automatically at day 3 and day 7</li>
+    <li>Sends WhatsApp messages via your WhatsApp Business account, including to groups</li>
+    <li>Schedules calls and meetings with interested prospects in your calendar</li>
+    <li>Monitors your inbox and flags replies that need your personal attention</li>
+    <li>Executes without you needing to be present</li>
+</ul>
+
+<h3>What You Do</h3>
+<ul>
+    <li>Install and configure OpenClaw once (~2 hours, one-time)</li>
+    <li>Review and approve all content before anything is sent — nothing goes out without your sign-off</li>
+    <li>Take the calls and meetings OpenClaw schedules</li>
+    <li>Check in approximately one hour per week: what was sent, what replied, what needs your response</li>
+    <li>Make final decisions on anything OpenClaw flags</li>
+</ul>
+
+<div class="callout callout-dark">
+    <span class="callout-label">How they work together</span>
+    <p>Claude Code produces the complete playbook. OpenClaw reads the playbook and executes it. They do not need to talk to each other in real-time — it is a hand-off. Claude Code is the creative director and strategist. OpenClaw is the campaign assistant who never sleeps.</p>
+</div>
+
+
+<!-- =====================
+     PAGE BREAK: CHANNELS
+===================== -->
+<div class="page-break"></div>
+
+<h2>Acquisition Channels</h2>
+<p>Six channels, in priority order. Work through them in sequence — do not launch all at once. Warm network first (highest conversion, fastest results), then expand outward.</p>
+
+<div class="channel-grid">
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">01 — Warm Network</span>
+            <span class="card-yield">30–50 subscribers</span>
+        </div>
+        <p>Tamara's personal network — friends, family, colleagues, professional contacts. The people most likely to subscribe or gift it to a parent. Highest conversion rate of any channel.</p>
+        <p>OpenClaw sends personalised emails and WhatsApp messages on your behalf. Each message references your relationship — not a mass blast. Two follow-ups to non-responders.</p>
+        <div class="card-who">Claude writes: personalised email template + WhatsApp script. OpenClaw: sends + follows up. You: provide the contact list (~50 names to start).</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">02 — WhatsApp Groups</span>
+            <span class="card-yield">20–40 subscribers</span>
+        </div>
+        <p>South Africa's WhatsApp group culture is unusually strong across all demographics. Targeted outreach to relevant groups: family and parenting groups, women aged 40–65, elderly care communities, book clubs, neighbourhood groups.</p>
+        <p>A warm, personal message — not a broadcast. Introduces the service and invites questions. OpenClaw manages responses and schedules follow-up conversations.</p>
+        <div class="card-who">Claude writes: group message scripts for different group types. OpenClaw: sends via WhatsApp Business. You: identify and join relevant groups first.</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">03 — PR &amp; Media</span>
+            <span class="card-yield">10–30 subscribers</span>
+        </div>
+        <p>A single piece of coverage in the right South African publication can spike 20–30 signups in a day. Target publications: W24, Parent24, Destiny, Rapport, Rapport Vroue, SA Family, The South African, Daily Maverick lifestyle.</p>
+        <p>Pitch angle: <em>"The South African subscription that preserves your parents' stories before it's too late."</em> Human interest, local, timely. Claude writes the pitches; OpenClaw sends and follows up.</p>
+        <div class="card-who">Claude writes: tailored pitch letters per publication + journalist contact research. OpenClaw: sends pitches + day 7 follow-up. You: handle any journalist interview requests.</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">04 — Social Media (Organic)</span>
+            <span class="card-yield">10–20 subscribers</span>
+        </div>
+        <p>Instagram and Facebook. Primary audience: South African adults aged 35–65 with elderly parents. Content strategy: story-first, emotional, personal — not product-led. Posts that stop the scroll because they resonate, not because they sell.</p>
+        <p>Content types: sample prompts ("Here's this week's prompt — could you answer this about your parent?"), behind-the-scenes, testimonial quotes, the "stories we almost lost" angle.</p>
+        <div class="card-who">Claude writes: 12-week content calendar, all captions, all post copy. You: post the content (or use a scheduling tool). OpenClaw: can manage DM responses.</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">05 — Referral Programme</span>
+            <span class="card-yield">20–40 subscribers</span>
+        </div>
+        <p>Every subscriber becomes a source of new subscribers. When someone refers a friend who signs up, both get one month free (monthly plan) or 10% off the Legacy Book (upfront plan). Built into Make — triggers automatically on signup when a referral code is used.</p>
+        <p>The referral link is included in every prompt email and the welcome email. OpenClaw sends a reminder to existing subscribers every 6 weeks: <em>"Know someone whose parent's stories should be preserved?"</em></p>
+        <div class="card-who">Claude builds: referral mechanics + copy + Make automation. OpenClaw: sends referral reminders to existing subscriber list. You: confirm the discount offer amounts.</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="card-name">06 — Paid Advertising</span>
+            <span class="card-yield">50–100+ subscribers</span>
+        </div>
+        <p>Meta (Facebook + Instagram) advertising targeting South African women aged 40–65, interest: elderly parents, family, books, gifts. Even a modest budget of R3,000–R5,000 over 6 weeks can yield 50+ subscribers at this price point and targeting precision.</p>
+        <p>Ad creative: emotional short-form copy, single striking image (grandmother + grandchild), direct CTA. A/B test two copy variants. Claude writes all ad copy and targeting brief; Tamara sets the budget and clicks publish in Meta Business Manager.</p>
+        <div class="card-who">Claude writes: ad copy (2 variants) + targeting brief. You: set up Meta Business Manager, set budget, publish. OpenClaw: monitors and reports performance.</div>
+    </div>
+
+</div>
+
+<div class="callout">
+    <span class="callout-label">Realistic targets by channel</span>
+    <p><strong>Without paid advertising:</strong> 90–180 subscribers realistically; 200 achievable with strong execution across all organic channels. &nbsp; <strong>With R3,000–R5,000 paid budget:</strong> 200 is comfortably within reach. The paid advertising question — budget amount — must be confirmed before the campaign session with Claude Code.</p>
+</div>
+
+
+<!-- =====================
+     PAGE BREAK: TIMELINE
+===================== -->
+<div class="page-break"></div>
+
+<h2>10-Week Campaign Timeline</h2>
+<p>Weeks are numbered from the campaign launch date (approximately 1 April 2026). Website images and Netlify redeployment should be complete before Week 1 begins — the site must be live before any outreach goes out.</p>
+
+<div class="timeline">
+
+    <div class="timeline-row">
+        <div class="timeline-week">Wk 1–2<span>Apr 1–14</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target">Target: 20 subscribers</span>
+            <strong>Warm network launch.</strong> OpenClaw sends personalised emails and WhatsApp messages to Tamara's contact list. Referral programme goes live. Social media posting begins. PR pitches sent to first round of publications.
+        </div>
+    </div>
+
+    <div class="timeline-row">
+        <div class="timeline-week">Wk 3–4<span>Apr 15–28</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target">Target: 50 subscribers</span>
+            <strong>WhatsApp group outreach + warm network follow-ups.</strong> OpenClaw sends day 7 follow-ups to non-responders. WhatsApp group messages go out. Review social performance — double down on best-performing content format.
+        </div>
+    </div>
+
+    <div class="timeline-row">
+        <div class="timeline-week">Wk 5–6<span>Apr 29–May 12</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target">Target: 90 subscribers</span>
+            <strong>PR follow-up + paid advertising launch (if budget confirmed).</strong> OpenClaw follows up on unanswered PR pitches. If paid advertising is running, review performance and optimise. Referral reminders sent to existing subscribers.
+        </div>
+    </div>
+
+    <div class="timeline-row">
+        <div class="timeline-week">Wk 7–8<span>May 13–26</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target">Target: 140 subscribers</span>
+            <strong>Second PR round + escalation.</strong> Pitch second round of publications. Intensify WhatsApp group activity. Referral programme reminders. Review all channel performance — concentrate effort on what is working.
+        </div>
+    </div>
+
+    <div class="timeline-row">
+        <div class="timeline-week">Wk 9–10<span>May 27–Jun 7</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target">Target: 200 subscribers</span>
+            <strong>Launch countdown push.</strong> Social media: <em>"One week to launch."</em> Final referral push to existing subscribers. Last paid advertising push if running. Pre-launch email to warm contacts who didn't subscribe yet: <em>"We launch in 7 days."</em>
+        </div>
+    </div>
+
+    <div class="timeline-row">
+        <div class="timeline-week">8 Jun<span>Launch</span></div>
+        <div class="timeline-content">
+            <span class="timeline-target" style="color:#1A1A1A;">7pm SAST</span>
+            <strong>Launch day.</strong> Social posts go live. Launch email to full list. PR embargo lifts (if any coverage secured). OpenClaw monitors signups and sends welcome sequences automatically via Make Scenario 1.
+        </div>
+    </div>
+
+</div>
+
+
+<!-- =====================
+     PAGE BREAK: OPENCLAW SETUP
+===================== -->
+<div class="page-break"></div>
+
+<h2>OpenClaw — Setup &amp; Configuration</h2>
+<p>OpenClaw is free, open-source, and runs entirely on your local Mac. It does not send your data to a third party. Setup is a one-time task of approximately 2 hours.</p>
+
+<h3>What OpenClaw Is</h3>
+<p>A self-hosted autonomous AI agent that manages emails, calendars, and files, and connects with platforms including WhatsApp, Telegram, and Discord. It executes commands rather than just providing text responses — meaning it can send an actual email, not just write one. Once configured and given the campaign task brief, it works through the brief autonomously, flagging anything that needs a human decision.</p>
+
+<h3>Setup Steps (Tamara to complete before the campaign session)</h3>
+<ol>
+    <li><strong>Download OpenClaw</strong> from the OpenClaw GitHub repository. Install on your Mac following the README instructions. No coding required — it is a standard application install.</li>
+    <li><strong>Connect your email account</strong> — stories@24stories.co.za (or your personal Gmail if preferred for warm outreach). OpenClaw will send from this address.</li>
+    <li><strong>Connect WhatsApp Business</strong> — the same WhatsApp Business account being set up for prompt delivery via 360dialog. OpenClaw will use this for WhatsApp outreach and group messages.</li>
+    <li><strong>Connect your calendar</strong> — Google Calendar or Apple Calendar. OpenClaw will schedule prospect calls and follow-up reminders here.</li>
+    <li><strong>Set operating parameters:</strong>
+        <ul>
+            <li>Maximum outreach emails per day: 30 (to avoid spam filters)</li>
+            <li>Maximum WhatsApp messages per day: 20</li>
+            <li>Working hours: 8am–6pm SAST (no messages outside these hours)</li>
+            <li>Tone: warm, personal, never salesy — as if Tamara wrote every message herself</li>
+        </ul>
+    </li>
+</ol>
+
+<div class="callout">
+    <span class="callout-label">Important</span>
+    <p>OpenClaw sends from your accounts — it is acting as you, not as a robot. Every message it sends should read as if you wrote it personally. Claude Code will write all templates with this in mind. Review and approve all content before OpenClaw begins executing.</p>
+</div>
+
+<h3>What to Give Claude Code When Ready to Build the Campaign</h3>
+<ul>
+    <li>Your paid advertising budget (or confirm R0 if no budget)</li>
+    <li>A list of approximately 50 warm contacts — names and email or WhatsApp numbers</li>
+    <li>Which WhatsApp groups you are already in or planning to join</li>
+    <li>Any existing social media accounts and their current follower counts</li>
+    <li>Whether you are willing to do podcast interviews or speaking appearances (for PR strategy)</li>
+</ul>
+
+
+<!-- =====================
+     PAGE BREAK: CONTENT TO BE BUILT
+===================== -->
+<div class="page-break"></div>
+
+<h2>Content Claude Code Will Build in the Campaign Session</h2>
+<p>The following will all be produced in a single dedicated campaign session with Claude Code. Bring the information checklist from the previous section to that session.</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>Deliverable</th>
+            <th>What it contains</th>
+            <th>Used by</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Campaign strategy document</strong></td>
+            <td>Channel priority, weekly subscriber targets, escalation plan, budget allocation</td>
+            <td>You — strategic reference</td>
+        </tr>
+        <tr>
+            <td><strong>Warm network email sequence</strong></td>
+            <td>Initial outreach email (personalised template) + Day 3 follow-up + Day 7 final follow-up</td>
+            <td>OpenClaw — sends automatically</td>
+        </tr>
+        <tr>
+            <td><strong>WhatsApp outreach scripts</strong></td>
+            <td>Personal contact message + group message variants for different group types</td>
+            <td>OpenClaw — sends via WhatsApp Business</td>
+        </tr>
+        <tr>
+            <td><strong>PR pitch letters</strong></td>
+            <td>Tailored pitch per publication (W24, Parent24, Destiny, Rapport, Rapport Vroue, SA Family, Daily Maverick). Journalist contact research included.</td>
+            <td>OpenClaw — sends + day 7 follow-up</td>
+        </tr>
+        <tr>
+            <td><strong>Social media content calendar</strong></td>
+            <td>12 weeks of posts for Instagram + Facebook. All captions written. Post types: prompts, emotional angles, testimonial quotes, behind-the-scenes.</td>
+            <td>You — post manually or via scheduling tool</td>
+        </tr>
+        <tr>
+            <td><strong>Referral programme copy</strong></td>
+            <td>How it works, referral email template, reminder email (sent every 6 weeks to existing subscribers), landing page copy</td>
+            <td>OpenClaw — sends referral reminders. Make — tracks referrals.</td>
+        </tr>
+        <tr>
+            <td><strong>Referral Make automation</strong></td>
+            <td>New Make scenario or extension to Scenario 1 — tracks referral codes, applies discounts, notifies Tamara</td>
+            <td>Make — runs automatically</td>
+        </tr>
+        <tr>
+            <td><strong>Paid ad copy (if budget confirmed)</strong></td>
+            <td>Two copy variants + targeting brief for Meta Business Manager. Image direction for each ad.</td>
+            <td>You — publish in Meta Business Manager</td>
+        </tr>
+        <tr>
+            <td><strong>OpenClaw task brief</strong></td>
+            <td>Structured instruction file: what to send, to whom, on what schedule, what to do with each type of response, what to flag for Tamara</td>
+            <td>OpenClaw — reads and executes</td>
+        </tr>
+        <tr>
+            <td><strong>Airtable tracking dashboard</strong></td>
+            <td>New Airtable table: subscriber count by channel, weekly target vs. actual, UTM links per channel, conversion rates</td>
+            <td>You — review weekly. OpenClaw — updates automatically.</td>
+        </tr>
+        <tr>
+            <td><strong>Launch day run sheet</strong></td>
+            <td>Minute-by-minute plan for 8 June — what goes live when, what OpenClaw does, what you do personally</td>
+            <td>You + OpenClaw</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- =====================
+     PAGE BREAK: CHECKLIST
+===================== -->
+<div class="page-break"></div>
+
+<h2>Pre-Campaign Checklist</h2>
+<p>Complete everything below before the dedicated campaign session with Claude Code. Items are in dependency order.</p>
+
+<p class="checklist-section">Technical (before campaign can launch)</p>
+<ul class="checklist">
+    <li>Netlify redeployed with latest website — live site working end-to-end</li>
+    <li>Hero photograph in place on site</li>
+    <li>Subscription form tested live — Scenario 1 fires correctly on real submission</li>
+    <li>Make Scenario 5 (reminders) fixed and working</li>
+    <li>WhatsApp Business account approved and connected to 360dialog</li>
+    <li>Cloudinary account set up (free tier)</li>
+</ul>
+
+<p class="checklist-section">OpenClaw Setup</p>
+<ul class="checklist">
+    <li>OpenClaw downloaded and installed on Mac</li>
+    <li>Email account connected (stories@24stories.co.za or personal Gmail)</li>
+    <li>WhatsApp Business connected to OpenClaw</li>
+    <li>Calendar connected to OpenClaw</li>
+    <li>Daily limits and operating hours configured</li>
+</ul>
+
+<p class="checklist-section">Content &amp; Information (bring to campaign session)</p>
+<ul class="checklist">
+    <li>Paid advertising budget confirmed (R amount, or R0)</li>
+    <li>Warm contact list prepared — approximately 50 names, email or WhatsApp number</li>
+    <li>WhatsApp groups identified — list the relevant groups you are in or plan to join</li>
+    <li>Social media accounts confirmed — Instagram handle, Facebook page</li>
+    <li>Referral discount amounts confirmed (suggested: 1 month free for referrer + referee)</li>
+    <li>Availability for podcast/media interviews confirmed (yes/no)</li>
+</ul>
+
+<p class="checklist-section">Approvals (before OpenClaw begins executing)</p>
+<ul class="checklist">
+    <li>Campaign strategy reviewed and approved</li>
+    <li>All outreach email templates read and approved</li>
+    <li>All WhatsApp scripts read and approved</li>
+    <li>PR pitch letters read and approved</li>
+    <li>Social content calendar reviewed for first 4 weeks</li>
+    <li>OpenClaw task brief reviewed — confirm parameters, limits, escalation rules</li>
+</ul>
+
+
+<!-- =====================
+     CAMPAIGN SESSION PROMPT
+===================== -->
+<h2>Opening Prompt for the Campaign Session</h2>
+<p>When you are ready to build the campaign, open a new Claude Code chat and paste the following. Fill in the bracketed items before sending.</p>
+
+<div class="prompt-box">
+    <span class="prompt-box-label">Paste this into the new chat</span>
+    <p>"Build me a full 200-subscriber acquisition campaign for 24 Stories. Launch date 8 June 2026. South African market. Paid advertising budget: [R amount, or R0 if none]. My warm contact list has approximately [number] people. I am using OpenClaw to execute the outreach autonomously — it is connected to my email, WhatsApp Business, and calendar. Produce in this session: full campaign strategy with weekly targets, warm network email sequence with follow-ups, WhatsApp scripts for personal contacts and groups, PR pitch letters for W24 / Parent24 / Destiny / Rapport / Rapport Vroue / SA Family, 12-week social media content calendar for Instagram and Facebook, referral programme mechanics and copy, paid ad copy if budget confirmed, OpenClaw task brief, and Airtable tracking dashboard setup. Also build the referral tracking Make scenario. Everything must be ready for me to approve and hand to OpenClaw to execute."</p>
+</div>
+
+<div class="callout">
+    <span class="callout-label">Memory note</span>
+    <p>This document and campaign brief are saved in Claude's memory. When you open the campaign session, Claude will already know the full context of 24 Stories, the competitive landscape, the tech stack, and the OpenClaw collaboration model. You do not need to re-explain the product.</p>
+</div>
+
+<hr class="divider">
+
+<h2>Three Documents to Print &amp; Keep</h2>
+<p>You now have three print-ready reference documents in your 24stories-website folder. Print all three and keep them together.</p>
+
+<table>
+    <thead>
+        <tr><th>Document</th><th>What it covers</th><th>When to use it</th></tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>competitive-analysis.html</strong></td>
+            <td>Market positioning, competitor profiles, comparison table, strategic priorities, approved build additions</td>
+            <td>Strategic decisions, positioning conversations, investor or partner meetings</td>
+        </tr>
+        <tr>
+            <td><strong>backend-build-guide.html</strong></td>
+            <td>Scenarios 1–5 status, Airtable field spec, pre-launch build plan Stages A–G, step-by-step instructions</td>
+            <td>Every backend session — open it before you open Make</td>
+        </tr>
+        <tr>
+            <td><strong>marketing-campaign-brief.html</strong></td>
+            <td>200-subscriber campaign, OpenClaw collaboration, channel strategy, timeline, checklist, campaign session prompt</td>
+            <td>When images are ready and backend is stable — typically late April / May</td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+    <span>24 Stories — Marketing Campaign Brief</span>
+    <span>Tamara Rothbart — March 2026 — Confidential</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Story Library — 24 Stories (PREVIEW)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --charcoal: #1A1A1A;
+            --gold: #B8976A;
+            --cream: #F7F5F2;
+            --white: #FFFFFF;
+            --border: #E0DDD8;
+            --red: #c0392b;
+            --green: #4a7c59;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body { font-family: var(--font-body); background: var(--cream); color: var(--charcoal); min-height: 100vh; }
+
+        .preview-banner {
+            background: var(--red);
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+        }
+
+        .library-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-name { font-family: var(--font-heading); font-size: 1.05rem; color: #555; font-style: italic; }
+
+        .library-body { max-width: 800px; margin: 0 auto; padding: 56px 24px 120px; }
+
+        .page-title { font-family: var(--font-heading); font-size: clamp(2rem,5vw,2.8rem); font-weight: 400; margin-bottom: 14px; }
+
+        .page-intro { font-size: 1rem; color: #444; line-height: 1.8; margin-bottom: 44px; max-width: 580px; }
+
+        .progress-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+
+        .progress-track { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 12px; }
+
+        .progress-dot {
+            width: 30px; height: 30px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem; font-weight: 500; text-decoration: none;
+            transition: transform 0.15s;
+        }
+
+        .progress-dot.st-empty  { background: var(--white); border: 1.5px solid var(--border); color: #999; }
+        .progress-dot.st-story  { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
+        .progress-dot.st-full   { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
+        .progress-dot:hover { transform: scale(1.15); }
+
+        .progress-summary { font-size: 0.9rem; color: #666; }
+
+        .section-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
+
+        .story-card { background: var(--white); border: 1px solid var(--border); margin-bottom: 10px; scroll-margin-top: 90px; }
+
+        .story-card-header {
+            padding: 18px 28px; display: flex; align-items: center;
+            justify-content: space-between; cursor: pointer; user-select: none;
+            border-bottom: 1px solid transparent; transition: border-color 0.2s;
+        }
+
+        .story-card.open .story-card-header,
+        .story-card-header:hover { border-bottom-color: var(--border); }
+
+        .card-left { display: flex; align-items: baseline; gap: 14px; }
+
+        .week-badge { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); white-space: nowrap; flex-shrink: 0; }
+
+        .card-weekname { font-family: var(--font-heading); font-size: 1.2rem; font-weight: 400; }
+
+        .card-right { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+        .status-pill { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; white-space: nowrap; }
+        .status-pill.st-empty  { background: #f2f1ef; color: #777; }
+        .status-pill.st-story  { background: #fff8ee; color: var(--gold); }
+        .status-pill.st-full   { background: #eef4f0; color: var(--green); }
+
+        .card-chevron { color: #999; font-size: 0.85rem; transition: transform 0.2s; }
+        .story-card.open .card-chevron { transform: rotate(180deg); }
+
+        .story-card-body { display: none; padding: 28px 28px 32px; }
+        .story-card.open .story-card-body { display: block; }
+
+        .card-theme { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: #777; margin-bottom: 14px; }
+
+        .card-prompt { font-family: var(--font-heading); font-size: 1.15rem; font-style: italic; color: #444; line-height: 1.6; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+
+        .btn-record-story {
+            display: inline-block; padding: 14px 28px; background: var(--charcoal); color: var(--white);
+            font-family: var(--font-body); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.12em;
+            text-transform: uppercase; text-decoration: none; transition: background 0.2s;
+        }
+        .btn-record-story:hover { background: var(--gold); }
+
+        .pending-note { font-family: var(--font-heading); font-style: italic; font-size: 1.05rem; color: var(--gold); line-height: 1.6; }
+
+        .edited-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); margin-bottom: 14px; }
+
+        .edited-text { font-family: var(--font-heading); font-size: 1.1rem; line-height: 1.9; color: var(--charcoal); white-space: pre-wrap; }
+
+        .card-photo-section { margin-top: 28px; padding-top: 24px; border-top: 1px solid var(--border); }
+
+        .photo-label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 6px; }
+
+        .photo-sub { font-size: 0.95rem; color: #555; margin-bottom: 16px; line-height: 1.7; }
+
+        .existing-photo { margin-bottom: 14px; }
+        .existing-photo img { max-width: 100%; max-height: 220px; object-fit: cover; border: 1px solid var(--border); display: block; }
+
+        .photo-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+        .btn-photo {
+            background: none; border: 1px solid var(--red); padding: 10px 20px;
+            font-family: var(--font-body); font-size: 0.78rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--red);
+            cursor: pointer; transition: all 0.2s; flex-shrink: 0;
+        }
+        .btn-photo:hover { background: var(--red); color: var(--white); }
+
+        .caption-area { margin-top: 14px; }
+        .caption-area textarea {
+            width: 100%; border: 1px solid var(--border); padding: 13px 16px;
+            font-family: var(--font-body); font-size: 0.95rem; line-height: 1.7;
+            color: var(--charcoal); background: var(--white); resize: vertical;
+            outline: none; transition: border-color 0.2s; min-height: 68px;
+        }
+        .caption-area textarea:focus { border-color: var(--gold); }
+        .caption-area textarea::placeholder { color: #999; font-style: italic; }
+
+        .field-saved-msg { font-size: 0.78rem; color: var(--gold); text-align: right; min-height: 1.1em; margin-top: 4px; }
+
+        .book-prep { background: var(--white); border: 1px solid var(--border); padding: 44px 44px 52px; margin-top: 60px; }
+        .book-prep-eyebrow { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+        .book-prep-heading { font-family: var(--font-heading); font-size: clamp(1.6rem,4vw,2.2rem); font-weight: 400; margin-bottom: 12px; }
+        .book-prep-intro { font-size: 1rem; color: #444; line-height: 1.8; margin-bottom: 44px; max-width: 520px; }
+
+        .book-field { margin-bottom: 40px; }
+        .book-field-label { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--charcoal); margin-bottom: 6px; }
+        .book-field-sub { font-size: 0.95rem; color: #555; margin-bottom: 16px; line-height: 1.7; }
+        .book-field textarea {
+            width: 100%; border: 1px solid var(--border); padding: 16px 20px;
+            font-family: var(--font-body); font-size: 0.95rem; line-height: 1.8;
+            color: var(--charcoal); background: var(--white); resize: vertical;
+            outline: none; transition: border-color 0.2s; min-height: 96px;
+        }
+        .book-field textarea:focus { border-color: var(--gold); }
+        .book-field textarea::placeholder { color: #999; font-style: italic; }
+
+        .copies-input-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; flex-wrap: wrap; }
+        .copies-input-row label { font-size: 0.9rem; color: var(--charcoal); }
+        .copies-number { width: 80px; border: 1px solid var(--border); padding: 10px 14px; font-family: var(--font-body); font-size: 1rem; color: var(--charcoal); text-align: center; outline: none; transition: border-color 0.2s; }
+        .copies-number:focus { border-color: var(--gold); }
+        .copies-total { font-family: var(--font-heading); font-size: 1.2rem; color: var(--charcoal); min-height: 1.5em; }
+        .copies-breakdown { font-size: 0.88rem; color: #666; margin-bottom: 16px; min-height: 1.2em; }
+        .btn-request-payment { background: var(--charcoal); color: var(--white); border: none; padding: 14px 28px; font-family: var(--font-body); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; display: none; }
+        .btn-request-payment:hover { background: var(--gold); }
+
+        .summary-box { border: 1px solid var(--border); padding: 24px 28px; background: #faf9f7; }
+        .summary-placeholder { font-family: var(--font-heading); font-style: italic; font-size: 1.05rem; color: #777; line-height: 1.7; }
+        .summary-text { font-family: var(--font-heading); font-size: 1.05rem; line-height: 1.9; color: var(--charcoal); white-space: pre-wrap; }
+
+        .library-footer { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; font-size: 0.85rem; color: #666; line-height: 1.8; }
+        .library-footer a { color: var(--gold); }
+
+        @media (max-width: 600px) {
+            .library-header { padding: 14px 20px; }
+            .library-body { padding: 36px 16px 80px; }
+            .story-card-header { padding: 16px 20px; }
+            .story-card-body { padding: 20px 20px 26px; }
+            .book-prep { padding: 28px 20px 36px; }
+            .card-weekname { font-size: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="preview-banner">DESIGN PREVIEW — dummy data only. Delete this file before launch.</div>
+
+<div class="library-header">
+    <a href="index.html"><img src="logo.png" alt="24 Stories" style="height:48px;width:auto;display:block;"></a>
+    <p class="header-name">Margaret Rossouw</p>
+</div>
+
+<div class="library-body">
+
+    <h1 class="page-title">Your Story Library</h1>
+    <p class="page-intro">All twenty-six of your story prompts are here. You can record a story for any week you have missed, skip ahead and respond to a future prompt early, or return at any time to add a photograph or caption. Stories already told cannot be re-recorded. Your family receives each story on its weekly schedule, regardless of when you tell it.</p>
+
+    <p class="progress-label">Your progress</p>
+    <div class="progress-track" id="progressTrack"></div>
+    <p class="progress-summary" id="progressSummary"></p>
+
+    <hr class="section-divider">
+
+    <div id="storyCards"></div>
+
+    <div class="book-prep">
+        <p class="book-prep-eyebrow">Your Legacy Book</p>
+        <h2 class="book-prep-heading">Preparing your book</h2>
+        <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, cover image, dedication, and delivery address at any time.</p>
+
+        <div class="book-field">
+            <p class="book-field-label">Portrait photograph</p>
+            <p class="book-field-sub">A portrait of you — clear, well-lit, meaningful to you.</p>
+            <div class="photo-actions">
+                <button class="btn-photo" type="button">Choose portrait</button>
+            </div>
+        </div>
+
+        <div class="book-field">
+            <p class="book-field-label">Cover image <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
+            <p class="book-field-sub">A photograph to illustrate the front cover of your book. If you do not upload one, your portrait will be used instead.</p>
+            <div class="photo-actions">
+                <button class="btn-photo" type="button">Choose cover image</button>
+            </div>
+        </div>
+
+        <!-- BOOK TITLE -->
+        <div class="book-field">
+            <p class="book-field-label">Book title</p>
+            <p id="defaultBookTitle" style="font-size:18px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">The Collected Stories of Margaret Oosthuizen</p>
+            <p class="book-field-sub">Or leave as is.</p>
+            <textarea placeholder="Type your own title here" rows="2"></textarea>
+            <p class="field-saved-msg"></p>
+        </div>
+
+        <div class="book-field">
+            <p class="book-field-label">Dedication <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
+            <p class="book-field-sub">A dedication opens your book with a few words to someone you love. In addition — or instead — you may include an epigraph: a short quotation, a line of poetry, or a phrase that captures the spirit of your stories. Both are optional.</p>
+            <textarea placeholder="To my children and grandchildren, and all who come after them…" rows="4"></textarea>
+            <p class="field-saved-msg"></p>
+        </div>
+
+        <div class="book-field">
+            <p class="book-field-label">Delivery address</p>
+            <p class="book-field-sub">Where would you like your book delivered? Delivery is free within South Africa. If you are based abroad, please provide a South African address — a family member or friend — and arrange onward shipping from there.</p>
+            <textarea placeholder="Name&#10;Unit number&#10;Street address&#10;Suburb&#10;City&#10;Province&#10;Postal code" rows="7"></textarea>
+            <p class="field-saved-msg"></p>
+        </div>
+
+        <!-- DELIVERY PHONE -->
+        <div class="book-field">
+            <p class="book-field-label">Mobile number for delivery</p>
+            <p class="book-field-sub">We share this with the courier so they can reach you on delivery day.</p>
+            <textarea placeholder="+27 82 000 0000" rows="1"></textarea>
+            <p class="field-saved-msg"></p>
+        </div>
+
+        <div class="book-field">
+            <p class="book-field-label">Additional copies</p>
+            <p class="book-field-sub">Your book is included in your 24 Stories package. If you would like extra copies for family members, you may order them here. All copies are printed and delivered together to the address above — we find this is often a wonderful opportunity to bring family together. It is then your joy to distribute them in person.<br><br>
+            <strong>1–9 copies: R1,200 each &nbsp;·&nbsp; 10 or more copies: R1,000 each</strong></p>
+            <div class="copies-input-row">
+                <label for="copiesInputPrev">Number of additional copies</label>
+                <input type="number" class="copies-number" id="copiesInputPrev" min="0" max="99" value="0">
+                <span class="copies-total" id="copiesTotalPrev"></span>
+            </div>
+            <p class="copies-breakdown" id="copiesBreakdownPrev"></p>
+            <button class="btn-request-payment" id="btnRequestPrev" type="button">Request a payment link</button>
+            <p class="field-saved-msg" id="copiesMsgPrev"></p>
+        </div>
+
+        <div class="book-field">
+            <p class="book-field-label">About the storyteller</p>
+            <p class="book-field-sub">This short piece will appear at the back of your book, alongside your portrait photograph. It is written for you by your editor at the close of your twenty-six weeks.</p>
+            <div class="summary-box">
+                <p class="summary-placeholder">Your editor will write this for you at the end of your twenty-six weeks. It will appear here when it is ready.</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="library-footer">
+    <p>Your library link is included in every email we send you. If you ever lose it, visit <a href="index.html">24stories.co.za</a> and we will send it again. &nbsp;·&nbsp; Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+</div>
+
+<script>
+    // Dummy data — all 26 prompts
+    var PROMPTS = [
+        { week:1,  weekName:'Inheritance',        theme:'I got it from my mama/papa',              prompt:'Prepare a five-minute story about something you inherited — jokes, traditions, taste.' },
+        { week:2,  weekName:'Youthful Imaginings', theme:'Beginnings',                              prompt:'Prepare a five-minute story about unfulfilled hopes, wild ambitions, or the thing you always dreamed you\'d become.' },
+        { week:3,  weekName:'Relationships',       theme:'Family Matters',                          prompt:'Prepare a five-minute story about the people you\'re bound to by blood, marriage, or choice.' },
+        { week:4,  weekName:'Childhood',           theme:'School Days',                             prompt:'Prepare a five-minute story about something or someone unforgettable from school.' },
+        { week:5,  weekName:'Faith',               theme:'Leap of Faith',                           prompt:'Prepare a five-minute story about a big risk you took without knowing where you\'d land.' },
+        { week:6,  weekName:'Heartbreak',          theme:'Love Hurts',                              prompt:'Prepare a five-minute story of a love that made you go OUCH.' },
+        { week:7,  weekName:'True Love',           theme:'Falling',                                 prompt:'Prepare a five-minute story about your earliest romantic awakening, your first love, or your forever love.' },
+        { week:8,  weekName:'Conflict',            theme:'Dodgy',                                   prompt:'Prepare a five-minute story about deception or suspicion, being played for a fool, or calling someone out.' },
+        { week:9,  weekName:'Chaos',               theme:'Disasterpiece',                           prompt:'Prepare a five-minute story about a disaster so epic it became its own work of art.' },
+        { week:10, weekName:'Risk',                theme:'Trouble',                                 prompt:'Prepare a five-minute story about defying authority, a gamble that paid off — or didn\'t.' },
+        { week:11, weekName:'Adventure & Travel',  theme:'On the Road',                             prompt:'Prepare a five-minute story about a journey, physical or emotional, that changed you.' },
+        { week:12, weekName:'Transformation',      theme:'Second Chance',                           prompt:'Prepare a five-minute story about a fresh start, a new chapter, or a turning point.' },
+        { week:13, weekName:'Work',                theme:'On the Job',                              prompt:'Prepare a five-minute story about the work you did, the work you wanted, or the job that surprised you.' },
+        { week:14, weekName:'Setbacks',            theme:'Failure',                                 prompt:'Prepare a five-minute story about a time when things didn\'t go your way.' },
+        { week:15, weekName:'Fate',                theme:'Luck',                                    prompt:'Prepare a five-minute story about a lucky break, a twist of fate, or the unexpected working in your favor.' },
+        { week:16, weekName:'Secrets',             theme:'Shock, Scandal, and Raised Eyebrows',    prompt:'Prepare a five-minute story about a secret you kept — or a secret that came out.' },
+        { week:17, weekName:'Parenting',           theme:'Growing Pains',                           prompt:'Prepare a five-minute story about the time your child became your teacher.' },
+        { week:18, weekName:'Losing',              theme:'Goodbye',                                 prompt:'Prepare a five-minute story about loss — letting go of something or someone you thought you\'d always have.' },
+        { week:19, weekName:'The Unexpected',      theme:'Strange Encounters',                      prompt:'Prepare a five-minute story about unexpected brushes with the peculiar, the wild, or the unforgettable.' },
+        { week:20, weekName:'Courage',             theme:'Guts',                                    prompt:'Prepare a five-minute story about a moment when you had to be brave.' },
+        { week:21, weekName:'Gratitude',           theme:'Blessings',                               prompt:'Prepare a five-minute story about someone or something you are truly grateful for.' },
+        { week:22, weekName:'Ambition',            theme:'Sweat and Tears',                         prompt:'Prepare a five-minute story about keeping your eye on the prize.' },
+        { week:23, weekName:'Narrow Escapes',      theme:'Danger and Defiance',                     prompt:'Prepare a five-minute story about a narrow escape — a moment you were almost in trouble.' },
+        { week:24, weekName:'If I Knew Then',      theme:'Lessons for my Future',                   prompt:'Prepare a five-minute story about something you wish you could have told your younger self.' },
+        { week:25, weekName:'Legacy (Part I)',      theme:'Home and Heritage',                       prompt:'Prepare a five-minute story about the place you first called home and what it means now.' },
+        { week:26, weekName:'Legacy (Part 2)',      theme:'Wisdom',                                  prompt:'Prepare a five-minute story about what you hope will endure in your life — dreams, lessons, loves, memories.' }
+    ];
+
+    // Dummy story states:
+    // Week 1: story + photo (st-full)
+    // Week 2: story only (st-story)
+    // Weeks 3-26: empty
+    var STORIES = {
+        1: {
+            status: 'full',
+            editedText: 'My grandmother\'s hands. That is what I think of first. She had this way of rolling pastry — one firm push outward, then a quarter turn, then again — that I have never seen anyone else do quite the same way. I used to sit on the kitchen counter and watch her, convinced I was helping by handing her the rolling pin when she needed it. I didn\'t understand then that I was learning something. I understand it now, every time I make a pie.\n\nShe also gave me her stubbornness, though she would have called it something more dignified — determination, perhaps, or simply knowing your own mind. I got that too.',
+            photoUrl: '',
+            caption: ''
+        },
+        2: {
+            status: 'story',
+            editedText: 'I was going to be a marine biologist. I had it all planned — Cape Town, then a postgraduate somewhere cold and serious, Norway perhaps, studying whale migration. I was fifteen. I had never seen a whale in the wild. I had never left the country. But I had read every Jacques Cousteau book in the school library and that felt like enough.\n\nI became an accountant. I have been an accountant for thirty-one years and I am, genuinely, quite good at it. The whales are still out there.',
+            photoUrl: '',
+            caption: ''
+        },
+    };
+
+    function getStatus(week) {
+        if (!STORIES[week]) return 'empty';
+        return STORIES[week].status;
+    }
+
+    // Progress dots
+    var track = document.getElementById('progressTrack');
+    var told = 0, withPhoto = 0;
+    PROMPTS.forEach(function(p) {
+        var st = getStatus(p.week);
+        if (st === 'story' || st === 'full') told++;
+        if (st === 'full') withPhoto++;
+        var a = document.createElement('a');
+        a.href        = '#week-' + p.week;
+        a.className   = 'progress-dot st-' + st;
+        a.title       = 'Week ' + p.week;
+        a.textContent = p.week;
+        track.appendChild(a);
+    });
+    var missingPhoto = told - withPhoto;
+    var summary = told + ' of 26 stories told';
+    if (missingPhoto > 0) summary += ' \u00B7 ' + missingPhoto + ' image' + (missingPhoto === 1 ? '' : 's') + ' missing';
+    document.getElementById('progressSummary').textContent = summary;
+
+    // Story cards
+    var container = document.getElementById('storyCards');
+    PROMPTS.forEach(function(p, idx) {
+        var story  = STORIES[p.week] || null;
+        var status = getStatus(p.week);
+        var labels = { empty: 'Not yet recorded', story: 'Story complete \u00B7 photo missing', full: 'Story complete \u00B7 photo added' };
+
+        var card = document.createElement('div');
+        card.className = 'story-card';
+        card.id = 'week-' + p.week;
+
+        // Header
+        var header = document.createElement('div');
+        header.className = 'story-card-header';
+        header.innerHTML =
+            '<div class="card-left">' +
+                '<span class="week-badge">Week ' + p.week + '</span>' +
+                '<span class="card-weekname">' + p.weekName + '</span>' +
+            '</div>' +
+            '<div class="card-right">' +
+                '<span class="status-pill st-' + status + '">' + labels[status] + '</span>' +
+                '<span class="card-chevron">&#9660;</span>' +
+            '</div>';
+        header.addEventListener('click', function() { card.classList.toggle('open'); });
+
+        // Body
+        var body = document.createElement('div');
+        body.className = 'story-card-body';
+
+        body.innerHTML +=
+            '<p class="card-theme">Theme: ' + p.theme + '</p>' +
+            '<p class="card-prompt">' + p.prompt + '</p>';
+
+        // State content
+        var stateDiv = document.createElement('div');
+        if (status === 'empty') {
+            stateDiv.innerHTML = '<a href="tell.html?id=preview&week=' + p.week + '" class="btn-record-story">Record this story</a>';
+            stateDiv.style.paddingBottom = '4px';
+        } else {
+            stateDiv.innerHTML =
+                '<p class="edited-label">Your story</p>' +
+                '<p class="edited-text">' + story.editedText + '</p>';
+        }
+        body.appendChild(stateDiv);
+
+        // Photo section
+        body.innerHTML +=
+            '<div class="card-photo-section">' +
+                '<p class="photo-label">Photograph <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>' +
+                '<p class="photo-sub">A photograph from that time. Your family will receive it alongside your story.</p>' +
+                '<div class="photo-actions">' +
+                    '<button class="btn-photo" type="button">Add a photo</button>' +
+                '</div>' +
+                '<div class="caption-area">' +
+                    '<textarea placeholder="Who is in this photo? Where and when was it taken?" rows="2"></textarea>' +
+                    '<p class="field-saved-msg"></p>' +
+                '</div>' +
+            '</div>';
+
+        card.appendChild(header);
+        card.appendChild(body);
+        container.appendChild(card);
+
+        // Auto-open first non-edited card
+        if (idx === 0 || (status !== 'edited' && !document.querySelector('.story-card.open'))) {
+            if (status !== 'edited') card.classList.add('open');
+        }
+    });
+
+    // Open first empty card
+    var firstOpen = false;
+    document.querySelectorAll('.story-card').forEach(function(card) {
+        if (!firstOpen && card.querySelector('.st-empty')) {
+            card.classList.add('open');
+            firstOpen = true;
+        }
+    });
+
+    // Extra copies calculator
+    var copiesInput = document.getElementById('copiesInputPrev');
+    var totalEl     = document.getElementById('copiesTotalPrev');
+    var breakdownEl = document.getElementById('copiesBreakdownPrev');
+    var btn         = document.getElementById('btnRequestPrev');
+    var msgEl       = document.getElementById('copiesMsgPrev');
+
+    copiesInput.addEventListener('input', function() {
+        var n    = parseInt(copiesInput.value, 10) || 0;
+        if (n <= 0) { totalEl.textContent = ''; breakdownEl.textContent = ''; btn.style.display = 'none'; return; }
+        var rate  = n < 10 ? 1200 : 1000;
+        var total = n * rate;
+        totalEl.textContent     = 'R' + total.toLocaleString('en-ZA');
+        breakdownEl.textContent = n + ' ' + (n === 1 ? 'copy' : 'copies') + ' \u00D7 R' + rate.toLocaleString('en-ZA') + ' each';
+        btn.style.display = 'block';
+    });
+
+    btn.addEventListener('click', function() {
+        btn.style.display = 'none';
+        msgEl.textContent = 'Request received. We will email you a payment link shortly.';
+        setTimeout(function() { msgEl.textContent = ''; }, 5000);
+    });
+</script>
+
+</body>
+</html>

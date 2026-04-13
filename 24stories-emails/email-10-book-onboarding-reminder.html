@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 10 — Book Details Reminder</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 10 — BOOK DETAILS REMINDER (×2: Day 3 + Day 7 post-Week 26)</strong><br>
+  Scenario: 9 (Book Onboarding) &nbsp;|&nbsp; Trigger: Day 3 and Day 7 after Email 9, while BookFormCompleted = empty &nbsp;|&nbsp; To: Storyteller only<br>
+  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
+  Condition: Stop sending as soon as BookFormCompleted is populated. After 2 sends without response, fire Email 11.<br><br>
+  Variables in this email:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">LibraryURL</span>
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+
+  <p class="gold">Your Legacy Book</p>
+
+  <p class="h1">Your Story Library is incomplete.</p>
+
+  <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
+
+  <p>
+    There are still items missing from your Story Library. If you need to upload any outstanding
+    photographs, now is the time to do so.
+  </p>
+
+  <p>
+    If you have not yet completed your book details — a title, a cover image, a portrait photo,
+    and a dedication — we encourage you to do that now.
+  </p>
+
+  <p>
+    Although there is no deadline, your book will not go to production until you press the
+    Complete button in your library. You are welcome to leave elements out, but these details
+    are what make your book uniquely yours.
+  </p>
+
+  <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
+
+  <p>
+    If you have any questions, write to us at <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> — we are here to help you across the finishing line.
+  </p>
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+  </p>
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
+    Questions? <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

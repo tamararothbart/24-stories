@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tell Your Story — 24 Stories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --charcoal: #1A1A1A;
+            --gold: #B8976A;
+            --cream: #F7F5F2;
+            --white: #FFFFFF;
+            --border: #E0DDD8;
+            --red: #c0392b;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--charcoal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 20px 80px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            max-width: 680px;
+            width: 100%;
+            padding: 48px 48px 56px;
+        }
+
+        .week-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .prompt-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 400;
+            line-height: 1.3;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .prompt-alternatives {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prepare-note {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-style: italic;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        /* BEFORE YOU BEGIN */
+        .before-begin {
+            margin-bottom: 28px;
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+        }
+
+        .before-begin-toggle {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            text-transform: none;
+            color: var(--charcoal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: border-color 0.2s ease;
+        }
+
+        .before-begin-toggle:hover { border-color: var(--red); }
+
+        .before-begin-arrow {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--red);
+            animation: bounce-down 1s infinite;
+            display: inline-block;
+            margin-left: 16px;
+            flex-shrink: 0;
+        }
+
+        @keyframes bounce-down {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        .before-begin-content {
+            margin-top: 0;
+            padding: 20px 24px;
+            background: #F0EDE8;
+            border-left: 3px solid var(--red);
+        }
+
+        .before-begin-content ul { list-style: none; padding: 0; margin: 0; }
+
+        .before-begin-content li {
+            font-size: 1.05rem;
+            color: #333;
+            line-height: 1.8;
+            padding: 6px 0;
+        }
+
+        .before-begin-content li::before { content: "— "; color: var(--red); }
+
+        /* MODE TABS */
+        .mode-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .mode-tab {
+            background: none;
+            border: none;
+            padding: 12px 0;
+            margin-right: 32px;
+            margin-bottom: -1px;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .mode-tab:hover { color: var(--charcoal); }
+        .mode-tab.active { color: var(--charcoal); border-bottom-color: var(--charcoal); }
+
+        /* SHARED TEXTAREA */
+        .transcript-box {
+            width: 100%;
+            min-height: 200px;
+            border: 2px solid var(--gold);
+            padding: 20px 24px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--charcoal);
+            background: var(--white);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .transcript-box:focus { border-color: var(--charcoal); }
+        .transcript-box::placeholder { color: var(--red); font-style: normal; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.05em; }
+
+        .transcript-note {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .word-count {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px;
+            min-height: 1.2em;
+        }
+
+        .autosave-notice {
+            font-size: 0.72rem;
+            color: var(--gold);
+            margin-top: 6px;
+            text-align: right;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .autosave-notice.visible { opacity: 1; }
+
+        .btn-cleanup {
+            display: none;
+            margin-top: 16px;
+            width: 100%;
+            background: none;
+            border: 1px solid var(--gold);
+            padding: 11px 24px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cleanup:hover { background: var(--gold); color: var(--white); }
+        .btn-cleanup:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* SPEAK MODE STATES */
+        .speak-state {
+            text-align: center;
+            padding: 48px 0 32px;
+        }
+
+        .btn-record {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: none;
+            background: var(--red);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 16px rgba(192,57,43,0.3);
+        }
+
+        .btn-record:hover { background: #a93226; }
+
+        .btn-record.pulsing {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+            50% { box-shadow: 0 0 0 18px rgba(192,57,43,0); }
+        }
+
+        .speak-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 8px;
+        }
+
+        .speak-sub {
+            font-size: 0.82rem;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .record-timer {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--red);
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .result-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 12px;
+        }
+
+        .btn-rerecord {
+            background: none;
+            border: none;
+            font-size: 0.78rem;
+            color: #aaa;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 12px;
+            padding: 0;
+            display: block;
+        }
+
+        .btn-rerecord:hover { color: var(--red); }
+
+        .not-supported-msg {
+            background: #fff8f0;
+            border: 1px solid #f0d9b5;
+            padding: 16px 20px;
+            font-size: 0.85rem;
+            color: #8a6a3a;
+            line-height: 1.6;
+        }
+
+        /* SUBMIT */
+        .submit-section { margin-top: 32px; }
+
+        .btn-submit {
+            width: 100%;
+            padding: 18px 32px;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover { background: var(--gold); }
+        .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 48px 32px;
+        }
+
+        .success-message.visible { display: block; }
+
+        .success-icon {
+            width: 48px;
+            height: 48px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+        }
+
+        .success-message h2 {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+
+        .success-message p { font-size: 0.9rem; color: #777; line-height: 1.7; }
+
+        .error-msg {
+            display: none;
+            font-size: 0.82rem;
+            color: var(--red);
+            margin-top: 12px;
+        }
+
+        .error-msg.visible { display: block; }
+
+        /* PHOTO UPLOAD */
+        .photo-section {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .photo-section-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+        }
+
+        .photo-section-sub {
+            font-size: 0.88rem;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .photo-pick-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .btn-photo-pick {
+            background: none;
+            border: 1px solid var(--red);
+            padding: 11px 24px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--red);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-photo-pick:hover { background: var(--red); color: var(--white); }
+
+        .photo-filename {
+            font-size: 0.82rem;
+            color: #aaa;
+            font-style: italic;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .photo-preview {
+            margin-top: 16px;
+            display: none;
+        }
+
+        .photo-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+
+        .photo-caption {
+            margin-top: 16px;
+        }
+
+        .photo-caption textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            padding: 16px 20px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: var(--charcoal);
+            background: var(--white);
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+            min-height: 80px;
+        }
+
+        .photo-caption textarea:focus { border-color: var(--gold); }
+        .photo-caption textarea::placeholder { color: #bbb; font-style: italic; font-size: 0.85rem; }
+
+        .photo-uploading {
+            font-size: 0.78rem;
+            color: var(--gold);
+            margin-top: 8px;
+            display: none;
+        }
+
+        @media (max-width: 600px) {
+            .card { padding: 32px 24px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html"><img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" style="height:60px; width:auto; display:block; margin-bottom:48px;" /></a>
+
+    <div class="card" id="mainCard">
+
+        <div class="week-label" id="weekLabel">Week 1</div>
+        <h1 class="prompt-heading" id="promptText">Loading your prompt...</h1>
+        <p class="prompt-alternatives" id="alternativesText"></p>
+
+        <p class="prepare-note">Take time to prepare before you record.</p>
+
+        <div class="before-begin">
+            <button class="before-begin-toggle" id="beforeBeginToggle"><span>Please read <strong>this</strong> before you begin</span><span class="before-begin-arrow" id="beforeBeginIcon">+</span></button>
+            <div class="before-begin-content" id="beforeBeginContent" style="display:none;">
+                <ul>
+                    <li>Give yourself a day or two to let the memory surface. Your link is always active — come back when you're ready.</li>
+                    <li>Choose to type or record your story using the tabs below.</li>
+                    <li>If recording: tap the button to start, speak freely, then tap again to stop. After you stop, your recording is transcribed automatically — this takes about 15 seconds.</li>
+                    <li>If typing: write freely, then press "Clean up my story" before sending.</li>
+                    <li>You can always start over using the link below the text.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- MODE TABS -->
+        <div class="mode-tabs">
+            <button class="mode-tab active" id="tabType">Type your story</button>
+            <button class="mode-tab" id="tabSpeak">Record your story</button>
+        </div>
+
+        <!-- TYPE MODE -->
+        <div id="typeMode">
+            <textarea
+                class="transcript-box"
+                id="storyText"
+                placeholder="Type here..."
+                rows="8"
+            ></textarea>
+            <p class="word-count" id="wordCount"></p>
+            <p class="autosave-notice" id="autosaveNotice">Draft saved</p>
+            <button class="btn-cleanup" id="btnCleanup">Clean up my story</button>
+        </div>
+
+        <!-- SPEAK MODE -->
+        <div id="speakMode" style="display:none;">
+
+            <!-- Idle -->
+            <div class="speak-state" id="speakIdle">
+                <button class="btn-record" id="btnRecord" aria-label="Start recording">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="19" x2="12" y2="23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="8" y1="23" x2="16" y2="23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <p class="speak-title">Tap to begin recording</p>
+                <p class="speak-sub">Speak naturally. Take your time.</p>
+            </div>
+
+            <!-- Recording -->
+            <div class="speak-state" id="speakRecording" style="display:none;">
+                <button class="btn-record pulsing" id="btnStop" aria-label="Stop recording">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <rect x="4" y="4" width="16" height="16" rx="2" fill="#FFFFFF"/>
+                    </svg>
+                </button>
+                <p class="record-timer" id="recordTimer">0:00</p>
+                <p class="speak-sub">Recording — tap to stop when you are done</p>
+            </div>
+
+            <!-- Processing -->
+            <div class="speak-state" id="speakProcessing" style="display:none;">
+                <div class="spinner"></div>
+                <p class="speak-title">Transcribing your story...</p>
+                <p class="speak-sub">This takes about 15 seconds. Please wait.</p>
+            </div>
+
+            <!-- Result -->
+            <div id="speakResult" style="display:none;">
+                <p class="result-label">Your story — edit if needed</p>
+                <textarea class="transcript-box" id="audioStoryText" rows="10"></textarea>
+                <button class="btn-rerecord" id="btnReRecord">Start over and record again</button>
+            </div>
+
+            <!-- Not supported -->
+            <div class="not-supported-msg" id="notSupportedMsg" style="display:none;">
+                Audio recording is not supported in this browser. Please use Chrome or Safari, or switch to "Type your story" above.
+            </div>
+
+        </div>
+
+        <!-- PHOTO UPLOAD -->
+        <div class="photo-section">
+            <p class="photo-section-label">Add a photo <span style="font-weight:300; text-transform:none; letter-spacing:0; color:var(--gold);">— optional</span></p>
+            <p class="photo-section-sub">A photograph from that time — your family will receive it with your story.</p>
+            <div class="photo-pick-row">
+                <button class="btn-photo-pick" id="btnPhotoPick" type="button">Choose photo</button>
+                <span class="photo-filename" id="photoFilename">No photo selected</span>
+                <input type="file" id="photoInput" accept="image/*" style="display:none;">
+            </div>
+            <div class="photo-preview" id="photoPreview">
+                <img id="photoPreviewImg" src="" alt="Preview">
+            </div>
+            <div class="photo-caption" id="photoCaption">
+                <textarea id="captionText" placeholder="Who is in this photo? Where and when was it taken?" rows="3"></textarea>
+            </div>
+            <p class="photo-uploading" id="photoUploading">Uploading photo...</p>
+            <p style="font-size: 0.85rem; color: #888; line-height: 1.7; margin: 14px 0 0 0; font-style: italic;">No image on hand right now? You can add a photograph and caption at any time by visiting <a href="[LibraryURL]" style="color: var(--gold); text-decoration: underline;">your Story Library</a>.</p>
+        </div>
+
+        <div class="submit-section">
+            <button class="btn-submit" id="btnSubmit">Send This Story</button>
+            <p style="font-size: 0.78rem; color: #aaa; margin-top: 10px; text-align: center;">When you are happy with your story above, press Send.</p>
+            <div class="error-msg" id="errorMsg"></div>
+        </div>
+
+    </div>
+
+    <div class="card success-message" id="successMessage">
+        <div class="success-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <polyline points="20 6 9 17 4 12" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <h2>Your story has been sent.</h2>
+        <p>Your family will receive it shortly.<br>Well done for telling it.</p>
+    </div>
+
+    <script>
+        var MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/4o6urn99d33esb38r9gfmdqv1a5hmarr';
+        var CLOUDINARY_CLOUD = 'dorv3glde';
+        var CLOUDINARY_PRESET = '24stories';
+
+        var params       = new URLSearchParams(window.location.search);
+        var subscriberId = params.get('id') || '';
+        var weekNumber   = params.get('week') || '1';
+        var weekName     = params.get('weekname') || '';
+        var theme        = params.get('theme') || '';
+        var promptText   = params.get('prompt') || 'Tell us about a place you called home. What did it smell like? Who was there?';
+        var angles       = params.get('angles') || '';
+
+        var weekLabelText = 'Week ' + weekNumber;
+        if (weekName) weekLabelText += ' — ' + weekName;
+        document.getElementById('weekLabel').textContent = weekLabelText;
+        document.getElementById('promptText').textContent = promptText;
+
+        var altHtml = '';
+        if (theme) altHtml += '<p style="margin:0 0 10px 0; font-size:1rem; letter-spacing:0.06em; text-transform:uppercase; color:#1A1A1A;">Theme: <span style="color:#B8976A;">' + theme + '</span></p>';
+        if (angles) altHtml += '<p style="margin:0 0 12px 0; font-size:1rem; color:#1A1A1A;"><span style="letter-spacing:0.06em; text-transform:uppercase;">Other angles:</span> ' + angles + '</p>';
+        altHtml += '<p style="margin:0; color:#1A1A1A; font-size:1rem;">Or tell whatever story feels right.</p>';
+        document.getElementById('alternativesText').innerHTML = altHtml;
+
+        // ---- MODE TABS ----
+        var currentMode = 'type';
+
+        document.getElementById('tabType').addEventListener('click', function() {
+            currentMode = 'type';
+            document.getElementById('typeMode').style.display = 'block';
+            document.getElementById('speakMode').style.display = 'none';
+            document.getElementById('tabType').classList.add('active');
+            document.getElementById('tabSpeak').classList.remove('active');
+        });
+
+        document.getElementById('tabSpeak').addEventListener('click', function() {
+            currentMode = 'speak';
+            document.getElementById('typeMode').style.display = 'none';
+            document.getElementById('speakMode').style.display = 'block';
+            document.getElementById('tabSpeak').classList.add('active');
+            document.getElementById('tabType').classList.remove('active');
+            // Reset to idle when switching to speak tab
+            if (!document.getElementById('audioStoryText').value) {
+                showSpeakState('speakIdle');
+            }
+        });
+
+        // ---- BEFORE YOU BEGIN ----
+        document.getElementById('beforeBeginToggle').addEventListener('click', function() {
+            var content = document.getElementById('beforeBeginContent');
+            var icon = document.getElementById('beforeBeginIcon');
+            var open = content.style.display !== 'none';
+            content.style.display = open ? 'none' : 'block';
+            icon.textContent = open ? '+' : '−';
+        });
+
+        // ---- TYPE MODE ----
+        var storyText   = document.getElementById('storyText');
+        var autosaveKey = 'draft_' + (subscriberId || 'default') + '_' + weekNumber;
+        var autosaveTimer;
+
+        function updateWordCount() {
+            var text = storyText.value.trim();
+            var el = document.getElementById('wordCount');
+            if (!text) { el.textContent = ''; return; }
+            var words = text.split(/\s+/).filter(Boolean).length;
+            var mins = Math.round(words / 130);
+            el.textContent = 'Word count: ' + words + (mins >= 1 ? ' · ~' + mins + ' min read' : '');
+        }
+
+        function saveDraft() {
+            localStorage.setItem(autosaveKey, storyText.value);
+            var notice = document.getElementById('autosaveNotice');
+            notice.classList.add('visible');
+            setTimeout(function() { notice.classList.remove('visible'); }, 2000);
+        }
+
+        var saved = localStorage.getItem(autosaveKey);
+        if (saved) {
+            storyText.value = saved;
+            document.getElementById('btnCleanup').style.display = 'block';
+            updateWordCount();
+        }
+
+        storyText.addEventListener('input', function() {
+            document.getElementById('btnCleanup').style.display = storyText.value.trim() ? 'block' : 'none';
+            updateWordCount();
+            clearTimeout(autosaveTimer);
+            autosaveTimer = setTimeout(saveDraft, 1500);
+        });
+
+        document.getElementById('btnCleanup').addEventListener('click', function() {
+            var story = storyText.value.trim();
+            if (!story) return;
+            var btn = this;
+            btn.disabled = true;
+            btn.textContent = 'Cleaning up...';
+            fetch('/.netlify/functions/cleanup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: story })
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.cleaned) { storyText.value = data.cleaned; updateWordCount(); }
+                btn.disabled = false;
+                btn.textContent = 'Clean up my story';
+            })
+            .catch(function() {
+                btn.disabled = false;
+                btn.textContent = 'Clean up my story';
+            });
+        });
+
+        // ---- SPEAK MODE ----
+        var mediaRecorder  = null;
+        var audioChunks    = [];
+        var audioURL       = '';
+        var timerInterval  = null;
+        var recordSeconds  = 0;
+
+        function formatTime(s) {
+            return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
+        }
+
+        function showSpeakState(stateId) {
+            ['speakIdle', 'speakRecording', 'speakProcessing', 'speakResult'].forEach(function(id) {
+                document.getElementById(id).style.display = 'none';
+            });
+            document.getElementById(stateId).style.display = 'block';
+        }
+
+        if (!navigator.mediaDevices || !window.MediaRecorder) {
+            document.getElementById('notSupportedMsg').style.display = 'block';
+            document.getElementById('speakIdle').style.display = 'none';
+        }
+
+        document.getElementById('btnRecord').addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                audioChunks = [];
+                var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+                    ? 'audio/webm;codecs=opus'
+                    : MediaRecorder.isTypeSupported('audio/mp4')
+                    ? 'audio/mp4'
+                    : '';
+
+                mediaRecorder = mimeType
+                    ? new MediaRecorder(stream, { mimeType: mimeType })
+                    : new MediaRecorder(stream);
+
+                mediaRecorder.ondataavailable = function(e) {
+                    if (e.data.size > 0) audioChunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = function() {
+                    stream.getTracks().forEach(function(t) { t.stop(); });
+                    clearInterval(timerInterval);
+                    showSpeakState('speakProcessing');
+
+                    var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+                    var ext  = (mediaRecorder.mimeType || '').includes('mp4') ? 'mp4' : 'webm';
+
+                    var uploadData = new FormData();
+                    uploadData.append('file', blob, 'story.' + ext);
+                    uploadData.append('upload_preset', CLOUDINARY_PRESET);
+                    uploadData.append('folder', 'stories/audio');
+
+                    fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/video/upload', {
+                        method: 'POST',
+                        body: uploadData
+                    })
+                    .then(function(res) { return res.json(); })
+                    .then(function(data) {
+                        if (!data.secure_url) throw new Error('Cloudinary error: ' + JSON.stringify(data.error || data));
+                        audioURL = data.secure_url;
+                        return fetch('/.netlify/functions/transcribe', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ audioUrl: audioURL })
+                        });
+                    })
+                    .then(function(res) {
+                        return res.json().then(function(d) {
+                            if (!res.ok) throw new Error(d.error || 'Transcription failed (status ' + res.status + ')');
+                            return d;
+                        });
+                    })
+                    .then(function(data) {
+                        document.getElementById('audioStoryText').value = data.cleaned || '';
+                        showSpeakState('speakResult');
+                    })
+                    .catch(function(err) {
+                        showSpeakState('speakIdle');
+                        var msg = 'Something went wrong: ' + (err && err.message ? err.message : 'unknown error') + '. Please try again or switch to typing.';
+                        document.getElementById('errorMsg').textContent = msg;
+                        document.getElementById('errorMsg').classList.add('visible');
+                    });
+                };
+
+                mediaRecorder.start(1000);
+                recordSeconds = 0;
+                document.getElementById('recordTimer').textContent = '0:00';
+                timerInterval = setInterval(function() {
+                    recordSeconds++;
+                    document.getElementById('recordTimer').textContent = formatTime(recordSeconds);
+                }, 1000);
+
+                showSpeakState('speakRecording');
+            })
+            .catch(function() {
+                document.getElementById('errorMsg').textContent = 'Microphone access denied. Please allow microphone access in your browser settings and try again.';
+                document.getElementById('errorMsg').classList.add('visible');
+            });
+        });
+
+        document.getElementById('btnStop').addEventListener('click', function() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        });
+
+        document.getElementById('btnReRecord').addEventListener('click', function() {
+            audioURL  = '';
+            audioChunks = [];
+            document.getElementById('audioStoryText').value = '';
+            document.getElementById('errorMsg').classList.remove('visible');
+            showSpeakState('speakIdle');
+        });
+
+        // ---- PHOTO UPLOAD ----
+        var imageURL = '';
+
+        document.getElementById('btnPhotoPick').addEventListener('click', function() {
+            document.getElementById('photoInput').click();
+        });
+
+        document.getElementById('photoInput').addEventListener('change', function() {
+            var file = this.files[0];
+            if (!file) return;
+
+            document.getElementById('photoFilename').textContent = file.name;
+
+            // Show preview
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('photoPreviewImg').src = e.target.result;
+                document.getElementById('photoPreview').style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+
+            // Upload to Cloudinary immediately
+            document.getElementById('photoUploading').style.display = 'block';
+            var uploadData = new FormData();
+            uploadData.append('file', file);
+            uploadData.append('upload_preset', CLOUDINARY_PRESET);
+            uploadData.append('folder', 'stories/images');
+
+            fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/image/upload', {
+                method: 'POST',
+                body: uploadData
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                imageURL = data.secure_url || '';
+                document.getElementById('photoUploading').style.display = 'none';
+                if (!imageURL) document.getElementById('photoFilename').textContent = 'Upload failed — please try again';
+            })
+            .catch(function() {
+                document.getElementById('photoUploading').style.display = 'none';
+                document.getElementById('photoFilename').textContent = 'Upload failed — please try again';
+            });
+        });
+
+        // ---- SUBMIT ----
+        document.getElementById('btnSubmit').addEventListener('click', function() {
+            var story = currentMode === 'speak'
+                ? document.getElementById('audioStoryText').value.trim()
+                : storyText.value.trim();
+
+            if (!story) {
+                document.getElementById('errorMsg').textContent = currentMode === 'speak'
+                    ? 'Please record your story first.'
+                    : 'Please type your story before sending.';
+                document.getElementById('errorMsg').classList.add('visible');
+                return;
+            }
+
+            var btn = this;
+            btn.disabled = true;
+            btn.textContent = 'Sending...';
+            document.getElementById('errorMsg').classList.remove('visible');
+
+            fetch(MAKE_WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    subscriberId: subscriberId,
+                    weekNumber:   weekNumber,
+                    storyText:    story,
+                    audioURL:     audioURL || '',
+                    imageURL:     imageURL || '',
+                    caption:      document.getElementById('captionText').value.trim(),
+                    submittedAt:  new Date().toISOString()
+                })
+            })
+            .then(function(res) {
+                if (res.ok || res.status === 200) {
+                    localStorage.removeItem(autosaveKey);
+                    document.getElementById('mainCard').style.display = 'none';
+                    document.getElementById('successMessage').classList.add('visible');
+                } else {
+                    throw new Error('Server error');
+                }
+            })
+            .catch(function() {
+                btn.disabled = false;
+                btn.textContent = 'Send This Story';
+                document.getElementById('errorMsg').textContent = 'Something went wrong. Please try again, or email your story directly to stories@24stories.co.za';
+                document.getElementById('errorMsg').classList.add('visible');
+            });
+        });
+    </script>
+</body>
+</html>

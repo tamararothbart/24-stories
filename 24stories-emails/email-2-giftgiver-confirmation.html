@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 2 — Gift Giver Confirmation</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 2 — GIFT GIVER CONFIRMATION</strong><br>
+  Scenario: 1 (Signup) &nbsp;|&nbsp; Trigger: PayFast payment confirmed (payment_status = COMPLETE) &nbsp;|&nbsp; To: Gift Giver<br>
+  Testing override: call the Make webhook directly with a test subscriber payload — PayFast activation not required during testing.<br>
+  Status: <strong style="color:#FF9800;">NEEDS UPDATE IN MAKE — v3.1 content.</strong><br>
+  <strong style="color:#FF9800;">NOTE:</strong> Make filter before this module — only fires if StorytellerEmail ≠ GiftGiverEmail (suppress for self-signups)<br><br>
+  Variables in this email:
+  <span class="var">GiftGiverName</span>
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">StorytellerName</span>
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:40px;">
+
+  <p>Hello <strong>[GiftGiverName]</strong>,</p>
+
+  <p>
+    Thank you for your purchase. You have given an extraordinary gift: the invitation
+    for <strong>[StorytellerFirstName]</strong> to share their life stories, week by week.
+  </p>
+
+  <p>
+    This is no ordinary present. By sparking these recordings, you give them the chance to capture
+    memories that become a bridge between generations — answers to questions you'll one day wish you'd asked.
+  </p>
+
+  <p>
+    <strong>[StorytellerFirstName]</strong> has received their welcome. Their first prompt arrives today,
+    and soon these stories will begin landing in the inboxes of those who will treasure them.
+  </p>
+
+
+  <p style="font-size: 16px; font-style: italic; color: #5C4A30; line-height: 1.9; margin: 0 0 28px 0;">
+    When the final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — a lasting record of a life, shaped by the gift you have given.
+  </p>
+
+  <hr class="divider">
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+  </p>
+
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
+    Questions? We are here to help.<br>
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+  <p style="font-size: 13px; color: #888; line-height: 1.7; margin: 24px 0 0 0; border-top: 1px solid #E0DCD7; padding-top: 16px;">
+    24 Stories is a fully personalised service that begins immediately on purchase. We understand that life happens — if [StorytellerFirstName] needs to pause at any point, their account remains valid for up to 12 months from their start date. To request a pause, write to <a href="mailto:hello@24stories.co.za" style="color: #888;">hello@24stories.co.za</a>.
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

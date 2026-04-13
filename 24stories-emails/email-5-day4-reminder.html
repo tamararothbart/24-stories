@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 5 — Day 4 Reminder</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  .prompt-box { background: #fff; border-left: 4px solid #B8976A; padding: 28px 32px; margin: 0 0 36px 0; }
+  .prompt-box .prompt-label { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 16px 0; }
+  .prompt-box .prompt-text { font-size: 20px; line-height: 1.7; font-style: italic; color: #1A1A1A; margin: 0 0 20px 0; }
+  .prompt-box .alt-label { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin: 20px 0 10px 0; }
+  .prompt-box .alt { font-size: 16px; color: #333; line-height: 1.7; margin: 0 0 8px 0; }
+  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 5 — DAY 4 REMINDER</strong><br>
+  Scenario: 5 (Day 4 Reminder) &nbsp;|&nbsp; Trigger: Scheduled daily, fires if no story submitted by day 4 &nbsp;|&nbsp; To: Storyteller + Story Helper (separate sends)<br>
+  Status: <strong style="color:#FF9800;">EXISTS IN MAKE — needs v3.1 update (OtherAngles, library block)</strong><br>
+  Condition: Only fires if ReminderSentForPrompt ≠ PromptNumber (i.e. reminder not already sent this week)<br>
+  Note: Story Helper send uses same template. Salutation [StorytellerFirstName] is intentional — Story Helper receives as co-facilitator prompt, same convention as prompt emails 4 and 8.<br><br>
+  Variables in this email:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">WeekNumber</span>
+  <span class="var">WeekName</span>
+  <span class="var">Theme</span>
+  <span class="var">PromptText</span>
+  <span class="var">OtherAngles</span> (comma-separated keywords from Airtable Prompts table)
+  <span class="var">tell.html link</span> (with id + week + weekname + theme + prompt + angles params)
+  <span class="var">LibraryURL</span><br><br>
+  Status updated: 2026-04-11 — OtherAngles replaces alt1/alt2; BookOrdered removed; library block added.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+
+  <p class="gold">Week [WeekNumber] — a gentle nudge</p>
+
+  <p class="h1">Still time to tell your story this week.</p>
+
+  <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
+
+  <p>
+    We have not received your story for this week yet.
+    No rush — your family would love to read it.
+  </p>
+
+  <p>Here is your prompt again, in case you need it:</p>
+
+  <div class="prompt-box">
+    <p class="prompt-label">Week [WeekNumber] — [WeekName]</p>
+    <p class="alt-label">Theme</p>
+    <p class="alt" style="font-style: italic; margin-bottom: 16px;">[Theme]</p>
+    <p class="prompt-text">[PromptText]</p>
+    <p class="alt-label">Other angles</p>
+    <p class="alt">[OtherAngles]</p>
+  </div>
+
+  <a href="[TELL_HTML_LINK]" class="cta">Tell your story &#8594;</a>
+
+  <hr class="divider">
+
+  <p style="font-size: 16px; font-style: italic; color: #444;">
+    Take your time. A story told slowly is a story told well.
+  </p>
+
+  <hr class="divider">
+
+  <!-- LIBRARY LINK BLOCK -->
+  <div style="border-top: 3px solid #B8976A; padding: 28px 0 24px; margin: 40px 0 32px;">
+    <p style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 14px 0;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display: inline-block; background: #B8976A; color: #ffffff; text-decoration: none; padding: 15px 32px; font-size: 16px; letter-spacing: 0.03em; margin-bottom: 14px;">Open your library &#8594;</a><br>
+    <p style="font-size: 13px; color: #555; line-height: 1.7; margin: 4px 0 0 0;">Direct link: <a href="[LibraryURL]" style="color: #B8976A; text-decoration: underline; word-break: break-all;">[LibraryURL]</a></p>
+  </div>
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+  </p>
+
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 0;">
+    Questions? We are here to help.<br>
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+[functions]
+  directory = "netlify/functions"
+
+[functions.transcribe]
+  timeout = 26
+
+[functions.cleanup]
+  timeout = 15

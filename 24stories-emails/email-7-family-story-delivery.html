@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 7 — Family Story Delivery</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  .story-text { font-size: 17px; line-height: 1.9; color: #1A1A1A; margin: 0 0 40px 0; white-space: pre-wrap; }
+  .photo-block { margin: 28px 0 44px; }
+  .photo-block img { max-width: 100%; height: auto; display: block; }
+  .photo-caption { font-size: 15px; color: #555; font-style: italic; margin: 12px 0 0; line-height: 1.7; }
+  .note { background: #EFECEA; border-left: 4px solid #B8976A; padding: 28px 32px; margin: 0 0 36px; }
+  .note-heading { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 14px 0; }
+  .note-body { font-size: 16px; color: #333; line-height: 1.9; margin: 0; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 7 — FAMILY STORY DELIVERY</strong><br>
+  Scenario: 3 (Family Delivery) &nbsp;|&nbsp; Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Family recipients only (up to 10 FamilyEmails addresses)<br>
+  Status: <strong style="color:#4CAF50;">EXISTS IN MAKE — updated with image/caption support (2026-03-27)</strong><br><br>
+  Variables in this email:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">WeekNumber</span>
+  <span class="var">StoryText</span>
+  <span class="var">imageURL</span> (conditional)
+  <span class="var">Caption</span> (conditional)
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+
+  <p class="gold">Week [WeekNumber]</p>
+
+  <p class="h1">[StorytellerFirstName] wants to share something with you.</p>
+
+  <hr class="divider">
+
+  <p class="story-text">[StoryText]</p>
+
+  <!-- Conditional image block — only shown if imageURL is populated -->
+  <!-- In Make: {{if(imageURL; "<div class='photo-block'>..." + imageURL + "..." + Caption + "...</div>"; "")}} -->
+  <div class="photo-block">
+    <img src="[imageURL]" alt="Photo from [StorytellerFirstName]">
+    <p class="photo-caption">[Caption]</p>
+  </div>
+  <!-- End conditional image block -->
+
+  <hr class="divider">
+
+  <div class="note">
+    <p class="note-heading">Have a story you want to hear?</p>
+    <p class="note-body">If there is a story you have always wanted to hear — or one that has been told before and deserves to be kept — ask. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+  </div>
+
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 0;">
+    Delivered by <a href="https://24stories.co.za" class="gold-link">24 Stories</a> — preserving the stories that matter.<br>
+    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

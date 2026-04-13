@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24 Stories — Master Architecture Document</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { font-family: Georgia, serif; background: #F7F5F2; color: #1A1A1A; margin: 0; padding: 40px 20px 100px; }
+    .wrapper { max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 2rem; font-weight: normal; font-style: italic; color: #1A1A1A; border-bottom: 2px solid #B8976A; padding-bottom: 16px; margin-bottom: 8px; }
+    .subtitle { font-size: 0.85rem; font-family: Arial, sans-serif; color: #888; margin-bottom: 48px; letter-spacing: 0.05em; }
+    h2 { font-size: 1.3rem; font-weight: normal; font-style: italic; color: #1A1A1A; border-bottom: 1px solid #B8976A; padding-bottom: 8px; margin: 48px 0 20px; }
+    h3 { font-size: 1rem; font-family: Arial, sans-serif; font-weight: bold; text-transform: uppercase; letter-spacing: 0.08em; color: #B8976A; margin: 28px 0 10px; }
+    h4 { font-size: 0.95rem; font-family: Arial, sans-serif; font-weight: bold; color: #1A1A1A; margin: 20px 0 8px; }
+    p { font-size: 0.95rem; line-height: 1.8; margin: 0 0 12px; }
+    ul, ol { font-size: 0.95rem; line-height: 1.8; margin: 0 0 16px; padding-left: 24px; }
+    li { margin-bottom: 4px; }
+    table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 0.88rem; font-family: Arial, sans-serif; }
+    th { background: #1A1A1A; color: #F7F5F2; text-align: left; padding: 10px 12px; font-weight: normal; letter-spacing: 0.05em; }
+    td { padding: 9px 12px; border-bottom: 1px solid #E0DDD8; vertical-align: top; }
+    tr:nth-child(even) td { background: #fff; }
+    tr:nth-child(odd) td { background: #faf9f7; }
+    .flag { display: inline-block; background: #c0392b; color: #fff; font-family: Arial, sans-serif; font-size: 0.7rem; font-weight: bold; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 7px; border-radius: 2px; margin-left: 6px; vertical-align: middle; }
+    .flag.green { background: #27ae60; }
+    .flag.amber { background: #e67e22; }
+    .flag.blue { background: #2980b9; }
+    .note { background: #fff8f0; border-left: 3px solid #B8976A; padding: 12px 16px; margin: 12px 0 20px; font-size: 0.9rem; line-height: 1.7; font-family: Arial, sans-serif; }
+    .decision { background: #f0f8ff; border-left: 3px solid #2980b9; padding: 12px 16px; margin: 12px 0 20px; font-size: 0.9rem; line-height: 1.7; font-family: Arial, sans-serif; }
+    .locked { background: #f0fff4; border-left: 3px solid #27ae60; padding: 12px 16px; margin: 12px 0 20px; font-size: 0.9rem; line-height: 1.7; font-family: Arial, sans-serif; }
+    .warn { background: #fff3f3; border-left: 3px solid #c0392b; padding: 12px 16px; margin: 12px 0 20px; font-size: 0.9rem; line-height: 1.7; font-family: Arial, sans-serif; }
+    .toc { background: #fff; border: 1px solid #E0DDD8; padding: 24px 32px; margin-bottom: 48px; }
+    .toc h3 { margin-top: 0; }
+    .toc ol { margin: 0; }
+    .toc a { color: #1A1A1A; text-decoration: none; }
+    .toc a:hover { color: #B8976A; }
+    code { font-family: monospace; background: #eee; padding: 1px 5px; font-size: 0.85rem; border-radius: 2px; }
+    .section-id { font-family: Arial, sans-serif; font-size: 0.7rem; color: #aaa; float: right; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 6px; }
+    .flow-step { padding: 10px 0 10px 16px; border-left: 2px solid #E0DDD8; margin: 4px 0; font-size: 0.9rem; font-family: Arial, sans-serif; line-height: 1.7; }
+    .flow-step strong { color: #B8976A; }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <h1>24 Stories — Master Architecture Document</h1>
+  <p class="subtitle">VERSION 3.1 — 12 APRIL 2026 — ONCE-OFF PAYMENT MODEL — ALL DECISIONS LOCKED — DO NOT BUILD ANYTHING NOT IN THIS DOCUMENT</p>
+
+  <div class="toc">
+    <h3>Contents</h3>
+    <ol>
+      <li><a href="#s1">The Offer</a></li>
+      <li><a href="#s2">User Roles</a></li>
+      <li><a href="#s3">Payment Model (PayFast)</a></li>
+      <li><a href="#s4">Complete Story Submission Flow</a></li>
+      <li><a href="#s5">Story Library (library.html)</a></li>
+      <li><a href="#s6">tell.html — URL Parameter Structure</a></li>
+      <li><a href="#s7">Airtable Schema</a></li>
+      <li><a href="#s8">Make Scenarios</a></li>
+      <li><a href="#s9">Email Registry</a></li>
+      <li><a href="#s10">Website Pages</a></li>
+      <li><a href="#s11">Book Production Flow</a></li>
+      <li><a href="#s12">Policies</a></li>
+      <li><a href="#s13">DNS &amp; Email Infrastructure</a></li>
+      <li><a href="#s14">Build Order &amp; Launch Dates</a></li>
+    </ol>
+  </div>
+
+  <!-- ==================== SECTION 1 ==================== -->
+  <h2 id="s1">1. The Offer <span class="section-id">S1</span></h2>
+
+  <div class="locked">
+    <strong>Price locked: R6,795 — once-off, upfront.</strong> Single product. No tiers. No monthly billing. No upgrades. Book always included.
+  </div>
+
+  <h3>What Is Included</h3>
+  <ul>
+    <li>26 weekly story prompts — curated, with alternative angles (short keywords/framings per prompt, not full alternative prompts)</li>
+    <li>Professional editing on every story — Tamara reads and polishes every submission. No competitor does this.</li>
+    <li>Stories shared with the whole family by email as they are written — not held until the end</li>
+    <li>Personal Story Library — private portal where all stories are saved and photos uploaded</li>
+    <li>One beautifully designed, printed hardcover Legacy Book — delivered to door (Courier Guy)</li>
+    <li><strong>Extra copies: R1,200 each</strong> — ordered at proof stage, added to same print run</li>
+  </ul>
+
+  <h3>Hero Copy (Approved — Do Not Change)</h3>
+  <p><strong>"The stories only they can tell."</strong></p>
+  <p>Works for gift buyer ("they" = their parent/grandparent) and for self-buyer ("they" = I, the only one who can tell my own stories). Straddle both audiences. Do not pick a side. Signup form handles the divergence (two paths: giving as gift / telling my own story).</p>
+
+  <h3>Key Differentiators</h3>
+  <ol>
+    <li><strong>Professional human editing</strong> — Tamara reads and polishes every story. No competitor does this.</li>
+    <li><strong>Stories go out to family each week as written</strong> — not held until the end. Family receives each story as an instalment the week it is told.</li>
+  </ol>
+
+  <h3>Competitive Position</h3>
+  <table>
+    <tr><th></th><th>Remento / StoryWorth (SA-equivalent cost)</th><th>24 Stories</th></tr>
+    <tr><td>Price (SA, incl. shipping)</td><td>~R2,550–3,150</td><td>R6,795</td></tr>
+    <tr><td>Editing</td><td>None</td><td>Professional, human</td></tr>
+    <tr><td>Book quality</td><td>Automated, rigid layout</td><td>Designed with care</td></tr>
+    <tr><td>Localisation</td><td>US product, USD pricing</td><td>South African, rand</td></tr>
+  </table>
+
+  <h3>Pre-Launch Testing</h3>
+  <p>5–6 people will test the product for free (accelerated free trial, not public beta). Mock paywall on website during testing period. No public beta pricing. Launch directly with R6,795 paid offering.</p>
+
+  <!-- ==================== SECTION 2 ==================== -->
+  <h2 id="s2">2. User Roles <span class="section-id">S2</span></h2>
+
+  <table>
+    <tr><th>Role</th><th>Who</th><th>What they receive</th><th>What they can do</th></tr>
+    <tr>
+      <td><strong>Storyteller</strong></td>
+      <td>The person whose life stories are being recorded. May also be the buyer.</td>
+      <td>Email 1 (Welcome). Every weekly prompt (emails 4, 8). Day 4 reminder (email 5) if no story. Story confirmation (email 6) after Tamara edits. Book onboarding emails (9, 10, 11) at week 26. Book delivery email (12).</td>
+      <td>Submit stories via tell.html (accessed from email link or library). Upload photos and captions. Complete book prep in library. Press "Mark as Complete" to begin book production.</td>
+    </tr>
+    <tr>
+      <td><strong>Gift Giver</strong></td>
+      <td>The person who purchased the subscription as a gift for the Storyteller. May or may not be the Storyteller.</td>
+      <td>Email 2 (Gift Giver confirmation) only. Goes on FamilyEmails list — receives story delivery emails.</td>
+      <td>Purchase extra book copies (via library → PayFast link). No access to library or story submission.</td>
+    </tr>
+    <tr>
+      <td><strong>Story Helper</strong></td>
+      <td>Optional. Designated by buyer at signup. Can be Gift Giver or a third person. Never the Storyteller. If Gift Giver = Story Helper, same email address goes in both fields.</td>
+      <td>Email 3 (Welcome) at signup. Same library URL as Storyteller. Weekly prompt emails (separate send via Scenario 2 — Make filter: StoryHelperEmail not empty). Day 4 reminder. Story confirmation (email 6). Book onboarding emails (9, 10, 11).</td>
+      <td>Submit stories and upload photos on behalf of the Storyteller via tell.html. Access library. Assist with book prep. Cannot override Tamara's edits.</td>
+    </tr>
+    <tr>
+      <td><strong>Family</strong></td>
+      <td>Up to 10 email addresses added at signup. Gift Giver auto-fills slot 1 (if GiftGiverEmail ≠ StorytellerEmail). Story Helper auto-fills slot 2 (if StoryHelperEmail ≠ GiftGiverEmail and ≠ StorytellerEmail). Additional family added manually.</td>
+      <td>Story delivery email (email 7) each time Tamara edits a story in Airtable.</td>
+      <td>Read stories. Reply to email (goes to stories@24stories.co.za).</td>
+    </tr>
+    <tr>
+      <td><strong>Tamara (Admin)</strong></td>
+      <td>Internal.</td>
+      <td>Make alert when story submitted (Scenario 6 trigger). Daily Book Production Alert (Scenario 10). Pause expiry reminders (Scenario 13).</td>
+      <td>Edit stories in Airtable (EditedText field — this triggers family delivery). Set BookSentToPrintDate when book goes to printer. Write custom BookSummary per subscriber at week 26. Access any subscriber library via their URL. Manage pauses manually from hello@.</td>
+    </tr>
+  </table>
+
+  <div class="note">
+    <strong>Make filter rule (global):</strong> StoryHelperEmail not empty — apply before every Story Helper Mailjet module in every scenario.
+  </div>
+
+  <!-- ==================== SECTION 3 ==================== -->
+  <h2 id="s3">3. Payment Model (PayFast) <span class="section-id">S3</span></h2>
+
+  <ul>
+    <li><strong>Once-off upfront payment via PayFast</strong> — single transaction at signup. R6,795.</li>
+    <li>No recurring debit orders. No monthly subscription. No failed payment drip sequence.</li>
+    <li>Make creates Airtable Subscribers record <strong>only</strong> on PayFast <code>payment_status = COMPLETE</code>. Never before.</li>
+    <li>If PayFast fails at checkout, subscriber simply does not get access. PayFast handles its own failed transaction notifications.</li>
+    <li><strong>Extra copies:</strong> R1,200 each. Subscriber requests in library → Make sends PayFast link → payment confirmed → email 14 fires.</li>
+  </ul>
+
+  <!-- ==================== SECTION 4 ==================== -->
+  <h2 id="s4">4. Complete Story Submission Flow <span class="section-id">S4</span></h2>
+
+  <div class="decision">
+    <strong>Critical architecture point:</strong> Stories are NEVER submitted directly from library.html. The library links to tell.html with URL params pre-filled. All story submission — whether triggered from the weekly prompt email or from the library "Record this story" button — goes through tell.html and the same Make webhook. Timing of when the subscriber records (promptly, late, or ahead of schedule) is irrelevant to how Make processes the submission.
+  </div>
+
+  <h3>Path A — Submitted via Prompt Email Link</h3>
+  <p>Make builds a tell.html URL with 6 URL params (id, week, weekname, theme, prompt, angles) and includes it in the weekly prompt email. Storyteller clicks → tell.html loads the prompt from URL params.</p>
+
+  <h3>Path B — Submitted via Library ("Record this story" button)</h3>
+  <p>library.html reads all 26 prompts from Airtable (Prompts table) and builds the same tell.html URL with the same 6 params. Storyteller clicks the button on any story card — including past, current, or future weeks. Same tell.html, same webhook. No difference in processing.</p>
+
+  <h3>On tell.html — Two Input Modes</h3>
+
+  <h4>Voice recording mode</h4>
+  <div class="flow-step"><strong>1.</strong> Subscriber taps Record → browser captures audio via MediaRecorder API</div>
+  <div class="flow-step"><strong>2.</strong> On stop: audio uploaded to <strong>Cloudinary</strong> (cloud: <code>dorv3glde</code>, preset: <code>24stories</code>, folder: <code>stories/audio</code>). Returns <code>audioURL</code>.</div>
+  <div class="flow-step"><strong>3.</strong> Netlify function <code>/.netlify/functions/transcribe</code> called with <code>audioUrl</code>. Function fetches audio from Cloudinary → sends to <strong>OpenAI Whisper</strong> → gets raw transcript.</div>
+  <div class="flow-step"><strong>4.</strong> Transcript sent to <strong>Claude Haiku</strong> (via Anthropic API). Prompt: fix spelling, apostrophes, capitalisation, punctuation; remove filler words; break into paragraphs. Do not rewrite sentences. Do not add words.</div>
+  <div class="flow-step"><strong>5.</strong> Cleaned text returned to browser → appears in editable textarea. Subscriber can review and correct before submitting.</div>
+
+  <h4>Typed text mode</h4>
+  <div class="flow-step"><strong>1.</strong> Subscriber types freely. Draft auto-saved to localStorage every 1.5 seconds.</div>
+  <div class="flow-step"><strong>2.</strong> Subscriber clicks "Clean up my story" → Netlify function <code>/.netlify/functions/cleanup</code> called with raw text → <strong>Claude Haiku</strong> applies same mechanical cleanup (spelling, punctuation, filler words, paragraphs — no rewrites). Cleaned text replaces textarea content.</div>
+
+  <h4>Photo upload (both modes)</h4>
+  <div class="flow-step">Subscriber selects photo → uploaded immediately to Cloudinary (folder: <code>stories/images</code>) → <code>imageURL</code> stored in browser memory. Submitted with story payload. Not required — library can be used to add photo later.</div>
+
+  <h3>Submission Payload — Sent to Make Webhook</h3>
+  <p>Webhook URL: <code>https://hook.eu1.make.com/4o6urn99d33esb38r9gfmdqv1a5hmarr</code> (hardcoded in tell.html)</p>
+  <table>
+    <tr><th>Field</th><th>Value</th><th>Notes</th></tr>
+    <tr><td><code>subscriberId</code></td><td>URL param <code>id</code></td><td>Airtable record ID of subscriber</td></tr>
+    <tr><td><code>weekNumber</code></td><td>URL param <code>week</code></td><td>1–26. Determines which Stories record to create/update.</td></tr>
+    <tr><td><code>storyText</code></td><td>Textarea content</td><td>Already Claude-cleaned before submission.</td></tr>
+    <tr><td><code>audioURL</code></td><td>Cloudinary URL</td><td>Original audio recording. Empty string if typed.</td></tr>
+    <tr><td><code>imageURL</code></td><td>Cloudinary URL</td><td>Photo uploaded at time of submission. Empty string if none.</td></tr>
+    <tr><td><code>caption</code></td><td>Caption textarea</td><td>May be empty.</td></tr>
+    <tr><td><code>submittedAt</code></td><td>ISO timestamp</td><td>Browser time of submission.</td></tr>
+  </table>
+
+  <h3>Make Receives Submission — Scenario 6</h3>
+  <p>Make (Scenario 6) receives the webhook payload and:</p>
+  <ol>
+    <li>Looks up the subscriber record in Airtable using <code>subscriberId</code></li>
+    <li>Creates or updates a Stories record: StoryText = storyText, StoryImageURL = imageURL, StoryImageCaption = caption, AudioURL = audioURL, SubmissionDate = submittedAt, PromptNumber = weekNumber</li>
+    <li>Notifies Tamara (alert or Airtable notification) that a story has been submitted and is ready to edit</li>
+  </ol>
+
+  <h3>Tamara Edits — Family Delivery Triggered</h3>
+  <p>Tamara opens the Stories record in Airtable and types her edit into <code>EditedText</code>. Make watches for <code>EditedText</code> to be filled. When it is:</p>
+  <ol>
+    <li>Make sends email 6 (Story Confirmation) → Storyteller only</li>
+    <li>Make sends email 7 (Story Delivery) → all FamilyEmails</li>
+  </ol>
+
+  <div class="decision">
+    <strong>Weekly schedule = Tamara's editorial discipline, not Make automation.</strong> The library copy says "Your family receives each story on its weekly schedule." This is maintained by Tamara only filling EditedText on the weekly send day — not by a Make timer. If a subscriber submits week 8 during week 3, Tamara holds the edit and fills EditedText during week 8. Make fires immediately when she does.
+  </div>
+
+  <h3>Library Photo Uploads (Independent of Story Submission)</h3>
+  <p>From library.html, photos and captions can be added or updated at any time, independently of story submission. These go directly to Make via separate webhooks — they do NOT go through tell.html.</p>
+  <table>
+    <tr><th>Action</th><th>Webhook variable</th><th>Payload</th><th>Make updates</th></tr>
+    <tr><td>Story photo upload</td><td><code>HOOK_STORY_PHOTO</code></td><td><code>{ subscriberId, week, photoUrl }</code></td><td>Stories.StoryImageURL for matching subscriber + week</td></tr>
+    <tr><td>Caption edit</td><td><code>HOOK_CAPTION</code></td><td><code>{ subscriberId, week, caption }</code></td><td>Stories.StoryImageCaption for matching subscriber + week</td></tr>
+    <tr><td>Portrait / cover photo</td><td><code>HOOK_BOOK_PHOTO</code></td><td><code>{ subscriberId, fieldType: "portrait"|"cover", photoUrl }</code></td><td>Subscribers.PortraitPhotoURL or Subscribers.CoverPhotoURL</td></tr>
+    <tr><td>Book title / dedication / delivery address / phone</td><td><code>HOOK_BOOK_TEXT</code></td><td><code>{ subscriberId, fieldType: "bookTitle"|"dedication"|"deliveryAddress"|"deliveryPhone", value }</code></td><td>Corresponding Subscribers field</td></tr>
+  </table>
+  <p>Photos go to Cloudinary first (cloud: <code>dorv3glde</code>, preset: <code>24stories</code>), then the Cloudinary URL is sent to the Make webhook.</p>
+
+  <div class="warn">
+    <strong>⚠ Known bug in library.html:</strong> The story status function currently shows "Not yet recorded" for stories that have been submitted but not yet edited by Tamara. There is no "Awaiting edit" state implemented. This means the Storyteller cannot tell whether their submitted story is sitting in Tamara's queue or was never received. Fix before go-live: add a StoryText check — if StoryText is filled but EditedText is empty, show "Awaiting edit."
+  </div>
+
+  <!-- ==================== SECTION 5 ==================== -->
+  <h2 id="s5">5. Story Library (library.html) <span class="section-id">S5</span></h2>
+
+  <h3>Purpose</h3>
+  <ol>
+    <li>Subscribers can record any story (past, present, or future prompt) without needing the original email link.</li>
+    <li>Subscribers and Story Helper can upload or update photos and captions at any time.</li>
+    <li>Subscribers and Tamara review all edited stories and book prep before printing. <strong>The library is the proof. No separate client proof step.</strong></li>
+  </ol>
+
+  <h3>Access Model</h3>
+  <ul>
+    <li>URL-based: <code>library.html?id=[AirtableRecordID]</code> — the Airtable record ID of the subscriber. The URL is the key. No password. No login page.</li>
+    <li>Library link in the footer of every applicable email.</li>
+    <li>"Resend my library link" form on main site — subscriber enters email, Make looks up their record and emails the link. Safety net for core demographic (70+).</li>
+    <li>Three users: Storyteller (their URL), Story Helper (same URL), Tamara (accesses any URL she has in Airtable).</li>
+    <li>Preview mode: <code>library.html?id=PREVIEW</code> — loads mock data without Airtable. For testing only. Remove before go-live.</li>
+  </ul>
+
+  <h3>Prompts — All 26 Unlocked from Day One</h3>
+  <p>Pay-upfront model. No prompt lock logic. Subscriber can record any story at any time. Make still sends weekly prompt emails on schedule — the library does not replace the emails. Family delivery maintained weekly by Tamara's editorial discipline (see Section 4).</p>
+
+  <h3>Story Cards (26)</h3>
+  <p>Each card shows: week number, WeekName, Theme, prompt text, story status, photo upload, caption (always editable).</p>
+  <p>Status states (as should be — see bug note above):</p>
+  <ol>
+    <li><strong>Empty</strong> — no story submitted. "Record this story" button → links to tell.html with all 6 URL params pre-filled.</li>
+    <li><strong>Awaiting edit</strong> — StoryText filled, EditedText empty. "Your story is being edited. It will appear here soon."</li>
+    <li><strong>Edited</strong> — EditedText filled. Shows the edited story text. Read-only.</li>
+  </ol>
+
+  <h3>Story Editing Rules</h3>
+  <ul>
+    <li>EditedText is read-only in the library. Only Tamara edits, via Airtable.</li>
+    <li>Factual corrections: subscriber emails hello@. Tamara edits Airtable. Library updates on next load. Not promoted — quiet fallback only.</li>
+  </ul>
+
+  <h3>Book Preparation Section (bottom of library)</h3>
+  <ol>
+    <li><strong>Book title</strong> — editable. Default pre-populated: "The Collected Stories of [StorytellerFirstName] [StorytellerSurname]". Saved to Subscribers.BookTitle via HOOK_BOOK_TEXT. Only written if subscriber edits it.</li>
+    <li><strong>Portrait photo</strong> — inside cover page only. Used as front cover only if no cover image provided.</li>
+    <li><strong>Cover image</strong> — optional. Front cover. If absent, portrait is used as fallback.</li>
+    <li><strong>Dedication</strong> — editable text field. Saved to Subscribers.DedicationText.</li>
+    <li><strong>Delivery address</strong> — required for Courier Guy. Saved to Subscribers.DeliveryAddress.</li>
+    <li><strong>Delivery phone</strong> — mobile number for courier. Saved to Subscribers.DeliveryPhone.</li>
+    <li><strong>Book summary</strong> — written by Tamara at week 26, custom per subscriber. Entered in Airtable (Subscribers.BookSummary). Read-only in library.</li>
+  </ol>
+
+  <div class="decision">
+    <strong>Cover logic (locked):</strong> Portrait = inside cover page. Cover image = front cover (portrait as fallback). These are separate. Do not describe them as interchangeable in copy or UI.
+  </div>
+
+  <h3>Mark as Complete</h3>
+  <ul>
+    <li>Sets <code>BookFormCompleted</code> date in Airtable → triggers Make to alert Tamara</li>
+    <li>Locks the library: no further changes can be made</li>
+    <li>Starts the delivery clock (allow up to 3 weeks from print dispatch to door)</li>
+  </ul>
+  <p>Warning modal before pressing: <em>"Once you mark your library as complete, your book goes straight to production. No further stories, photographs, or changes can be added. Your delivery window begins from this moment."</em> Requires explicit confirmation.</p>
+
+  <h3>Technical Architecture</h3>
+  <ul>
+    <li><strong>Config vars in library.html</strong> (replace before go-live): <code>AIRTABLE_KEY</code>, <code>AIRTABLE_BASE</code>, <code>HOOK_STORY_PHOTO</code>, <code>HOOK_CAPTION</code>, <code>HOOK_BOOK_PHOTO</code>, <code>HOOK_BOOK_TEXT</code></li>
+    <li><strong>Reads:</strong> Airtable API direct from browser (read-only key). Fetches Subscribers record + Stories records (filtered by SubscriberRecordID formula) + all 26 Prompts records (sorted by <code>Week</code> field — see note below).</li>
+    <li><strong>Writes:</strong> Cloudinary → Make webhooks (4 separate hooks). No direct Airtable writes from browser.</li>
+  </ul>
+
+  <div class="warn">
+    <strong>⚠ Prompts table field name discrepancy:</strong> library.html sorts Prompts by field name <code>Week</code>. The architecture spec names this field <code>PromptNumber</code>. When resetting Airtable, use <code>Week</code> as the field name in the Prompts table, OR update library.html to use <code>PromptNumber</code>. Decide before Airtable reset. Currently both the sort field and the mock data in library.html use <code>Week</code>.
+  </div>
+
+  <!-- ==================== SECTION 6 ==================== -->
+  <h2 id="s6">6. tell.html — URL Parameter Structure <span class="section-id">S6</span></h2>
+
+  <div class="locked">
+    Locked v3.1. Make builds the prompt email link. Library builds the "Record this story" link. Both use these params. Use <code>+</code> for spaces, not <code>%20</code>.
+  </div>
+
+  <table>
+    <tr><th>Param</th><th>Example value</th><th>Description</th></tr>
+    <tr><td><code>id</code></td><td><code>recXXXXXXXXXXXXXX</code></td><td>Airtable record ID of subscriber (used as library URL key)</td></tr>
+    <tr><td><code>week</code></td><td><code>2</code></td><td>Week number (1–26)</td></tr>
+    <tr><td><code>weekname</code></td><td><code>Youthful+Imaginings</code></td><td>WeekName from Prompts table</td></tr>
+    <tr><td><code>theme</code></td><td><code>Beginnings</code></td><td>Theme keyword from Prompts table</td></tr>
+    <tr><td><code>prompt</code></td><td><code>Prepare+a+five-minute+story+about...</code></td><td>PromptText from Prompts table</td></tr>
+    <tr><td><code>angles</code></td><td><code>Compromise,+Rite+of+Passage</code></td><td>OtherAngles — comma-separated keywords</td></tr>
+  </table>
+
+  <div class="note">
+    No <code>alt1</code> / <code>alt2</code> params — removed in v3.1. No <code>decodeURIComponent</code> calls — <code>URLSearchParams</code> handles decoding automatically.
+  </div>
+
+  <!-- ==================== SECTION 7 ==================== -->
+  <h2 id="s7">7. Airtable Schema <span class="section-id">S7</span></h2>
+
+  <div class="note">
+    Base name: "52stories" (old name — correct base). 4 tables. Field names below are locked — use exactly as written when building Make modules. <strong>Exception: Prompts table — resolve Week vs PromptNumber before reset (see Section 5 note).</strong>
+  </div>
+
+  <h3>Table 1 — Subscribers</h3>
+  <table>
+    <tr><th>Field</th><th>Type / Notes</th></tr>
+    <tr><td>StorytellerFirstName</td><td>Text</td></tr>
+    <tr><td>StorytellerSurname</td><td>Text</td></tr>
+    <tr><td>StorytellerEmail</td><td>Email</td></tr>
+    <tr><td>StoryHelperName</td><td>Text — optional</td></tr>
+    <tr><td>StoryHelperEmail</td><td>Email — optional. Make filter required before every Story Helper send.</td></tr>
+    <tr><td>GiftGiverName</td><td>Text — optional</td></tr>
+    <tr><td>GiftGiverEmail</td><td>Email — optional</td></tr>
+    <tr><td>FamilyEmails</td><td>Long text — comma-separated, up to 10 addresses</td></tr>
+    <tr><td>DeliveryAddress</td><td>Long text — collected in library book prep, not at signup</td></tr>
+    <tr><td>DeliveryPhone</td><td>Text — mobile number shared with courier. Collected in library.</td></tr>
+    <tr><td>Phone</td><td>Text</td></tr>
+    <tr><td>SubscriptionStartDate</td><td>Date</td></tr>
+    <tr><td>Status</td><td>Single select: Active / Paused / Complete / Cancelled</td></tr>
+    <tr><td>PromptNumber</td><td>Number — current week in subscriber's journey. Make increments after each send.</td></tr>
+    <tr><td>LibraryToken</td><td>Text — Airtable record ID used in library URL (same as the record ID)</td></tr>
+    <tr><td>BookFormCompleted</td><td>Date — subscriber presses "Mark as Complete". Triggers Make to alert Tamara.</td></tr>
+    <tr><td>BookTitle</td><td>Text — subscriber-editable in library. Default: "The Collected Stories of [FirstName] [Surname]". Written to Airtable only if subscriber edits it.</td></tr>
+    <tr><td>CoverPhotoURL</td><td>URL — Cloudinary URL of front cover photo</td></tr>
+    <tr><td>PortraitPhotoURL</td><td>URL — Cloudinary URL of inside-cover portrait</td></tr>
+    <tr><td>DedicationText</td><td>Long text</td></tr>
+    <tr><td>BookSummary</td><td>Long text — Tamara writes custom per subscriber at week 26. Read-only in library.</td></tr>
+    <tr><td>BookCompiledDate</td><td>Date — Tamara sets when design complete</td></tr>
+    <tr><td>BookSentToPrintDate</td><td>Date — Tamara sets when book sent to printer. Triggers Make Scenario 11 → email 12.</td></tr>
+    <tr><td>BookProductionStatus</td><td>Formula: "In Design" if BookFormCompleted filled + BookCompiledDate empty; "Ready for Print" if BookCompiledDate filled + BookSentToPrintDate empty; "At Printer" if BookSentToPrintDate filled.</td></tr>
+    <tr><td>PauseStartDate</td><td>Date — Tamara sets when pause begins</td></tr>
+    <tr><td>IsPaused</td><td>Checkbox — Tamara ticks to pause. Make watches: stops prompts when true.</td></tr>
+    <tr><td>IsResumed</td><td>Checkbox — Tamara ticks when subscriber resumes. Make watches: restarts prompt schedule from correct week.</td></tr>
+  </table>
+
+  <div class="note">
+    <strong>Airtable view to build: "Books in Production"</strong><br>
+    Filter: BookFormCompleted is not empty<br>
+    Sort: BookFormCompleted ascending (longest waiting first)<br>
+    Fields: StorytellerFirstName, BookProductionStatus, BookFormCompleted, BookCompiledDate, BookSentToPrintDate
+  </div>
+
+  <div class="warn">
+    <strong>⚠ Pause daily alert — confirm before build:</strong> An alert to stories@24stories.co.za when a subscriber is paused or unpaused (i.e. when Tamara ticks IsPaused or IsResumed) was agreed in session but the trigger conditions and email content are not in any saved memory file. Confirm: (a) is it triggered by field change in Make or by Airtable automation, (b) what should the email say, (c) is it part of Scenario 13 or a new Scenario 14.
+  </div>
+
+  <h3>Table 2 — Stories</h3>
+  <table>
+    <tr><th>Field</th><th>Type / Notes</th></tr>
+    <tr><td>StoryID</td><td>Auto or text</td></tr>
+    <tr><td>SubscriberID</td><td>Linked record → Subscribers table</td></tr>
+    <tr><td>SubscriberRecordID</td><td><strong>Formula field — required.</strong> Formula: <code>ARRAYJOIN({SubscriberID}, "")</code>. Outputs linked subscriber's Airtable record ID as plain text. Without this, library.html cannot filter stories by subscriber.</td></tr>
+    <tr><td>PromptNumber</td><td>Number (1–26) — from tell.html <code>weekNumber</code> param</td></tr>
+    <tr><td>StoryText</td><td>Long text — Claude-cleaned submission from tell.html. Already cleaned before arriving at Make.</td></tr>
+    <tr><td>AudioURL</td><td>URL — Cloudinary URL of original audio recording. Empty if typed submission.</td></tr>
+    <tr><td>StoryImageURL</td><td>URL — Cloudinary URL of story photo. Set at submission time (from tell.html payload) or later (from library HOOK_STORY_PHOTO).</td></tr>
+    <tr><td>StoryImageCaption</td><td>Text — set at submission or later via library HOOK_CAPTION</td></tr>
+    <tr><td>SubmissionDate</td><td>Date — from tell.html <code>submittedAt</code></td></tr>
+    <tr><td>WeekTheme</td><td>Text — optional, from prompt data</td></tr>
+    <tr><td>EditedText</td><td>Long text — Tamara's edited version. Filling this field triggers Make Scenario 6: sends email 6 (Storyteller) + email 7 (Family).</td></tr>
+  </table>
+
+  <h3>Table 3 — Prompts</h3>
+  <table>
+    <tr><th>Field</th><th>Type / Notes</th></tr>
+    <tr><td>Week <em>(or PromptNumber — see note)</em></td><td>Number (1–26). library.html currently uses <code>Week</code> as the sort field name. Resolve before Airtable reset.</td></tr>
+    <tr><td>WeekName</td><td>Text — overarching idea (e.g. "Youthful Imaginings")</td></tr>
+    <tr><td>Theme</td><td>Text — keyword (e.g. "Beginnings")</td></tr>
+    <tr><td>PromptText</td><td>Long text — "Prepare a five-minute story about [subject]."</td></tr>
+    <tr><td>OtherAngles</td><td>Text — comma-separated short keywords (e.g. "Heirlooms, Traits, Family Lore"). Not full alternative prompts.</td></tr>
+  </table>
+  <p>26 rows entered. Status: <strong>DONE</strong>.</p>
+
+  <h3>Table 4 — Payments</h3>
+  <table>
+    <tr><th>Field</th><th>Type / Notes</th></tr>
+    <tr><td>SubscriberID</td><td>Linked → Subscribers table</td></tr>
+    <tr><td>PayFastTransactionID</td><td>Text</td></tr>
+    <tr><td>Amount</td><td>Currency</td></tr>
+    <tr><td>Date</td><td>Date</td></tr>
+    <tr><td>Status</td><td>Text — COMPLETE / FAILED</td></tr>
+  </table>
+
+  <!-- ==================== SECTION 8 ==================== -->
+  <h2 id="s8">8. Make Scenarios <span class="section-id">S8</span></h2>
+
+  <div class="note">
+    13 scenarios total. On hold until Airtable rebuilt to v3.1 schema. Global rule: StoryHelperEmail not empty before every Story Helper Mailjet module.
+  </div>
+
+  <table>
+    <tr><th>#</th><th>Name</th><th>Trigger</th><th>Purpose</th></tr>
+    <tr>
+      <td>1</td>
+      <td>Signup</td>
+      <td>PayFast COMPLETE</td>
+      <td>Create Airtable Subscribers record. Send email 1 to Storyteller. Send email 2 if GiftGiverEmail ≠ StorytellerEmail. Pass to Scenario 2 for Story Helper.</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Signup — Story Helper</td>
+      <td>Same trigger as Scenario 1</td>
+      <td>Send email 3 to Story Helper only. Filter: StoryHelperEmail not empty AND ≠ GiftGiverEmail AND ≠ StorytellerEmail. Isolated as separate scenario so filter logic does not interfere with Scenario 1.</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Week 1 Prompt</td>
+      <td>Scheduled — each subscriber's week 1 day</td>
+      <td>Send email 4 to Storyteller. Send email 4 to Story Helper (filter). Set PromptNumber = 1.</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Prompt Delivery (weeks 2–26)</td>
+      <td>Scheduled daily</td>
+      <td>Loop all Active subscribers. Send email 8 on each subscriber's prompt delivery day. Filter: IsPaused ≠ true. Increment PromptNumber after send. Separate Story Helper send (filter).</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Day 4 Reminder</td>
+      <td>Scheduled daily</td>
+      <td>Send email 5 if no story in Stories table for current week. Storyteller + Story Helper (filter). Skip if IsPaused = true.</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>Story Submitted</td>
+      <td>Webhook from tell.html</td>
+      <td>Receives story payload. Creates/updates Stories record in Airtable (StoryText, AudioURL, StoryImageURL, StoryImageCaption, SubmissionDate, PromptNumber). Notifies Tamara that story is ready to edit.</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>Story Edited → Family Delivery</td>
+      <td>Airtable: EditedText filled in Stories table</td>
+      <td>Send email 6 (Storyteller only). Send email 7 (all FamilyEmails). Tamara fills EditedText on the scheduled weekly send day to maintain weekly family delivery rhythm.</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>Resend Library Link</td>
+      <td>Webhook from index.html "Resend" form</td>
+      <td>Look up subscriber by email address. Email them their library URL (library.html?id=[AirtableRecordID]).</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>Book Onboarding</td>
+      <td>PromptNumber reaches 26</td>
+      <td>Send email 9 to Storyteller + Story Helper (filter). Trigger Scenario 10 reminder schedule.</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Book Onboarding Reminders</td>
+      <td>Day 3 + Day 7 after email 9, while BookFormCompleted = empty</td>
+      <td>Send email 10 on day 3 and day 7. Send email 11 on day 14 if still empty. After day 14, stop automated reminders — Tamara handles manually.</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>Book Sent to Print</td>
+      <td>Airtable: BookSentToPrintDate filled by Tamara</td>
+      <td>Send email 12 to Storyteller. Tamara manually sends Gift Giver copy from hello@ if gifted.</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>Extra Copies</td>
+      <td>PayFast COMPLETE (extra copies product)</td>
+      <td>Send email 14 to buyer. Log payment in Payments table.</td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td>Pause Expiry Reminder + Daily Pause Alert</td>
+      <td>Daily check + field change triggers (see notes)</td>
+      <td>
+        <strong>A — Expiry reminder:</strong> Daily check: IsPaused = true AND approaching 12 months from SubscriptionStartDate → send reminder to subscriber to email hello@ before expiry.<br><br>
+        <strong>B — Pause/unpause status alert:</strong> When Tamara ticks IsPaused → send alert to stories@24stories.co.za: "[Name] has been paused." When Tamara ticks IsResumed → send alert: "[Name] has resumed."<br><br>
+        <span style="color:#c0392b;font-weight:bold;">⚠ Part B trigger mechanism not yet confirmed (field change watch in Make vs Airtable automation). Confirm before build.</span>
+      </td>
+    </tr>
+  </table>
+
+  <h3>Daily Book Production Alert (embedded in Scenario 11)</h3>
+  <div class="note">
+    Scheduled daily (8am). Check all subscribers where BookFormCompleted is filled but BookSentToPrintDate is empty.<br>
+    <strong>Yellow:</strong> 42+ days since BookFormCompleted.<br>
+    <strong>Red:</strong> 49+ days.<br>
+    Send alert to stories@24stories.co.za listing: subscriber name, date pressed Complete, days elapsed, BookProductionStatus. No email on quiet days (no overdue books).
+  </div>
+
+  <!-- ==================== SECTION 9 ==================== -->
+  <h2 id="s9">9. Email Registry <span class="section-id">S9</span></h2>
+
+  <div class="locked">
+    16 active emails. Numbered 1–16 with no gaps. 9 retired emails deleted. Files in /24stories-website/24stories-emails/
+  </div>
+
+  <table>
+    <tr><th>#</th><th>File</th><th>Recipient</th><th>Trigger</th><th>Status</th></tr>
+    <tr><td>1</td><td>email-1-storyteller-welcome</td><td>Storyteller</td><td>PayFast confirmed</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>2</td><td>email-2-giftgiver-confirmation</td><td>Gift Giver (filter: ≠ StorytellerEmail)</td><td>PayFast confirmed</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>3</td><td>email-3-storyhelper-welcome</td><td>Story Helper (filter: not empty)</td><td>PayFast confirmed</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>4</td><td>email-4-week1-prompt</td><td>Storyteller + Story Helper</td><td>Week 1 scheduled day</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>5</td><td>email-5-day4-reminder</td><td>Storyteller + Story Helper</td><td>Day 4, no story submitted</td><td><span class="flag green">LOCKED</span> — needs Make rebuild</td></tr>
+    <tr><td>6</td><td>email-6-storyteller-story-confirmation</td><td>Storyteller only</td><td>Tamara fills EditedText (Scenario 7)</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>7</td><td>email-7-family-story-delivery</td><td>Family (all FamilyEmails)</td><td>Same as email 6</td><td><span class="flag green">LOCKED</span> — no library block</td></tr>
+    <tr><td>8</td><td>email-8-regular-prompt</td><td>Storyteller + Story Helper</td><td>Weeks 2–26 scheduled</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>9</td><td>email-9-book-onboarding-week26</td><td>Storyteller</td><td>Prompt 26 sent</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>10</td><td>email-10-book-onboarding-reminder</td><td>Storyteller</td><td>Day 3 + Day 7 after email 9</td><td><span class="flag green">LOCKED</span> — identical content both sends</td></tr>
+    <tr><td>11</td><td>email-11-book-onboarding-overdue</td><td>Storyteller</td><td>Day 14 after email 9</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>12</td><td>email-12-book-delivery-confirmation</td><td>Storyteller</td><td>Tamara sets BookSentToPrintDate (Scenario 11)</td><td><span class="flag green">LOCKED</span> — allow up to 3 weeks delivery</td></tr>
+    <tr><td>13</td><td>email-13-late-delivery-apology</td><td>Storyteller / Gift Giver</td><td>Manual</td><td><span class="flag green">LOCKED</span></td></tr>
+    <tr><td>14</td><td>email-14-extra-copies-confirmation</td><td>Buyer</td><td>Extra copies PayFast COMPLETE</td><td><span class="flag green">LOCKED</span> — R1,200 pricing</td></tr>
+    <tr><td>15</td><td>email-15-pause-confirmation</td><td>Subscriber</td><td>Manual — Tamara sends after pause request</td><td><span class="flag green">LOCKED</span> — key line: "Your pause is valid until [PauseExpiryDate]"</td></tr>
+    <tr><td>16</td><td>email-16-refund-confirmation</td><td>Buyer</td><td>Manual — exceptional only</td><td><span class="flag green">LOCKED</span></td></tr>
+  </table>
+
+  <h3>Design Standard</h3>
+  <ul>
+    <li>Body: 17px Georgia serif | H1: 30px | Gold labels: 14px bold #B8976A | Footer: 15px #444</li>
+    <li>Gold links, underlined. Greeting: "Hello [FirstName]..." Sign-off: "With warmth, The 24 Stories Team"</li>
+    <li>Logo on every email. Sender: stories@24stories.co.za (Mailjet). Replies route to: hello@24stories.co.za.</li>
+    <li><strong>Library block</strong> in all Storyteller + Story Helper emails: gold "YOUR STORY LIBRARY" label, gold CTA button "Open your library →", raw URL below. Excluded from emails 7 and 13.</li>
+  </ul>
+
+  <!-- ==================== SECTION 10 ==================== -->
+  <h2 id="s10">10. Website Pages <span class="section-id">S10</span></h2>
+
+  <table>
+    <tr><th>Page</th><th>Path</th><th>Status</th></tr>
+    <tr><td>Main site</td><td>index.html</td><td><span class="flag green">DONE</span> — FAQ v3.1, R6,795, "Resend library link" form, hero images pending</td></tr>
+    <tr><td>Story submission</td><td>tell.html</td><td><span class="flag green">DONE</span> — v3.1 prompt structure, URL params, audio + typed modes, Claude cleanup, Cloudinary upload</td></tr>
+    <tr><td>Story Library</td><td>library.html</td><td><span class="flag green">DONE</span> — awaiting live config. Preview mode: ?id=PREVIEW</td></tr>
+    <tr><td>Master architecture</td><td>master-architecture.html</td><td><span class="flag green">DONE</span> — this document</td></tr>
+  </table>
+
+  <p><strong>Not needed at launch:</strong> review.html, book.html, book-onboarding.html.</p>
+
+  <!-- ==================== SECTION 11 ==================== -->
+  <h2 id="s11">11. Book Production Flow <span class="section-id">S11</span></h2>
+
+  <div class="note">Book production automation deferred. Isolated at week 26 — can be added later without disrupting any existing Make scenarios.</div>
+
+  <ol>
+    <li>Subscriber fills book prep in library (photos, dedication, delivery address, title). Presses "Mark as Complete" → sets BookFormCompleted in Airtable.</li>
+    <li>Scenario 10 daily alert notifies Tamara. Tamara writes custom BookSummary in Airtable.</li>
+    <li>Tamara (or designer) exports 26 stories + captions + image URLs from Airtable.</li>
+    <li>Designer fills book template (Canva vs Reedsy — deferred pending StoryWorth automation research). Sets BookCompiledDate.</li>
+    <li>Export as print-ready PDF. Send to local SA printer (~R1,100).</li>
+    <li>Tamara sets BookSentToPrintDate in Airtable → Scenario 11 fires → email 12 sent to Storyteller.</li>
+    <li>Courier Guy delivery (~R150). Allow up to 3 weeks from print to door.</li>
+  </ol>
+
+  <h3>Costs</h3>
+  <ul>
+    <li>SA printer: ~R1,100 | Courier Guy: ~R150 | Total: ~R1,250 per book</li>
+    <li>Extra copies: R1,200 each. Subscriber requests via library → PayFast → email 14. Added to same print run.</li>
+  </ul>
+
+  <!-- ==================== SECTION 12 ==================== -->
+  <h2 id="s12">12. Policies <span class="section-id">S12</span></h2>
+
+  <h3>Refund</h3>
+  <p>Non-refundable. Disclosed at checkout with explicit checkbox. Exceptional refunds only — manual, Tamara from hello@. Email 16 sent only on manual exceptional refunds.</p>
+
+  <h3>Pause</h3>
+  <ul>
+    <li>One pause allowed. Up to 12 months from subscription start date.</li>
+    <li>Subscriber emails hello@ to request. Tamara sets PauseStartDate, ticks IsPaused. Make stops prompts.</li>
+    <li>During pause: prompts stop. Library remains accessible.</li>
+    <li>To resume: subscriber emails hello@. Tamara unticks IsPaused, ticks IsResumed. Make restarts from correct week.</li>
+    <li>Email 15 sent by Tamara after processing. Fill [PauseExpiryDate] before sending. Key line: "Your pause is valid until [PauseExpiryDate] — after that point, we will be in touch to check in."</li>
+    <li>Scenario 13 sends subscriber an expiry reminder as 12-month limit approaches.</li>
+    <li>Scenario 13 also alerts stories@24stories.co.za when IsPaused or IsResumed is ticked (spec to be confirmed before build).</li>
+  </ul>
+
+  <h3>Story Corrections</h3>
+  <p>Stories read-only for subscribers. Corrections via hello@. Tamara edits Airtable. Library updates on next load. Not promoted — quiet fallback.</p>
+
+  <!-- ==================== SECTION 13 ==================== -->
+  <h2 id="s13">13. DNS &amp; Email Infrastructure <span class="section-id">S13</span></h2>
+
+  <p><strong>SPF (TXT @ on GoDaddy):</strong> <code>v=spf1 include:secureserver.net include:spf.titan.email include:spf.mailjet.com ~all</code><br>
+  dc-77d78235e8._spfm intact — do not touch. Resolved — no further action needed.</p>
+
+  <ul>
+    <li><strong>stories@24stories.co.za</strong> — Mailjet. Automated only. All Make-triggered emails. Reply-To: hello@.</li>
+    <li><strong>hello@24stories.co.za</strong> — Titan. Manual only. Customer service, pause/refund, Gift Giver book delivery. Never in automation.</li>
+  </ul>
+
+  <!-- ==================== SECTION 14 ==================== -->
+  <h2 id="s14">14. Build Order &amp; Launch Dates <span class="section-id">S14</span></h2>
+
+  <p><strong>Build deadline: 30 April 2026</strong> | <strong>Launch: 8 June 2026 at 7pm SAST</strong><br>
+  Free testers: 5–6 people, accelerated trial, no charge, mock paywall on site.</p>
+
+  <table>
+    <tr><th>#</th><th>Task</th><th>Status</th></tr>
+    <tr><td>1</td><td>Update website pricing + FAQ to v3.1</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>2</td><td>Audit all emails against v3.1 offer</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>3</td><td>Update Airtable Prompts table (26 rows)</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>4</td><td>Edit tell.html — v3.1 URL params, audio + typed modes</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>5</td><td>Build library.html</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>6</td><td>Update all emails to v3.1 (numbered 1–16)</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>7</td><td>Add "Resend library link" form to index.html</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>8</td><td>Proofread emails 1–16</td><td><span class="flag amber">IN PROGRESS</span> — Tamara's pass. Open /24stories-emails/index.html in browser, work through in order.</td></tr>
+    <tr><td>9</td><td>Update master-architecture.html to v3.1</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>10</td><td>Fix library.html — add "Awaiting edit" story status state (StoryText filled, EditedText empty — currently shows "Not yet recorded" incorrectly)</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>11</td><td>Resolve Prompts table field name: <code>Week</code> vs <code>PromptNumber</code> — update library.html sort field or rename in Airtable. Must be consistent before reset.</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>12</td><td>Confirm Scenario 13 Part B spec: pause/unpause alert to stories@ — (a) trigger: Make field-change watch or Airtable automation? (b) email content? (c) part of Scenario 13 or new Scenario 14?</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>13</td><td>Reset Airtable to final v3.1 schema (4 tables, exact field names as in Section 7)<br>— Add BookProductionStatus formula field (Subscribers)<br>— Add SubscriberRecordID formula field (Stories)<br>— Build "Books in Production" view (Subscribers)</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>14</td><td>Produce locked Airtable field name reference document + Make scenario module maps for all 13 scenarios — reference guide used during Make build to avoid badge remapping errors</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>15</td><td>Prepare Make-ready email content: subject lines + HTML with Make variable syntax for all 16 emails. Paste-ready for Mailjet modules. Batch in one pass before opening Make.</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>16</td><td>Verify Mailjet domain verification — confirm stories@24stories.co.za DKIM is live on GoDaddy DNS before any scenario goes live</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>17</td><td>Configure library.html for go-live: replace 4 placeholders — AIRTABLE_KEY (read-only token), AIRTABLE_BASE (appXXXX), and 4 Make webhook URLs (HOOK_STORY_PHOTO, HOOK_CAPTION, HOOK_BOOK_PHOTO, HOOK_BOOK_TEXT)</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>18</td><td>Build Make scenarios 1–13 in order. Work from module maps (item 14) and paste-ready email content (item 15). Do not open Make until items 13–16 are complete.</td><td><span class="flag">TODO</span></td></tr>
+  </table>
+
+</div>
+</body>
+</html>

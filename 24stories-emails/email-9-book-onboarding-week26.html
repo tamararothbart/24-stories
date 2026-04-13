@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Email 9 — Book Onboarding (Week 26 Complete)</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
+  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
+  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  .steps { list-style: none; padding: 0; margin: 0 0 28px 0; }
+  .steps li { font-size: 16px; line-height: 1.9; padding: 14px 0; border-bottom: 1px solid #E0DCD7; color: #222; }
+  .steps li strong { color: #1A1A1A; }
+  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
+  a.gold-link { color: #B8976A; text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>EMAIL 9 — BOOK ONBOARDING (WEEK 26 COMPLETE)</strong><br>
+  Scenario: 8 (End of Subscription) &nbsp;|&nbsp; Trigger: Prompt 26 sent &nbsp;|&nbsp; To: Storyteller only<br>
+  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
+  Make action: Set BookOnboardingEmailSentDate = today. Schedule Scenario 9 reminders (Day 3 and Day 7) if BookFormCompleted = empty.<br><br>
+  Variables in this email:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">LibraryURL</span>
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+
+  <p class="gold">Your Legacy Book</p>
+
+  <p class="h1">Twenty-six chapters complete. Time to compile your book.</p>
+
+  <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
+
+  <p>
+    The final prompt has been sent. Twenty-six chapters of your life are now preserved
+    in your Story Library — and it is time to bring them together in your book.
+  </p>
+
+  <hr class="divider">
+
+  <p class="gold">Here is what happens next</p>
+
+  <ul class="steps">
+    <li><strong>Fill in any missing stories.</strong> Your library holds all 26 prompts. If there are any you have not yet told, open your library and record them now.</li>
+    <li><strong>Add any final photographs and captions not yet uploaded.</strong> Each story has room for one image. Open your library and add any you have not yet uploaded.</li>
+    <li><strong>If you have not yet done so, complete your book details.</strong> Your book already has a title in place — you are welcome to keep it, adjust it, or replace it entirely. If you do not change it, the default title will be used. You may also add a cover photograph, a portrait, and a dedication.</li>
+    <li><strong>Mark your library as complete.</strong> When you are ready, press the Mark as Complete button in your library. Your book goes straight to production and your 8-week delivery window begins from that moment. The book will be printed exactly as it stands — no further stories, photographs, or changes can be added after pressing the Complete button.</li>
+  </ul>
+
+  <p>
+    There is no deadline — but the sooner you press Complete, the sooner your book arrives.
+  </p>
+
+  <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
+
+  <hr class="divider">
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+    With warmth,<br>
+    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+  </p>
+  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
+    Questions? <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
+  </p>
+
+</div>
+</div>
+
+</body>
+</html>

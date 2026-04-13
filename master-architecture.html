@@ -356,9 +356,7 @@
     <tr><td>BookCompiledDate</td><td>Date — Tamara sets when design complete</td></tr>
     <tr><td>BookSentToPrintDate</td><td>Date — Tamara sets when book sent to printer. Triggers Make Scenario 11 → email 12.</td></tr>
     <tr><td>BookProductionStatus</td><td>Formula: "In Design" if BookFormCompleted filled + BookCompiledDate empty; "Ready for Print" if BookCompiledDate filled + BookSentToPrintDate empty; "At Printer" if BookSentToPrintDate filled.</td></tr>
-    <tr><td>PauseStartDate</td><td>Date — Tamara sets when pause begins</td></tr>
-    <tr><td>IsPaused</td><td>Checkbox — Tamara ticks to pause. Make watches: stops prompts when true.</td></tr>
-    <tr><td>IsResumed</td><td>Checkbox — Tamara ticks when subscriber resumes. Make watches: restarts prompt schedule from correct week.</td></tr>
+    <tr><td>PauseStartDate</td><td>Date — Tamara sets when pause begins. Used by Scenario 13 to calculate 12-month expiry.</td></tr>
   </table>
 
   <div class="note">
@@ -368,8 +366,8 @@
     Fields: StorytellerFirstName, BookProductionStatus, BookFormCompleted, BookCompiledDate, BookSentToPrintDate
   </div>
 
-  <div class="warn">
-    <strong>⚠ Pause daily alert — confirm before build:</strong> An alert to stories@24stories.co.za when a subscriber is paused or unpaused (i.e. when Tamara ticks IsPaused or IsResumed) was agreed in session but the trigger conditions and email content are not in any saved memory file. Confirm: (a) is it triggered by field change in Make or by Airtable automation, (b) what should the email say, (c) is it part of Scenario 13 or a new Scenario 14.
+  <div class="locked">
+    <strong>Pause / resume mechanism (locked):</strong> Use the Status field only. To pause: set Status → Paused. To resume: set Status → Active. IsPaused and IsResumed checkboxes removed. Make filter on all prompt scenarios: Status = Active (this also skips Cancelled and Complete automatically). PauseStartDate retained for Scenario 13 expiry calculation.
   </div>
 
   <h3>Table 2 — Stories</h3>
@@ -440,13 +438,13 @@
       <td>4</td>
       <td>Prompt Delivery (weeks 2–26)</td>
       <td>Scheduled daily</td>
-      <td>Loop all Active subscribers. Send email 8 on each subscriber's prompt delivery day. Filter: IsPaused ≠ true. Increment PromptNumber after send. Separate Story Helper send (filter).</td>
+      <td>Loop all Active subscribers. Send email 8 on each subscriber's prompt delivery day. Filter: Status = Active. Increment PromptNumber after send. Separate Story Helper send (filter).</td>
     </tr>
     <tr>
       <td>5</td>
       <td>Day 4 Reminder</td>
       <td>Scheduled daily</td>
-      <td>Send email 5 if no story in Stories table for current week. Storyteller + Story Helper (filter). Skip if IsPaused = true.</td>
+      <td>Send email 5 if no story in Stories table for current week. Storyteller + Story Helper (filter). Filter: Status = Active.</td>
     </tr>
     <tr>
       <td>6</td>
@@ -492,13 +490,9 @@
     </tr>
     <tr>
       <td>13</td>
-      <td>Pause Expiry Reminder + Daily Pause Alert</td>
-      <td>Daily check + field change triggers (see notes)</td>
-      <td>
-        <strong>A — Expiry reminder:</strong> Daily check: IsPaused = true AND approaching 12 months from SubscriptionStartDate → send reminder to subscriber to email hello@ before expiry.<br><br>
-        <strong>B — Pause/unpause status alert:</strong> When Tamara ticks IsPaused → send alert to stories@24stories.co.za: "[Name] has been paused." When Tamara ticks IsResumed → send alert: "[Name] has resumed."<br><br>
-        <span style="color:#c0392b;font-weight:bold;">⚠ Part B trigger mechanism not yet confirmed (field change watch in Make vs Airtable automation). Confirm before build.</span>
-      </td>
+      <td>Pause Expiry Reminder</td>
+      <td>Scheduled daily</td>
+      <td>Daily check: Status = Paused AND (today − PauseStartDate) approaching 12 months from SubscriptionStartDate → send reminder to subscriber to email hello@ to resume before expiry. No other alerts needed.</td>
     </tr>
   </table>
 
@@ -588,12 +582,11 @@
   <h3>Pause</h3>
   <ul>
     <li>One pause allowed. Up to 12 months from subscription start date.</li>
-    <li>Subscriber emails hello@ to request. Tamara sets PauseStartDate, ticks IsPaused. Make stops prompts.</li>
+    <li>Subscriber emails hello@ to request. Tamara sets PauseStartDate in Airtable and changes Status → Paused. Make stops prompts (filter: Status = Active).</li>
     <li>During pause: prompts stop. Library remains accessible.</li>
-    <li>To resume: subscriber emails hello@. Tamara unticks IsPaused, ticks IsResumed. Make restarts from correct week.</li>
-    <li>Email 15 sent by Tamara after processing. Fill [PauseExpiryDate] before sending. Key line: "Your pause is valid until [PauseExpiryDate] — after that point, we will be in touch to check in."</li>
+    <li>To resume: subscriber emails hello@. Tamara changes Status → Active. Make resumes from correct week (PromptNumber unchanged).</li>
+    <li>Email 15 sent by Tamara after processing the pause. Fill [PauseExpiryDate] before sending.</li>
     <li>Scenario 13 sends subscriber an expiry reminder as 12-month limit approaches.</li>
-    <li>Scenario 13 also alerts stories@24stories.co.za when IsPaused or IsResumed is ticked (spec to be confirmed before build).</li>
   </ul>
 
   <h3>Story Corrections</h3>
@@ -625,11 +618,11 @@
     <tr><td>5</td><td>Build library.html</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>6</td><td>Update all emails to v3.1 (numbered 1–16)</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>7</td><td>Add "Resend library link" form to index.html</td><td><span class="flag green">DONE</span></td></tr>
-    <tr><td>8</td><td>Proofread emails 1–16</td><td><span class="flag amber">IN PROGRESS</span> — Tamara's pass. Open /24stories-emails/index.html in browser, work through in order.</td></tr>
+    <tr><td>8</td><td>Proofread emails 1–16</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>9</td><td>Update master-architecture.html to v3.1</td><td><span class="flag green">DONE</span></td></tr>
-    <tr><td>10</td><td>Fix library.html — add "Awaiting edit" story status state (StoryText filled, EditedText empty — currently shows "Not yet recorded" incorrectly)</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>10</td><td>Fix library.html — add "Awaiting edit" story status state</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>11</td><td>Resolve Prompts table field name: <code>Week</code> locked. library.html already uses <code>Week</code>. No changes needed.</td><td><span class="flag green">DONE</span></td></tr>
-    <tr><td>12</td><td>Confirm Scenario 13 Part B spec: pause/unpause alert to stories@ — (a) trigger: Make field-change watch or Airtable automation? (b) email content? (c) part of Scenario 13 or new Scenario 14?</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>12</td><td>Confirm pause/resume mechanism. Locked: Status field only (Active/Paused). IsPaused + IsResumed removed. Scenario 13 = expiry reminder only.</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>13</td><td>Reset Airtable to final v3.1 schema (4 tables, exact field names as in Section 7)<br>— Add BookProductionStatus formula field (Subscribers)<br>— Add SubscriberRecordID formula field (Stories)<br>— Build "Books in Production" view (Subscribers)</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>14</td><td>Produce locked Airtable field name reference document + Make scenario module maps for all 13 scenarios — reference guide used during Make build to avoid badge remapping errors</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>15</td><td>Prepare Make-ready email content: subject lines + HTML with Make variable syntax for all 16 emails. Paste-ready for Mailjet modules. Batch in one pass before opening Make.</td><td><span class="flag">TODO</span></td></tr>

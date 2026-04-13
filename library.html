@@ -141,9 +141,10 @@
             transition: transform 0.15s ease;
         }
 
-        .progress-dot.st-empty  { background: var(--white); border: 1.5px solid var(--border); color: #bbb; }
-        .progress-dot.st-story  { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
-        .progress-dot.st-full   { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
+        .progress-dot.st-empty    { background: var(--white); border: 1.5px solid var(--border); color: #bbb; }
+        .progress-dot.st-awaiting { background: var(--white); border: 1.5px dashed var(--gold); color: var(--gold); }
+        .progress-dot.st-story    { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
+        .progress-dot.st-full     { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
         .progress-dot:hover { transform: scale(1.15); }
 
         .progress-summary {
@@ -208,9 +209,10 @@
             white-space: nowrap;
         }
 
-        .status-pill.st-empty  { background: #f2f1ef; color: #aaa; }
-        .status-pill.st-story  { background: #fff8ee; color: var(--gold); }
-        .status-pill.st-full   { background: #eef4f0; color: var(--green); }
+        .status-pill.st-empty    { background: #f2f1ef; color: #aaa; }
+        .status-pill.st-awaiting { background: #fff8ee; color: var(--gold); font-style: italic; }
+        .status-pill.st-story    { background: #fff8ee; color: var(--gold); }
+        .status-pill.st-full     { background: #eef4f0; color: var(--green); }
 
         .card-chevron {
             color: #ccc;
@@ -844,7 +846,9 @@
         }
 
         function getStatus(story) {
-            if (!story || !story.EditedText) return 'empty';
+            if (!story) return 'empty';
+            if (!story.EditedText && story.StoryText) return 'awaiting';
+            if (!story.EditedText) return 'empty';
             if (story.StoryImageURL) return 'full';
             return 'story';
         }
@@ -855,7 +859,7 @@
             var told = 0, withPhoto = 0;
             for (var w = 1; w <= 26; w++) {
                 var st = getStatus(byWeek[w]);
-                if (st === 'story' || st === 'full') told++;
+                if (st === 'awaiting' || st === 'story' || st === 'full') told++;
                 if (st === 'full') withPhoto++;
                 var a = document.createElement('a');
                 a.href        = '#week-' + w;
@@ -880,7 +884,7 @@
 
         function buildCard(week, story, prompt) {
             var status = getStatus(story);
-            var labels = { empty: 'Not yet recorded', story: 'Story complete \u00B7 photo missing', full: 'Story complete \u00B7 photo added' };
+            var labels = { empty: 'Not yet recorded', awaiting: 'Being edited', story: 'Story complete \u00B7 photo missing', full: 'Story complete \u00B7 photo added' };
 
             var card = document.createElement('div');
             card.className = 'story-card';
@@ -937,6 +941,10 @@
                 var url = buildTellUrl(week, prompt);
                 div.innerHTML = '<a href="' + url + '" class="btn-record-story">Record this story</a>';
                 div.style.paddingBottom = '4px';
+            } else if (status === 'awaiting') {
+                div.innerHTML =
+                    '<p class="edited-label" style="color:var(--gold);">Being edited</p>' +
+                    '<p style="font-size:0.95rem;color:#777;line-height:1.7;font-style:italic;">Your story has been received and is being edited. It will appear here once it is ready.</p>';
             } else {
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +

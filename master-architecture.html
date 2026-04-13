@@ -300,9 +300,6 @@
     <li><strong>Writes:</strong> Cloudinary → Make webhooks (4 separate hooks). No direct Airtable writes from browser.</li>
   </ul>
 
-  <div class="warn">
-    <strong>⚠ Prompts table field name discrepancy:</strong> library.html sorts Prompts by field name <code>Week</code>. The architecture spec names this field <code>PromptNumber</code>. When resetting Airtable, use <code>Week</code> as the field name in the Prompts table, OR update library.html to use <code>PromptNumber</code>. Decide before Airtable reset. Currently both the sort field and the mock data in library.html use <code>Week</code>.
-  </div>
 
   <!-- ==================== SECTION 6 ==================== -->
   <h2 id="s6">6. tell.html — URL Parameter Structure <span class="section-id">S6</span></h2>
@@ -329,7 +326,7 @@
   <h2 id="s7">7. Airtable Schema <span class="section-id">S7</span></h2>
 
   <div class="note">
-    Base name: "52stories" (old name — correct base). 4 tables. Field names below are locked — use exactly as written when building Make modules. <strong>Exception: Prompts table — resolve Week vs PromptNumber before reset (see Section 5 note).</strong>
+    Base name: "52stories" (old name — correct base). 4 tables. Field names below are locked — use exactly as written when building Make modules.
   </div>
 
   <h3>Table 1 — Subscribers</h3>
@@ -394,7 +391,7 @@
   <h3>Table 3 — Prompts</h3>
   <table>
     <tr><th>Field</th><th>Type / Notes</th></tr>
-    <tr><td>Week <em>(or PromptNumber — see note)</em></td><td>Number (1–26). library.html currently uses <code>Week</code> as the sort field name. Resolve before Airtable reset.</td></tr>
+    <tr><td>Week</td><td>Number (1–26). <strong>Locked field name.</strong> library.html sorts by <code>Week</code>. Do not rename to PromptNumber.</td></tr>
     <tr><td>WeekName</td><td>Text — overarching idea (e.g. "Youthful Imaginings")</td></tr>
     <tr><td>Theme</td><td>Text — keyword (e.g. "Beginnings")</td></tr>
     <tr><td>PromptText</td><td>Long text — "Prepare a five-minute story about [subject]."</td></tr>
@@ -631,7 +628,7 @@
     <tr><td>8</td><td>Proofread emails 1–16</td><td><span class="flag amber">IN PROGRESS</span> — Tamara's pass. Open /24stories-emails/index.html in browser, work through in order.</td></tr>
     <tr><td>9</td><td>Update master-architecture.html to v3.1</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>10</td><td>Fix library.html — add "Awaiting edit" story status state (StoryText filled, EditedText empty — currently shows "Not yet recorded" incorrectly)</td><td><span class="flag">TODO</span></td></tr>
-    <tr><td>11</td><td>Resolve Prompts table field name: <code>Week</code> vs <code>PromptNumber</code> — update library.html sort field or rename in Airtable. Must be consistent before reset.</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>11</td><td>Resolve Prompts table field name: <code>Week</code> locked. library.html already uses <code>Week</code>. No changes needed.</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>12</td><td>Confirm Scenario 13 Part B spec: pause/unpause alert to stories@ — (a) trigger: Make field-change watch or Airtable automation? (b) email content? (c) part of Scenario 13 or new Scenario 14?</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>13</td><td>Reset Airtable to final v3.1 schema (4 tables, exact field names as in Section 7)<br>— Add BookProductionStatus formula field (Subscribers)<br>— Add SubscriberRecordID formula field (Stories)<br>— Build "Books in Production" view (Subscribers)</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>14</td><td>Produce locked Airtable field name reference document + Make scenario module maps for all 13 scenarios — reference guide used during Make build to avoid badge remapping errors</td><td><span class="flag">TODO</span></td></tr>

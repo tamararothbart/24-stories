@@ -316,13 +316,13 @@
       Each extra copies transaction creates one Payments record. Quantity = <code>Amount ÷ 1200</code>. No ExtraCopiesOrdered field needed.
     </div>
 
-    <h3>Flag 12C — Intermediate step (library → Make → PayFast link → subscriber pays)</h3>
-    <p class="flag-text">The library needs to initiate the extra copies order. Make then needs to get a PayFast payment link to the subscriber. Dynamic PayFast link generation in Make is complex.</p>
+    <h3>Flag 12C — Intermediate step (library → PayFast → subscriber pays)</h3>
+    <p class="flag-text">The library needs to initiate the extra copies order and get the subscriber to PayFast without Make having to generate a payment link dynamically.</p>
     <div class="resolved">
-      <strong>Decision: Manual intermediate step at launch.</strong><br>
-      Library "Order extra copies" button fires a webhook to Make (separate from the 4 library webhooks — see Section 2). Make sends a notification email to Tamara: "Subscriber X has requested N extra copies (R[N×1200]). Please send them a PayFast payment link." Tamara sends the link manually. Subscriber pays → IPN → Scenario 12 → email-14. Fully automating the link generation can be added later without touching any other scenario.
+      <strong>Decision: extras.html — dedicated order page. Fully automated. No Make intermediate step needed.</strong><br>
+      extras.html is a standalone page that takes <code>?id={{LibraryToken}}</code>, looks up the subscriber from Airtable, shows a quantity selector (1–5 copies at R1,200 each), and submits directly to PayFast with a signed form. PayFast fires IPN to Scenario 12 → Payments record created → email-14 sent. Library "Order extra copies" button simply links to <code>extras.html?id={{LibraryToken}}</code>. No webhook, no Make intermediate, fully automated end to end.
     </div>
-    <div class="warn"><strong>Library webhook gap:</strong> The extra copies request webhook is a 5th library webhook not listed in the original library_config_checklist. Build it when building Scenario 12. Add the URL to library.html at that point.</div>
+    <div class="note"><strong>Placeholders in extras.html to fill at go-live:</strong> PAYFAST_MERCHANT_ID, PAYFAST_MERCHANT_KEY, YOUR_SCENARIO_12_WEBHOOK_URL. Same moment as wiring up all other PayFast and Make URLs.</div>
   </div>
 
 
@@ -353,13 +353,13 @@
       <li><span>Library webhook B — Story caption:</span> Webhook receives { subscriberId, week, caption } → updates Stories.StoryImageCaption. 3 modules.</li>
       <li><span>Library webhook C — Book photo:</span> Webhook receives { subscriberId, fieldType, photoUrl } → if fieldType = "portrait", updates Subscribers.PortraitPhotoURL; if "cover", updates Subscribers.CoverPhotoURL. 3–4 modules with router.</li>
       <li><span>Library webhook D — Book text:</span> Webhook receives { subscriberId, fieldType, value } → routes to correct Subscribers field: DedicationText / DeliveryAddress / BookTitle / BookFormCompleted (when fieldType = "bookComplete", sets BookFormCompleted = today). 4–5 modules with router.</li>
-      <li><span>Library webhook E — Extra copies request:</span> Webhook receives { subscriberId, quantity } → emails Tamara at hello@24stories.co.za with subscriber name and amount. 3 modules. (Tamara then sends PayFast link manually.)</li>
+      <li><span>Library → Extra copies:</span> No Make webhook needed. Library links directly to extras.html?id={{LibraryToken}}. extras.html handles the PayFast form submission directly. Scenario 12 receives the IPN.</li>
       <li><span>Manual prompt scenario — "Send Next Prompt":</span> Webhook receives { subscriberId } → looks up subscriber → fetches Prompts record where Week = PromptNumber + 1 → sends email-8 → increments PromptNumber → sets LastPromptSentDate. 6 modules. Tamara fires manually for accelerated testers.</li>
     </ul>
   </div>
 
   <div class="note" style="margin-top:16px;">
-    <strong>Total Make scenarios to build: 20</strong> (13 main + Stage 1 pre-payment + 5 library webhooks + 1 manual prompt). Library webhooks A–D are all simple — webhook → Airtable update. Allow 2–3 hours for all 20.
+    <strong>Total Make scenarios to build: 19</strong> (13 main + Stage 1 pre-payment + 4 library webhooks + 1 manual prompt). Library webhooks A–D are all simple — webhook → Airtable update. extras.html handles extra copies directly — no 5th library webhook needed. Allow 2–3 hours for all 19.
   </div>
 
   <div class="note" style="margin-top:10px;">

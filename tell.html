@@ -70,9 +70,10 @@
 
         .prepare-note {
             font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-style: italic;
-            color: #555;
+            font-size: 1.2rem;
+            font-style: normal;
+            font-weight: 500;
+            color: var(--charcoal);
             line-height: 1.6;
             margin-bottom: 28px;
         }
@@ -501,12 +502,19 @@
         <div class="before-begin">
             <button class="before-begin-toggle" id="beforeBeginToggle"><span>Please read <strong>this</strong> before you begin</span><span class="before-begin-arrow" id="beforeBeginIcon">+</span></button>
             <div class="before-begin-content" id="beforeBeginContent" style="display:none;">
+                <p style="font-size:0.72rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin:0 0 4px 0;">If recording</p>
                 <ul>
-                    <li>Give yourself a day or two to let the memory surface. Your link is always active — come back when you're ready.</li>
-                    <li>Choose to type or record your story using the tabs below.</li>
-                    <li>If recording: tap the button to start, speak freely, then tap again to stop. After you stop, your recording is transcribed automatically — this takes about 15 seconds.</li>
-                    <li>If typing: write freely, then press "Clean up my story" before sending.</li>
-                    <li>You can always start over using the link below the text.</li>
+                    <li>Tap the button to start. Speak freely and take your time. Tap again to stop.</li>
+                    <li>Your story will be transcribed automatically — this takes about 15 seconds. Wait for the text to appear.</li>
+                    <li>Press "Clean up my story" and wait for the cleaned version to come through.</li>
+                    <li>Read it through. You can type any changes directly in the box. Or press "Start over and record again" to record a new version.</li>
+                    <li>When you're happy, press Send.</li>
+                </ul>
+                <p style="font-size:0.72rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#888; margin:16px 0 4px 0;">If typing</p>
+                <ul>
+                    <li>Type your story freely.</li>
+                    <li>Press "Clean up my story" and wait for the cleaned version to come through.</li>
+                    <li>Read it through. You can type any changes in the box. Then press Send.</li>
                 </ul>
             </div>
         </div>
@@ -562,13 +570,14 @@
             <div class="speak-state" id="speakProcessing" style="display:none;">
                 <div class="spinner"></div>
                 <p class="speak-title">Transcribing your story...</p>
-                <p class="speak-sub">This takes about 15 seconds. Please wait.</p>
+                <p class="speak-sub">About <span id="speakCountdown">15</span> seconds — your cleaned text will appear below.<br>Please do not press Send until it does.</p>
             </div>
 
             <!-- Result -->
             <div id="speakResult" style="display:none;">
-                <p class="result-label">Your story — edit if needed</p>
+                <p class="result-label" id="speakResultLabel">Your transcription — press Clean up before sending</p>
                 <textarea class="transcript-box" id="audioStoryText" rows="10"></textarea>
+                <button class="btn-cleanup" id="btnCleanupSpeak" style="display:none;">Clean up my story</button>
                 <button class="btn-rerecord" id="btnReRecord">Start over and record again</button>
             </div>
 
@@ -707,27 +716,83 @@
             autosaveTimer = setTimeout(saveDraft, 1500);
         });
 
+        // Shared streaming cleanup helper.
+        // Calls /.netlify/functions/cleanup with { text }, reads SSE stream,
+        // appends each token to targetEl.value as it arrives.
+        // onComplete() fires when stream ends. onError() fires on fetch or API failure
+        // — caller is responsible for any fallback display.
+        function streamCleanup(text, targetEl, onComplete, onError) {
+            fetch('/.netlify/functions/cleanup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: text })
+            })
+            .then(function(res) {
+                if (!res.ok) throw new Error('Cleanup failed (' + res.status + ')');
+                var reader = res.body.getReader();
+                var decoder = new TextDecoder();
+                var buffer = '';
+
+                function readChunk() {
+                    return reader.read().then(function(result) {
+                        if (result.done) {
+                            onComplete && onComplete();
+                            return;
+                        }
+
+                        buffer += decoder.decode(result.value, { stream: true });
+                        var lines = buffer.split('\n');
+                        buffer = lines.pop(); // keep incomplete line
+
+                        for (var i = 0; i < lines.length; i++) {
+                            var line = lines[i].trim();
+                            if (!line.startsWith('data: ')) continue;
+                            var data = line.slice(6);
+                            if (data === '[DONE]') {
+                                onComplete && onComplete();
+                                return;
+                            }
+                            try {
+                                var parsed = JSON.parse(data);
+                                if (parsed.token) {
+                                    targetEl.value += parsed.token;
+                                }
+                            } catch(e) {
+                                // skip malformed events
+                            }
+                        }
+
+                        return readChunk();
+                    });
+                }
+
+                return readChunk();
+            })
+            .catch(function() {
+                onError && onError();
+            });
+        }
+
         document.getElementById('btnCleanup').addEventListener('click', function() {
             var story = storyText.value.trim();
             if (!story) return;
             var btn = this;
             btn.disabled = true;
             btn.textContent = 'Cleaning up...';
-            fetch('/.netlify/functions/cleanup', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ text: story })
-            })
-            .then(function(res) { return res.json(); })
-            .then(function(data) {
-                if (data.cleaned) { storyText.value = data.cleaned; updateWordCount(); }
-                btn.disabled = false;
-                btn.textContent = 'Clean up my story';
-            })
-            .catch(function() {
-                btn.disabled = false;
-                btn.textContent = 'Clean up my story';
-            });
+            storyText.value = '';
+            streamCleanup(story, storyText,
+                function onComplete() {
+                    btn.disabled = false;
+                    btn.textContent = 'Clean up my story';
+                    updateWordCount();
+                },
+                function onError() {
+                    storyText.value = story; // restore original on failure
+                    btn.disabled = false;
+                    btn.textContent = 'Clean up my story';
+                    updateWordCount();
+                }
+            );
         });
 
         // ---- SPEAK MODE ----
@@ -774,7 +839,20 @@
                 mediaRecorder.onstop = function() {
                     stream.getTracks().forEach(function(t) { t.stop(); });
                     clearInterval(timerInterval);
+                    document.getElementById('btnSubmit').disabled = true;
                     showSpeakState('speakProcessing');
+
+                    // Countdown from 15 during transcription
+                    var countdownVal = 15;
+                    document.getElementById('speakCountdown').textContent = countdownVal;
+                    var countdownInterval = setInterval(function() {
+                        countdownVal--;
+                        if (countdownVal <= 0) {
+                            clearInterval(countdownInterval);
+                            countdownVal = 0;
+                        }
+                        document.getElementById('speakCountdown').textContent = countdownVal;
+                    }, 1000);
 
                     var blob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
                     var ext  = (mediaRecorder.mimeType || '').includes('mp4') ? 'mp4' : 'webm';
@@ -805,10 +883,19 @@
                         });
                     })
                     .then(function(data) {
-                        document.getElementById('audioStoryText').value = data.cleaned || '';
+                        clearInterval(countdownInterval);
+                        var rawTranscript = data.transcript || '';
+                        document.getElementById('audioStoryText').value = rawTranscript;
+                        document.getElementById('speakResultLabel').textContent = 'Your transcription — press Clean up before sending';
+                        document.getElementById('btnCleanupSpeak').style.display = 'block';
+                        document.getElementById('btnCleanupSpeak').disabled = false;
+                        document.getElementById('btnCleanupSpeak').textContent = 'Clean up my story';
+                        document.getElementById('btnSubmit').disabled = false;
                         showSpeakState('speakResult');
                     })
                     .catch(function(err) {
+                        clearInterval(countdownInterval);
+                        document.getElementById('btnSubmit').disabled = false;
                         showSpeakState('speakIdle');
                         var msg = 'Something went wrong: ' + (err && err.message ? err.message : 'unknown error') + '. Please try again or switch to typing.';
                         document.getElementById('errorMsg').textContent = msg;
@@ -842,8 +929,34 @@
             audioURL  = '';
             audioChunks = [];
             document.getElementById('audioStoryText').value = '';
+            document.getElementById('btnCleanupSpeak').style.display = 'none';
             document.getElementById('errorMsg').classList.remove('visible');
             showSpeakState('speakIdle');
+        });
+
+        document.getElementById('btnCleanupSpeak').addEventListener('click', function() {
+            var story = document.getElementById('audioStoryText').value.trim();
+            if (!story) return;
+            var btn = this;
+            btn.disabled = true;
+            btn.textContent = 'Cleaning up...';
+            document.getElementById('btnSubmit').disabled = true;
+            document.getElementById('audioStoryText').value = '';
+            document.getElementById('speakResultLabel').textContent = 'Cleaning up your story...';
+            streamCleanup(story, document.getElementById('audioStoryText'),
+                function onComplete() {
+                    document.getElementById('speakResultLabel').textContent = 'Your story — read it through and make any changes before pressing Send';
+                    btn.style.display = 'none';
+                    document.getElementById('btnSubmit').disabled = false;
+                },
+                function onError() {
+                    document.getElementById('audioStoryText').value = story;
+                    document.getElementById('speakResultLabel').textContent = 'Your transcription — press Clean up before sending';
+                    btn.disabled = false;
+                    btn.textContent = 'Clean up my story';
+                    document.getElementById('btnSubmit').disabled = false;
+                }
+            );
         });
 
         // ---- PHOTO UPLOAD ----

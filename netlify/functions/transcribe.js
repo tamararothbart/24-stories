@@ -1,5 +1,4 @@
 const https = require('https');
-const { URL } = require('url');
 
 function whisperUpload(audioBuffer, filename, mimeType, apiKey) {
     return new Promise(function(resolve, reject) {
@@ -68,7 +67,7 @@ exports.handler = async function(event) {
 
     console.log('Step 1: audioUrl:', audioUrl);
 
-    // Fetch audio from Cloudinary using fetch (handles redirects)
+    // Fetch audio from Cloudinary
     var audioBuffer;
     try {
         var audioRes = await fetch(audioUrl);
@@ -84,11 +83,11 @@ exports.handler = async function(event) {
     var ext      = audioUrl.includes('.mp4') ? 'mp4' : 'webm';
     var mimeType = ext === 'mp4' ? 'audio/mp4' : 'audio/webm';
 
-    // Send to Whisper
+    // Send to Whisper — return raw transcript only
     var whisperResult;
     try {
         whisperResult = await whisperUpload(audioBuffer, 'story.' + ext, mimeType, process.env.OPENAI_API_KEY);
-        console.log('Step 3: Whisper status:', whisperResult.status, 'response:', JSON.stringify(whisperResult.data));
+        console.log('Step 3: Whisper status:', whisperResult.status, 'text length:', whisperResult.data.text ? whisperResult.data.text.length : 0);
     } catch(e) {
         console.error('Step 3 FAILED:', e.message);
         return { statusCode: 500, body: JSON.stringify({ error: 'Whisper request failed: ' + e.message }) };
@@ -98,41 +97,9 @@ exports.handler = async function(event) {
         return { statusCode: 500, body: JSON.stringify({ error: 'Whisper error: ' + JSON.stringify(whisperResult.data) }) };
     }
 
-    var transcript = whisperResult.data.text;
-    console.log('Step 4: transcript:', transcript.substring(0, 100));
-
-    // Clean with Claude
-    try {
-        var claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': process.env.ANTHROPIC_API_KEY,
-                'anthropic-version': '2023-06-01'
-            },
-            body: JSON.stringify({
-                model: 'claude-haiku-4-5-20251001',
-                max_tokens: 2048,
-                messages: [{
-                    role: 'user',
-                    content: 'You are a precise copy editor. Clean up the following spoken story transcript by fixing mechanical errors only — do not change the speaker\'s words, voice, sentence structure, or meaning in any way. Fix the following: correct obvious speech-to-text errors and spelling mistakes; fix apostrophes (its/it\'s, they\'re/their/there, we\'re/were, you\'re/your, who\'s/whose, etc.); fix possessives; add quotation marks around direct speech where clearly intended; correct capitalisation at sentence starts and for proper nouns; fix punctuation (commas, full stops, question marks); remove filler words (um, uh, like, you know, sort of); break into paragraphs where there is a natural pause or topic shift. Do not rewrite sentences. Do not add words. Do not embellish. Do not use markdown formatting — no hashtags, asterisks, or bullet points. Always return the cleaned text no matter how short. Return only the cleaned text, nothing else.\n\n' + transcript
-                }]
-            })
-        });
-        var claudeData = await claudeRes.json();
-        var cleaned = claudeData.content && claudeData.content[0] && claudeData.content[0].text;
-        console.log('Step 5: cleaned text length:', cleaned ? cleaned.length : 0);
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cleaned: cleaned || transcript })
-        };
-    } catch(e) {
-        console.error('Step 5 FAILED:', e.message);
-        return {
-            statusCode: 200,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cleaned: transcript })
-        };
-    }
+    return {
+        statusCode: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ transcript: whisperResult.data.text })
+    };
 };

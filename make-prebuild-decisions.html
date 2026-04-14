@@ -319,10 +319,10 @@
     <h3>Flag 12C — Intermediate step (library → PayFast → subscriber pays)</h3>
     <p class="flag-text">The library needs to initiate the extra copies order and get the subscriber to PayFast without Make having to generate a payment link dynamically.</p>
     <div class="resolved">
-      <strong>Decision: extras.html — dedicated order page. Fully automated. No Make intermediate step needed.</strong><br>
-      extras.html is a standalone page that takes <code>?id={{LibraryToken}}</code>, looks up the subscriber from Airtable, shows a quantity selector (1–5 copies at R1,200 each), and submits directly to PayFast with a signed form. PayFast fires IPN to Scenario 12 → Payments record created → email-14 sent. Library "Order extra copies" button simply links to <code>extras.html?id={{LibraryToken}}</code>. No webhook, no Make intermediate, fully automated end to end.
+      <strong>Decision: PayFast form built and submitted directly inside library.html. No intermediate page.</strong><br>
+      The library already has a complete extra copies UI — quantity input (1–99), live pricing (1–9 copies R1,200 each / 10+ R1,000 each), total display, and a "Request a payment link" button. That button now builds and submits a signed PayFast form directly. Subscriber clicks, goes to PayFast, pays, returns to library. PayFast fires IPN to Scenario 12 → Payments record → email-14. Nothing leaves the library. No intermediate page.
     </div>
-    <div class="note"><strong>Placeholders in extras.html to fill at go-live:</strong> PAYFAST_MERCHANT_ID, PAYFAST_MERCHANT_KEY, YOUR_SCENARIO_12_WEBHOOK_URL. Same moment as wiring up all other PayFast and Make URLs.</div>
+    <div class="note"><strong>Placeholders in library.html to fill at go-live:</strong> PAYFAST_MERCHANT_ID, PAYFAST_MERCHANT_KEY, PAYFAST_PASSPHRASE (if set), PAYFAST_NOTIFY_URL (Scenario 12 webhook). Already adjacent to the other Make webhook placeholders in the config block.</div>
   </div>
 
 

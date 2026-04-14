@@ -5,4 +5,4 @@
   timeout = 26
 
 [functions.cleanup]
-  timeout = 15
+  timeout = 26

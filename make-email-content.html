@@ -51,7 +51,8 @@
     <strong>How to use this page.</strong> For each email: (1) click the Subject field → Cmd+A → Cmd+C → paste into Mailjet subject field. (2) Click the HTML field → Cmd+A → Cmd+C → paste into Mailjet HTML content field. Or use the Copy buttons.<br><br>
     <strong>Make variable syntax:</strong> <code>{{StorytellerFirstName}}</code> — Make substitutes these before sending to Mailjet. When building in Make, the exact prefix (e.g. <code>3.</code>) depends on which module the data comes from. Map using Make's field-picker where possible; type the variable name if you know the field.<br><br>
     <strong>Library URL:</strong> construct in Make as <code>https://24stories.co.za/library.html?id={{LibraryToken}}</code><br>
-    <strong>tell.html link:</strong> construct in Make as <code>https://24stories.co.za/tell.html?id={{LibraryToken}}&amp;week={{PromptNumber}}&amp;weekname={{replace(WeekName;" ";"+")}}&amp;theme={{replace(Theme;" ";"+")}}&amp;prompt={{replace(PromptText;" ";"+")}}&amp;angles={{replace(OtherAngles;" ";"+")}} </code><br><br>
+    <strong>tell.html link:</strong> construct in Make as <code>https://24stories.co.za/tell.html?id={{LibraryToken}}&amp;week={{Prompts.Week}}&amp;weekname={{replace(WeekName;" ";"+")}}&amp;theme={{replace(Theme;" ";"+")}}&amp;prompt={{replace(PromptText;" ";"+")}}&amp;angles={{replace(OtherAngles;" ";"+")}} </code><br>
+    <strong>Important — week parameter:</strong> use <code>{{Prompts.Week}}</code> (the Week field from the Prompts record lookup), NOT <code>{{PromptNumber}}</code> from the Subscriber. At email send time in Scenarios 3 and 4, PromptNumber has not yet been incremented — using it would pass the previous week number. The Prompts record already contains the correct week.<br><br>
     <strong>Emails 13, 15, 16</strong> are manual templates — never automated. Fill [bracketed] fields before sending from hello@24stories.co.za.
   </div>
 
@@ -368,9 +369,13 @@
         <textarea class="html-field" id="html-14" rows="12" readonly onclick="this.select()"></textarea>
       </div>
       <div class="note">
-        <strong>Conditional — copy vs copies:</strong> In Make formula builder where [copy/copies] appears:<br>
-        <code>{{if(Quantity = 1; "copy"; "copies")}}</code><br>
-        <strong>Variables from PayFast IPN:</strong> Quantity and TotalAmount need to be passed via PayFast custom_str fields or calculated from amount_gross ÷ 1200.
+        <strong>Variable sources in this email — all come from the Scenario 12 PayFast IPN webhook module:</strong><br>
+        <code>{{custom_str2}}</code> = quantity ordered (passed by library.html in the PayFast form)<br>
+        <code>{{amount_gross}}</code> = total amount paid (sent by PayFast in the IPN)<br>
+        <code>{{StorytellerFirstName}}</code> = looked up from Subscribers via custom_str1 (LibraryToken)<br><br>
+        <strong>Conditional — copy vs copies:</strong><br>
+        <code>{{if(custom_str2 = 1; "copy"; "copies")}}</code><br><br>
+        <strong>In Make:</strong> reference webhook output fields by their module number prefix, e.g. <code>{{1.custom_str2}}</code> and <code>{{1.amount_gross}}</code> where 1 is the webhook module number.
       </div>
     </div>
   </div>
@@ -1190,16 +1195,16 @@
 
 <p class="h1">Your extra copies are confirmed.</p>
 
-<p>Hello <strong>{{RecipientFirstName}}</strong>,</p>
+<p>Hello <strong>{{StorytellerFirstName}}</strong>,</p>
 
-<!-- copy vs copies conditional: {{if(Quantity = 1; "copy"; "copies")}} -->
-<p>Thank you — your payment of <strong>R{{TotalAmount}}</strong> has been received. <strong>{{Quantity}}</strong> additional {{if(Quantity = 1; "copy"; "copies")}} of <strong>{{StorytellerFirstName}}</strong>'s Legacy Book will be printed and delivered alongside the main order.</p>
+<!-- copy vs copies conditional: {{if(custom_str2 = 1; "copy"; "copies")}} -->
+<p>Thank you — your payment of <strong>R{{amount_gross}}</strong> has been received. <strong>{{custom_str2}}</strong> additional {{if(custom_str2 = 1; "copy"; "copies")}} of <strong>{{StorytellerFirstName}}</strong>'s Legacy Book will be printed and delivered alongside the main order.</p>
 
 <div class="detail-box">
   <p class="box-label">Order summary</p>
   <p style="font-size:16px;color:#333;margin:0 0 10px 0;line-height:1.9;">Storyteller: <strong>{{StorytellerFirstName}}</strong></p>
-  <p style="font-size:16px;color:#333;margin:0 0 10px 0;line-height:1.9;">Extra copies: <strong>{{Quantity}}</strong></p>
-  <p style="font-size:16px;color:#333;margin:0 0 10px 0;line-height:1.9;">Amount paid: <strong>R{{TotalAmount}}</strong></p>
+  <p style="font-size:16px;color:#333;margin:0 0 10px 0;line-height:1.9;">Extra copies: <strong>{{custom_str2}}</strong></p>
+  <p style="font-size:16px;color:#333;margin:0 0 10px 0;line-height:1.9;">Amount paid: <strong>R{{amount_gross}}</strong></p>
   <p style="font-size:16px;color:#333;margin:0;line-height:1.9;">Delivery: included — dispatched with the main book order</p>
 </div>
 

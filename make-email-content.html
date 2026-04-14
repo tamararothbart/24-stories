@@ -246,7 +246,7 @@
     <div class="email-body">
       <div class="field-row">
         <div class="field-label">Subject line <button class="copy-btn" onclick="copyField('subj-8',this)">Copy</button></div>
-        <input class="subject-field" id="subj-8" type="text" readonly value="Week {{PromptNumber}} — {{WeekName}} — your prompt is ready" onclick="this.select()">
+        <input class="subject-field" id="subj-8" type="text" readonly value="Week {{Prompts.Week}} — {{WeekName}} — your prompt is ready" onclick="this.select()">
       </div>
       <div class="field-row">
         <div class="field-label">HTML content <button class="copy-btn" onclick="copyField('html-8',this)">Copy</button></div>
@@ -676,7 +676,7 @@
   <p class="alt">{{OtherAngles}}</p>
 </div>
 
-<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{PromptNumber}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
+<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{Prompts.Week}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
 <a href="TELL_HTML_LINK_HERE" class="cta">Tell your story &#8594;</a>
 
 <div class="how-it-works">
@@ -756,7 +756,7 @@
   <p class="alt">{{OtherAngles}}</p>
 </div>
 
-<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{PromptNumber}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
+<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{Prompts.Week}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
 <a href="TELL_HTML_LINK_HERE" class="cta">Tell your story &#8594;</a>
 
 <hr class="divider">
@@ -911,7 +911,7 @@
 
 <p>Hello <strong>{{StorytellerFirstName}}</strong>, your story is ready to be told. Here is this week's prompt — when you are ready, the button below takes you straight to your recording page:</p>
 
-<p class="week-label">Week {{PromptNumber}} — {{WeekName}}</p>
+<p class="week-label">Week {{Prompts.Week}} — {{WeekName}}</p>
 
 <p class="alt-label" style="margin:4px 0 6px 0;">Theme</p>
 <p style="font-size:16px;color:#333;font-style:italic;line-height:1.7;margin:0 0 16px 0;">{{Theme}}</p>
@@ -925,12 +925,12 @@
 
 <p style="margin-top:28px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
 
-<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{PromptNumber}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
+<!-- tell.html link — construct in Make: https://24stories.co.za/tell.html?id={{LibraryToken}}&week={{Prompts.Week}}&weekname={{replace(WeekName;" ";"+")}}&theme={{replace(Theme;" ";"+")}}&prompt={{replace(PromptText;" ";"+")}}&angles={{replace(OtherAngles;" ";"+")}} -->
 <a href="TELL_HTML_LINK_HERE" class="cta">Tell Your Story</a>
 
 <p style="font-size:15px;color:#333;font-style:italic;line-height:1.8;margin:0 0 28px 0;">Each story gives you the option to add a photograph and caption at the time of recording. If you are not ready to do so, you can return to your Story Library at any time to add it. <a href="https://24stories.co.za/library.html?id={{LibraryToken}}" style="color:#B8976A;text-decoration:underline;">Open your library &#8594;</a></p>
 
-<p style="font-size:16px;font-style:italic;color:#5C4A30;line-height:1.9;margin:0 0 32px 0;">Chapter {{PromptNumber}} of 26 — your Legacy Book is taking shape.</p>
+<p style="font-size:16px;font-style:italic;color:#5C4A30;line-height:1.9;margin:0 0 32px 0;">Chapter {{Prompts.Week}} of 26 — your Legacy Book is taking shape.</p>
 
 <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
   <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px 0;">Your Story Library</p>

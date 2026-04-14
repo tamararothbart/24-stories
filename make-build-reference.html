@@ -428,8 +428,8 @@
 
     <div class="flag">
       <strong>tell.html link format (in email-4 and email-8):</strong><br>
-      <code>https://24stories.co.za/tell.html?id={{LibraryToken}}&amp;week={{PromptNumber}}&amp;weekname={{WeekName}}&amp;theme={{Theme}}&amp;prompt={{PromptText}}&amp;angles={{OtherAngles}}</code><br>
-      Use + for spaces in URL params. Make's URL-encode function handles this.
+      <code>https://24stories.co.za/tell.html?id={{LibraryToken}}&amp;week={{Prompts.Week}}&amp;weekname={{replace(WeekName;" ";"+")}}&amp;theme={{replace(Theme;" ";"+")}}&amp;prompt={{replace(PromptText;" ";"+")}}&amp;angles={{replace(OtherAngles;" ";"+")}} </code><br>
+      Use {{Prompts.Week}} (not {{PromptNumber}}) — PromptNumber is incremented AFTER emails 4 and 8 are sent. Use {{replace(field;" ";"+")}}) to encode spaces.
     </div>
     <div class="flag">
       <strong>Timing:</strong> Sending Week 1 prompt immediately on signup is recommended — it is a welcome-plus-first-prompt email (email-4 is distinct from the regular prompt email-8). No delay needed.

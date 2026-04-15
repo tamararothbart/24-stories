@@ -127,6 +127,28 @@
     </div>
 </div>
 
+<!-- SCENARIO 2 -->
+<div class="scenario">
+    <div class="scenario-header">
+        <span class="scenario-number">Scenario 2</span>
+        <span class="scenario-title">Week 1 Prompt — Airtable Watch → Email 4</span>
+        <span class="badge badge-todo">To Do</span>
+    </div>
+    <div class="scenario-body">
+        <div class="field-row"><span class="field-label">Trigger</span><span class="field-value">Airtable &gt; Watch Records [Subscribers] — fires when Status = Active AND PromptNumber = 0. Fires immediately when Scenario 1 Stage 2 activates the record.</span></div>
+        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Looks up Prompts table where Week = 1. Sends email-4 to Storyteller. Sends email-4 to Story Helper if StoryHelperEmail not empty (filter). Sets PromptNumber = 1. Sets LastPromptSentDate = today.</span></div>
+        <div class="field-row"><span class="field-label">Flags</span>
+            <ul class="flags-list">
+                <li>Filter before Story Helper module: StoryHelperEmail not empty</li>
+                <li>tell.html link param: use {{Prompts.Week}} not {{PromptNumber}} — PromptNumber not yet incremented at send time</li>
+                <li>Email-4 subject: Week 1 — {{WeekName}} — here is your first prompt</li>
+                <li>After emails sent: set PromptNumber = 1 AND LastPromptSentDate = today in Subscribers</li>
+            </ul>
+        </div>
+        <div class="notes">Added to build log 2026-04-15. Was missing from original build log — confirmed in master-architecture.html as Scenario 3 (original numbering). Renumbered to Scenario 2 here since master arch Scenario 2 (Story Helper) was merged into Scenario 1 Stage 2 Route B.</div>
+    </div>
+</div>
+
 <!-- SCENARIO 3 -->
 <div class="scenario">
     <div class="scenario-header">

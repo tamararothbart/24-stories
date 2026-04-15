@@ -132,19 +132,21 @@
     <div class="scenario-header">
         <span class="scenario-number">Scenario 3</span>
         <span class="scenario-title">Story Submission — Webhook → Airtable Stories record</span>
-        <span class="badge badge-todo">To Do</span>
+        <span class="badge badge-tested">Tested</span>
     </div>
     <div class="scenario-body">
-        <div class="field-row"><span class="field-label">Webhook URL</span><span class="field-value pending">Not yet built — needed in tell.html (MAKE_WEBHOOK_URL)</span></div>
+        <div class="field-row"><span class="field-label">Webhook URL</span><span class="field-value url">https://hook.eu1.make.com/h002hbcjgl8nno7hfvnas27404xhderf</span></div>
         <div class="field-row"><span class="field-label">Trigger</span><span class="field-value">Webhook from tell.html on story submission</span></div>
         <div class="field-row"><span class="field-label">Payload</span><span class="field-value">subscriberId, weekNumber, storyText (Claude-cleaned), audioURL, imageURL, caption, submittedAt</span></div>
-        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Creates record in Stories table. Sets StoryText, AudioURL, StoryImageURL, StoryImageCaption, SubmittedAt, WeekNumber. Links to Subscriber.</span></div>
+        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Creates record in Stories table. Sets StoryText, AudioURL, StoryImageURL, StoryImageCaption, SubmissionDate, PromptNumber. Links to Subscriber via SubscriberID.</span></div>
         <div class="field-row"><span class="field-label">Flags</span>
             <ul class="flags-list">
-                <li>⚠ After building: test end-to-end — record a voice story on tell.html, submit, check Airtable Stories for all fields including AudioURL (Cloudinary test)</li>
+                <li>⚠ Cloudinary end-to-end test still required — create a test subscriber manually in Airtable, open tell.html with that record ID as the id param, record a voice story, submit, check Airtable Stories for AudioURL populated</li>
                 <li>Webhook URL needed in tell.html MAKE_WEBHOOK_URL variable (go-live wiring)</li>
+                <li>Test method: fire Scenario 1 Stage 1 via Hoppscotch to get a real rec... ID, use that as subscriberId in Scenario 3 test payload</li>
             </ul>
         </div>
+        <div class="notes">Tested 2026-04-15. All fields populated correctly — SubscriberID linked, StoryText, SubmissionDate confirmed. AudioURL, StoryImageURL, StoryImageCaption empty as expected for typed submission. Test records deleted from Stories and Subscribers.</div>
     </div>
 </div>
 
@@ -376,6 +378,16 @@
         <strong>Scenario 1 Stage 2 — TESTED AND COMPLETE.</strong> Webhook URL: https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k (this is the PayFast notify_url). Full module chain: Custom Webhook → Filter (payment_status=COMPLETE) → Airtable Update Record [Status=Active, SubscriptionStartDate=now, PromptNumber=0, LibraryToken=custom_str1] → Airtable Get Record → Airtable Create Record [Payments] → Mailjet Email 1 (Storyteller) → Router → Route A: filter GiftGiverEmail exists → Email 2 (Gift Giver) / Route B: filter StoryHelperEmail exists → Email 3 (Story Helper). All three emails confirmed sent in Mailjet logs. Airtable records correct. Test records deleted.
     </div>
     <div class="next-trigger"><strong>Next session trigger</strong>"Make build log. Read make-build-log.html. Start Scenario 3 — Story Submission."</div>
+</div>
+
+<div class="session-entry">
+    <div class="session-date">2026-04-15 — Scenario 3 build session</div>
+    <div class="session-summary">
+        <strong>Scenario 3 — Story Submission — TESTED.</strong> Webhook URL: https://hook.eu1.make.com/h002hbcjgl8nno7hfvnas27404xhderf. Two modules: Custom Webhook → Airtable Create Record [Stories]. All 7 fields mapped: SubscriberID, PromptNumber, StoryText, AudioURL, StoryImageURL, StoryImageCaption, SubmissionDate. Tested via Hoppscotch — used Scenario 1 Stage 1 webhook to create a real test Subscriber record first, then used that rec... ID as subscriberId in Scenario 3 test payload. All fields confirmed in Airtable. Test records deleted. Scenario turned On.<br><br>
+        tell.html MAKE_WEBHOOK_URL updated with Scenario 3 webhook URL.<br><br>
+        ⚠ Cloudinary end-to-end test (voice story → AudioURL in Airtable) still required — do this in the next session using a manually created test subscriber record before any beta tester uses tell.html.
+    </div>
+    <div class="next-trigger"><strong>Next session trigger</strong>"Make build log. Read make-build-log.html. Run Cloudinary end-to-end test first — create test subscriber manually in Airtable, open tell.html with that record ID, record a voice story, submit, check Airtable Stories for AudioURL. Then start Scenario 4 — weekly prompt. Read make_prompt_pace from memory before starting. Build Scenario 4B manual webhook alongside."</div>
 </div>
 
 </body>

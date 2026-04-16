@@ -478,7 +478,80 @@
   <strong>Free tester note:</strong> Mock paywall is on the website during testing. Testers are given access directly — they do not go through PayFast. Scenario 4B (manual prompt send webhook) is needed for accelerated tester schedules. Build this alongside Scenario 4.
 </div>
 
-<p style="max-width:900px; font-size:0.82rem; color:#888; margin-top:48px;">24 Stories — Developer Handoff — generated 2026-04-16</p>
+<!-- ==================== SECTION 10: COMPLETE FILE REGISTRY ==================== -->
+<h2>10. Complete GitHub File Registry</h2>
+
+<p style="max-width:900px; font-size:0.88rem; line-height:1.7; margin-bottom:16px;">All files below are in the GitHub repo: <strong>github.com/tamararothbart/24-stories</strong>. Status confirmed 2026-04-16.</p>
+
+<h3>Root — Live Website Files</h3>
+<table>
+  <thead><tr><th>File</th><th>Status</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><strong>index.html</strong></td><td><span class="badge badge-tested">Live</span></td><td>Main marketing and signup site. FAQ v3.1. R6,795 pricing. Signup form (Scenario 1 Stage 1 webhook). Resend library link form (Scenario 7 — placeholder not yet replaced). Hero images pending.</td></tr>
+    <tr><td><strong>tell.html</strong></td><td><span class="badge badge-tested">Live</span></td><td>Story submission page — voice + typed modes, Claude cleanup, Cloudinary upload, Scenario 3 webhook wired. Core product interface.</td></tr>
+    <tr><td><strong>library.html</strong></td><td><span class="badge badge-rebuild">Awaiting wiring</span></td><td>Subscriber story library. 6 placeholder values to replace before go-live (AIRTABLE_KEY, AIRTABLE_BASE, 4 Make webhook URLs). Preview mode (?id=PREVIEW) must be removed before go-live.</td></tr>
+    <tr><td><strong>developer-handoff.html</strong></td><td><span class="badge badge-tested">New</span></td><td>This document.</td></tr>
+    <tr><td><strong>master-architecture.html</strong></td><td><span class="badge badge-tested">Locked</span></td><td>Full system architecture v3.1. All decisions locked.</td></tr>
+    <tr><td><strong>make-build-log.html</strong></td><td><span class="badge badge-tested">Updated 2026-04-16</span></td><td>Living Make build log. Webhook URLs, build state, session history. Read before opening Make.</td></tr>
+    <tr><td><strong>make-build-reference.html</strong></td><td><span class="badge badge-tested">Locked</span></td><td>Locked Airtable field names + module maps for all 13 scenarios.</td></tr>
+    <tr><td><strong>make-email-content.html</strong></td><td><span class="badge badge-tested">Locked</span></td><td>All 16 emails — subject lines + HTML with Make variable syntax. Paste into Mailjet modules.</td></tr>
+    <tr><td><strong>airtable-setup-guide.html</strong></td><td><span class="badge badge-tested">v3.2 locked</span></td><td>Airtable schema. All 4 tables, field names, types, formulas.</td></tr>
+    <tr><td><strong>make-prebuild-decisions.html</strong></td><td><span class="badge badge-tested">Locked</span></td><td>Pre-build decisions — extra copies flow, schema v3.2 fields, all open flags resolved.</td></tr>
+    <tr><td><strong>backend-build-guide.html</strong></td><td><span class="badge badge-todo">Superseded</span></td><td>Earlier backend guide. Superseded by make-build-reference.html. Read for context only.</td></tr>
+    <tr><td><strong>airtable-prompts-v3.csv</strong></td><td><span class="badge badge-tested">Done</span></td><td>All 26 prompts — already imported into Airtable Prompts table.</td></tr>
+    <tr><td><strong>netlify.toml</strong></td><td><span class="badge badge-tested">Live</span></td><td>Netlify configuration. Functions directory, redirect rules.</td></tr>
+  </tbody>
+</table>
+
+<h3>netlify/functions/ — Serverless Functions (Node.js)</h3>
+<table>
+  <thead><tr><th>File</th><th>Status</th><th>Purpose</th></tr></thead>
+  <tbody>
+    <tr><td><strong>cleanup.js</strong></td><td><span class="badge badge-tested">Live</span></td><td>Called from tell.html "Clean up my story" button. Sends story text to Anthropic claude-sonnet-4-6 for mechanical editing. ANTHROPIC_API_KEY in Netlify env vars. Do NOT downgrade model.</td></tr>
+    <tr><td><strong>transcribe.js</strong></td><td><span class="badge badge-tested">Live</span></td><td>Called from tell.html after voice recording. Fetches audio from Cloudinary, sends to OpenAI Whisper, returns raw transcript. Claude cleanup runs after transcription.</td></tr>
+  </tbody>
+</table>
+
+<h3>24stories-emails/ — All 16 Email HTML Files</h3>
+<p style="max-width:900px; font-size:0.85rem; color:#555; line-height:1.7; margin-bottom:12px;">All 16 emails proofread and locked as of 2026-04-12. These are the source HTML files for reference and editing. The Make-ready versions (with variable syntax for Mailjet modules) are in make-email-content.html.</p>
+<table>
+  <thead><tr><th>File</th><th>Recipient</th><th>Trigger</th></tr></thead>
+  <tbody>
+    <tr><td>email-1-storyteller-welcome.html</td><td>Storyteller</td><td>PayFast COMPLETE (Scenario 1 Stage 2)</td></tr>
+    <tr><td>email-2-giftgiver-confirmation.html</td><td>Gift Giver</td><td>PayFast COMPLETE (Scenario 1 Stage 2 — Router Route A)</td></tr>
+    <tr><td>email-3-storyhelper-welcome.html</td><td>Story Helper</td><td>PayFast COMPLETE (Scenario 1 Stage 2 — Router Route B)</td></tr>
+    <tr><td>email-4-week1-prompt.html</td><td>Storyteller + Helper</td><td>Scenario 2 (webhook from Stage 2)</td></tr>
+    <tr><td>email-5-day4-reminder.html</td><td>Storyteller + Helper</td><td>Scenario 5 (Day 4, no story)</td></tr>
+    <tr><td>email-6-storyteller-story-confirmation.html</td><td>Storyteller</td><td>Scenario 6 (Tamara fills EditedText)</td></tr>
+    <tr><td>email-7-family-story-delivery.html</td><td>Family</td><td>Scenario 6 (same trigger as email-6)</td></tr>
+    <tr><td>email-8-regular-prompt.html</td><td>Storyteller + Helper</td><td>Scenario 4 (Weeks 2–26)</td></tr>
+    <tr><td>email-9-book-onboarding-week26.html</td><td>Storyteller</td><td>Scenario 8 (Prompt 26 sent)</td></tr>
+    <tr><td>email-10-book-onboarding-reminder.html</td><td>Storyteller</td><td>Scenario 9 (Day 3 + Day 7)</td></tr>
+    <tr><td>email-11-book-onboarding-overdue.html</td><td>Storyteller</td><td>Scenario 9 (Day 14)</td></tr>
+    <tr><td>email-12-book-delivery-confirmation.html</td><td>Storyteller</td><td>Scenario 11 (BookSentToPrintDate set)</td></tr>
+    <tr><td>email-13-late-delivery-apology.html</td><td>Storyteller/Gift Giver</td><td>Manual — Tamara sends from hello@</td></tr>
+    <tr><td>email-14-extra-copies-confirmation.html</td><td>Buyer</td><td>Scenario 12 (Extra copies PayFast)</td></tr>
+    <tr><td>email-15-pause-confirmation.html</td><td>Subscriber</td><td>Manual — Tamara sends after pause request</td></tr>
+    <tr><td>email-16-refund-confirmation.html</td><td>Buyer</td><td>Manual — exceptional only</td></tr>
+  </tbody>
+</table>
+
+<h3>_memory/ — Decision History (Claude Code memory files)</h3>
+<p style="max-width:900px; font-size:0.85rem; color:#555; line-height:1.7; margin-bottom:12px;">These files contain the full decision history from all build sessions. Key files for a developer:</p>
+<table>
+  <thead><tr><th>File</th><th>Contents</th></tr></thead>
+  <tbody>
+    <tr><td>_memory/MEMORY.md</td><td>Master index — project status, all decisions, file references. Read first.</td></tr>
+    <tr><td>_memory/feedback_make_scenario_fragility.md</td><td>Make quirks, known failure modes, constraints. Critical.</td></tr>
+    <tr><td>_memory/project_v3_pivot.md</td><td>Master architecture decision log. Once-off payment, book model, full field list.</td></tr>
+    <tr><td>_memory/email_flow_v3.md</td><td>All 16 emails — full content, recipients, triggers.</td></tr>
+    <tr><td>_memory/offer_final.md</td><td>Final offer wording. R6,795. All copy decisions locked.</td></tr>
+    <tr><td>_memory/library_decisions.md</td><td>Library architecture decisions — access, prompts, book prep, user roles.</td></tr>
+    <tr><td>_memory/make_prompt_pace.md</td><td>Prompt pacing decisions. Read before building Scenarios 4–5.</td></tr>
+  </tbody>
+</table>
+
+<p style="max-width:900px; font-size:0.82rem; color:#888; margin-top:48px;">24 Stories — Developer Handoff — generated 2026-04-16 — github.com/tamararothbart/24-stories</p>
 
 </body>
 </html>

@@ -109,21 +109,25 @@
 <div class="scenario">
     <div class="scenario-header">
         <span class="scenario-number">Scenario 1 — Stage 2</span>
-        <span class="scenario-title">Signup — PayFast IPN → Activate Subscriber → Emails 1–3</span>
-        <span class="badge badge-tested">Tested</span>
+        <span class="scenario-title">Signup — PayFast IPN → Activate Subscriber → Emails 1–3 → Trigger Scenario 2</span>
+        <span class="badge badge-built">Needs Rebuild</span>
     </div>
     <div class="scenario-body">
         <div class="field-row"><span class="field-label">Webhook URL</span><span class="field-value url">https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k</span></div>
         <div class="field-row"><span class="field-label">Trigger</span><span class="field-value">PayFast IPN webhook. Filter: payment_status = COMPLETE.</span></div>
-        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Sets Status = Active, LibraryToken = custom_str1 (Airtable record ID). Sends email-1 (Storyteller), email-2 (Gift Giver if applicable), email-3 (Story Helper if applicable).</span></div>
+        <div class="field-row"><span class="field-label">Confirmed module chain</span><span class="field-value">Custom Webhook → Airtable Update Record [Status=Active, SubscriptionStartDate, PromptNumber=0, LibraryToken] → Airtable Get Record → Airtable Create Record [Payments] → Mailjet email-1 (Storyteller) → Router → Route A: GiftGiverEmail not empty → email-2 / Route B: StoryHelperEmail not empty → email-3.</span></div>
+        <div class="field-row"><span class="field-label">Why rebuild</span><span class="field-value">email-4 (Week 1 Prompt) must fire AFTER email-1 is sent, not after PayFast activation. Current scenario ends at the Router — Make cannot add modules after a Router. Rebuild required to add HTTP trigger to Scenario 2 in the correct position (after email-1, before or within Router as unconditional Route C — developer to decide exact placement). Do NOT add new Airtable fields — schema changes break all Make field mappings.</span></div>
         <div class="field-row"><span class="field-label">Flags</span>
             <ul class="flags-list">
-                <li>⚠ This webhook URL is the PayFast notify_url — must be entered in PayFast dashboard before go-live</li>
-                <li>Filter on StoryHelperEmail not empty before every Story Helper Mailjet module</li>
+                <li>⚠ PRESERVE this webhook URL — it is the PayFast notify_url already live in the PayFast dashboard. Do not delete this scenario or generate a new webhook. Rebuild in place.</li>
+                <li>⚠ DO NOT add fields to Airtable — any Airtable schema change breaks Make module field mappings across all scenarios</li>
+                <li>After Mailjet email-1: add HTTP module → POST to Scenario 2 webhook URL with subscriber data payload</li>
+                <li>Scenario 2 then becomes webhook-triggered, not scheduled</li>
+                <li>Filter on StoryHelperEmail not empty before every Story Helper module</li>
                 <li>Filter on GiftGiverEmail not empty before Gift Giver module</li>
             </ul>
         </div>
-        <div class="notes">Tested 2026-04-15. All modules green (Router stays black — correct). Airtable: Status=Active, SubscriptionStartDate set, PromptNumber=0, LibraryToken=record ID. Payments record created. Emails 1–3 sent (Blocked on fake addresses — expected). Test records deleted.</div>
+        <div class="notes">Originally tested 2026-04-15. Needs rebuild 2026-04-16: HTTP trigger to Scenario 2 must be added after email-1. Webhook URL must be preserved. No Airtable schema changes permitted.</div>
     </div>
 </div>
 
@@ -131,21 +135,26 @@
 <div class="scenario">
     <div class="scenario-header">
         <span class="scenario-number">Scenario 2</span>
-        <span class="scenario-title">Week 1 Prompt — Airtable Watch → Email 4</span>
+        <span class="scenario-title">Week 1 Prompt — Webhook from Scenario 1 Stage 2 → Email 4</span>
         <span class="badge badge-todo">To Do</span>
     </div>
     <div class="scenario-body">
-        <div class="field-row"><span class="field-label">Trigger</span><span class="field-value">Airtable &gt; Watch Records [Subscribers] — fires when Status = Active AND PromptNumber = 0. Fires immediately when Scenario 1 Stage 2 activates the record.</span></div>
-        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Looks up Prompts table where Week = 1. Sends email-4 to Storyteller. Sends email-4 to Story Helper if StoryHelperEmail not empty (filter). Sets PromptNumber = 1. Sets LastPromptSentDate = today.</span></div>
+        <div class="field-row"><span class="field-label">Webhook URL</span><span class="field-value pending">Not yet built — generate URL first, then paste into Scenario 1 Stage 2 rebuild as the HTTP target</span></div>
+        <div class="field-row"><span class="field-label">Trigger</span><span class="field-value">Custom Webhook — fired by HTTP module in Scenario 1 Stage 2 immediately after email-1 is sent. NOT scheduled. NOT Airtable Watch Records (confirmed broken in this project).</span></div>
+        <div class="field-row"><span class="field-label">Payload from Scenario 1 Stage 2</span><span class="field-value">StorytellerEmail, StorytellerFirstName, StoryHelperEmail, LibraryToken — passed via HTTP POST body from Scenario 1 Stage 2.</span></div>
+        <div class="field-row"><span class="field-label">Key Output</span><span class="field-value">Looks up Prompts table where Week = 1. Sends email-4 to Storyteller. Sends email-4 to Story Helper if StoryHelperEmail not empty (filter). Sets PromptNumber = 1. Sets LastPromptSentDate = today in Subscribers.</span></div>
         <div class="field-row"><span class="field-label">Flags</span>
             <ul class="flags-list">
+                <li>⚠ Build this scenario FIRST to get the webhook URL — then use that URL in the Scenario 1 Stage 2 rebuild</li>
+                <li>⚠ DO NOT use Airtable Watch Records — confirmed broken in this project</li>
+                <li>⚠ DO NOT use Make formula field in Airtable Search Records — use Make filter module instead</li>
                 <li>Filter before Story Helper module: StoryHelperEmail not empty</li>
-                <li>tell.html link param: use {{Prompts.Week}} not {{PromptNumber}} — PromptNumber not yet incremented at send time</li>
-                <li>Email-4 subject: Week 1 — {{WeekName}} — here is your first prompt</li>
-                <li>After emails sent: set PromptNumber = 1 AND LastPromptSentDate = today in Subscribers</li>
+                <li>tell.html link param: use Prompts.Week badge — PromptNumber not yet incremented at send time</li>
+                <li>After emails sent: Airtable Update — PromptNumber = 1, LastPromptSentDate = today</li>
+                <li>Build order: (1) Create Scenario 2 webhook, (2) record URL here, (3) rebuild Scenario 1 Stage 2 with HTTP module pointing to this URL</li>
             </ul>
         </div>
-        <div class="notes">Added to build log 2026-04-15. Was missing from original build log — confirmed in master-architecture.html as Scenario 3 (original numbering). Renumbered to Scenario 2 here since master arch Scenario 2 (Story Helper) was merged into Scenario 1 Stage 2 Route B.</div>
+        <div class="notes">Architecture decision locked 2026-04-16. Trigger changed from Airtable Watch Records (broken) and from scheduled (race condition risk) to webhook-triggered by Scenario 1 Stage 2 HTTP module fired immediately after email-1 is sent. This guarantees email-1 always precedes email-4 without Airtable schema changes. Scenario 1 Stage 2 needs full rebuild to implement. Webhook URL to be generated at build time and recorded here before Stage 2 rebuild begins.</div>
     </div>
 </div>
 
@@ -400,6 +409,27 @@
         <strong>Scenario 1 Stage 2 — TESTED AND COMPLETE.</strong> Webhook URL: https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k (this is the PayFast notify_url). Full module chain: Custom Webhook → Filter (payment_status=COMPLETE) → Airtable Update Record [Status=Active, SubscriptionStartDate=now, PromptNumber=0, LibraryToken=custom_str1] → Airtable Get Record → Airtable Create Record [Payments] → Mailjet Email 1 (Storyteller) → Router → Route A: filter GiftGiverEmail exists → Email 2 (Gift Giver) / Route B: filter StoryHelperEmail exists → Email 3 (Story Helper). All three emails confirmed sent in Mailjet logs. Airtable records correct. Test records deleted.
     </div>
     <div class="next-trigger"><strong>Next session trigger</strong>"Make build log. Read make-build-log.html. Start Scenario 3 — Story Submission."</div>
+</div>
+
+<div class="session-entry">
+    <div class="session-date">2026-04-16 — Architecture review session. No new scenarios built.</div>
+    <div class="session-summary">
+        Full diagnostic of why Scenario 2 was being skipped.<br><br>
+        <strong>Findings:</strong><br>
+        1. Scenario 2 was never built — build log correctly showed "To Do".<br>
+        2. Scenario 1 Stage 2 confirmed module chain: Webhook → Airtable Update → Airtable Get → Airtable Create [Payments] → Mailjet email-1 → Router → Route A: email-2 (Gift Giver) / Route B: email-3 (Story Helper). Email-4 is NOT in this chain.<br>
+        3. Airtable Watch Records trigger was attempted for Scenario 2 in a prior session and confirmed broken for this project. Do not use again.<br>
+        4. Scheduled trigger (every 15 min, filter Status=Active AND PromptNumber=0) has a race condition: Make sets PromptNumber=0 and Status=Active at the START of Scenario 1 Stage 2, before emails 1–3 are sent. Scenario 2 could fire before email-1 is delivered.<br>
+        5. In Make, a Router is a terminal point — no modules can be added after it in the same linear chain. Scenario 1 Stage 2 cannot have modules appended without a full rebuild.<br>
+        6. CRITICAL CONSTRAINT confirmed: adding fields to Airtable breaks Make module field mappings across all scenarios. Do NOT change the Airtable schema.<br><br>
+        <strong>Architecture decision locked:</strong><br>
+        Scenario 2 trigger = Custom Webhook, fired by an HTTP module in Scenario 1 Stage 2 immediately after Mailjet email-1 is sent. This guarantees email-1 precedes email-4 with no race condition and no Airtable schema changes.<br><br>
+        <strong>Build order for developer:</strong><br>
+        (1) Create Scenario 2 as a new scenario with a Custom Webhook trigger — record the webhook URL.<br>
+        (2) Rebuild Scenario 1 Stage 2 from scratch, adding an HTTP module after Mailjet email-1 that POSTs subscriber data to the Scenario 2 webhook URL.<br>
+        (3) Preserve the existing Scenario 1 Stage 2 webhook URL (https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k) — this is the live PayFast notify_url. Rebuild in place, do not generate a new webhook.
+    </div>
+    <div class="next-trigger"><strong>Developer handoff — read before opening Make</strong>See make-build-log.html in full. Read make_build_protocol.md (memory file). Scenario 2 must be created first to generate its webhook URL. Then Scenario 1 Stage 2 is rebuilt with that URL as the HTTP target. All other scenarios (3 tested, 4–13 not built) proceed after this is resolved.</div>
 </div>
 
 <div class="session-entry">

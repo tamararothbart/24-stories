@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 Stories — Social Media Launch Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+/* ─── GLOBALS ──────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:  #0B0B0B;
+  --charcoal: #1A1A1A;
+  --gold:   #B8976A;
+  --cream:  #F7F5F2;
+  --mist:   #EDEAE5;
+  --text:   #2C2C2C;
+  --serif:  'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--sans);
+  background: #F0EDE8;
+  color: var(--text);
+  line-height: 1.5;
+}
+
+/* ─── LAYOUT ────────────────────────────────────────────────────────── */
+.page-header {
+  background: var(--charcoal);
+  color: var(--cream);
+  text-align: center;
+  padding: 56px 24px 48px;
+  border-bottom: 2px solid var(--gold);
+}
+.page-header img { height: 52px; margin-bottom: 20px; }
+.page-header h1 {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: .06em;
+  color: var(--cream);
+}
+.page-header p {
+  margin-top: 10px;
+  font-size: .85rem;
+  font-weight: 300;
+  color: var(--gold);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.phase-header {
+  text-align: center;
+  padding: 40px 24px 8px;
+}
+.phase-header h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  letter-spacing: .05em;
+}
+.phase-header .phase-sub {
+  font-size: .78rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 6px;
+}
+
+.section-divider {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 12px auto 0;
+}
+
+/* ─── POST GRID ─────────────────────────────────────────────────────── */
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 48px;
+  max-width: 1200px;
+  margin: 32px auto;
+  padding: 0 24px;
+}
+
+.post-block {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 16px rgba(0,0,0,.08);
+  overflow: hidden;
+}
+
+.post-label {
+  background: var(--charcoal);
+  color: var(--gold);
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+/* ─── THE VISUAL CARD (screenshot this) ─────────────────────────────── */
+.post-visual {
+  width: 100%;
+  aspect-ratio: 4/5;      /* 1080×1350 ratio */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 60px 48px;
+  text-align: center;
+}
+
+/* Dark variants */
+.post-visual.dark { background: var(--black); }
+.post-visual.dark .eyebrow-tag,
+.post-visual.dark .post-body  { color: rgba(247,245,242,.55); }
+.post-visual.dark .headline   { color: var(--cream); }
+.post-visual.dark .post-theme { color: var(--gold); }
+.post-visual.dark .logo-mark  { filter: brightness(0) invert(1) opacity(.3); }
+.post-visual.dark .bottom-line { color: rgba(247,245,242,.4); }
+.post-visual.dark .divider-line { background: rgba(184,151,106,.35); }
+
+/* Cream variants */
+.post-visual.cream { background: var(--cream); }
+.post-visual.cream .eyebrow-tag,
+.post-visual.cream .post-body   { color: rgba(26,26,26,.55); }
+.post-visual.cream .headline    { color: var(--charcoal); }
+.post-visual.cream .post-theme  { color: var(--gold); }
+.post-visual.cream .logo-mark   { filter: none; opacity: .35; }
+.post-visual.cream .bottom-line { color: rgba(26,26,26,.4); }
+.post-visual.cream .divider-line { background: rgba(184,151,106,.5); }
+
+/* Text elements */
+.eyebrow-tag {
+  font-family: var(--sans);
+  font-size: .65rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.headline {
+  font-family: var(--serif);
+  font-size: 2.15rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .02em;
+}
+.headline.xl { font-size: 2.6rem; }
+.headline.sm { font-size: 1.65rem; }
+.post-theme {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  margin-top: 20px;
+  line-height: 1.4;
+}
+.divider-line {
+  width: 40px;
+  height: 1px;
+  margin: 22px auto;
+}
+.post-body {
+  font-family: var(--sans);
+  font-size: .8rem;
+  font-weight: 300;
+  line-height: 1.8;
+  letter-spacing: .04em;
+  max-width: 320px;
+}
+.bottom-line {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: .65rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-family: var(--sans);
+  font-weight: 400;
+}
+.logo-mark {
+  position: absolute;
+  bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 30px;
+  width: auto;
+}
+
+/* ─── COPY PANEL ────────────────────────────────────────────────────── */
+.copy-panel {
+  padding: 24px 24px 20px;
+  border-top: 1px solid #EBEBEB;
+}
+
+.platform-tabs {
+  display: flex;
+  gap: 0;
+  border: 1px solid #E0E0E0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.platform-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 12px;
+  font-size: .72rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  background: #F8F8F8;
+  color: #888;
+  transition: all .2s;
+}
+.platform-tab.active {
+  background: var(--charcoal);
+  color: var(--cream);
+}
+
+.caption-box {
+  display: none;
+}
+.caption-box.active {
+  display: block;
+}
+
+.caption-text {
+  font-family: var(--sans);
+  font-size: .82rem;
+  line-height: 1.85;
+  color: var(--text);
+  white-space: pre-line;
+  background: #FAFAFA;
+  border: 1px solid #E8E8E8;
+  border-radius: 4px;
+  padding: 16px;
+  min-height: 80px;
+  cursor: text;
+  user-select: all;
+}
+
+.hashtag-line {
+  margin-top: 10px;
+  font-size: .75rem;
+  color: #888;
+  line-height: 1.7;
+  cursor: text;
+  user-select: all;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 8px 18px;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: none;
+  border-radius: 3px;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 500;
+  transition: background .2s;
+}
+.copy-btn:hover { background: var(--gold); color: var(--charcoal); }
+.copy-btn.copied { background: #3A6B35; color: white; }
+
+.instructions-note {
+  margin-top: 10px;
+  font-size: .72rem;
+  color: #999;
+  font-style: italic;
+}
+
+/* ─── FULL-WIDTH SECTIONS ───────────────────────────────────────────── */
+.standalone-section {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+.standalone-section h3 {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 20px;
+  letter-spacing: .04em;
+}
+.standalone-card {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.standalone-label {
+  background: var(--charcoal);
+  color: var(--gold);
+  font-size: .7rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+.standalone-body {
+  padding: 20px 20px 16px;
+  font-size: .85rem;
+  line-height: 1.9;
+  white-space: pre-line;
+  color: var(--text);
+  cursor: text;
+  user-select: all;
+}
+.standalone-copy-btn {
+  display: block;
+  width: fit-content;
+  margin: 0 20px 16px;
+  padding: 7px 16px;
+  background: var(--charcoal);
+  color: var(--cream);
+  border: none;
+  border-radius: 3px;
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-weight: 500;
+  transition: background .2s;
+}
+.standalone-copy-btn:hover { background: var(--gold); color: var(--charcoal); }
+.standalone-copy-btn.copied { background: #3A6B35; color: white; }
+
+/* ─── SCREENSHOT HINT ───────────────────────────────────────────────── */
+.screenshot-hint {
+  text-align: center;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 6px 0;
+  background: var(--charcoal);
+}
+
+/* ─── POSTING STRATEGY BOX ──────────────────────────────────────────── */
+.strategy-box {
+  max-width: 860px;
+  margin: 40px auto;
+  padding: 0 24px;
+}
+.strategy-inner {
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  padding: 32px 32px 28px;
+}
+.strategy-inner h3 {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 400;
+  color: var(--charcoal);
+  margin-bottom: 20px;
+}
+.strategy-inner table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+}
+.strategy-inner th {
+  text-align: left;
+  padding: 8px 12px;
+  font-size: .68rem;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid #E0E0E0;
+}
+.strategy-inner td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #F0F0F0;
+  line-height: 1.5;
+  vertical-align: top;
+}
+.strategy-inner td:first-child { font-weight: 600; color: var(--charcoal); white-space: nowrap; }
+.strategy-inner tr:last-child td { border-bottom: none; }
+
+/* ─── FOOTER ────────────────────────────────────────────────────────── */
+.page-footer {
+  background: var(--charcoal);
+  color: rgba(247,245,242,.4);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  margin-top: 60px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PAGE HEADER
+══════════════════════════════════════════════════════════════════════ -->
+<header class="page-header">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories">
+  <h1>Social Media Launch Pack</h1>
+  <p>Live storytelling events — Cape Town &nbsp;·&nbsp; Copy + screenshot ready</p>
+</header>
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     STRATEGY OVERVIEW
+══════════════════════════════════════════════════════════════════════ -->
+<div class="strategy-box">
+  <div class="strategy-inner">
+    <h3>Posting Calendar — 28-Day Launch Sequence</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Day</th>
+          <th>Post</th>
+          <th>Platform</th>
+          <th>Goal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Day 1</td>
+          <td>Post 1 — The Question</td>
+          <td>Instagram (personal) + WhatsApp Status 1–2</td>
+          <td>Seed the idea. Invite responses in comments/DMs.</td>
+        </tr>
+        <tr>
+          <td>Day 2</td>
+          <td>DM round 1 — 10 personal invites</td>
+          <td>WhatsApp / Instagram DM</td>
+          <td>Start filling storyteller pipeline privately.</td>
+        </tr>
+        <tr>
+          <td>Day 3–4</td>
+          <td>Post 2 — Soft Reveal</td>
+          <td>Instagram (brand account) + Facebook personal</td>
+          <td>Name the event. Frame the theme.</td>
+        </tr>
+        <tr>
+          <td>Day 5</td>
+          <td>Facebook group post</td>
+          <td>Cape Town community Facebook groups</td>
+          <td>Reach outside existing network.</td>
+        </tr>
+        <tr>
+          <td>Day 6</td>
+          <td>Post 3 — Story Collection</td>
+          <td>Instagram (both accounts) + LinkedIn</td>
+          <td>Draw out potential storytellers.</td>
+        </tr>
+        <tr>
+          <td>Day 8–10</td>
+          <td>Post 4 — Event Launch</td>
+          <td>Instagram brand + Facebook personal</td>
+          <td>Open seats. Drive registrations.</td>
+        </tr>
+        <tr>
+          <td>Day 12–14</td>
+          <td>Post 5 — Scarcity</td>
+          <td>All platforms + WhatsApp broadcast</td>
+          <td>Create urgency. Close registrations.</td>
+        </tr>
+        <tr>
+          <td>Ongoing</td>
+          <td>DM follow-up scripts</td>
+          <td>WhatsApp / DM</td>
+          <td>Convert conversations to confirmed seats.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PHASE 1: AWARENESS
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Phase 1 — Awareness</h2>
+  <p class="phase-sub">Days 1–4 &nbsp;·&nbsp; Seed the idea. No event details yet.</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="screenshot-hint">↓ Screenshot the visual below each label, then paste the caption alongside it</div>
+
+<div class="posts-grid">
+
+  <!-- POST 1 -->
+  <div class="post-block">
+    <div class="post-label">Post 1 — The Question &nbsp;·&nbsp; Day 1 &nbsp;·&nbsp; Instagram Personal + Facebook</div>
+    <div class="post-visual dark" id="visual-1">
+      <div class="eyebrow-tag">24 Stories — Cape Town</div>
+      <h2 class="headline xl">Everyone has one story<br>they've never told.</h2>
+      <div class="divider-line"></div>
+      <p class="post-body">What's a moment in your life<br>that changed everything?</p>
+      <div class="bottom-line">24stories.co.za</div>
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'ig-1','fb-1')">Instagram</button>
+        <button class="platform-tab" onclick="switchTab(this,'fb-1','ig-1')">Facebook</button>
+      </div>
+      <div id="ig-1" class="caption-box active">
+        <div class="caption-text">Everyone has one story they've never told.
+
+I'm building something in Cape Town called 24 Stories — a small live room where people tell true personal stories.
+
+No performance.
+No notes.
+Just real moments from real lives.
+
+Before anything launches, I'm starting here:
+
+What's a moment in your life that changed everything?
+
+Drop it in the comments or send me a DM. I'm genuinely listening.</div>
+        <div class="hashtag-line">#CapeTown #Storytelling #RealStories #HumanConnection #CapeTownEvents #LiveStorytelling #24Stories #TrueStories</div>
+        <button class="copy-btn" onclick="copyPost('ig-1',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Screenshot the visual above. Paste caption + hashtags into Instagram. Post as Feed (1:1 or 4:5 crop).</p>
+      </div>
+      <div id="fb-1" class="caption-box">
+        <div class="caption-text">Everyone has one story they've never told.
+
+I'm building something in Cape Town called 24 Stories — a small live room where people tell true personal stories.
+
+No performance. No notes. No pretending.
+Just real moments from real lives.
+
+Before anything launches, I want to ask this:
+
+What's a moment in your life that changed everything?
+
+It can be big. It can be small. It just has to be real.
+
+Drop it in the comments or send me a message — I'm genuinely listening.</div>
+        <div class="hashtag-line">#CapeTown #24Stories #LiveStorytelling #RealStories #CapeTownEvents #StorytellingNight</div>
+        <button class="copy-btn" onclick="copyPost('fb-1',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on your personal Facebook page. Upload screenshot of the visual above as image.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 2 -->
+  <div class="post-block">
+    <div class="post-label">Post 2 — Soft Reveal &nbsp;·&nbsp; Day 3–4 &nbsp;·&nbsp; Instagram Brand Account + Facebook</div>
+    <div class="post-visual cream" id="visual-2">
+      <div class="eyebrow-tag">Cape Town &nbsp;·&nbsp; Live Storytelling</div>
+      <h2 class="headline">A listening room.<br>Not a stage.</h2>
+      <div class="divider-line"></div>
+      <p class="post-theme">The Moment Everything Changed</p>
+      <div class="divider-line"></div>
+      <p class="post-body">One theme. One evening.<br>True stories told live.</p>
+      <img class="logo-mark" src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories">
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'ig-2','fb-2')">Instagram</button>
+        <button class="platform-tab" onclick="switchTab(this,'fb-2','ig-2')">Facebook</button>
+      </div>
+      <div id="ig-2" class="caption-box active">
+        <div class="caption-text">I'm hosting a small evening in Cape Town called 24 Stories.
+
+The first theme is:
+The Moment Everything Changed
+
+It's not a performance night.
+It's a listening room.
+
+People tell one true story from their life — 5 to 7 minutes, without notes or scripts.
+
+Just lived experience.
+
+If you feel like you have a story like that, I'd like to hear it.</div>
+        <div class="hashtag-line">#24Stories #CapeTown #StorytellingNight #LiveStories #HumanStories #CapeTownCulture #RealLifeStories #MotherCityEvents</div>
+        <button class="copy-btn" onclick="copyPost('ig-2',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on the 24 Stories Instagram brand account. Use cream visual above.</p>
+      </div>
+      <div id="fb-2" class="caption-box">
+        <div class="caption-text">I'm hosting a small evening in Cape Town called 24 Stories.
+
+The first theme is:
+The Moment Everything Changed
+
+It's not a performance night. It's a listening room.
+
+People tell one true story from their life — 5 to 7 minutes, without notes or scripts.
+
+No performance. Just lived experience.
+
+If you have a story like that — or know someone who does — I'd really like to hear it.
+
+Send me a message or comment below.</div>
+        <div class="hashtag-line">#24Stories #CapeTown #StorytellingNight #LiveStories #CapeTownCulture #RealLifeStories</div>
+        <button class="copy-btn" onclick="copyPost('fb-2',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on personal Facebook. Tag Cape Town in location if prompted.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /posts-grid -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PHASE 2: STORYTELLER RECRUITMENT
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Phase 2 — Storyteller Recruitment</h2>
+  <p class="phase-sub">Days 5–7 &nbsp;·&nbsp; Draw out tellers. Collect stories.</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="screenshot-hint">↓ Screenshot the visual below each label, then paste the caption alongside it</div>
+
+<div class="posts-grid">
+
+  <!-- POST 3 -->
+  <div class="post-block">
+    <div class="post-label">Post 3 — Story Collection &nbsp;·&nbsp; Day 5–6 &nbsp;·&nbsp; Instagram (both) + LinkedIn</div>
+    <div class="post-visual dark" id="visual-3">
+      <div class="eyebrow-tag">24 Stories — Cape Town</div>
+      <h2 class="headline">Tell me a moment<br>that changed your life.</h2>
+      <div class="divider-line"></div>
+      <p class="post-body">It can be big. It can be small.<br>It can be something you've<br>never said out loud.</p>
+      <div class="divider-line"></div>
+      <p class="post-theme" style="font-size:1rem;">5–7 minutes · no notes · Cape Town</p>
+      <div class="bottom-line">DM me · 24stories.co.za</div>
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'ig-3','fb-3')">Instagram</button>
+        <button class="platform-tab" onclick="switchTab(this,'fb-3','ig-3')">Facebook</button>
+      </div>
+      <div id="ig-3" class="caption-box active">
+        <div class="caption-text">Tell me a moment that changed your life.
+
+It can be big. It can be small.
+It can be something you've never said out loud.
+
+I'm collecting stories for a live storytelling evening in Cape Town called 24 Stories.
+
+The format is simple:
+5 to 7 minutes. First person. No notes.
+
+You don't need to be a performer. You just need to have lived through something real.
+
+If something's coming up for you, DM me.</div>
+        <div class="hashtag-line">#StoryPrompt #CapeTownStories #HumanExperience #LifeMoments #Storytelling #24Stories #CapeTown #LiveStorytelling</div>
+        <button class="copy-btn" onclick="copyPost('ig-3',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on both Instagram accounts if possible. Strong engagement post — reply to every comment personally.</p>
+      </div>
+      <div id="fb-3" class="caption-box">
+        <div class="caption-text">Tell me a moment that changed your life.
+
+It can be big. It can be small. It can be something you've never said out loud.
+
+I'm collecting stories for a live storytelling evening in Cape Town called 24 Stories.
+
+The format: 5 to 7 minutes, told live, in first person, without notes.
+
+You don't need performance experience. You just need to have lived through something worth sharing.
+
+If something's coming up for you — or if you know someone with a story like this — I'd genuinely love to hear it. Comment below or send me a message.</div>
+        <div class="hashtag-line">#24Stories #CapeTown #StorytellingNight #RealStories #LifeStories</div>
+        <button class="copy-btn" onclick="copyPost('fb-3',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on personal Facebook. Share into 2–3 Cape Town community groups as well (separate group post below).</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 4 — LinkedIn -->
+  <div class="post-block">
+    <div class="post-label">Post 4 — LinkedIn Professional &nbsp;·&nbsp; Day 6 &nbsp;·&nbsp; LinkedIn only</div>
+    <div class="post-visual cream" id="visual-4">
+      <div class="eyebrow-tag">Cape Town · First Edition</div>
+      <h2 class="headline sm">24 Stories</h2>
+      <div class="divider-line"></div>
+      <p class="post-theme">The Moment Everything Changed</p>
+      <div class="divider-line"></div>
+      <p class="post-body">A curated live storytelling evening.<br>Real experiences, told without notes.<br>Cape Town, 2025.</p>
+      <img class="logo-mark" src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories">
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'li-4','li-4')">LinkedIn</button>
+      </div>
+      <div id="li-4" class="caption-box active">
+        <div class="caption-text">I'm hosting a new live storytelling evening in Cape Town called 24 Stories.
+
+It's a curated room where people share real personal experiences — spoken live, without notes or performance.
+
+The first theme is:
+The Moment Everything Changed
+
+I'm looking for people who have lived through something meaningful and are willing to share it in a small, intentional room.
+
+5 to 7 minutes. First person. No scripts.
+
+This is not a professional speaking event. It's something quieter than that.
+
+If this speaks to you, I'd love to connect.</div>
+        <div class="hashtag-line">#Storytelling #CapeTown #HumanConnection #Leadership #PersonalGrowth #24Stories #CapeTownProfessionals</div>
+        <button class="copy-btn" onclick="copyPost('li-4',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">LinkedIn performs well for Cape Town professionals with untold stories. Add cream visual above as image.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /posts-grid -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     PHASE 3: EVENT LAUNCH
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Phase 3 — Event Launch</h2>
+  <p class="phase-sub">Days 8–14 &nbsp;·&nbsp; Open seats. Drive registrations.</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="screenshot-hint">↓ Screenshot the visual below each label, then paste the caption alongside it</div>
+
+<div class="posts-grid">
+
+  <!-- POST 5 -->
+  <div class="post-block">
+    <div class="post-label">Post 5 — Official Event Announcement &nbsp;·&nbsp; Day 8–10 &nbsp;·&nbsp; Instagram Brand + Facebook</div>
+    <div class="post-visual dark" id="visual-5">
+      <div class="eyebrow-tag">Cape Town &nbsp;·&nbsp; First Edition</div>
+      <h2 class="headline">24 Stories</h2>
+      <div class="divider-line"></div>
+      <p class="post-theme">The Moment Everything Changed</p>
+      <div class="divider-line"></div>
+      <p class="post-body">Real people. Real stories. No notes.<br><br>A small, curated live storytelling evening.<br>Limited seats.</p>
+      <div class="bottom-line">Booking now open &nbsp;·&nbsp; 24stories.co.za</div>
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'ig-5','fb-5')">Instagram</button>
+        <button class="platform-tab" onclick="switchTab(this,'fb-5','ig-5')">Facebook</button>
+      </div>
+      <div id="ig-5" class="caption-box active">
+        <div class="caption-text">24 Stories — Cape Town
+
+Real people.
+Real stories.
+No notes.
+
+Theme: The Moment Everything Changed
+
+A small, curated live storytelling evening.
+Limited seats.
+
+This is a room for people who have something real to say — or want to be present when others do.
+
+Booking is now open.
+
+Link in bio.</div>
+        <div class="hashtag-line">#CapeTownEvents #Storytelling #24Stories #LiveEventCapeTown #RealStoriesMatter #CommunityEvent #StoryNight #CapeTown #MotherCity</div>
+        <button class="copy-btn" onclick="copyPost('ig-5',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Primary launch post. Pin to Instagram profile. Add booking link to bio. Screenshot visual above.</p>
+      </div>
+      <div id="fb-5" class="caption-box">
+        <div class="caption-text">24 Stories — Cape Town · First Edition
+
+Real people. Real stories. No notes.
+
+Theme: The Moment Everything Changed
+
+A small, curated live storytelling evening in Cape Town.
+Limited seats. First come, first in.
+
+This is a room for people who have something real to say — or want to witness it when others do.
+
+Tickets and storyteller applications now open.
+
+24stories.co.za</div>
+        <div class="hashtag-line">#CapeTownEvents #Storytelling #24Stories #LiveEventCapeTown #StoryNight #CapeTownCulture</div>
+        <button class="copy-btn" onclick="copyPost('fb-5',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Post on personal Facebook + create a Facebook Event linked to this post. Share to Cape Town community groups.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- POST 6 — SCARCITY -->
+  <div class="post-block">
+    <div class="post-label">Post 6 — Scarcity / Final Push &nbsp;·&nbsp; Final Week &nbsp;·&nbsp; All platforms</div>
+    <div class="post-visual cream" id="visual-6">
+      <div class="eyebrow-tag">24 Stories — Cape Town</div>
+      <h2 class="headline xl" style="letter-spacing:.04em;">This is a<br>small room.</h2>
+      <div class="divider-line"></div>
+      <p class="post-body">We're keeping it intentionally limited.<br><br>Once it's full — it's full.</p>
+      <div class="divider-line"></div>
+      <p class="post-theme" style="font-size:1rem;">The Moment Everything Changed<br>First Edition</p>
+      <img class="logo-mark" src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories">
+    </div>
+    <div class="copy-panel">
+      <div class="platform-tabs">
+        <button class="platform-tab active" onclick="switchTab(this,'ig-6','fb-6')">Instagram</button>
+        <button class="platform-tab" onclick="switchTab(this,'fb-6','ig-6')">Facebook</button>
+      </div>
+      <div id="ig-6" class="caption-box active">
+        <div class="caption-text">This is a small room.
+
+We're keeping it intentionally limited.
+
+Once it's full — it's full.
+
+24 Stories — Cape Town.
+The first edition.
+
+Link in bio.</div>
+        <div class="hashtag-line">#CapeTownEvents #LastSeats #StorytellingEvent #24Stories #LiveStories #CapeTown</div>
+        <button class="copy-btn" onclick="copyPost('ig-6',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Final urgency post. Keep it short. Run 2–3 days before event registration closes.</p>
+      </div>
+      <div id="fb-6" class="caption-box">
+        <div class="caption-text">Final seats remaining — 24 Stories · Cape Town
+
+This is a small room. We're keeping it intentionally limited.
+
+If you've been thinking about coming — or know someone who should be there — now is the time.
+
+Once it's full, it's full.
+
+24stories.co.za</div>
+        <div class="hashtag-line">#CapeTownEvents #24Stories #LastSeats #StorytellingNight</div>
+        <button class="copy-btn" onclick="copyPost('fb-6',this)">Copy caption + hashtags</button>
+        <p class="instructions-note">Also send as WhatsApp broadcast to entire contact list on same day.</p>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /posts-grid -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     WHATSAPP STATUSES
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>WhatsApp Statuses</h2>
+  <p class="phase-sub">Highest conversion channel &nbsp;·&nbsp; Post one per day, Days 1–5</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="standalone-section">
+
+  <div class="standalone-card">
+    <div class="standalone-label">WhatsApp Status 1 — Day 1</div>
+    <div class="standalone-body">Everyone has one story they've never told.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">WhatsApp Status 2 — Day 2</div>
+    <div class="standalone-body">24 Stories — Cape Town.
+Real stories. Real people.
+First event coming soon.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">WhatsApp Status 3 — Day 3</div>
+    <div class="standalone-body">Looking for people willing to share a true moment from their life.
+5–7 minutes. No notes. Cape Town.
+Message me if that's you.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">WhatsApp Status 4 — Day 5 (ticket push)</div>
+    <div class="standalone-body">24 Stories — first event now open.
+Limited seats.
+24stories.co.za</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">WhatsApp Status 5 — Final week</div>
+    <div class="standalone-body">Last few seats for the first 24 Stories evening.
+Once it's full — it's full.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+</div><!-- /standalone-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     FACEBOOK GROUP POST
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Facebook Community Group Post</h2>
+  <p class="phase-sub">Day 5 &nbsp;·&nbsp; Post into 3–5 Cape Town groups</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="standalone-section">
+  <p style="font-size:.8rem;color:#888;margin-bottom:16px;">Suggested groups: Cape Town Events, Cape Town Social, Cape Town Creatives, Cape Town Mamas, UCT/Stellenbosch alumni groups, WITS CT alumni.</p>
+
+  <div class="standalone-card">
+    <div class="standalone-label">Facebook Group Post — universal version</div>
+    <div class="standalone-body">Hi everyone — I'm hosting a small live storytelling evening in Cape Town called 24 Stories.
+
+It's a curated room where people share true personal stories (5–7 minutes, no notes, no performance — just real lived experience).
+
+The first theme is:
+The Moment Everything Changed
+
+I'm currently looking for both storytellers and audience members for the first event.
+
+If this resonates with you, feel free to message me or comment here.
+
+24stories.co.za</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+</div><!-- /standalone-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     DM SCRIPTS
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Direct Message Scripts</h2>
+  <p class="phase-sub">The most important channel &nbsp;·&nbsp; Send to 10–15 people from Day 2</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="standalone-section">
+
+  <div class="standalone-card">
+    <div class="standalone-label">DM — Storyteller Invite (personalised)</div>
+    <div class="standalone-body">Hey [name] — I'm putting together something in Cape Town called 24 Stories.
+
+It's a live evening where people share real personal moments from their lives — 5 to 7 minutes, no notes, no performance.
+
+Your name came to mind for this first one. You have a quality I think the room would respond to.
+
+Would you be open to hearing more?</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">DM — Audience Invite</div>
+    <div class="standalone-body">Hey [name] — I'm hosting something small in Cape Town called 24 Stories.
+
+It's a curated evening of real personal storytelling — true stories, told live.
+
+I think you'd really love the room.
+
+Want me to send details?</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">DM — If they said YES to details</div>
+    <div class="standalone-body">Perfect — here's the shape of it:
+
+It's a small, intimate evening in Cape Town called 24 Stories. People take turns sharing one true story from their life — 5 to 7 minutes, no notes. The theme for the first one is "The Moment Everything Changed."
+
+It's very curated. Not a lot of people. That's the point.
+
+I'd love to have you there. Shall I put your name down?</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">DM — Follow-up (48 hours later, no reply)</div>
+    <div class="standalone-body">Just circling back — we're starting to fill the room for the first 24 Stories night in Cape Town.
+
+Let me know if you'd like in.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">DM — Final close</div>
+    <div class="standalone-body">Last few seats left for the first 24 Stories evening.
+
+If you've been thinking about it, now's the time.</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">Script for friends to share on your behalf</div>
+    <div class="standalone-body">Hey — could I ask a small favour?
+
+I'm launching 24 Stories in Cape Town — a live storytelling evening (real people, real moments, no performance).
+
+Would you be open to sharing this on your Instagram story or WhatsApp status? I can send you a caption if helpful.
+
+Caption to give them:
+—
+24 Stories — Cape Town
+Real people. Real stories.
+First event launching soon.
+24stories.co.za
+—</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+</div><!-- /standalone-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     EMAIL OUTREACH
+══════════════════════════════════════════════════════════════════════ -->
+<div class="phase-header">
+  <h2>Email — Personal Outreach</h2>
+  <p class="phase-sub">Day 1–2 &nbsp;·&nbsp; Send to people you know personally. BCC all.</p>
+  <div class="section-divider"></div>
+</div>
+
+<div class="standalone-section">
+
+  <div class="standalone-card">
+    <div class="standalone-label">Email Subject</div>
+    <div class="standalone-body">A small room for real stories — Cape Town</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">Email Body — Storyteller Recruit Version</div>
+    <div class="standalone-body">Hello [name],
+
+I'm building something in Cape Town called 24 Stories — a small, curated live storytelling evening where people share one true personal moment from their life.
+
+No performance. No notes. 5 to 7 minutes. First person.
+
+The first theme is: The Moment Everything Changed.
+
+I'm looking for a handful of people willing to tell a story — and a small audience to receive them.
+
+Your name came to mind. I think you might have a story worth the room.
+
+If you're curious, I'd love to talk. Just reply to this.
+
+Warm regards,
+[Your name]
+24stories.co.za</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+  <div class="standalone-card">
+    <div class="standalone-label">Email Body — General / Audience Version</div>
+    <div class="standalone-body">Hello [name],
+
+I'm hosting a small live storytelling evening in Cape Town called 24 Stories.
+
+People share true personal moments — 5 to 7 minutes, live, without notes. The first theme is: The Moment Everything Changed.
+
+It's an intimate room. Not a lot of seats. I'm building the guest list personally.
+
+I thought of you. Would you like details?
+
+Warm regards,
+[Your name]
+24stories.co.za</div>
+    <button class="standalone-copy-btn" onclick="copyStandalone(this)">Copy</button>
+  </div>
+
+</div><!-- /standalone-section -->
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     NOTES FOR CANVA
+══════════════════════════════════════════════════════════════════════ -->
+<div class="strategy-box">
+  <div class="strategy-inner">
+    <h3>Recreating these visuals in Canva — 3-minute setup</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Setting</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Canvas size</td><td>1080 × 1350 px (Instagram portrait) · 1200 × 1500 px (Facebook)</td></tr>
+        <tr><td>Dark post background</td><td>#0B0B0B</td></tr>
+        <tr><td>Cream post background</td><td>#F7F5F2</td></tr>
+        <tr><td>Headline font</td><td>Playfair Display · Regular or Italic · Size 60–90 · Center</td></tr>
+        <tr><td>Body font</td><td>Inter · Light (300) · Size 26–34 · Center</td></tr>
+        <tr><td>Eyebrow / footer font</td><td>Inter · Medium (500) · Size 18 · Letter spacing +150 · ALL CAPS</td></tr>
+        <tr><td>Gold accent colour</td><td>#B8976A · use for italic theme lines + divider</td></tr>
+        <tr><td>Cream text (on dark)</td><td>#F7F5F2</td></tr>
+        <tr><td>Charcoal text (on cream)</td><td>#1A1A1A</td></tr>
+        <tr><td>Divider line</td><td>40 px wide · 1 px tall · colour #B8976A at 50% opacity</td></tr>
+        <tr><td>Logo placement</td><td>Bottom centre · height 32–40 px · opacity 30–40%</td></tr>
+        <tr><td>Margin (safe area)</td><td>120 px all sides</td></tr>
+        <tr><td>Logo source URL</td><td>https://resilient-eclair-c46b34.netlify.app/logo.png</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<footer class="page-footer">
+  24 Stories · Social Media Launch Pack · Cape Town · 24stories.co.za
+</footer>
+
+
+<!-- ══════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════════════════════════════ -->
+<script>
+function switchTab(btn, showId, hideId) {
+  // Toggle tab buttons
+  btn.parentElement.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  // Toggle caption boxes
+  const panel = btn.closest('.copy-panel');
+  panel.querySelectorAll('.caption-box').forEach(b => b.classList.remove('active'));
+  panel.querySelector('#' + showId).classList.add('active');
+}
+
+function copyPost(boxId, btn) {
+  const box  = document.getElementById(boxId);
+  const caption  = box.querySelector('.caption-text').innerText;
+  const hashtags = box.querySelector('.hashtag-line') ? box.querySelector('.hashtag-line').innerText : '';
+  const full = caption + (hashtags ? '\n\n' + hashtags : '');
+  navigator.clipboard.writeText(full).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy caption + hashtags'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyStandalone(btn) {
+  const card = btn.closest('.standalone-card');
+  const text = card.querySelector('.standalone-body').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

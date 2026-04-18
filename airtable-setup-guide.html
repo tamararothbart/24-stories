@@ -81,10 +81,8 @@
     <tr><td>BookFormCompleted</td><td>Date</td><td>Subscriber presses "Mark as Complete" in library. Make watches this to alert Tamara and trigger book production sequence.</td></tr>
     <tr class="new-row"><td>BookOnboardingEmailDate</td><td>Date</td><td>Set by Make when email-9 (Book Onboarding) is sent at week 26. Scenario 9 reads this to calculate Day 3, Day 7, and Day 14 reminder offsets. <span class="badge-new">NEW</span></td></tr>
     <tr><td>BookTitle</td><td>Single line text</td><td>Subscriber-editable in library. Default shown: "The Collected Stories of [FirstName] [Surname]". Written to Airtable only if subscriber changes it.</td></tr>
-    <tr><td>CoverPhotoURL</td><td>URL</td><td>Cloudinary URL of front cover photo. Set via library.</td></tr>
-    <tr><td>PortraitPhotoURL</td><td>URL</td><td>Cloudinary URL of inside-cover portrait. Set via library. Not the same as the cover photo.</td></tr>
+    <tr><td>PortraitPhotoURL</td><td>URL</td><td>Cloudinary URL of inside-cover portrait. Set via library.</td></tr>
     <tr><td>DedicationText</td><td>Long text</td><td>Set via library</td></tr>
-    <tr><td>BookSummary</td><td>Long text</td><td>Tamara writes this at week 26 — custom per subscriber. Read-only in library.</td></tr>
     <tr><td>BookCompiledDate</td><td>Date</td><td>Tamara sets when book design is complete</td></tr>
     <tr><td>BookSentToPrintDate</td><td>Date</td><td>Tamara sets when book goes to printer. Make watches this → fires email 12 to Storyteller.</td></tr>
     <tr class="new-row"><td>BookDispatchEmailSent</td><td>Checkbox</td><td>Set to true by Make after email-12 is sent. Prevents double-send if Tamara corrects BookSentToPrintDate after it was already set. Scenario 11 filters: BookSentToPrintDate not empty AND this is not checked. <span class="badge-new">NEW</span></td></tr>

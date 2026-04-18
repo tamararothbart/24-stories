@@ -478,7 +478,7 @@
         <tr><td>SubmittedAt</td><td>Date/time</td><td>Signup timestamp</td><td>Existing</td></tr>
         <tr><td class="field-new">PhoneNumber</td><td class="field-new">Phone</td><td class="field-new">For WhatsApp prompt delivery. Also future outbound calling.</td><td class="field-new">ADD NOW</td></tr>
         <tr><td class="field-new">FamilyHelperEmail</td><td class="field-new">Email</td><td class="field-new">Optional. Person who helps storyteller click prompt links in early weeks. CC'd on prompt emails.</td><td class="field-new">ADD NOW</td></tr>
-        <tr><td class="field-new">CoverImageURL</td><td class="field-new">URL</td><td class="field-new">Cloudinary URL of storyteller's portrait photograph. Used on book cover.</td><td class="field-new">ADD NOW</td></tr>
+        <tr><td class="field-new">PortraitPhotoURL</td><td class="field-new">URL</td><td class="field-new">Cloudinary URL of storyteller's portrait photograph. Printed on inside cover page.</td><td class="field-new">ADD NOW</td></tr>
         <tr><td class="field-new">Dedication</td><td class="field-new">Long text</td><td class="field-new">Optional personal dedication written by storyteller or gift giver. Printed in book front matter.</td><td class="field-new">ADD NOW</td></tr>
         <tr><td class="field-new">BookUpgrade</td><td class="field-new">Checkbox</td><td class="field-new">Has subscriber paid for the Legacy Book?</td><td class="field-new">ADD NOW</td></tr>
         <tr><td class="field-new">StoriesComplete</td><td class="field-new">Number</td><td class="field-new">Count of submitted stories. Triggers book-ready notification when it reaches 24.</td><td class="field-new">ADD NOW</td></tr>
@@ -763,7 +763,7 @@
 
         <h4>Cover section (top, always visible)</h4>
         <ul>
-            <li>Upload cover portrait photograph → uploads to Cloudinary <code>/subscribers/covers/</code> → returns URL → saves to Airtable Subscribers <code>CoverImageURL</code></li>
+            <li>Upload portrait photograph → uploads to Cloudinary <code>/subscribers/portraits/</code> → returns URL → saves to Airtable Subscribers <code>PortraitPhotoURL</code></li>
             <li>Dedication text field (optional) → saves to Airtable Subscribers <code>Dedication</code></li>
             <li>Save button for both fields</li>
         </ul>
@@ -797,7 +797,7 @@
 
         <h4>Book structure (page order)</h4>
         <ol>
-            <li><strong>Cover page:</strong> CoverImageURL (full bleed), StorytellerName, a subtitle (e.g. <em>"A Life in 24 Stories"</em>), year.</li>
+            <li><strong>Inside cover page:</strong> PortraitPhotoURL, StorytellerName.</li>
             <li><strong>Dedication page:</strong> Dedication text, centred, set in Cormorant Garamond italic.</li>
             <li><strong>Table of contents:</strong> List of 24 story titles (or first lines) with page numbers.</li>
             <li><strong>Story pages (24 pages minimum, one story per page or spread):</strong>
@@ -837,7 +837,7 @@
         <p>For automated generation at scale (post-launch): Puppeteer (headless Chrome via Node.js) can be run as a Netlify serverless function, called from book-admin.html, and returns the PDF as a download. This is a post-launch build — document it but do not build it yet.</p>
         <div class="callout">
             <span class="callout-label">Print settings for beta</span>
-            <p>Chrome → Print → Destination: Save as PDF → Paper size: A4 → Margins: None → Scale: 100% → Background graphics: On. This produces a print-ready PDF with full bleed cover image.</p>
+            <p>Chrome → Print → Destination: Save as PDF → Paper size: A4 → Margins: None → Scale: 100% → Background graphics: On.</p>
         </div>
     </div>
 </div>

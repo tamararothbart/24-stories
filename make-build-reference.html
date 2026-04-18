@@ -284,10 +284,8 @@
       <tr><td class="field-name">LibraryToken</td><td class="field-type">Text</td><td class="field-note">Used in library URL: library.html?id={{LibraryToken}}</td></tr>
       <tr><td class="field-name">BookFormCompleted</td><td class="field-type">Date</td><td class="field-note">Set by Make when subscriber presses Complete in library. Triggers Tamara alert.</td></tr>
       <tr><td class="field-name">BookTitle</td><td class="field-type">Text</td><td class="field-note">Default pre-populated in library; saved only if subscriber edits</td></tr>
-      <tr><td class="field-name">CoverPhotoURL</td><td class="field-type">URL</td><td class="field-note">Front cover image. Uploaded via library → Make webhook → Airtable.</td></tr>
-      <tr><td class="field-name">PortraitPhotoURL</td><td class="field-type">URL</td><td class="field-note">Inside cover page. Used as front cover only if CoverPhotoURL is empty.</td></tr>
+      <tr><td class="field-name">PortraitPhotoURL</td><td class="field-type">URL</td><td class="field-note">Inside cover page portrait. Uploaded via library → Make webhook → Airtable.</td></tr>
       <tr><td class="field-name">DedicationText</td><td class="field-type">Long text</td><td class="field-note">Written by subscriber in library</td></tr>
-      <tr><td class="field-name">BookSummary</td><td class="field-type">Long text</td><td class="field-note">Written by Tamara at week 26. Entered directly in Airtable. Read-only in library.</td></tr>
       <tr><td class="field-name">BookCompiledDate</td><td class="field-type">Date</td><td class="field-note">Tamara sets when book design is finished</td></tr>
       <tr><td class="field-name">BookSentToPrintDate</td><td class="field-type">Date</td><td class="field-note">Tamara sets when book goes to printer. Triggers Scenario 11 → email-12.</td></tr>
       <tr><td class="field-name">BookProductionStatus</td><td class="field-type">Formula</td><td class="field-note">Auto-derived. "In Design" / "Ready for Print" / "At Printer". Read-only — do not write via Make.</td></tr>

@@ -603,7 +603,7 @@
             <div class="book-prep">
                 <p class="book-prep-eyebrow">Your Legacy Book</p>
                 <h2 class="book-prep-heading">Preparing your book</h2>
-                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, cover image, dedication, and delivery address at any time.</p>
+                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, dedication, and delivery address at any time.</p>
 
                 <!-- PORTRAIT -->
                 <div class="book-field">
@@ -617,20 +617,6 @@
                     </div>
                     <p class="upload-msg" id="portraitUploading">Uploading...</p>
                     <p class="save-ok-msg" id="portraitOk">Portrait saved.</p>
-                </div>
-
-                <!-- COVER -->
-                <div class="book-field">
-                    <p class="book-field-label">Cover image <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
-                    <p class="book-field-sub">A photograph to illustrate the front cover of your book. If you do not upload one, your portrait will be used instead.</p>
-                    <div id="coverExisting"></div>
-                    <div class="photo-actions">
-                        <button class="btn-photo" id="btnCover" type="button">Choose cover image</button>
-                        <span class="photo-filename-sm" id="coverFilename"></span>
-                        <input type="file" id="coverInput" accept="image/*" style="display:none;">
-                    </div>
-                    <p class="upload-msg" id="coverUploading">Uploading...</p>
-                    <p class="save-ok-msg" id="coverOk">Cover image saved.</p>
                 </div>
 
                 <!-- BOOK TITLE -->
@@ -681,15 +667,6 @@
                     <p class="field-saved-msg" id="copiesMsg"></p>
                 </div>
 
-                <!-- BOOK SUMMARY -->
-                <div class="book-field">
-                    <p class="book-field-label">About the storyteller</p>
-                    <p class="book-field-sub">This short piece will appear at the back of your book, alongside your portrait photograph. It is written for you by your editor at the close of your twenty-six weeks.</p>
-                    <div class="summary-box">
-                        <p class="summary-placeholder" id="summaryPlaceholder">Your editor will write this for you at the end of your twenty-six weeks. It will appear here when it is ready.</p>
-                        <p class="summary-text" id="summaryText" style="display:none;"></p>
-                    </div>
-                </div>
 
             </div><!-- /book-prep -->
 
@@ -757,9 +734,7 @@
                     BookTitle:            '',
                     DedicationText:       '',
                     DeliveryAddress:      '',
-                    BookSummary:          '',
-                    PortraitPhotoURL:     '',
-                    CoverPhotoURL:        ''
+                    PortraitPhotoURL:     ''
                 }
             };
             var mockPrompts = { records: [] };
@@ -1060,12 +1035,6 @@
             if (f.DedicationText)  document.getElementById('dedicationText').value  = f.DedicationText;
             if (f.DeliveryAddress) document.getElementById('deliveryAddress').value = f.DeliveryAddress;
 
-            if (f.BookSummary) {
-                document.getElementById('summaryPlaceholder').style.display = 'none';
-                document.getElementById('summaryText').style.display = '';
-                document.getElementById('summaryText').textContent = f.BookSummary;
-            }
-
             setupTextSave('bookTitle',      'bookTitleSaved',  'bookTitle');
             setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
             setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');
@@ -1083,7 +1052,7 @@
 
             if (existingUrl) {
                 existingEl.innerHTML = '<div class="existing-photo"><img src="' + esc(existingUrl) + '" alt=""></div>';
-                btn.textContent = fieldType === 'portrait' ? 'Replace portrait' : 'Replace cover image';
+                btn.textContent = 'Replace portrait';
             }
 
             btn.addEventListener('click', function() {
@@ -1102,7 +1071,7 @@
                     uploadMsg.style.display = 'none';
                     okMsg.style.display     = 'block';
                     postMake(HOOK_BOOK_PHOTO, { subscriberId: subscriberId, fieldType: fieldType, photoUrl: url });
-                    btn.textContent = fieldType === 'portrait' ? 'Replace portrait' : 'Replace cover image';
+                    btn.textContent = 'Replace portrait';
                     if (existingEl.querySelector('img')) {
                         existingEl.querySelector('img').src = url;
                     } else {

@@ -138,7 +138,7 @@
       <td><strong>Tamara (Admin)</strong></td>
       <td>Internal.</td>
       <td>Make alert when story submitted (Scenario 6 trigger). Daily Book Production Alert (Scenario 10). Pause expiry reminders (Scenario 13).</td>
-      <td>Edit stories in Airtable (EditedText field — this triggers family delivery). Set BookSentToPrintDate when book goes to printer. Write custom BookSummary per subscriber at week 26. Access any subscriber library via their URL. Manage pauses manually from hello@.</td>
+      <td>Edit stories in Airtable (EditedText field — this triggers family delivery). Set BookSentToPrintDate when book goes to printer. Access any subscriber library via their URL. Manage pauses manually from hello@.</td>
     </tr>
   </table>
 
@@ -224,7 +224,7 @@
     <tr><th>Action</th><th>Webhook variable</th><th>Payload</th><th>Make updates</th></tr>
     <tr><td>Story photo upload</td><td><code>HOOK_STORY_PHOTO</code></td><td><code>{ subscriberId, week, photoUrl }</code></td><td>Stories.StoryImageURL for matching subscriber + week</td></tr>
     <tr><td>Caption edit</td><td><code>HOOK_CAPTION</code></td><td><code>{ subscriberId, week, caption }</code></td><td>Stories.StoryImageCaption for matching subscriber + week</td></tr>
-    <tr><td>Portrait / cover photo</td><td><code>HOOK_BOOK_PHOTO</code></td><td><code>{ subscriberId, fieldType: "portrait"|"cover", photoUrl }</code></td><td>Subscribers.PortraitPhotoURL or Subscribers.CoverPhotoURL</td></tr>
+    <tr><td>Portrait photo</td><td><code>HOOK_BOOK_PHOTO</code></td><td><code>{ subscriberId, fieldType: "portrait", photoUrl }</code></td><td>Subscribers.PortraitPhotoURL</td></tr>
     <tr><td>Book title / dedication / delivery address / phone</td><td><code>HOOK_BOOK_TEXT</code></td><td><code>{ subscriberId, fieldType: "bookTitle"|"dedication"|"deliveryAddress"|"deliveryPhone", value }</code></td><td>Corresponding Subscribers field</td></tr>
   </table>
   <p>Photos go to Cloudinary first (cloud: <code>dorv3glde</code>, preset: <code>24stories</code>), then the Cloudinary URL is sent to the Make webhook.</p>
@@ -273,17 +273,11 @@
   <h3>Book Preparation Section (bottom of library)</h3>
   <ol>
     <li><strong>Book title</strong> — editable. Default pre-populated: "The Collected Stories of [StorytellerFirstName] [StorytellerSurname]". Saved to Subscribers.BookTitle via HOOK_BOOK_TEXT. Only written if subscriber edits it.</li>
-    <li><strong>Portrait photo</strong> — inside cover page only. Used as front cover only if no cover image provided.</li>
-    <li><strong>Cover image</strong> — optional. Front cover. If absent, portrait is used as fallback.</li>
+    <li><strong>Portrait photo</strong> — inside cover page. Uploaded via library.</li>
     <li><strong>Dedication</strong> — editable text field. Saved to Subscribers.DedicationText.</li>
     <li><strong>Delivery address</strong> — required for Courier Guy. Saved to Subscribers.DeliveryAddress.</li>
     <li><strong>Delivery phone</strong> — mobile number for courier. Saved to Subscribers.DeliveryPhone.</li>
-    <li><strong>Book summary</strong> — written by Tamara at week 26, custom per subscriber. Entered in Airtable (Subscribers.BookSummary). Read-only in library.</li>
   </ol>
-
-  <div class="decision">
-    <strong>Cover logic (locked):</strong> Portrait = inside cover page. Cover image = front cover (portrait as fallback). These are separate. Do not describe them as interchangeable in copy or UI.
-  </div>
 
   <h3>Mark as Complete</h3>
   <ul>
@@ -349,10 +343,8 @@
     <tr><td>LibraryToken</td><td>Text — Airtable record ID used in library URL (same as the record ID)</td></tr>
     <tr><td>BookFormCompleted</td><td>Date — subscriber presses "Mark as Complete". Triggers Make to alert Tamara.</td></tr>
     <tr><td>BookTitle</td><td>Text — subscriber-editable in library. Default: "The Collected Stories of [FirstName] [Surname]". Written to Airtable only if subscriber edits it.</td></tr>
-    <tr><td>CoverPhotoURL</td><td>URL — Cloudinary URL of front cover photo</td></tr>
     <tr><td>PortraitPhotoURL</td><td>URL — Cloudinary URL of inside-cover portrait</td></tr>
     <tr><td>DedicationText</td><td>Long text</td></tr>
-    <tr><td>BookSummary</td><td>Long text — Tamara writes custom per subscriber at week 26. Read-only in library.</td></tr>
     <tr><td>BookCompiledDate</td><td>Date — Tamara sets when design complete</td></tr>
     <tr><td>BookSentToPrintDate</td><td>Date — Tamara sets when book sent to printer. Triggers Make Scenario 11 → email 12.</td></tr>
     <tr><td>BookProductionStatus</td><td>Formula: "In Design" if BookFormCompleted filled + BookCompiledDate empty; "Ready for Print" if BookCompiledDate filled + BookSentToPrintDate empty; "At Printer" if BookSentToPrintDate filled.</td></tr>
@@ -559,7 +551,7 @@
 
   <ol>
     <li>Subscriber fills book prep in library (photos, dedication, delivery address, title). Presses "Mark as Complete" → sets BookFormCompleted in Airtable.</li>
-    <li>Scenario 10 daily alert notifies Tamara. Tamara writes custom BookSummary in Airtable.</li>
+    <li>Scenario 10 daily alert notifies Tamara.</li>
     <li>Tamara (or designer) exports 26 stories + captions + image URLs from Airtable.</li>
     <li>Designer fills book template (Canva vs Reedsy — deferred pending StoryWorth automation research). Sets BookCompiledDate.</li>
     <li>Export as print-ready PDF. Send to local SA printer (~R1,100).</li>

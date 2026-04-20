@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Family — The Complete Stories of Mary J. Miller</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #E8E4DF;
+  font-family: Georgia, 'Times New Roman', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px 80px;
+  gap: 0;
+}
+
+/* ── PAGE BASE ── */
+.page {
+  position: relative;
+  width: 680px;
+  height: 845px;
+  background: #F4F2EE;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+  flex-shrink: 0;
+}
+
+/* Subtle paper grain overlay */
+.page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.045'/></svg>");
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Page spacing — gap between pages */
+.page + .page { margin-top: 3px; }
+.spread-gap { height: 32px; }
+
+/* ── COVER ── */
+.cover-spread {
+  width: 680px;
+  height: 845px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+  flex-shrink: 0;
+  background-color: #C8C2BA;
+}
+.cover-spread::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.07'/></svg>");
+  pointer-events: none;
+  z-index: 10;
+}
+.cover-title-block {
+  position: absolute;
+  top: 248px;
+  left: 68px;
+}
+.cover-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 108px;
+  line-height: 0.90;
+  letter-spacing: 0.01em;
+  color: #1A1A1A;
+}
+.cover-author-block {
+  position: absolute;
+  bottom: 180px;
+  right: 68px;
+  text-align: right;
+}
+.cover-author-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 25px;
+  letter-spacing: 0.09em;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #1A1A1A;
+}
+.cover-author-sub {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: Georgia, serif;
+  color: #3A3A3A;
+  margin-top: 8px;
+}
+
+/* ── PORTRAIT PAGE ── */
+.portrait-wrap {
+  position: absolute;
+  inset: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.portrait-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── FRONT MATTER TEXT PAGES ── */
+.front-matter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 90px 72px;
+  flex-direction: column;
+  text-align: center;
+}
+.dedication-text {
+  font-size: 13.5px;
+  line-height: 1.85;
+  font-style: italic;
+  color: #2A2A2A;
+  max-width: 440px;
+}
+.epigraph-quote {
+  font-size: 14px;
+  line-height: 1.9;
+  font-style: italic;
+  color: #1A1A1A;
+  max-width: 460px;
+  margin-bottom: 20px;
+}
+.epigraph-attribution {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #777;
+  font-style: normal;
+  font-family: Georgia, serif;
+  text-align: center;
+}
+
+/* ── CHAPTER PAGES ── */
+.chapter-page {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  padding: 58px 62px 72px 68px;
+}
+
+.chapter-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 68px;
+  line-height: 0.93;
+  letter-spacing: 0.01em;
+  color: #1A1A1A;
+  text-transform: uppercase;
+  margin-bottom: 0;
+}
+.chapter-title-block {
+  margin-top: 62px;
+  margin-bottom: 108px;
+}
+
+/* Body text — blurred for privacy */
+.body-text {
+  font-size: 17.5px;
+  line-height: 30px;
+  color: #1A1A1A;
+  text-align: justify;
+  filter: blur(2.6px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.body-text p { margin-bottom: 20px; }
+.body-text p:last-child { margin-bottom: 0; }
+
+/* Chapter 26 bullet list */
+.bullet-list {
+  font-size: 17.5px;
+  line-height: 30px;
+  color: #1A1A1A;
+  filter: blur(2.6px);
+  user-select: none;
+  -webkit-user-select: none;
+}
+.bullet-list li {
+  margin-bottom: 20px;
+  padding-left: 6px;
+  list-style-position: outside;
+  margin-left: 18px;
+}
+
+/* Text-only page (pages 2, 3, 4) */
+.text-page .chapter-page {
+  padding-top: 62px;
+}
+
+/* Page 4 — text ends, white space below */
+.page-4-text {
+  /* text sits at top, rest is white space — handled by content height */
+}
+
+/* ── PHOTO PAGE ── */
+.photo-page-inner {
+  position: absolute;
+  top: 76px;
+  left: 76px;
+  right: 76px;
+  height: 530px;
+}
+.photo-page-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.caption {
+  position: absolute;
+  top: 660px;
+  left: 76px;
+  right: 76px;
+  font-size: 12.5px;
+  line-height: 19px;
+  font-style: italic;
+  color: #3A3A3A;
+  text-align: left;
+}
+
+/* ── CHAPTER 26 TITLE PAGE ── */
+.ch26-title {
+  margin-top: 72px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 68px;
+  line-height: 0.93;
+  letter-spacing: 0.01em;
+  color: #1A1A1A;
+  text-transform: uppercase;
+}
+
+/* Ch5 opening — slightly tighter title margin to fit P1 (148w) */
+.ch5-title-block {
+  margin-top: 62px;
+  margin-bottom: 70px;
+}
+
+/* ── PAGE NUMBER ── */
+.page-number {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 12px;
+  font-family: Georgia, serif;
+  color: #999;
+  letter-spacing: 0.05em;
+}
+
+/* ── LABEL (for navigation — not printed) ── */
+.page-label {
+  font-size: 10px;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #B8976A;
+  margin: 12px 0 2px;
+  width: 680px;
+}
+</style>
+</head>
+<body>
+
+
+<!-- ═══════════════════════════════════════════ COVER -->
+<div class="page-label">Cover — three ink variants</div>
+<div class="cover-spread">
+  <div class="cover-title-block">
+    <div class="cover-title">DEAR<br>FAMILY,</div>
+  </div>
+  <div class="cover-author-block">
+    <div class="cover-author-name">MARY JULIETTE MILLER</div>
+    <div class="cover-author-sub">A Collection of Stories</div>
+  </div>
+</div>
+
+<div class="spread-gap"></div>
+
+<!-- ═══════════════════════════════════════════ PORTRAIT -->
+<div class="page-label">Interior cover — Portrait</div>
+<div class="page">
+  <div class="portrait-wrap">
+    <img src="book-images/sample-mary-miller/00-portrait-mary-miller.png" alt="Mary J. Miller">
+  </div>
+  <div class="page-number">1</div>
+</div>
+
+<div class="spread-gap"></div>
+
+<!-- ═══════════════════════════════════════════ DEDICATION -->
+<div class="page-label">Dedication</div>
+<div class="page">
+  <div class="front-matter">
+    <p class="dedication-text">This book is dedicated to everyone I have known and loved in the long, complicated, ordinary miracle of a shared life.</p>
+  </div>
+  <div class="page-number">2</div>
+</div>
+
+<div class="spread-gap"></div>
+
+<!-- ═══════════════════════════════════════════ EPIGRAPH -->
+<div class="page-label">Epigraph</div>
+<div class="page">
+  <div class="front-matter">
+    <p class="epigraph-quote">"Make up a story. For our sake and yours forget your name in the street; tell us what the world has been to you in the dark places and in the light. Don't tell us what to believe, what to fear. Show us belief's wide skirt and the stitch that unravels fear's caul."</p>
+    <p class="epigraph-attribution">Toni Morrison, Nobel Prize Lecture, 1993</p>
+  </div>
+  <div class="page-number">3</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 1 -->
+<div class="page-label">Chapter 1 — I Got It From My Mama · Page 1</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="chapter-title-block">
+      <div class="chapter-title">I Got It From<br>My Mama</div>
+    </div>
+    <div class="body-text">
+      <p>There is a particular way my mother entered a room. Not loudly — she was never loud — but with a quality of attention that made you feel the room had been waiting for her. She noticed things. The cup left on the wrong shelf. The child sitting slightly apart from the others. The conversation that needed redirecting before it became something else. I did not know, for many years, that I had inherited this quality. I thought I was simply paying attention. It took my eldest daughter, at seventeen, watching me across a dinner table, to say: you do exactly what Grandma Sylvia did. You scan the room. You always know where everyone is. And she was right. I do. I always have.</p>
+    </div>
+  </div>
+  <div class="page-number">4</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>What we inherit from our mothers is rarely the thing we expect. We think of it in terms of objects — the ring, the recipe, the handwriting on a card kept in a drawer. We imagine inheritance as something handed over deliberately, with ceremony, in a moment of understood significance. But most of what I got from my mother arrived without announcement, slipping into me the way water finds its level: the slight forward tilt when listening to someone who is struggling to find their words, the specific way of folding napkins that I cannot do any other way even now, the habit of noticing who has not been thanked, the absolute inability to leave a gathering without checking that nobody is standing alone.</p>
+      <p>She was a woman who held things together by noticing them. A family is not held together by love alone — love is easy; love is the given. What holds a family together is the continuous, invisible labour of attention. Who has gone quiet. Who is eating too little. Who needs to be asked something in private that they cannot say in the room. This was my mother's particular genius, and she never named it or claimed it as such. It was simply what she did. What I watched her do, every day of my childhood, without understanding that I was learning.</p>
+    </div>
+  </div>
+  <div class="page-number">5</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>Spraklins was a fabric shop in Milnerton. I want to be precise about this, because the details matter when you are trying to hold a person in words. It was on the main road, not far from the school, and my mother went there most Saturday mornings the way some people go to church: with purpose and a kind of private reverence. She had an eye for fabric the way musicians have an ear — she could see, in a bolt of material, what it would become. The dress that would suit the occasion. The curtain that would change the quality of light in a room.</p>
+      <p>The spring she decided we would wear the same dress, I was eight years old and the dress was a cream cotton printed with small olive sprigs — the kind of fabric that is modest until it moves, at which point it becomes beautiful. She cut two patterns from the same bolt. She did not ask me if I wanted a matching dress. It did not occur to her that I might not. She knew me well enough to know that I would be delighted, which I was, in the way that children are delighted when someone who loves them makes a choice that proves they know you.</p>
+    </div>
+  </div>
+  <div class="page-number">6</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>We wore the dresses to my aunt's engagement luncheon, which was held in a garden in Pinelands on a Sunday in October. I remember the feeling of the cotton against my legs. I remember the look on my aunt's face when we arrived — something between amusement and recognition. I remember standing next to my mother and understanding, in the wordless way that children understand things that take years to articulate, that this was what love looked like when it was made into something you could wear.</p>
+      <p>I kept the dress long after I had outgrown it. I kept it in a paper bag in the back of my wardrobe through three house moves and two countries, until it fell apart at the seams entirely and even I could not argue that it was still keeping anything intact. My mother died on a Wednesday morning in August, fourteen years ago. I still scan the room when I walk into it. I still know where everyone is. Some inheritances are not stored in paper bags.</p>
+      <p>What I understand now, and could not have articulated then, is that she was teaching me something about the relationship between love and craft.</p>
+    </div>
+  </div>
+  <div class="page-number">7</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>That love, to be useful, must be made into something. It must be cut and sewn and fitted. It must take into account the particular body and the particular occasion. It must be made with enough care that the person who receives it understands, at some level below language, that they were the specific intention of the making. She never said any of this. She just made the dresses. The lesson was in the fabric.</p>
+    </div>
+  </div>
+  <div class="page-number">8</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch01-i-got-it-from-my-mama.png" alt="">
+    </div>
+    <div class="caption">Spring, 1963, our house in Gardenia Crescent, Milnerton. Me, aged 8, with my mother, Sylvia. The fabric had been bought on a Saturday morning at Spraklins – one bolt, two dresses. Mom's idea, but I wore mine until it no longer fitted. Then I kept it anyway.</div>
+  </div>
+  <div class="page-number">9</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 2 -->
+<div class="page-label">Chapter 2 — A Dialogue Between the Moon and Stars · Page 1</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="chapter-title-block">
+      <div class="chapter-title">A Dialogue Between<br>the Moon<br>and Stars</div>
+    </div>
+    <div class="body-text">
+      <p>When I was very small I believed, with the certainty that only very small children can believe things, that the sky was a conversation I was not yet old enough to understand. The stars were not decorative. They were communicating. They had been doing so long before any of us arrived, and they would continue long after, and the fact that we had not yet learned to listen was our failing, not theirs. I told my grandfather Solly this one evening when I was about seven, lying on my back in the grass while he sat nearby in a folding chair. He put down whatever he was reading and looked at me for a long moment. Then he said: you might be right. Let's keep listening.</p>
+    </div>
+  </div>
+  <div class="page-number">10</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>Solly was not a romantic man in the conventional sense. He was precise, economical with words, quietly amused by most things. He had lived through enough to have earned a certain scepticism about large claims and easy sentiments. But he had a genuine reverence for the sky, and he was patient with the kind of child I was, which was the kind who asked too many questions and believed that the answers mattered.</p>
+      <p>The Cederberg trip was the year I turned eight. It was December, school holidays, the kind of hot that accumulates over days until the evenings feel like a gift. We drove up from Cape Town, through the Hex River Pass, and then north into that landscape that does not look like anywhere else on earth — the red sandstone, the fynbos, the mountains worn smooth by time into shapes that seem almost deliberate. Algeria campsite, which is where we always stayed. Canvas tents and a river and the sound of jackals at night, and above all of it, the sky.</p>
+      <p>My grandfather had promised me the Milky Way. He had said: you cannot understand it from the city. You need to be somewhere dark enough. And he was right. I remember getting out of the sleeping bag at some point in the night and unzipping the tent flap and looking up, and stopping completely.</p>
+    </div>
+  </div>
+  <div class="page-number">11</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>It was the first time I had seen the sky as it actually is. Not as decoration, not as a backdrop. As something with density and depth and architecture, a structure so elaborate and so indifferent to us that it produced, in me, simultaneously the most profound sense of smallness and the most profound sense of possibility I had ever felt.</p>
+      <p>I lay down in the dry grass next to the tent and did not move for a long time. After a while, my grandfather came and lay down beside me. We did not speak. There was nothing to say that the sky was not already saying more eloquently than either of us could manage. When we finally went back inside, he said: now you know. And that was all. It was enough.</p>
+      <p>What I wanted to be, at that age, changed with some frequency. In the months following the Cederberg trip it was, for a while, an astronomer. Then a scientist of some unspecified kind. Then a writer who would write about the sky. Then an explorer. Then, for several weeks, a queen — though a queen of what exactly I was never sure. These ambitions were not contradictory in my mind. They were all versions of the same thing: a person who would know more than she currently did, and who would do something with the knowing.</p>
+    </div>
+  </div>
+  <div class="page-number">12</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>The fancy dress was, in retrospect, an early attempt at costume as argument. If you dressed as the person you intended to become, perhaps you could accelerate the process. I wore my grandmother's curtain as a cape and made a crown from the inner cardboard sleeve of a cereal box and declared sovereignty over everything visible from the back stoep, which included the garden, the fence, the neighbour's dog, and, on a clear day, a strip of sea. Nobody disputed this. My mother photographed it. My grandfather, who was visiting, observed proceedings from a chair in the garden with the expression of a man who had expected this and was not displeased.</p>
+      <p>The photograph still exists. I am wearing an expression of absolute authority, the cape slightly crooked, the crown already beginning to list to the left. I look like someone who has no doubt whatsoever about either her claim or her ability to enforce it. I was going to change the world. I had no particular plan for how. But the conviction was entirely genuine, which I think is the only useful starting point. You need the conviction before you can afford to work out the plan.</p>
+    </div>
+  </div>
+  <div class="page-number">13</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch02-option-b-fancy-dress-v2.png" alt="">
+    </div>
+    <div class="caption">Circa 1964. Probably on my way to a fancy-dress party. But I didn't need an excuse. The crown might have been a cereal box and the cape, an old curtain, but I was the self-declared Queen of the Back Garden and sole ruler of everything beyond the stoep. I was going to change the world and save it.</div>
+  </div>
+  <div class="page-number">14</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 3 -->
+<div class="page-label">Chapter 3 — Non-Returnable People · Page 1</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="chapter-title-block">
+      <div class="chapter-title">Non-Returnable<br>People</div>
+    </div>
+    <div class="body-text">
+      <p>There is a kind of person who exists in every family — the one who cannot be discussed neutrally, who generates a particular charge in the room simply by being mentioned, who is loved or resented or feared or pitied or, most usually, several of these at once. Every family has its version of this person, and most families have several. They are the ones the stories always circle back to, the ones whose names come up at the wrong moment with the wrong weight, the ones who left something unresolved that the family is still carrying, decades later, like an account that was never properly settled.</p>
+    </div>
+  </div>
+  <div class="page-number">15</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>My family had more than its share of these people. This is not a complaint — I have come to understand that the complicated ones are, in most cases, also the interesting ones, and a family without complicated people is a family without much to talk about. What I mean is that we were not a simple family, and the Pesach table was where this was most visible: too many people in too small a space, with histories that did not always sit easily alongside each other, performing a ritual that was itself about memory and suffering and the particular stubborn human insistence on survival.</p>
+      <p>My grandmother Rivka ran the seder from the year my grandfather Hershel died until the year she herself could no longer hold a Haggadah without help. She was not a soft woman. She was precise and unsentimental and did not subscribe to the convention that grief should be worn visibly. When my grandfather died in November, she arranged the funeral, sat shiva, thanked everyone who came, and then resumed her life with a deliberateness that some people found cold and I found, and still find, admirable. She was seventy-two years old and she had lived through enough to have developed opinions about how loss should be managed.</p>
+    </div>
+  </div>
+  <div class="page-number">16</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>The first seder without him, she took his seat at the head of the table without being asked and without announcing it. She simply sat down there, opened the Haggadah to the first page, and began. If she looked at the chair to her right — his chair, for forty-one years his chair — she did not do it where anyone could see.</p>
+      <p>I was eleven that year. I was sitting halfway down the table next to my cousin Sharon, and we were, I am not proud to say, talking about something entirely unrelated to the Haggadah. I remember the sound of Bobbe Rivka's voice beginning the first paragraph — she had a reading voice that carried without effort, the voice of someone who had grown up in a house where reading aloud mattered — and the way the table went quiet around it.</p>
+      <p>Across the table, on the younger side, four-year-old Danny had been asleep since roughly the second cup of wine, his head on his arms, apparently undisturbed by the proceedings. At the far end, my great-uncle Bernard was already arguing with somebody about something that had nothing to do with the Haggadah. My mother was refilling glasses. The woman next to her — Auntie Freda, who had arrived overdressed for a Pesach seder as she arrived overdressed for everything, including once, memorably, a morning at the beach</p>
+    </div>
+  </div>
+  <div class="page-number">17</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>— was watching all of this with an expression of settled dissatisfaction that suggested she had expected exactly this and was not surprised.</p>
+      <p>This is the texture of family. Not the version we construct for photographs or tell to people we want to impress, but the actual texture: the sleeping child and the arguing uncle and the woman who cannot find it in herself to be pleased, and at the centre of it all, a seventy-two-year-old woman reading from a Haggadah in a voice that did not waver, leading her family through a ritual about exodus and survival and the importance of remembering where you came from.</p>
+      <p>The people at that table are mostly gone now. Not only the old ones — also some of the young ones, taken earlier than expected by the various misfortunes that do not announce themselves in advance. What I know now, and could not have known then, is that it was already almost over, that particular configuration of people, that specific combination of the living and the irritating and the beloved and the complicated. We were already running out of time to be together in that room. We did not know it. We were arguing about Bernard's something or other and eating too much and not paying attention to the Haggadah and being entirely ourselves</p>
+    </div>
+  </div>
+  <div class="page-number">18</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>which is the only way you can be when you still believe there will be another year.</p>
+      <p>The phrase that stayed with me, from that seder and all the seders after it, is not from the Haggadah. It is the one my grandmother said every year at the end, when the food was mostly gone and the arguing had softened into conversation and the children were falling asleep in their chairs. She looked down the table — a long look, taking everyone in — and said: next year. Just that. It was both a statement and a prayer, and every year I understood it a little better, and every year it cost a little more, and now, saying it myself at the head of my own table, I understand it completely.</p>
+    </div>
+  </div>
+  <div class="page-number">19</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch03-pesach-bw.png" alt="">
+    </div>
+    <div class="caption">Pesach, April 1967, Sea Point. The Miller Family seder – the first without grandpa Hershel. Bobba Rivka, aged seventy-two, took her place at the head of the table without discussion and led every word from memory. She did not once look at her old seat to the right of where she now sat.</div>
+  </div>
+  <div class="page-number">20</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 4 -->
+<div class="page-label">Chapter 4 — Books and Smoking Guns · Page 1</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="chapter-title-block">
+      <div class="chapter-title">Books and<br>Smoking Guns</div>
+    </div>
+    <div class="body-text">
+      <p>The University of Cape Town sits on the slopes of Devil's Peak in a way that is not accidental. It was built to look authoritative — the wide stone steps of Jameson Hall, the mountain rising above it, the long view down over the city and the sea. It was built to say: here is where things are known, where the important thinking happens, where the future is made. This is exactly the kind of architecture that is useful to protest against, which is why the steps of Jameson Hall became, in the early nineteen-seventies, one of the most politically charged surfaces in South Africa. The building said authority. We said: not this authority. The mountain watched us without taking sides.</p>
+    </div>
+  </div>
+  <div class="page-number">21</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>I arrived at UCT in 1973, a second-year Psychology student from Milnerton who had spent most of the previous year being radicalised by books. This is not as dramatic as it sounds. The books did not arrive with a warning. They were simply the books that serious people were reading: Frantz Fanon, Steve Biko, Nadine Gordimer, Alan Paton, the documents that circulated in photocopied form with the status of contraband and the slightly thrilling weight of things that powerful people wanted suppressed. I read them and they changed the way I understood the country I had grown up in, which was to say, the country I had grown up in without understanding. I had been, in the way of white South African children of my generation and class, largely uninformed about the actual structure of the place I called home.</p>
+      <p>NUSAS — the National Union of South African Students — was the organisation through which students like me tried to do something with this new understanding. It was imperfect, as organisations run by twenty-year-olds tend to be, and the debates about strategy and efficacy and who had the right to speak and in what register were endless and often circular. But the underlying conviction was correct, and sometimes that is enough to start with.</p>
+    </div>
+  </div>
+  <div class="page-number">22</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>The Wages Commission campaign was not the most dramatic thing NUSAS did, but it was one of the most coherent. The argument was simple: the university employed Black workers — in the kitchens, in the grounds, in the residences — and paid them wages that could not support a family. White students who claimed to oppose apartheid and then ate food prepared by workers paid starvation wages were engaged in a contradiction that needed to be addressed. The campaign asked the university to pay a living wage. The university resisted. We held demonstrations on the steps.</p>
+      <p>What I remember about the August 1974 demonstration is the particular quality of the light — high winter sun, no cloud, the mountain sharp and enormous behind the hall. There were perhaps forty or fifty of us, which sounds small but felt, on those steps, like a significant statement. The placards were hand-painted, which meant they were imperfect, which meant they looked like what they were: made by people rather than institutions, carried at some personal cost rather than commissioned. There is a kind of authority in imperfection that no official communication has ever successfully replicated.</p>
+      <p>I had a lecture at two o'clock. The lecture was on developmental psychology, a subject I genuinely found interesting, taught by a professor I respected. I did not go. This was not a difficult decision in the moment, though it felt like one in advance.</p>
+    </div>
+  </div>
+  <div class="page-number">23</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>Once I was on the steps, holding my placard, talking to the people around me — most of whom I knew and some of whom I would know for the rest of my life — the lecture seemed entirely beside the point. There are days when the thing that is actually happening is more important than the thing that was scheduled.</p>
+      <p>My mother found out about it, eventually, through the grapevine of Milnerton mothers who had daughters at UCT. Her response was careful. She did not tell me I was wrong. She did not tell me I was right. She said: just make sure you know what you're doing and why. Make sure you can defend the reasons, not just the feelings. It was, in retrospect, the most useful political advice I ever received, because it applied equally to the demonstration and to every political conversation I have had in the fifty years since.</p>
+      <p>The university eventually agreed to review its wage structure. The review took longer than it should have. The wages improved more slowly than they should have. The people who had advocated for the improvement had largely moved on to other things by the time it happened. This is the nature of most progress: incremental, partial, insufficient, and nonetheless worth having done.</p>
+      <p>What the books gave me, and what the steps gave me, was the understanding that the world as it is presented to you is not the world as it is. This seems obvious in retrospect. It was not obvious to me at seventeen.</p>
+    </div>
+  </div>
+  <div class="page-number">24</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>It required the patient work of reading, and the less patient work of standing on steps in August sun holding a sign that said something I believed, and finding that I was not the only one. That is what education is for, when it is working: not the acquisition of information, but the revision of the assumptions you did not know you were making. I went to university to learn psychology. I came away understanding, for the first time, the country I had been living in all my life.</p>
+    </div>
+  </div>
+  <div class="page-number">25</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch04-uct-protest.png" alt="">
+    </div>
+    <div class="caption">August 1974, The steps of Jameson Hall, University of Cape Town. We gathered in support of the UCT Wages Commission, calling for a living wage for the university's Black workers. I was a second-year Psychology student at the time. I had a lecture at two o'clock. I didn't go.</div>
+  </div>
+  <div class="page-number">26</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 5 -->
+<div class="page-label">Chapter 5 — A Bride Married to Amazement · Page 1</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="ch5-title-block">
+      <div class="chapter-title">A Bride Married<br>to Amazement</div>
+    </div>
+    <div class="body-text">
+      <p>I have never been particularly good at faith in the conventional sense. This is not something I say proudly — it is simply true, a fact about my particular way of being in the world. I find it difficult to maintain conviction about things I cannot, in some sense, verify. I find organised certainty of any kind — religious, political, ideological — to produce in me a mild but persistent resistance, the intellectual equivalent of a sneeze you cannot suppress. What I have, instead of faith in the conventional sense, is something harder to name: a recurring, involuntary sense of amazement at the fact that any of this exists at all. That there is something rather than nothing. That the Cederberg sky is actually that sky, and not a lesser one. That a bolt of olive-sprigged cotton becomes two dresses and then one memory and then this page.</p>
+    </div>
+  </div>
+  <div class="page-number">27</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>The morning I married David, I was standing on the steps of the Sea Point Hebrew Congregation at a little after eleven in the morning in August, which in Cape Town means cold bright air and the smell of the Atlantic, and I looked at the sky and felt, with a force that was almost physical, that I could not believe any of this was happening. Not in a bad way. In the Mary Oliver way: in the way of the poem about dying, which she approached not with dread but with the posture of a bride. Married to amazement. The phrase has stayed with me for forty years because it is the most precise description I have found for the specific quality of attention with which I want to inhabit my life.</p>
+      <p>David was standing at the door in a suit that fitted him well and looking at me with an expression I had not seen on his face before and have seen many times since: completely unguarded, entirely present, the expression of someone who has decided something and is at peace with the decision. We had met at a party in Oranjezicht three years before, introduced by a mutual friend who claimed, afterward, no credit for the outcome. We had argued about politics almost immediately, which, in South Africa in 1979, was impossible to avoid and, as it turned out, an excellent foundation. You cannot be in a long marriage with someone whose moral imagination you do not respect. Everything else is negotiable. That is not.</p>
+    </div>
+  </div>
+  <div class="page-number">28</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>The ceremony was conducted by a rabbi I had met twice before, who spoke in the way of people who have officiated at many weddings and have made their peace with the fact that the two people in front of them are not really listening to him. He was right. I was listening to something else entirely — the wind off the sea, the sound of someone's child somewhere in the congregation, the specific quality of quiet that descends on a room when something is about to become permanent.</p>
+      <p>What I said yes to, that morning, was not fully knowable in advance. This is the nature of the commitment: you are agreeing to a future you cannot see, with a person you do not yet completely know, on the basis of a present that is already more than you had expected. It requires a particular kind of courage that is different from the courage needed for most things — not the courage to act in the face of known risk, but the courage to act in the face of necessary uncertainty. You do not know who this person will become. You do not know who you will become. You are agreeing to find out together, which is either terrifying or beautiful depending on the morning.</p>
+      <p>That morning it was beautiful. I gathered my dress at the car door — David had hired a white BMW that was too large for the parking bay we had been given and had spent twenty minutes solving this problem while I waited with my mother in the anteroom — and I looked at him holding the door open and laughing at something, and I thought: this is the person.</p>
+    </div>
+  </div>
+  <div class="page-number">29</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="body-text">
+      <p>Not with the drama that phrase implies in novels, but with the quiet certainty of recognition. This is the one I will find still funny in thirty years. This is the one whose opinion will still matter to me when it is inconvenient. This is the one.</p>
+      <p>We were on a six o'clock flight to Mauritius. I had been told to pack a bathing suit and a passport, which told me almost nothing, and I had spent three days in a state of mild curiosity that was, in retrospect, the ideal honeymoon preamble. You spend so long planning a wedding that the idea of someone else planning what comes next is an extraordinary luxury. I got into the car. I did not ask where we were staying. The destination was a surprise. I have always preferred a horizon I cannot quite see yet.</p>
+    </div>
+  </div>
+  <div class="page-number">30</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch05-wedding-car-bw.png" alt="">
+    </div>
+    <div class="caption">15 August 1982, Cape Town. David charmingly holds the door open as I gather my wedding dress for the last time. We were on a six o'clock flight to Mauritius. I had been told to pack a bathing suit and my passport. The destination was a surprise.</div>
+  </div>
+  <div class="page-number">31</div>
+</div>
+
+<div class="spread-gap"></div>
+
+
+<!-- ═══════════════════════════════════════════ CHAPTER 26 -->
+<div class="page-label">Chapter 26 — What I've Learned · Page 1 (title)</div>
+<div class="page">
+  <div class="chapter-page">
+    <div class="ch26-title">What I've Learned:<br>A List of Brave<br>and Startling Truths<br>I Hope You'll<br>Carry Forward</div>
+  </div>
+  <div class="page-number">143</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="bullet-list">
+      <ol>
+        <li>Pay attention. It is the most radical act available to you and the one most consistently abandoned in the name of efficiency.</li>
+        <li>The people who are difficult to love are usually the ones who most need it. This does not mean you are obliged to love them. It means it is worth trying to understand them before you give up.</li>
+        <li>Your body knows things before your mind does. Learn to listen to it before it has to shout.</li>
+        <li>Grief is not a problem to be solved. It is a measure of how much something mattered. Treat it accordingly.</li>
+        <li>Most arguments are not about the thing they appear to be about. The skill is finding out what they are actually about, which usually requires stopping talking and listening instead.</li>
+        <li>The version of yourself you are most afraid to show people is, more often than not, the most interesting one.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page-number">144</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="bullet-list">
+      <ol start="7">
+        <li>Every relationship — marriage, friendship, family — requires more maintenance than you think it should. This is not a design flaw. It is the design.</li>
+        <li>Forgiveness is not the same as forgetting, and it is not the same as accepting. It is simply the decision to stop carrying something that is making you too heavy to move.</li>
+        <li>The things you are most proud of will almost certainly not be the things you expected to be proud of.</li>
+        <li>Read more than you think you need to. The books you needed are not always the ones you thought you were looking for.</li>
+        <li>Say the true thing, even when the untrue thing would be kinder in the short term. You will nearly always regret the untrue thing more.</li>
+        <li>A family is not held together by love alone. It is held together by the continuous labour of attention — noticing who is struggling, who has gone quiet, who needs to be asked something in private. This labour is invisible and essential and mostly done by women and almost never thanked. Thank it.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page-number">145</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="bullet-list">
+      <ol start="13">
+        <li>The quality of your life will be determined less by what happens to you than by what you decide to pay attention to. This is not a comfortable truth. It is a useful one.</li>
+        <li>Do not wait until you are ready. You will not be ready. Begin anyway.</li>
+        <li>The sun takes its time going down in the bush. You do not need to wish it would hurry. Very few good things benefit from hurrying.</li>
+        <li>Tell the people you love that you love them, with enough specificity that they know you mean them in particular and not people in general. Love that is not expressed specifically is love that is only half given.</li>
+        <li>You are going to be wrong about things. The correct response is not shame. It is revision. Update your understanding and keep going.</li>
+        <li>The stories are worth telling. They are the only things that cannot be taken away, the only things that travel forward in time without loss. Tell them now. Do not wait for a better occasion. This is the occasion.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page-number">146</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page">
+    <div class="bullet-list" style="filter: blur(2.6px);">
+      <ol start="19">
+        <li>Above all: pay attention. This is the beginning and the end of it. I told you this at the start. I am telling you again now because it is the thing most worth repeating, the one that applies to everything else, the instruction that does not expire. Be here. Notice what is in front of you. It is already extraordinary. It has always been extraordinary. You only need to look.</li>
+      </ol>
+    </div>
+  </div>
+  <div class="page-number">147</div>
+</div>
+
+<div class="page" style="margin-top:3px;">
+  <div class="chapter-page" style="padding: 0;">
+    <div class="photo-page-inner">
+      <img src="book-images/sample-mary-miller/ch26-option-b-bush-sunset.png" alt="">
+    </div>
+    <div class="caption">July 2025. Timbavati Private Nature Reserve, Limpopo. Amen, and I, at the end of the dry season in the camp I've been returning to since 1993. The sun takes its time going down in the bush. I've never once wished it would set sooner.</div>
+  </div>
+  <div class="page-number">148</div>
+</div>
+
+
+</body>
+</html>

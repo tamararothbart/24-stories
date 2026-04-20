@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>24 Stories — Interior Mockup Prompts</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #F7F5F2; color: #1A1A1A; font-size: 15px; line-height: 1.7; }
+  .top-bar { background: #1A1A1A; color: #F7F5F2; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .top-bar h1 { font-size: 18px; font-weight: normal; letter-spacing: 0.02em; }
+  .top-bar span { font-size: 13px; color: #B8976A; }
+  .container { max-width: 900px; margin: 0 auto; padding: 32px 24px 100px; }
+
+  h2 { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.1em; color: #B8976A; border-bottom: 1px solid #D4C4B0; padding-bottom: 8px; margin: 52px 0 18px; }
+
+  .intro { background: #fff; border: 1px solid #D4C4B0; padding: 18px 22px; margin-bottom: 8px; font-size: 14px; line-height: 1.9; }
+  .workflow-box { background: #1A1A1A; color: #F7F5F2; padding: 16px 20px; margin: 20px 0; font-size: 13px; line-height: 1.85; }
+  .workflow-box ol { margin-left: 18px; }
+  .workflow-box li { margin-bottom: 6px; }
+  .workflow-box strong { color: #B8976A; }
+
+  .prompt-card { background: #fff; border: 1px solid #D4C4B0; margin-bottom: 28px; overflow: hidden; }
+  .prompt-card-header { background: #1A1A1A; color: #F7F5F2; padding: 11px 18px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .badge { font-size: 10px; background: #B8976A; color: #fff; padding: 2px 8px; border-radius: 2px; font-family: sans-serif; white-space: nowrap; flex-shrink: 0; }
+  .badge-layout { background: #5a4020; }
+  .badge-image { background: #2E7D32; }
+  .badge-caption { background: #555; }
+  .badge-portrait { background: #B8976A; }
+  .badge-last { background: #8B0000; }
+  .card-title { font-size: 15px; font-weight: normal; }
+  .card-meta { font-size: 12px; color: #aaa; margin-left: auto; font-family: sans-serif; }
+
+  .prompt-body { padding: 16px 18px; }
+  .field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #B8976A; font-weight: bold; font-family: sans-serif; margin-bottom: 6px; display: flex; align-items: center; justify-content: space-between; }
+  .copy-btn { background: #1A1A1A; color: #fff; border: none; padding: 4px 12px; font-size: 11px; font-family: sans-serif; cursor: pointer; border-radius: 2px; letter-spacing: 0.05em; }
+  .copy-btn:hover { background: #B8976A; }
+  .copy-btn.copied { background: #2E7D32; }
+  textarea.prompt-field { width: 100%; border: 1px solid #D4C4B0; padding: 12px 14px; font-size: 13px; font-family: Georgia, serif; color: #1A1A1A; background: #F7F5F2; resize: vertical; cursor: pointer; line-height: 1.75; }
+  .note { background: #FFF8EC; border-left: 3px solid #B8976A; padding: 10px 14px; font-size: 13px; color: #555; margin-top: 12px; line-height: 1.75; }
+  .note strong { color: #1A1A1A; }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
+  .spec-table tr { border-bottom: 1px solid #e8e4de; }
+  .spec-table td { padding: 11px 0; vertical-align: top; }
+  .spec-table td:first-child { width: 220px; font-size: 11px; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; color: #888; padding-right: 20px; padding-top: 14px; font-family: sans-serif; }
+  .divider { border: none; border-top: 2px solid #1A1A1A; margin: 56px 0 0; }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <h1>24 Stories — Interior Mockup Prompts</h1>
+  <span>Book Interior · ChatGPT Prompts · 19 April 2026</span>
+</div>
+
+<div class="container">
+
+  <div class="intro" style="margin-top:24px;">
+    <strong>What this file is.</strong> Copy-paste ready prompts for ChatGPT (GPT-4o with image generation). Chapters 1–6 plus Chapter 26 (the last chapter). Each chapter has an image prompt and a caption prompt. Separate prompts cover the portrait, front matter pages, and page layout mockups.<br><br>
+    <strong>Chapter title rule.</strong> The category name (Inheritance, Childhood Dreams, etc.) is used here as context for ChatGPT image generation only. It does not appear in the book. The chapter heading that appears in the book is the title below it — e.g. "I Got It From My Mama," "Books and Smoking Guns."<br><br>
+    <strong>Chapters 7–25</strong> are pending. When Tamara provides those titles, add them here following the same pattern as the chapters below.<br><br>
+    <strong>Dedication and epigraph pages have no labels.</strong> No word "Dedication" or "Epigraph" appears anywhere in the book.
+  </div>
+
+  <div class="workflow-box">
+    <strong>Character consistency — read before starting.</strong><br>
+    ChatGPT GPT-4o can hold a consistent face across images. Exact workflow:
+    <ol style="margin-top:10px;">
+      <li><strong>Step 1.</strong> Run Prompt 1 (portrait of Mary J. Miller). Save the image.</li>
+      <li><strong>Step 2.</strong> For every prompt where Mary should appear, upload the saved portrait into the same ChatGPT chat and add: <em>"The woman in the uploaded photo is Mary. Use her face in this image."</em></li>
+      <li><strong>Step 3.</strong> If her face changes between images: <em>"Regenerate — keep Mary's face exactly as in the reference photo."</em></li>
+      <li><strong>Mary's age per chapter:</strong> Ch 2 → age 7–8 · Ch 3 → age 10–12 (group) · Ch 4 → age 10–11 · Ch 5 → mid-thirties · Ch 6 → late thirties · Ch 26 → late sixties.</li>
+    </ol>
+  </div>
+
+
+  <!-- ======================== SPECS ======================== -->
+  <hr class="divider">
+  <h2>Book specifications — quick reference</h2>
+  <table class="spec-table">
+    <tr><td>Trim size</td><td>8.3 × 10.3 inches / 211 × 262 mm · Hardcover, case-bound · No dust jacket</td></tr>
+    <tr><td>Paper</td><td>Warm cream / ivory — not bright white</td></tr>
+    <tr><td>Body font</td><td>Georgia or equivalent book serif · 12pt · 18pt leading · Justified</td></tr>
+    <tr><td>Chapter title font</td><td>Trade Gothic Bold Condensed / Bebas Neue · All caps · Flush left · Approx. 60–64pt (reduce for long titles)</td></tr>
+    <tr><td>Margins</td><td>Inner (gutter) 25mm · Outer 20mm · Top 22mm · Bottom 28mm</td></tr>
+    <tr><td>Chapter structure</td><td>Page 1 (RHS): title + story opens · Pages 2–3: text · Page 4 (LHS): story ends, white space below · Page 5 (RHS): full-bleed photo + caption</td></tr>
+    <tr><td>Caption format</td><td>Year · Place · People if relevant · Occasion if relevant · 1–2 sentences · Understated tone</td></tr>
+    <tr><td>Chapter 26 note</td><td>Body text is structured as a numbered list of bullet-point truths — not narrative prose. Same 5-page + photo structure applies.</td></tr>
+  </table>
+
+
+  <!-- ======================== PORTRAIT ======================== -->
+  <hr class="divider">
+  <h2>Section 1 — Portrait of Mary J. Miller (interior cover page, page 1)</h2>
+  <p style="font-size:14px; color:#555; margin-bottom:18px;">Generate this first. Save the image. It becomes the character reference for every subsequent photo where Mary appears.</p>
+
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-portrait">Portrait</span>
+      <span class="card-title">Mary J. Miller — interior cover portrait</span>
+      <span class="card-meta">Generate and save first</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-portrait',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-portrait" rows="16" readonly>Create a full-page portrait photograph of a woman named Mary J. Miller. She is a South African woman in her late sixties — warm, dignified, and quietly confident. She has a kind face with deep laugh lines around her eyes. Her hair is grey-white, worn loosely back or in a soft bun. She is dressed in understated, quality clothing — a cream or warm-toned blouse, simple earrings, nothing ostentatious. The background is soft and neutral — warm white or pale stone. Lighting is natural and directional, coming from slightly to one side, creating depth without harsh shadows. The mood is intimate and timeless — not a professional headshot, but a portrait that feels personal and unhurried. This is the face of a woman whose life has been full and whose stories are worth keeping.
+
+Format: portrait orientation, full-page bleed, 8.3 × 10.3 inches. No text overlay. No border. Photorealistic. Warm colour tones. Slight film grain acceptable.</textarea>
+      <div class="note"><strong>After generating:</strong> Save this image. Upload it at the start of every subsequent ChatGPT session and say: "The woman in this photo is Mary. Use her face in this image." Then paste the chapter image prompt.</div>
+    </div>
+  </div>
+
+
+  <!-- ======================== FRONT MATTER ======================== -->
+  <hr class="divider">
+  <h2>Section 2 — Front matter layout mockups (pages 2 and 3)</h2>
+
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-layout">Layout mockup</span>
+      <span class="card-title">Page 2 — Dedication (no label)</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT layout prompt <button class="copy-btn" onclick="copyField('p-dedication',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-dedication" rows="18" readonly>Create a realistic print book interior page mockup. Page size: 8.3 × 10.3 inches. Paper: warm cream / ivory, slightly textured. This is the dedication page.
+
+CRITICAL: There is NO heading, NO label, NO word "Dedication" anywhere on this page. The dedication text appears on the page by itself, with no introduction.
+
+LAYOUT:
+— The text sits approximately in the upper-centre of the page, roughly one-third to halfway down from the top. Centred. Italic Georgia serif, approximately 12pt, 18pt leading.
+— Exact text to render: "This book is dedicated to everyone I have known and loved in the long, complicated, ordinary miracle of a shared life."
+— Wide, generous margins. No page number. No running header. No other elements.
+— The rest of the page is clean white space.
+— Overall feel: spare, intimate, unhurried.
+
+Render as a single realistic book page, warm cream paper tone. High quality.</textarea>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-layout">Layout mockup</span>
+      <span class="card-title">Page 3 — Epigraph (no label)</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT layout prompt <button class="copy-btn" onclick="copyField('p-epigraph',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-epigraph" rows="23" readonly>Create a realistic print book interior page mockup. Page size: 8.3 × 10.3 inches. Paper: warm cream / ivory, slightly textured. This is the epigraph page.
+
+CRITICAL: There is NO heading, NO label, NO word "Epigraph" anywhere on this page. The quote appears on the page by itself, with no introduction.
+
+LAYOUT:
+— The quote sits approximately in the upper-centre of the page, roughly one-third down from the top. Centred. Italic Georgia serif, approximately 11pt, 17pt leading.
+— Exact quote text to render (italic): "Make up a story. For our sake and yours forget your name in the street; tell us what the world has been to you in the dark places and in the light. Don't tell us what to believe, what to fear. Show us belief's wide skirt and the stitch that unravels fear's caul."
+— Below the quote, one line gap, then attribution in small caps (non-italic), 9pt, centred: — Toni Morrison, Nobel Prize Lecture, 1993
+— Wide, generous margins. No page number. No other elements. Rest of page is clean white space.
+— Overall feel: spare, literary, the kind of page you read twice.
+
+Render as a single realistic book page, warm cream paper tone. High quality.</textarea>
+    </div>
+  </div>
+
+
+  <!-- ======================== LAYOUT TEMPLATES ======================== -->
+  <hr class="divider">
+  <h2>Section 3 — Chapter page layout templates (generate once, apply to all)</h2>
+
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-layout">Layout mockup</span>
+      <span class="card-title">Chapter opening page — page 1, right-hand side (template)</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT layout prompt <button class="copy-btn" onclick="copyField('p-chapter-open',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-chapter-open" rows="28" readonly>Create a realistic print book interior page mockup. Page size: 8.3 × 10.3 inches. Paper: warm cream / ivory, slightly textured. This is a chapter-opening right-hand page (recto).
+
+LAYOUT:
+— Small chapter identifier at the very top of the text block: "CHAPTER ONE" in 9pt small caps, 0.15em tracking. Sits approximately 22mm down from the top page edge.
+— Below that, 8–10mm gap, then: chapter title in large, bold, condensed all-caps sans-serif (Trade Gothic Bold Condensed or Bebas Neue style). Approximately 62pt. Flush left.
+— The title occupies the upper third of the page.
+— Below the title: a full visual pause — clean white space of approximately one-quarter of the page height. Do not begin body text immediately under the title.
+— From approximately 55% down the page: body text begins. Georgia-style book serif, 12pt, 18pt leading, justified. Margins: 25mm inner gutter, 20mm outer, 22mm top, 28mm bottom. Approximately 8–10 lines of opening story text.
+— No page number on chapter-opening pages.
+
+Chapter title to render: I GOT IT FROM MY MAMA
+
+Body text: use realistic memoir-style opening prose — not Lorem ipsum. Something that sounds like a South African woman in her late sixties beginning a story about what she inherited from her mother. Warm, specific, first person.
+
+Render as a single right-hand page only. High quality, photorealistic print interior.</textarea>
+      <div class="note"><strong>To adapt for other chapters:</strong> Change the chapter number and title. All spacing, font, and margin rules remain identical for every chapter. For Chapter 26's long title, reduce font size to approximately 36–42pt so it fits the top third across multiple lines.</div>
+    </div>
+  </div>
+
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-layout">Layout mockup</span>
+      <span class="card-title">Pages 4–5 spread — story end (LHS text) + full-bleed photo (RHS)</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT layout prompt <button class="copy-btn" onclick="copyField('p-spread',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-spread" rows="28" readonly>Create a realistic print book interior double-page spread mockup. Book trim: 8.3 × 10.3 inches per page, shown side by side with a gutter shadow in the centre. Paper: warm cream / ivory.
+
+LEFT PAGE (page 4 — verso / left-hand page):
+— Body text: Georgia-style serif, 12pt, 18pt leading, justified. Margins: 25mm inner gutter, 20mm outer, 22mm top, 28mm bottom.
+— The story ends near the top of this page — approximately 4 lines of text at the top, then the rest of the page is clean white space. This is intentional and correct. Do not fill the remaining space.
+— Page number centred at the bottom: "62" in 9pt serif, subtle.
+
+RIGHT PAGE (page 5 — recto / right-hand page):
+— A full-bleed photograph filling the entire page, edge to edge, no white margin.
+— The photograph: close-up of two pairs of hands — an older woman's hands passing a locket or folded paper to younger hands. Warm side light. South African domestic interior, 1970s. Documentary photography style. Warm tones, slight film grain.
+— Caption band at the very bottom of the image: a narrow strip with caption text in 9pt white or cream serif: "Cape Town, 1972. A grandmother's locket, passed down on Mary's sixteenth birthday."
+
+Show both pages as a realistic open book, slight gutter shadow, warm paper. High quality.</textarea>
+      <div class="note"><strong>To adapt:</strong> Replace the photograph description and caption text. All margin, text, and layout rules stay identical for every chapter.</div>
+    </div>
+  </div>
+
+
+  <!-- ======================== CHAPTER IMAGES ======================== -->
+  <hr class="divider">
+  <h2>Section 4 — Chapter images (Chapters 1–5 and Chapter 26)</h2>
+  <p style="font-size:14px; color:#555; margin-bottom:18px;">Chapter 6 image deferred (see note below). For all prompts marked <strong>Feature Mary</strong>: upload the saved portrait before running the prompt. Chapters 7–25 to be added when chapter titles are provided.</p>
+
+
+  <!-- CH 1 -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-image">Image</span>
+      <span class="card-title">Chapter 1 — I Got It From My Mama</span>
+      <span class="card-meta">Category: Inheritance · Page 5</span>
+    </div>
+    <div class="prompt-body">
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch1-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch1-img" rows="17" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic, documentary photography style. Warm tones, slight film grain.
+
+The image: a mother and her young daughter, both wearing matching outfits — the same fabric or same colour, clearly deliberate. South Africa, early 1960s. The matching is not stiff or formal; it is proud and a little playful. Perhaps they are dressed for church, or a family occasion, or simply a Sunday outing. The mother is in her thirties; the daughter is approximately age 7–9. They are not necessarily posing — they might be walking, laughing, or caught in a candid moment together. The matching clothes are the whole story: what a mother passes to her daughter without saying a word about it.
+
+This girl is a young version of Mary J. Miller. Use the uploaded portrait as your character reference. Adjust her age to approximately 7–9. Keep her features recognisable. Warm South African suburban or garden setting. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt — paste after image is generated <button class="copy-btn" onclick="copyField('p-ch1-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch1-cap" rows="6" readonly>Look at the image you just generated. Write a realistic book caption: Year, Place. Who is pictured. Occasion if relevant. One or two short sentences. Tone: warm, specific, the way a family remembers a photograph.
+
+Example: "Johannesburg, 1961. Mary and her mother, Easter Sunday. They wore the same dress three years running."</textarea>
+    </div>
+  </div>
+
+
+  <!-- CH 2 -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-image">Image</span>
+      <span class="card-title">Chapter 2 — A Dialogue Between the Moon and Stars</span>
+      <span class="card-meta">Category: Childhood Dreams · Feature Mary (age 7–8) · Page 5</span>
+    </div>
+    <div class="prompt-body">
+      <div class="note" style="margin-bottom:14px;"><strong>Before running:</strong> upload the portrait and add: "The woman in this photo is Mary. Show her as a young girl, approximately age 7–8, in this image."</div>
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch2-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch2-img" rows="16" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic. The feel of a photograph from the early 1960s South Africa — warm tones, slight grain, childhood summer.
+
+The image: a young girl, approximately age 7–8, lying on her back on a suburban garden lawn at night, looking up at a star-filled sky. Her arms are spread wide. The sky above is vast, deep blue-black, crowded with stars — the kind of sky you only see in the southern hemisphere, far from too many lights. The girl's expression is dreaming, absorbed, completely elsewhere. The garden around her is warm and ordinary — a corner of a brick house, a frangipani tree. This is the face of a child whose imagination reaches far beyond her world.
+
+This girl is a young version of Mary J. Miller. Use the uploaded portrait as your character reference. Adjust her age to approximately 7 years old. Keep her features recognisable. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt <button class="copy-btn" onclick="copyField('p-ch2-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch2-cap" rows="6" readonly>Look at the image you just generated. Write a realistic book caption: Year, Place. What the child is doing or what this moment represents. One sentence. Understated, warm.
+
+Example: "Johannesburg, 1961. Mary, age seven, conducting her nightly conversation with the southern sky."</textarea>
+    </div>
+  </div>
+
+
+  <!-- CH 3 -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-image">Image</span>
+      <span class="card-title">Chapter 3 — Non-Returnable People</span>
+      <span class="card-meta">Category: Family Ties · Feature young Mary (optional) · Page 5</span>
+    </div>
+    <div class="prompt-body">
+      <div class="note" style="margin-bottom:14px;"><strong>Optional:</strong> upload the portrait and add: "The woman in this photo is Mary. Show her as a child, approximately age 10–12, in the family photo." Or leave Mary out and let the image be atmospheric.</div>
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch3-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch3-img" rows="18" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic. The feel of a documentary photograph — South Africa, late 1960s or early 1970s. Warm tones. Slight grain.
+
+The image: a large extended family at a gathering — Christmas lunch, a birthday, or a Sunday afternoon that became a party. It is messy and alive: children running between adult legs, someone mid-laugh with their mouth open, a toddler being hoisted onto a hip, plates of food visible on a table, dogs underfoot, someone in the background blurred and in motion. This is not a posed portrait — nobody has been asked to look at the camera. The scene has the beautiful chaos of a family that has been together for many years and is not performing anything. Some of these people will not always be here. That is not visible yet. Everything looks ordinary and permanent and alive.
+
+South African domestic setting — garden or large back veranda. Era-appropriate clothing. Approximately twelve to fifteen people, different ages. Mary optional as a child in the scene. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt <button class="copy-btn" onclick="copyField('p-ch3-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch3-cap" rows="6" readonly>Look at the image you just generated. Write a realistic book caption: Year, Occasion, Place. Name the family. A brief note on who or how many are no longer here. One or two sentences. The tone should be matter-of-fact — the weight comes from the facts, not the adjectives.
+
+Example: "Durban, Christmas 1969. The Miller family. Of the fourteen people in this photograph, five are gone."</textarea>
+    </div>
+  </div>
+
+
+  <!-- CH 4 -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-image">Image</span>
+      <span class="card-title">Chapter 4 — Books and Smoking Guns</span>
+      <span class="card-meta">Category: School · Feature young Mary (age 10–11) · Page 5</span>
+    </div>
+    <div class="prompt-body">
+      <div class="note" style="margin-bottom:14px;"><strong>Before running:</strong> upload the portrait and add: "The woman in this photo is Mary. Show her as a young girl, approximately age 10–11, in this image."</div>
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch4-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch4-img" rows="19" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic. The feel of a South African school photograph from the mid-1960s — slight grain, warm tones, natural light.
+
+The image: a young South African girl, approximately age 10–11, in a school uniform — but the uniform is dishevelled in ways that are clearly not accidental. Her skirt is rolled at the waist to make it shorter than regulation. Her shirt has come untucked on one side. Her tie is loosened or slightly askew. Her socks are at different heights. She is standing outside — a school wall or gate behind her — and her expression is not apologetic in the slightest: it is bold, amused, possibly mid-eye-roll. She knows exactly what she looks like and she has decided this is correct.
+
+This girl is a young version of Mary J. Miller. Use the uploaded portrait as your character reference. Adjust her age to approximately 10–11. Keep her features recognisable. School uniform appropriate to a South African government school, mid-1960s — tunic or gymslip, white shirt, lace-up shoes. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt <button class="copy-btn" onclick="copyField('p-ch4-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch4-cap" rows="6" readonly>Look at the image you just generated. Write a realistic book caption: Year, School name or place. What she is doing or what this moment is. One sentence. Dry, amused tone — as if written by someone who was not at all surprised.
+
+Example: "Johannesburg, 1965. Standard Four. Mary had been asked twice to roll her skirt back down. She had not."</textarea>
+    </div>
+  </div>
+
+
+  <!-- CH 5 -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-image">Image</span>
+      <span class="card-title">Chapter 5 — A Bride Married to Amazement</span>
+      <span class="card-meta">Category: Faith · Feature Mary as bride (late twenties) · Page 5</span>
+    </div>
+    <div class="prompt-body">
+      <div class="note" style="margin-bottom:14px;"><strong>Before running:</strong> upload the portrait and add: "The woman in this photo is Mary. Show her as a young woman in her late twenties — as a bride — in this image."</div>
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch5-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch5-img" rows="19" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic. Warm, luminous, golden tones — the light of a perfect day.
+
+The image: a young woman on her wedding day, South Africa, late 1970s. She is in a wedding dress appropriate to the era — not enormous, not too formal, something that suited her. But the key is this: she is not looking at the camera, and she is not looking at anyone in particular. She is looking at something just past the frame — sky, or light, or distance — with an expression of pure, involuntary amazement. Not nerves. Not performance. The specific look of someone who cannot quite believe the size of what they have said yes to. Complete openness. A person who has just handed herself over to the strangeness of a life.
+
+This woman is Mary J. Miller in her late twenties. Use the uploaded portrait as your character reference. Keep her features recognisable. South African church exterior or garden setting, late 1970s. Natural light. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt <button class="copy-btn" onclick="copyField('p-ch5-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch5-cap" rows="6" readonly>Look at the image you just generated. Write a realistic book caption: Year, Place, Occasion. One sentence. The tone should match the title — wonder, not sentimentality. The caption should make the reader feel the size of this moment.
+
+Example: "Johannesburg, 1977. Mary on the steps of St Andrew's, the afternoon of 12 March. She was still laughing."</textarea>
+    </div>
+  </div>
+
+
+  <div class="note" style="margin-bottom:28px;"><strong>Chapter 6 — What I Wore to My Divorce:</strong> image deferred. The nuance of this title is too specific to trust to ChatGPT image generation at this stage. Add when a clearer visual direction emerges.</div>
+
+  <!-- CH 26 (LAST) -->
+  <div class="prompt-card">
+    <div class="prompt-card-header">
+      <span class="badge badge-last">Last Chapter</span>
+      <span class="card-title">Chapter 26 — What I've Learned: A List of Brave and Startling Truths I Hope You'll Carry Forward</span>
+      <span class="card-meta">Category: Legacy Part 2 · Feature Mary (today) · Final image in book</span>
+    </div>
+    <div class="prompt-body">
+      <div class="note" style="margin-bottom:14px;"><strong>This is the closing image of the book.</strong> Upload the portrait and add: "The woman in this photo is Mary. Show her as she is today — in her late sixties." This image closes the circle opened by the portrait on page 1. Body text for this chapter is structured as a numbered list of lessons and truths, not narrative prose — same 5-page + photo structure applies.<br><br>
+      <strong>Long chapter title note:</strong> When generating the chapter title page layout, reduce the font size to approximately 36–42pt so the full title fits within the top third across multiple lines.</div>
+      <div class="field-label">ChatGPT image prompt <button class="copy-btn" onclick="copyField('p-ch26-img',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch26-img" rows="22" readonly>Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic. Warm, golden late-afternoon light — the long, low light of a day well spent.
+
+The image: Mary J. Miller in her late sixties, standing or seated somewhere with a wide, beautiful horizon in front of her. This could be a clifftop above the South African coast, or a hillside above a valley, or a mountain ledge with an enormous view — but she is not a hiker and this should not look like she has scaled anything. She is simply somewhere high and open, perhaps at the end of a walk, or she has been brought there, or she lives nearby. She is looking out at the horizon — not at the camera — with the particular stillness of someone who has arrived somewhere, in every sense. The view is extraordinary: sky, light, distance, the specific blue-gold of the South African late afternoon. She is not in a rocking chair. She does not need to be surrounded by family. She can simply be there, alone, with the view, completely at ease.
+
+This is the final image in the book. It should feel like arrival — not an ending but a completion. Use the uploaded portrait as your character reference. Keep her face exactly recognisable. No text overlay.</textarea>
+
+      <div class="field-label" style="margin-top:16px;">Caption prompt <button class="copy-btn" onclick="copyField('p-ch26-cap',this)">Copy</button></div>
+      <textarea class="prompt-field" id="p-ch26-cap" rows="7" readonly>Look at the image you just generated. Write a book caption for the final image in this collection. It should feel like the last line of the book — spare, complete, the closing of a long and well-lived story. One sentence only. No sentimentality. Just the fact of this moment, which is enough.
+
+Example: "Knysna, 2025. Mary, above the heads, with the whole of the sea in front of her."</textarea>
+    </div>
+  </div>
+
+
+  <!-- ======================== REMAINING CHAPTERS ======================== -->
+  <hr class="divider">
+  <h2>Section 5 — Chapters 7–25 (titles pending)</h2>
+
+  <div class="intro">
+    When Tamara provides chapter titles for Chapters 7–25, add a card for each following the same structure: one image prompt and one caption prompt. Use this template for the image prompt:
+    <br><br>
+    <em>"Create a full-page interior book photograph. Format: portrait orientation, 8.3 × 10.3 inches, full bleed. Photorealistic, documentary photography style. Warm tones, slight film grain.<br><br>
+    The image: [describe the scene — what is happening, who is in it, what period, what emotional register]. [If Mary should appear: 'Use the uploaded portrait as your character reference. Mary is [age] in this image.'] No text overlay."</em>
+    <br><br>
+    Reference themes for image direction when titles arrive:
+  </div>
+
+  <table class="spec-table" style="margin-top:16px;">
+    <tr><td>Ch 7 — True Love</td><td>Young couple in late 1970s South Africa. Garden or outdoor social occasion. Feature young Mary (late twenties). Warmth, early love, candid.</td></tr>
+    <tr><td>Ch 8 — Conflict</td><td>Two people mid-conversation, one expression unreadable. Intrigue without melodrama. South African domestic or office setting.</td></tr>
+    <tr><td>Ch 9 — Chaos</td><td>Aftermath of domestic disaster — an upturned pot, a flooded kitchen, a collapsed something. Funny in retrospect.</td></tr>
+    <tr><td>Ch 10 — Risk</td><td>A young person doing something they shouldn't. Feature young Mary (teens). Energy of rule-breaking.</td></tr>
+    <tr><td>Ch 11 — Adventure &amp; Travel</td><td>A car journey through the Great Karoo or coastline. Open window, vast sky, sense of a journey changing someone. Feature Mary (forties), optional.</td></tr>
+    <tr><td>Ch 12 — Transformation</td><td>A person standing in a new place, back to camera, looking ahead. New beginning implied.</td></tr>
+    <tr><td>Ch 13 — Work</td><td>South African office, 1980s–90s. A woman at a desk, focused and capable. Feature Mary (thirties).</td></tr>
+    <tr><td>Ch 14 — Setbacks</td><td>A figure slumped, head in hands — but the light is still warm. The bottom, before the climb back.</td></tr>
+    <tr><td>Ch 15 — Fate</td><td>A chance moment — a door just catching, a lottery ticket, two people running into each other. Serendipity made visible.</td></tr>
+    <tr><td>Ch 16 — Secrets</td><td>A group of women mid-conversation, one leaning forward. The moment a secret lands. South African suburban setting.</td></tr>
+    <tr><td>Ch 17 — Parenting</td><td>A parent watching a child do something independently for the first time. Distance between them. Pride and letting go.</td></tr>
+    <tr><td>Ch 18 — Losing</td><td>An empty chair at a kitchen table. Morning light. A cup of untouched tea. A pair of folded reading glasses. Absence as subject.</td></tr>
+    <tr><td>Ch 19 — The Unexpected</td><td>Something slightly surreal in an ordinary South African setting. Quiet strangeness.</td></tr>
+    <tr><td>Ch 20 — Courage</td><td>Someone standing up when others sit. Stepping forward. Courage made visible without melodrama.</td></tr>
+    <tr><td>Ch 21 — Gratitude</td><td>Abundance without excess. A full table, a garden in bloom, a child asleep. Quiet joy.</td></tr>
+    <tr><td>Ch 22 — Ambition</td><td>Hands that have worked hard — calloused, ink-stained, capable. Close-up. No faces needed.</td></tr>
+    <tr><td>Ch 23 — Narrow Escapes</td><td>Aftermath of near-miss. Tension and relief. South African setting, any era.</td></tr>
+    <tr><td>Ch 24 — If I Knew Then</td><td>An older woman writing a letter by hand, or looking at a photograph of herself as a young woman. Feature Mary (late sixties).</td></tr>
+    <tr><td>Ch 25 — Legacy Part 1</td><td>A childhood home photographed today — trees grown large, paint slightly faded. The ache of returning. South African setting.</td></tr>
+  </table>
+
+
+  <!-- FOOTER -->
+  <div style="border-top: 1px solid #D4C4B0; margin-top: 56px; padding-top: 20px; font-size: 12px; color: #aaa; display: flex; justify-content: space-between;">
+    <span>24 Stories · book-interior-prompts.html · Version 2</span>
+    <span>19 April 2026 · hello@24stories.co.za</span>
+  </div>
+
+</div>
+
+<script>
+function copyField(id, btn) {
+  const el = document.getElementById(id);
+  const text = el.value || el.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

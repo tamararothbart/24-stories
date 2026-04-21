@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>24 Stories — Developer Handover</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #B8976A;
+      --charcoal: #1A1A1A;
+      --cream: #F7F5F2;
+      --border: #E0DDD8;
+      --white: #fff;
+      --red: #c0392b;
+      --green: #27ae60;
+      --amber: #e67e22;
+      --blue: #2980b9;
+    }
+    body { font-family: system-ui, -apple-system, sans-serif; background: var(--cream); color: var(--charcoal); font-size: 14px; line-height: 1.65; }
+
+    .topbar { background: var(--charcoal); color: #fff; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .topbar-title { font-family: Georgia, serif; font-size: 18px; font-weight: 400; }
+    .topbar-meta { font-size: 12px; color: var(--gold); letter-spacing: 0.05em; }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 40px 32px 120px; }
+
+    /* TOC */
+    .toc { background: var(--white); border: 1px solid var(--border); padding: 24px 32px; margin-bottom: 48px; }
+    .toc h2 { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .toc ul { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 32px; }
+    .toc li { font-size: 13px; }
+    .toc a { color: var(--charcoal); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .toc a:hover { color: var(--gold); }
+
+    /* SECTION HEADINGS */
+    h2 { font-family: Georgia, serif; font-size: 1.35rem; font-weight: 400; border-bottom: 2px solid var(--gold); padding-bottom: 8px; margin: 56px 0 20px; }
+    h3 { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin: 28px 0 10px; }
+
+    p { margin-bottom: 10px; }
+
+    /* ALERTS */
+    .alert { padding: 14px 18px; margin: 16px 0; font-size: 13px; line-height: 1.75; border-left: 4px solid; }
+    .alert-red   { background: #fff3f3; border-color: var(--red);   color: #7a1a1a; }
+    .alert-gold  { background: #fff8ec; border-color: var(--gold);  color: #5a3a00; }
+    .alert-green { background: #f0fff4; border-color: var(--green); color: #1a4a2a; }
+    .alert strong { display: block; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; opacity: 0.7; }
+
+    /* TABLES */
+    table { width: 100%; border-collapse: collapse; margin: 12px 0 24px; font-size: 13px; }
+    thead th { background: var(--charcoal); color: #fff; text-align: left; padding: 8px 12px; font-weight: 500; letter-spacing: 0.04em; font-size: 11px; text-transform: uppercase; }
+    tbody tr:nth-child(even) td { background: var(--white); }
+    tbody tr:nth-child(odd) td { background: var(--cream); }
+    td { padding: 7px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    td code { font-family: 'Courier New', monospace; font-size: 12px; background: #eee; padding: 1px 4px; border-radius: 2px; }
+
+    /* BADGES */
+    .badge { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+    .b-done     { background: var(--green); color: #fff; }
+    .b-rebuild  { background: var(--amber); color: #fff; }
+    .b-todo     { background: #ddd; color: #555; }
+    .b-tested   { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .b-preserve { background: var(--red); color: #fff; }
+
+    /* WEBHOOK ENTRIES */
+    .webhook-url { font-family: 'Courier New', monospace; font-size: 12px; background: #f5f5f5; border: 1px solid var(--border); padding: 6px 10px; word-break: break-all; display: block; margin: 4px 0 8px; }
+    .webhook-pending { font-style: italic; color: #aaa; font-size: 12px; }
+
+    /* CREDENTIAL BLOCK */
+    .cred-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 12px 0 24px; }
+    .cred-card { background: var(--white); border: 1px solid var(--border); padding: 16px 20px; }
+    .cred-label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+    .cred-value { font-family: 'Courier New', monospace; font-size: 12px; word-break: break-all; line-height: 1.6; }
+    .cred-note  { font-size: 11px; color: #888; margin-top: 6px; line-height: 1.5; }
+
+    /* BUILD ORDER */
+    .build-row { display: flex; align-items: flex-start; gap: 14px; padding: 10px 0; border-bottom: 1px dotted var(--border); font-size: 13px; }
+    .build-row:last-child { border-bottom: none; }
+    .build-num  { font-size: 11px; background: var(--gold); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .build-done { font-size: 11px; background: var(--green); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+    .build-text { flex: 1; }
+    .build-text strong { display: block; color: var(--charcoal); margin-bottom: 2px; }
+    .build-text .sub { font-size: 12px; color: #666; }
+
+    /* SCENARIO MAP */
+    .scenario { background: var(--white); border: 1px solid var(--border); margin-bottom: 10px; }
+    .scenario-head { padding: 12px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--border); }
+    .scenario-num { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); min-width: 130px; }
+    .scenario-name { flex: 1; font-size: 14px; }
+    .scenario-body { padding: 12px 20px; font-size: 13px; color: #444; line-height: 1.7; }
+
+    /* PLACEHOLDER TABLE */
+    .placeholder-file { font-weight: 700; font-size: 13px; margin: 20px 0 8px; color: var(--charcoal); }
+
+    /* AUDIT LOG */
+    .audit-item { padding: 8px 0; border-bottom: 1px dotted var(--border); font-size: 13px; display: flex; gap: 12px; align-items: flex-start; }
+    .audit-item .ai-file { font-family: 'Courier New', monospace; font-size: 12px; color: #555; min-width: 200px; }
+    .audit-item .ai-issue { flex: 1; }
+    .audit-item .ai-fix { color: var(--green); font-size: 12px; }
+
+    @media (max-width: 680px) {
+      .cred-grid { grid-template-columns: 1fr; }
+      .toc ul { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-title">24 Stories — Developer Handover</span>
+  <span class="topbar-meta">Produced 2026-04-21 · Audit complete · v3.1 architecture</span>
+</div>
+
+<div class="container">
+
+  <div class="alert alert-red" style="margin-top: 0;">
+    <strong>Critical — read before opening Make</strong>
+    (1) Airtable Watch Records is confirmed broken in this project — do not use. (2) Do not add fields to Airtable — any schema change breaks all existing Make module field mappings. (3) Scenario 1 Stage 2 PayFast webhook URL must be preserved — it is live in the PayFast dashboard.
+  </div>
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ul>
+      <li><a href="#s1">1. Project Overview</a></li>
+      <li><a href="#s2">2. Credentials &amp; Config</a></li>
+      <li><a href="#s3">3. File Map</a></li>
+      <li><a href="#s4">4. Airtable Schema (4 tables)</a></li>
+      <li><a href="#s5">5. Make Scenario Map</a></li>
+      <li><a href="#s6">6. Webhook URLs</a></li>
+      <li><a href="#s7">7. Go-Live Placeholders</a></li>
+      <li><a href="#s8">8. Build Order — What Remains</a></li>
+      <li><a href="#s9">9. Email Registry</a></li>
+      <li><a href="#s10">10. Audit Log — Changes Made 2026-04-21</a></li>
+      <li><a href="#s11">11. Outstanding Tasks — Outside the Make Build</a></li>
+    </ul>
+  </div>
+
+
+  <!-- ==================== S1 ==================== -->
+  <h2 id="s1">1. Project Overview</h2>
+  <p><strong>24 Stories</strong> is a once-off subscription service (R6,795 upfront) that guides a storyteller through 26 weekly story prompts, edits each story professionally, delivers each story to family by email, and produces a printed hardcover Legacy Book.</p>
+
+  <table>
+    <thead><tr><th>Item</th><th>Detail</th></tr></thead>
+    <tbody>
+      <tr><td>Domain</td><td>24stories.co.za</td></tr>
+      <tr><td>Hosting</td><td>Netlify — resilient-eclair-c46b34.netlify.app</td></tr>
+      <tr><td>Price</td><td>R6,795 once-off. No monthly billing. Extra copies: R1,200 each.</td></tr>
+      <tr><td>Payment</td><td>PayFast (once-off). Airtable record created ONLY on payment_status = COMPLETE.</td></tr>
+      <tr><td>Automation</td><td>Make (Integromat). 19 scenarios total (see Section 5).</td></tr>
+      <tr><td>Email</td><td>Mailjet (automated) · stories@24stories.co.za. Titan (manual) · hello@24stories.co.za.</td></tr>
+      <tr><td>Database</td><td>Airtable. Base name: "52stories" (old name, correct base). 4 tables.</td></tr>
+      <tr><td>Audio/Image</td><td>Cloudinary (cloud: dorv3glde, preset: 24stories).</td></tr>
+      <tr><td>Transcription</td><td>OpenAI Whisper via Netlify function. Cleanup via Claude Haiku.</td></tr>
+      <tr><td>Build deadline</td><td>30 April 2026. Launch: 8 June 2026, 7pm SAST.</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- ==================== S2 ==================== -->
+  <h2 id="s2">2. Credentials &amp; Config</h2>
+
+  <div class="alert alert-gold">
+    <strong>Sensitivity note</strong>
+    The Airtable API key and base ID are visible in library.html source (static site — no backend). This is an accepted risk at this scale. The key is read-only. Do not commit credentials to a public repo.
+  </div>
+
+  <div class="cred-grid">
+
+    <div class="cred-card">
+      <div class="cred-label">Airtable</div>
+      <div class="cred-value">Base name: 52stories (old name — correct base)<br>Base ID: apprTOobuxs4Od7XB<br>API key (read-only):<br>patWwUjWox5ZRZudP.2e3f64188ca5f1003979391b7e978ce8e235abf</div>
+      <div class="cred-note">Already filled in library.html. Webhooks still use placeholders.</div>
+    </div>
+
+    <div class="cred-card">
+      <div class="cred-label">Cloudinary</div>
+      <div class="cred-value">Cloud name: dorv3glde<br>Upload preset: 24stories<br>Audio folder: stories/audio<br>Image folder: stories/images</div>
+      <div class="cred-note">Used by tell.html and library.html for all media uploads.</div>
+    </div>
+
+    <div class="cred-card">
+      <div class="cred-label">PayFast</div>
+      <div class="cred-value">Merchant ID: YOUR_PAYFAST_MERCHANT_ID<br>Merchant key: YOUR_PAYFAST_MERCHANT_KEY<br>Passphrase: leave empty (not set in dashboard)<br>notify_url (main): https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k<br>notify_url (extra copies): NOT YET BUILT</div>
+      <div class="cred-note">⚠ notify_url (main) is live in PayFast dashboard — do not change or delete.</div>
+    </div>
+
+    <div class="cred-card">
+      <div class="cred-label">DNS &amp; Email</div>
+      <div class="cred-value">SPF (TXT @ on GoDaddy):<br>v=spf1 include:secureserver.net include:spf.titan.email include:spf.mailjet.com ~all<br><br>stories@24stories.co.za — Mailjet (automated only)<br>hello@24stories.co.za — Titan (manual only)</div>
+      <div class="cred-note">dc-77d78235e8._spfm intact — do not touch. GoDaddy SPF resolved. No further DNS action needed.</div>
+    </div>
+
+    <div class="cred-card">
+      <div class="cred-label">Netlify</div>
+      <div class="cred-value">Site: resilient-eclair-c46b34.netlify.app<br>Custom domain: 24stories.co.za<br>Functions: /.netlify/functions/transcribe (Whisper)<br>Functions: /.netlify/functions/cleanup (Claude Haiku)</div>
+      <div class="cred-note">Static site. No server required except Netlify functions for AI calls.</div>
+    </div>
+
+    <div class="cred-card">
+      <div class="cred-label">GitHub</div>
+      <div class="cred-value">All website files tracked. See github_push_instructions.md in memory for push process.</div>
+      <div class="cred-note">Push to GitHub after every session to preserve state.</div>
+    </div>
+
+  </div>
+
+
+  <!-- ==================== S3 ==================== -->
+  <h2 id="s3">3. File Map</h2>
+
+  <table>
+    <thead><tr><th>File</th><th>Purpose</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>index.html</code></td><td>Main website — pricing, FAQ, signup, resend library link form</td><td><span class="badge b-done">Current</span></td></tr>
+      <tr><td><code>library.html</code></td><td>Subscriber story library + book prep. Reads Airtable. Writes via Make webhooks.</td><td><span class="badge b-done">Current — awaiting webhook wiring</span></td></tr>
+      <tr><td><code>tell.html</code></td><td>Story submission — voice + typed modes. Claude cleanup. Cloudinary upload.</td><td><span class="badge b-done">Locked v3.1</span></td></tr>
+      <tr><td><code>master-architecture.html</code></td><td>Single source of truth for architecture, schema, scenarios, build order</td><td><span class="badge b-done">Updated 2026-04-21</span></td></tr>
+      <tr><td><code>make-build-reference.html</code></td><td>Locked Airtable field names (all 4 tables) + Make module maps for all 13 scenarios</td><td><span class="badge b-done">Updated 2026-04-21</span></td></tr>
+      <tr><td><code>make-email-content.html</code></td><td>All 16 emails — subject lines + paste-ready HTML with Make variable syntax</td><td><span class="badge b-done">Clean — no stale refs</span></td></tr>
+      <tr><td><code>make-build-log.html</code></td><td>Living record — all 19 scenario webhook URLs, build status, flags, session notes</td><td><span class="badge b-done">Current — update after every session</span></td></tr>
+      <tr><td><code>24stories-emails/</code></td><td>16 email HTML files (email-1 through email-16)</td><td><span class="badge b-done">Audited 2026-04-21</span></td></tr>
+      <tr><td><code>book-sample.html</code></td><td>Full typeset book preview</td><td><span class="badge b-done">Complete</span></td></tr>
+      <tr><td><code>carousel-preview.html</code></td><td>Carousel test page</td><td><span class="badge b-done">Complete</span></td></tr>
+      <tr><td><code>developer-handoff.html</code></td><td>Earlier handoff document (pre-audit)</td><td><span class="badge b-done">Updated 2026-04-21 — superseded by this file</span></td></tr>
+      <tr><td><code>airtable-setup-guide.html</code></td><td>Airtable field setup guide with reset checklist</td><td><span class="badge b-done">Updated v3.3 — 2026-04-21</span></td></tr>
+      <tr><td><code>backend-build-guide.html</code></td><td>Technical build guide</td><td><span class="badge b-done">No stale refs — usable</span></td></tr>
+      <tr><td><code>book-print-brief.html</code></td><td>Printer specification brief</td><td><span class="badge b-done">Complete</span></td></tr>
+      <tr><td><code>events.html</code></td><td>Live storytelling events page — separate product, no connection to 24 Stories subscription. Three Netlify forms: storyteller-application, event-alerts, mailing-list. Notifications go to hello@24stories.co.za (Titan, manual replies).</td><td><span class="badge b-rebuild">Needs Airtable wiring — see Section 11</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-gold">
+    <strong>Preview mode</strong>
+    Append <code>?id=PREVIEW</code> to library.html to load mock data without Airtable. <strong>Remove before go-live.</strong> Search for <code>PREVIEW_MODE</code> in library.html and delete the block.
+  </div>
+
+
+  <!-- ==================== S4 ==================== -->
+  <h2 id="s4">4. Airtable Schema — 4 Tables</h2>
+
+  <p style="font-size:13px; color:#555; margin-bottom:16px;">Base name in Make: <strong>"52stories"</strong>. Base ID: <strong>apprTOobuxs4Od7XB</strong>. Paste field names character-for-character — Make is case-sensitive. Do not add fields to Airtable without first checking all Make scenarios that use the affected table.</p>
+
+  <h3>Table 1 — Subscribers</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>StorytellerFirstName</code></td><td>Text</td><td></td></tr>
+      <tr><td><code>StorytellerSurname</code></td><td>Text</td><td></td></tr>
+      <tr><td><code>StorytellerEmail</code></td><td>Email</td><td>Primary recipient for all Storyteller emails</td></tr>
+      <tr><td><code>StoryHelperName</code></td><td>Text</td><td>Optional</td></tr>
+      <tr><td><code>StoryHelperEmail</code></td><td>Email</td><td>Optional — global Make rule: filter not empty before every Story Helper module</td></tr>
+      <tr><td><code>GiftGiverName</code></td><td>Text</td><td>Optional</td></tr>
+      <tr><td><code>GiftGiverEmail</code></td><td>Email</td><td>Optional — receives email-2 only</td></tr>
+      <tr><td><code>FamilyEmails</code></td><td>Long text</td><td>One email per line. Split by \n in Make before iterating.</td></tr>
+      <tr><td><code>DeliveryAddress</code></td><td>Long text</td><td>Collected via library book prep — not at signup</td></tr>
+      <tr><td><code>DeliveryPhone</code></td><td>Text</td><td>Shared with courier</td></tr>
+      <tr><td><code>Phone</code></td><td>Text</td><td>Storyteller's own number</td></tr>
+      <tr><td><code>SubscriptionStartDate</code></td><td>Date</td><td>Set at activation (Scenario 1 Stage 2)</td></tr>
+      <tr><td><code>Status</code></td><td>Single select</td><td>Active / Paused / Complete / Cancelled. Global filter: Status = Active before every prompt scenario.</td></tr>
+      <tr><td><code>PromptNumber</code></td><td>Number</td><td>Last prompt sent. 0 at creation. Incremented after each send. Range 0–26.</td></tr>
+      <tr><td><code>LibraryToken</code></td><td>Text</td><td>Airtable record ID. Library URL: library.html?id=&#123;&#123;LibraryToken&#125;&#125;</td></tr>
+      <tr><td><code>LastPromptSentDate</code></td><td>Date</td><td>Set by Make after each weekly send. Used by Scenario 4 weekly schedule logic.</td></tr>
+      <tr><td><code>BookFormCompleted</code></td><td>Date</td><td>Set when subscriber presses Mark as Complete in library. Triggers Make to alert Tamara.</td></tr>
+      <tr><td><code>BookTitle</code></td><td>Text</td><td>Default: "The Collected Stories of [FirstName] [Surname]". Written only if subscriber edits it.</td></tr>
+      <tr><td><code>PortraitPhotoURL</code></td><td>URL</td><td>Cloudinary URL of inside-cover portrait. Uploaded via library → HOOK_BOOK_PHOTO.</td></tr>
+      <tr><td><code>DedicationText</code></td><td>Long text</td><td>Written by subscriber in library → HOOK_BOOK_TEXT.</td></tr>
+      <tr><td><code>CoverColour</code></td><td>Single select</td><td>Black / Blue / Red. Subscriber chooses in library → HOOK_BOOK_TEXT (fieldType: "coverColour"). Default if empty: Black.</td></tr>
+      <tr><td><code>BookCompiledDate</code></td><td>Date</td><td>Tamara sets when book design complete.</td></tr>
+      <tr><td><code>BookSentToPrintDate</code></td><td>Date</td><td>Tamara sets when book sent to printer. Triggers Scenario 11 → email-12.</td></tr>
+      <tr><td><code>BookProductionStatus</code></td><td>Formula</td><td>Read-only. "In Design" / "Ready for Print" / "At Printer". Do not write via Make.</td></tr>
+      <tr><td><code>PauseStartDate</code></td><td>Date</td><td>Tamara sets when pause begins. Used by Scenario 13 to calculate 12-month expiry.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-gold">
+    <strong>Removed fields — do not recreate</strong>
+    CoverPhotoURL, BookSummary, IsPaused, IsResumed, BookDispatchedDate — all removed in v3.1 reset. If they reappear, all Make module field mappings will break.
+  </div>
+
+  <h3>Table 2 — Stories</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>StoryID</code></td><td>Auto / Text</td><td></td></tr>
+      <tr><td><code>SubscriberID</code></td><td>Linked → Subscribers</td><td>Link via Airtable record ID in Make.</td></tr>
+      <tr><td><code>SubscriberRecordID</code></td><td>Formula</td><td><strong>Required.</strong> Formula: ARRAYJOIN(&#123;SubscriberID&#125;, ""). Outputs record ID as plain text. Used by library.html to filter stories. Read-only — do not write.</td></tr>
+      <tr><td><code>PromptNumber</code></td><td>Number</td><td>1–26. From tell.html weekNumber param.</td></tr>
+      <tr><td><code>StoryText</code></td><td>Long text</td><td>Claude-cleaned text from tell.html.</td></tr>
+      <tr><td><code>AudioURL</code></td><td>URL</td><td>Cloudinary URL of original recording. Empty for typed submissions.</td></tr>
+      <tr><td><code>StoryImageURL</code></td><td>URL</td><td>Cloudinary URL. Set at submission or later via library HOOK_STORY_PHOTO.</td></tr>
+      <tr><td><code>StoryImageCaption</code></td><td>Text</td><td>Set at submission or later via library HOOK_CAPTION.</td></tr>
+      <tr><td><code>SubmissionDate</code></td><td>Date</td><td>From tell.html submittedAt.</td></tr>
+      <tr><td><code>WeekTheme</code></td><td>Text</td><td>Optional, from prompt data.</td></tr>
+      <tr><td><code>EditedText</code></td><td>Long text</td><td>Tamara's edited version. Filling this triggers Scenario 7 → email-6 + email-7.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Table 3 — Prompts (26 rows — complete)</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>Week</code></td><td>Number</td><td>1–26. <strong>Locked field name — do not rename.</strong> library.html sorts by Week. Make lookups use Week.</td></tr>
+      <tr><td><code>WeekName</code></td><td>Text</td><td>Overarching idea — e.g. "Youthful Imaginings"</td></tr>
+      <tr><td><code>Theme</code></td><td>Text</td><td>Keyword — e.g. "Beginnings"</td></tr>
+      <tr><td><code>PromptText</code></td><td>Long text</td><td>"Prepare a five-minute story about…"</td></tr>
+      <tr><td><code>OtherAngles</code></td><td>Text</td><td>Comma-separated short keywords. Not full prompts.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Table 4 — Payments</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Type</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>SubscriberID</code></td><td>Linked → Subscribers</td><td></td></tr>
+      <tr><td><code>PayFastTransactionID</code></td><td>Text</td><td>From PayFast IPN: pf_payment_id</td></tr>
+      <tr><td><code>Amount</code></td><td>Currency</td><td>From PayFast IPN: amount_gross</td></tr>
+      <tr><td><code>Date</code></td><td>Date</td><td>Payment date</td></tr>
+      <tr><td><code>Status</code></td><td>Text</td><td>From PayFast IPN: payment_status. Filter = COMPLETE before any action.</td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- ==================== S5 ==================== -->
+  <h2 id="s5">5. Make Scenario Map</h2>
+
+  <p style="font-size:13px; color:#555; margin-bottom:8px;">19 scenarios total. Full module maps: make-build-reference.html. Full build status + session notes: make-build-log.html. Email HTML + subject lines: make-email-content.html.</p>
+
+  <div class="alert alert-red">
+    <strong>Confirmed broken — do not use</strong>
+    Airtable Watch Records does not work reliably in this project. Use webhook triggers or scheduled triggers instead. Also: do not use Make formula fields in Airtable Search Records — use Make filter modules instead.
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 1 — Stage 1</span>
+      <span class="scenario-name">Signup form → Pending subscriber record</span>
+      <span class="badge b-tested">Tested</span>
+    </div>
+    <div class="scenario-body">Trigger: webhook from index.html signup form. Creates Subscribers record (Status=Pending). Returns Airtable record ID → passed to PayFast as custom_str1.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 1 — Stage 2</span>
+      <span class="scenario-name">PayFast IPN → Activate subscriber → Emails 1–3 → HTTP to Scenario 2</span>
+      <span class="badge b-rebuild">Needs Rebuild</span>
+    </div>
+    <div class="scenario-body">
+      <span class="badge b-preserve">⚠ Preserve webhook URL</span> — live in PayFast dashboard as notify_url.<br>
+      Needs rebuild to add HTTP module after Mailjet email-1, pointing to Scenario 2 webhook URL. Scenario 2 must be built first to generate that URL.
+    </div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 2</span>
+      <span class="scenario-name">Week 1 Prompt — webhook-triggered by Scenario 1 Stage 2</span>
+      <span class="badge b-todo">To Do — Build First</span>
+    </div>
+    <div class="scenario-body">Build this first to get the webhook URL. Paste URL into Scenario 1 Stage 2 rebuild. Looks up Prompts table Week=1. Sends email-4 to Storyteller + Story Helper. Sets PromptNumber=1 and LastPromptSentDate.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 3</span>
+      <span class="scenario-name">Story Submission — webhook from tell.html</span>
+      <span class="badge b-tested">Tested</span>
+    </div>
+    <div class="scenario-body">Creates Stories record in Airtable. StoryText, AudioURL, StoryImageURL, StoryImageCaption, SubmissionDate, PromptNumber, SubscriberID linked.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 4</span>
+      <span class="scenario-name">Weekly Prompt — Weeks 2–26 (scheduled)</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Scheduled weekly. Loops Active subscribers where LastPromptSentDate = 7 days ago. Looks up Prompts table (Week = PromptNumber+1). Sends email-8. Sets PromptNumber+1 and LastPromptSentDate. Story Helper send (filter). When PromptNumber reaches 26: triggers Scenario 8.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 4B</span>
+      <span class="scenario-name">Send Next Prompt — Manual Webhook (for Tamara)</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Manual webhook Tamara can trigger per subscriber when needed (e.g. free testers on accelerated pace). See make_prompt_pace.md for rules before building.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 5</span>
+      <span class="scenario-name">Day 4 Reminder — email-5</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Scheduled daily. Checks Active subscribers for stories not yet submitted for current week. Sends email-5 on day 4 after LastPromptSentDate. Storyteller + Story Helper (filter).</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 6</span>
+      <span class="scenario-name">Resend Library Link — webhook from index.html</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Receives subscriber email from index.html resend form. Looks up Subscribers by StorytellerEmail. Sends library URL if found; "not found" message if not. Webhook URL needed in index.html MAKE_WEBHOOK_URL_PLACEHOLDER.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 7</span>
+      <span class="scenario-name">Story Edited → Family Delivery — email-6 + email-7</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Trigger: EditedText filled in Stories table (Tamara edits in Airtable). Sends email-6 to Storyteller. Splits FamilyEmails by \n → Iterator → Mailjet email-7 to each family address. Add EmailsSent boolean to Stories to prevent double-send on Tamara typo corrections.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 8</span>
+      <span class="scenario-name">Book Onboarding Week 26 — email-9</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Triggered by Scenario 4 when PromptNumber reaches 26. Sends email-9 to Storyteller. Sets BookOnboardingEmailDate in Subscribers (needed by Scenario 9 for Day 3/7/14 offsets).</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 9</span>
+      <span class="scenario-name">Book Onboarding Reminders — email-10 (×2) + email-11</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Scheduled daily. Loops subscribers: PromptNumber=26 AND BookFormCompleted empty. Day 3 → email-10. Day 7 → email-10. Day 14 → email-11. Stop after email-11. Tamara follows up manually.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 10</span>
+      <span class="scenario-name">Daily Book Production Alert — Tamara</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Scheduled daily 8am. Checks subscribers: BookFormCompleted filled AND BookSentToPrintDate empty. Yellow = 42+ days. Red = 49+ days. Sends alert to hello@24stories.co.za only if overdue books exist — silent on quiet days.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 11</span>
+      <span class="scenario-name">Book Sent to Print — email-12</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Trigger: Tamara sets BookSentToPrintDate in Airtable. Add BookDispatchEmailSent boolean to prevent double-fire if Tamara corrects the date. Sends email-12 to Storyteller. Tamara sends Gift Giver copy manually from hello@ if gifted.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 12</span>
+      <span class="scenario-name">Extra Copies — PayFast IPN → email-14</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Trigger: PayFast IPN for extra copies (separate webhook from Scenario 1 Stage 2). Filter: payment_status=COMPLETE. Logs to Payments table. Sends email-14. Webhook URL needed in library.html PAYFAST_NOTIFY_URL.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 13</span>
+      <span class="scenario-name">Pause Expiry Reminder</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Scheduled daily. Loops paused subscribers (Status=Paused). Sends reminder in final 30 days before 12-month expiry. Not one of the 16 numbered emails — write inline in Make.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Scenario 14</span>
+      <span class="scenario-name">Pause — Manual Webhook (Tamara)</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">Manual webhook for Tamara to trigger after receiving a pause request. Sets Status=Paused, PauseStartDate in Airtable. Tamara then sends email-15 manually from hello@.</div>
+  </div>
+
+  <div class="scenario">
+    <div class="scenario-head">
+      <span class="scenario-num">Library Webhooks A–D</span>
+      <span class="scenario-name">Photo, caption, cover, book text updates from library.html</span>
+      <span class="badge b-todo">To Do</span>
+    </div>
+    <div class="scenario-body">
+      Four simple scenarios — each: Custom Webhook → Airtable Update Record.<br>
+      <strong>A — HOOK_STORY_PHOTO:</strong> { subscriberId, week, photoUrl } → Stories.StoryImageURL (match SubscriberRecordID + PromptNumber)<br>
+      <strong>B — HOOK_CAPTION:</strong> { subscriberId, week, caption } → Stories.StoryImageCaption<br>
+      <strong>C — HOOK_BOOK_PHOTO:</strong> { subscriberId, fieldType: "portrait", photoUrl } → Subscribers.PortraitPhotoURL (portrait only — no cover photo field)<br>
+      <strong>D — HOOK_BOOK_TEXT:</strong> { subscriberId, fieldType: "bookTitle"|"dedication"|"deliveryAddress"|"deliveryPhone"|"coverColour"|"bookComplete", value } → Corresponding Subscribers field. bookComplete also sets BookFormCompleted = today.
+    </div>
+  </div>
+
+
+  <!-- ==================== S6 ==================== -->
+  <h2 id="s6">6. Webhook URLs — Current State</h2>
+
+  <table>
+    <thead><tr><th>Scenario</th><th>URL / Status</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Scenario 1 Stage 1</td>
+        <td><span class="webhook-url">https://hook.eu1.make.com/mqxvnzmok8b4315ypbuezgqqegqicc12</span></td>
+        <td>Needed in index.html signup form action. Not yet wired.</td>
+      </tr>
+      <tr>
+        <td>Scenario 1 Stage 2<br><span class="badge b-preserve">⚠ Preserve</span></td>
+        <td><span class="webhook-url">https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k</span></td>
+        <td>Live PayFast notify_url. Do not delete. Rebuild in place.</td>
+      </tr>
+      <tr>
+        <td>Scenario 2</td>
+        <td><span class="webhook-pending">Not yet built — generate first, paste into Stage 2 rebuild</span></td>
+        <td>Build this scenario first. Record URL here and in make-build-log.html before rebuilding Stage 2.</td>
+      </tr>
+      <tr>
+        <td>Scenario 3 (Story Submission)</td>
+        <td><span class="webhook-url">https://hook.eu1.make.com/h002hbcjgl8nno7hfvnas27404xhderf</span></td>
+        <td>Already wired in tell.html MAKE_WEBHOOK_URL variable.</td>
+      </tr>
+      <tr>
+        <td>Scenarios 4–14</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Build in sequence. Record each URL in make-build-log.html the moment Make generates it.</td>
+      </tr>
+      <tr>
+        <td>Library Webhook A (HOOK_STORY_PHOTO)</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Needed in library.html HOOK_STORY_PHOTO placeholder.</td>
+      </tr>
+      <tr>
+        <td>Library Webhook B (HOOK_CAPTION)</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Needed in library.html HOOK_CAPTION placeholder.</td>
+      </tr>
+      <tr>
+        <td>Library Webhook C (HOOK_BOOK_PHOTO)</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Needed in library.html HOOK_BOOK_PHOTO placeholder.</td>
+      </tr>
+      <tr>
+        <td>Library Webhook D (HOOK_BOOK_TEXT)</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Needed in library.html HOOK_BOOK_TEXT placeholder.</td>
+      </tr>
+      <tr>
+        <td>Scenario 12 (Extra Copies PayFast)</td>
+        <td><span class="webhook-pending">Not yet built</span></td>
+        <td>Needed in library.html PAYFAST_NOTIFY_URL placeholder.</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ==================== S7 ==================== -->
+  <h2 id="s7">7. Go-Live Placeholders</h2>
+
+  <p style="font-size:13px; color:#555; margin-bottom:16px;">Replace these after all scenarios are built and tested. Do this in one pass, not during the build. Full instructions: go_live_wiring.md in the memory directory.</p>
+
+  <div class="placeholder-file">library.html</div>
+  <table>
+    <thead><tr><th>Placeholder / Variable</th><th>Current value</th><th>Replace with</th></tr></thead>
+    <tbody>
+      <tr><td><code>AIRTABLE_KEY</code></td><td>patWwUjWox5ZRZudP… (already live)</td><td>Already filled — no action</td></tr>
+      <tr><td><code>AIRTABLE_BASE</code></td><td>apprTOobuxs4Od7XB (already live)</td><td>Already filled — no action</td></tr>
+      <tr><td><code>HOOK_STORY_PHOTO</code></td><td>YOUR_MAKE_WEBHOOK_URL_STORY_PHOTO</td><td>Library Webhook A URL</td></tr>
+      <tr><td><code>HOOK_CAPTION</code></td><td>YOUR_MAKE_WEBHOOK_URL_CAPTION</td><td>Library Webhook B URL</td></tr>
+      <tr><td><code>HOOK_BOOK_PHOTO</code></td><td>YOUR_MAKE_WEBHOOK_URL_BOOK_PHOTO</td><td>Library Webhook C URL</td></tr>
+      <tr><td><code>HOOK_BOOK_TEXT</code></td><td>YOUR_MAKE_WEBHOOK_URL_BOOK_TEXT</td><td>Library Webhook D URL</td></tr>
+      <tr><td><code>PAYFAST_MERCHANT_ID</code></td><td>YOUR_PAYFAST_MERCHANT_ID</td><td>PayFast merchant ID</td></tr>
+      <tr><td><code>PAYFAST_MERCHANT_KEY</code></td><td>YOUR_PAYFAST_MERCHANT_KEY</td><td>PayFast merchant key</td></tr>
+      <tr><td><code>PAYFAST_NOTIFY_URL</code></td><td>YOUR_SCENARIO_12_WEBHOOK_URL</td><td>Scenario 12 webhook URL</td></tr>
+      <tr><td>Preview mode block</td><td>PREVIEW_MODE code present</td><td>Delete the PREVIEW_MODE block before go-live</td></tr>
+    </tbody>
+  </table>
+
+  <div class="placeholder-file">index.html</div>
+  <table>
+    <thead><tr><th>Placeholder / Variable</th><th>Replace with</th></tr></thead>
+    <tbody>
+      <tr><td><code>MAKE_WEBHOOK_URL_PLACEHOLDER</code> (resend form)</td><td>Scenario 6 webhook URL</td></tr>
+      <tr><td>Signup form action</td><td>Scenario 1 Stage 1 webhook URL (https://hook.eu1.make.com/mqxvnzmok8b4315ypbuezgqqegqicc12)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="placeholder-file">tell.html</div>
+  <table>
+    <thead><tr><th>Variable</th><th>Current value</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><code>MAKE_WEBHOOK_URL</code></td><td>https://hook.eu1.make.com/h002hbcjgl8nno7hfvnas27404xhderf</td><td><span class="badge b-done">Already wired</span></td></tr>
+    </tbody>
+  </table>
+
+
+  <!-- ==================== S8 ==================== -->
+  <h2 id="s8">8. Build Order — What Remains</h2>
+
+  <div class="alert alert-green">
+    <strong>Items 1–14 complete</strong>
+    All website files, emails, Airtable schema, and reference documents are built and audited. Items 15–18 (email content doc, Mailjet DKIM, go-live wiring, Make scenarios) remain.
+  </div>
+
+  <div style="margin-top: 16px;">
+    <div class="build-row">
+      <div class="build-done">✓</div>
+      <div class="build-text"><strong>Items 1–14 — DONE</strong><span class="sub">Website v3.1, emails 1–16, Airtable schema v3.1, library.html, make-build-reference.html</span></div>
+    </div>
+    <div class="build-row">
+      <div class="build-done">✓</div>
+      <div class="build-text"><strong>Item 15 — DONE: make-email-content.html</strong><span class="sub">All 16 email subject lines + HTML with Make variable syntax. Paste-ready.</span></div>
+    </div>
+    <div class="build-row">
+      <div class="build-num">16</div>
+      <div class="build-text"><strong>Verify Mailjet DKIM — stories@24stories.co.za on GoDaddy</strong><span class="sub">Confirm Mailjet domain verification is live before any scenario goes live. Do not skip.</span></div>
+    </div>
+    <div class="build-row">
+      <div class="build-num">17</div>
+      <div class="build-text"><strong>Three pre-build tasks — see prebuild_tasks.md</strong><span class="sub">(1) Email content audit. (2) Voice cleanup build on tell.html (see voice_cleanup.md). (3) Go-live wiring preparation. Do in this order before opening Make.</span></div>
+    </div>
+    <div class="build-row">
+      <div class="build-num">18</div>
+      <div class="build-text">
+        <strong>Build Make scenarios — in this exact order</strong>
+        <span class="sub">
+          1. Build Scenario 2 (get webhook URL). Record URL in make-build-log.html.<br>
+          2. Rebuild Scenario 1 Stage 2 (add HTTP module after email-1 → Scenario 2 URL). Preserve existing webhook URL.<br>
+          3. Test Scenarios 1+2 end-to-end with Hoppscotch.<br>
+          4. Scenario 4 (weekly prompt) + 4B (manual).<br>
+          5. Scenario 5 (Day 4 reminder).<br>
+          6. Scenario 6 (Resend library link). Wire to index.html.<br>
+          7. Scenario 7 (Story edited → family delivery).<br>
+          8. Library Webhooks A–D. Wire all four to library.html.<br>
+          9. Scenario 8 (Book onboarding week 26).<br>
+          10. Scenario 9 (Book onboarding reminders).<br>
+          11. Scenario 10 (Daily book production alert).<br>
+          12. Scenario 11 (Book sent to print).<br>
+          13. Scenario 12 (Extra copies). Wire to library.html PAYFAST_NOTIFY_URL.<br>
+          14. Scenario 13 (Pause expiry reminder).<br>
+          15. Scenario 14 (Pause manual webhook).<br>
+          16. Go-live wiring — replace all placeholders. Push to GitHub. Test full flow.
+        </span>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ==================== S9 ==================== -->
+  <h2 id="s9">9. Email Registry</h2>
+
+  <table>
+    <thead><tr><th>#</th><th>File</th><th>Recipient</th><th>Trigger</th><th>Type</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>email-1-storyteller-welcome</td><td>Storyteller</td><td>PayFast COMPLETE (Scenario 1 Stage 2)</td><td>Auto</td></tr>
+      <tr><td>2</td><td>email-2-giftgiver-confirmation</td><td>Gift Giver (filter: ≠ Storyteller)</td><td>PayFast COMPLETE</td><td>Auto</td></tr>
+      <tr><td>3</td><td>email-3-storyhelper-welcome</td><td>Story Helper (filter: not empty)</td><td>PayFast COMPLETE</td><td>Auto</td></tr>
+      <tr><td>4</td><td>email-4-week1-prompt</td><td>Storyteller + Story Helper</td><td>Scenario 2 webhook</td><td>Auto</td></tr>
+      <tr><td>5</td><td>email-5-day4-reminder</td><td>Storyteller + Story Helper</td><td>Day 4, no story (Scenario 5)</td><td>Auto</td></tr>
+      <tr><td>6</td><td>email-6-storyteller-story-confirmation</td><td>Storyteller</td><td>EditedText filled (Scenario 7)</td><td>Auto</td></tr>
+      <tr><td>7</td><td>email-7-family-story-delivery</td><td>Family (all FamilyEmails)</td><td>Same as email-6</td><td>Auto — no library block</td></tr>
+      <tr><td>8</td><td>email-8-regular-prompt</td><td>Storyteller + Story Helper</td><td>Weeks 2–26 (Scenario 4)</td><td>Auto</td></tr>
+      <tr><td>9</td><td>email-9-book-onboarding-week26</td><td>Storyteller</td><td>Prompt 26 sent (Scenario 8)</td><td>Auto</td></tr>
+      <tr><td>10</td><td>email-10-book-onboarding-reminder</td><td>Storyteller</td><td>Day 3 + Day 7 post-wk26 (Scenario 9)</td><td>Auto — same HTML both sends</td></tr>
+      <tr><td>11</td><td>email-11-book-onboarding-overdue</td><td>Storyteller</td><td>Day 14 post-wk26 (Scenario 9)</td><td>Auto</td></tr>
+      <tr><td>12</td><td>email-12-book-delivery-confirmation</td><td>Storyteller</td><td>BookSentToPrintDate set (Scenario 11)</td><td>Auto</td></tr>
+      <tr><td>13</td><td>email-13-late-delivery-apology</td><td>Storyteller or Gift Giver</td><td>Manual — Tamara sends from hello@</td><td>Manual</td></tr>
+      <tr><td>14</td><td>email-14-extra-copies-confirmation</td><td>Buyer</td><td>Extra copies PayFast COMPLETE (Scenario 12)</td><td>Auto</td></tr>
+      <tr><td>15</td><td>email-15-pause-confirmation</td><td>Storyteller</td><td>Manual — Tamara sends after pause request</td><td>Manual — fill [RecipientFirstName] [PauseExpiryDate]</td></tr>
+      <tr><td>16</td><td>email-16-refund-confirmation</td><td>Buyer</td><td>Manual — exceptional only</td><td>Manual</td></tr>
+    </tbody>
+  </table>
+
+  <p style="font-size:13px; color:#555;">Design standard: 17px Georgia · H1 30px · Gold labels 14px bold · Footer 15px #444 · Gold links underlined · Greeting: "Hello [FirstName]…" · Sign-off: "With warmth, The 24 Stories Team" · Logo on every email. Library block (gold label + CTA button + raw URL) in all Storyteller + Story Helper emails. Excluded from emails 7 and 13.</p>
+
+
+  <!-- ==================== S10 ==================== -->
+  <h2 id="s10">10. Audit Log — Changes Made 2026-04-21</h2>
+
+  <div class="audit-item">
+    <div class="ai-file">email-15 (meta block)</div>
+    <div class="ai-issue">Referenced IsPaused and IsResumed checkbox fields (removed in v3.1). Tamara's instructions said to "tick IsPaused checkbox".</div>
+    <div class="ai-fix">Fixed: updated to Status = Paused / Status = Active.</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">24stories-emails/index.html</div>
+    <div class="ai-issue">Email-12 card referenced "BookDispatchedDate" (removed field).</div>
+    <div class="ai-fix">Fixed: replaced with "BookSentToPrintDate".</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">make-build-reference.html</div>
+    <div class="ai-issue">CoverColour field missing from Subscribers table schema.</div>
+    <div class="ai-fix">Fixed: added CoverColour (Single Select: Black/Blue/Red) with fieldType: "coverColour" note.</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">master-architecture.html — Section 7</div>
+    <div class="ai-issue">CoverColour field missing from Subscribers table schema.</div>
+    <div class="ai-fix">Fixed: added CoverColour row.</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">master-architecture.html — Section 4</div>
+    <div class="ai-issue">HOOK_BOOK_TEXT payload missing "coverColour" fieldType. library.html sends fieldType: 'coverColour' but the reference doc didn't list it.</div>
+    <div class="ai-fix">Fixed: added "coverColour" to HOOK_BOOK_TEXT fieldType list.</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">master-architecture.html — Section 14</div>
+    <div class="ai-issue">Items 13 and 14 still marked TODO. Both were completed 2026-04-13.</div>
+    <div class="ai-fix">Fixed: both marked DONE.</div>
+  </div>
+
+  <div class="audit-item">
+    <div class="ai-file">developer-handoff.html</div>
+    <div class="ai-issue">Webhook C payload still listed "portrait"/"cover" as fieldType options, and Airtable update column referenced CoverPhotoURL. Cover photo field was removed 2026-04-18.</div>
+    <div class="ai-fix">Fixed: Webhook C now portrait-only. CoverPhotoURL removed. HOOK_BOOK_TEXT updated with coverColour fieldType.</div>
+  </div>
+
+  <h3 style="margin-top: 28px;">Clean — no changes needed</h3>
+  <div class="audit-item">
+    <div class="ai-file">emails 1–14, 16</div>
+    <div class="ai-issue">No stale references to CoverPhotoURL, BookSummary, old pricing, IsPaused, IsResumed, BookDispatchedDate.</div>
+    <div class="ai-fix">Clean.</div>
+  </div>
+  <div class="audit-item">
+    <div class="ai-file">library.html</div>
+    <div class="ai-issue">Book prep section checked. CoverColour picker (Black/Blue/Red) already implemented. No CoverPhotoURL or BookSummary. HOOK_BOOK_TEXT sends fieldType: 'coverColour'. Airtable key and base ID already filled in.</div>
+    <div class="ai-fix">Clean — webhooks still placeholders (correct).</div>
+  </div>
+  <div class="audit-item">
+    <div class="ai-file">make-email-content.html</div>
+    <div class="ai-issue">Email 15 card already says "set Status = Paused". All other content clean.</div>
+    <div class="ai-fix">Clean.</div>
+  </div>
+  <div class="audit-item">
+    <div class="ai-file">backend-build-guide.html</div>
+    <div class="ai-issue">No stale field references found.</div>
+    <div class="ai-fix">Clean.</div>
+  </div>
+
+  <h3 style="margin-top: 28px;">Flagged — minor outstanding items</h3>
+  <div class="audit-item">
+    <div class="ai-file">airtable-setup-guide.html</div>
+    <div class="ai-issue">CoverColour missing from active Subscribers fields. CoverPhotoURL and BookSummary not listed in the Fields to Remove table.</div>
+    <div class="ai-fix">Fixed: CoverColour added (Single select: Black/Blue/Red). CoverPhotoURL and BookSummary added to removed fields table. Checklist updated. Version bumped to v3.3.</div>
+  </div>
+
+
+  <!-- ==================== S11 ==================== -->
+  <h2 id="s11">11. Outstanding Tasks — Outside the Make Build</h2>
+
+  <div class="alert alert-red">
+    <strong>Make subscription currently paused</strong>
+    The Make account is temporarily inactive. All 24 Stories subscription scenarios (Sections 5–8) depend on Make being reactivated. Confirm with the client before beginning any Make work. The tasks below do not require Make and can proceed independently.
+  </div>
+
+  <h3>Events Page — Airtable Integration</h3>
+
+  <p style="font-size:13px; color:#444; line-height:1.75; margin-bottom:12px;">
+    <strong>events.html</strong> is a live storytelling events product — completely separate from the 24 Stories subscription. It has three working Netlify forms that currently deliver submissions by email to hello@24stories.co.za (Titan). The client reads and replies manually. No automation exists or is needed at this stage.
+  </p>
+
+  <p style="font-size:13px; color:#444; line-height:1.75; margin-bottom:16px;">
+    The outstanding task is to wire these forms to a <strong>separate Airtable base</strong> so submissions are filed and can be reviewed in a table — without triggering any automated emails. Tamara continues to reply manually from hello@.
+  </p>
+
+  <table>
+    <thead><tr><th>Form</th><th>name attribute</th><th>Fields to capture</th></tr></thead>
+    <tbody>
+      <tr><td>Story application</td><td>storyteller-application</td><td>Full name, email, phone, story title/theme, story description, experience level, how they heard about it, support needed</td></tr>
+      <tr><td>Event alerts</td><td>event-alerts</td><td>Email address (and possibly name/location — read events.html to confirm)</td></tr>
+      <tr><td>Mailing list</td><td>mailing-list</td><td>Name, email, location/city (read events.html to confirm exact fields)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-gold" style="margin-top:16px;">
+    <strong>Platform for this task — TBD. Make is not currently available.</strong>
+    Three options to discuss with client before starting:
+    <br><br>
+    <strong>Option A — Zapier</strong> (recommended if staying no-code): Netlify has a native Zapier integration. Zap: Netlify form submission → Airtable create record. Simple, reliable, no code. Free tier likely sufficient for this volume.
+    <br><br>
+    <strong>Option B — Netlify function</strong> (no third-party platform): Convert each form to submit via a small JavaScript fetch call to a Netlify serverless function. The function posts directly to Airtable's API. Keeps everything within the existing Netlify account. Slightly more code but removes any dependency on an automation platform.
+    <br><br>
+    <strong>Option C — Reactivate Make</strong>: Configure Netlify outgoing webhooks (Forms → Notifications → Outgoing webhook) to fire on each form submission → Make receives it → creates Airtable record. Three simple scenarios, no Mailjet modules. Reactivation cost to factor in.
+    <br><br>
+    <strong>Recommendation:</strong> Option B (Netlify function) if the developer is comfortable with a small amount of code — it is self-contained, costs nothing extra, and keeps the architecture clean. Option A (Zapier) if a no-code approach is preferred.
+  </div>
+
+  <h3>Events Airtable Base — Proposed Structure</h3>
+  <p style="font-size:13px; color:#555; margin-bottom:10px;">Create a new, separate Airtable base — do not add to the 52stories base. Suggested name: <strong>"24stories-events"</strong>. Three tables, one per form.</p>
+
+  <table>
+    <thead><tr><th>Table</th><th>Key fields</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Story Applications</td><td>Name, Email, Phone, StoryTitle, StoryDescription, ExperienceLevel, SubmittedAt, Status (New / Reviewed / Accepted / Declined)</td><td>Speaker pipeline for each event</td></tr>
+      <tr><td>Event Alerts</td><td>Email, Name, SubmittedAt</td><td>People who want to be notified of next event</td></tr>
+      <tr><td>Mailing List</td><td>Name, Email, City, SubmittedAt</td><td>Ongoing interest list</td></tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-gold">
+    <strong>Read events.html in full before building</strong>
+    The field list above is based on a quick audit. Read the full form HTML to confirm exact field names and add any missed fields before creating the Airtable tables.
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12px; color: #999;">
+    <p>24 Stories — Developer Handover — Produced 2026-04-21 — v3.1 architecture</p>
+    <p style="margin-top: 4px;">Companion documents: master-architecture.html · make-build-reference.html · make-email-content.html · make-build-log.html</p>
+  </div>
+
+</div><!-- /container -->
+
+
+<!-- ============================================================
+     CREDENTIALS APPENDIX — PRINT SEPARATELY
+     Fill in passwords and private keys manually before handing over.
+     Keep the completed copy in a secure location.
+     ============================================================ -->
+<div class="creds-appendix">
+
+  <div class="creds-page-header">
+    <div>
+      <div class="creds-title">24 Stories — Developer Access Credentials</div>
+      <div class="creds-subtitle">Appendix to Developer Handover · Fill in manually before handing over · Keep a copy in a secure location</div>
+    </div>
+    <div class="creds-date">Date handed over: _____ / _____ / _____</div>
+  </div>
+
+  <div class="creds-note">
+    All services below require the developer to have active access before the Make build can begin. Services marked <strong>ACCOUNT ACCESS</strong> require you to invite the developer by email. Services marked <strong>API KEY</strong> require you to generate a key and share it — no account login needed.
+  </div>
+
+  <!-- 1. GITHUB -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">1. GitHub</span>
+      <span class="creds-access-type">ACCOUNT ACCESS — invite as collaborator</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>github.com</td></tr>
+      <tr><td>Repository</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Your GitHub username</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Developer's GitHub username / email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Access level to grant</td><td>Write (so they can push commits)</td></tr>
+    </table>
+    <div class="creds-how">How to invite: Repository → Settings → Collaborators → Add people → enter their GitHub username or email.</div>
+  </div>
+
+  <!-- 2. NETLIFY -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">2. Netlify</span>
+      <span class="creds-access-type">ACCOUNT ACCESS — invite as team member</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>app.netlify.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Site name</td><td>resilient-eclair-c46b34.netlify.app</td></tr>
+      <tr><td>Developer's email to invite</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Access level to grant</td><td>Collaborator (can deploy, edit env vars, manage functions)</td></tr>
+    </table>
+    <div class="creds-how">How to invite: Team settings → Members → Invite member. Alternatively share your login credentials directly if on a personal plan. Developer needs access to set environment variables (OpenAI key, Anthropic key) in Site settings → Environment variables.</div>
+  </div>
+
+  <!-- 3. AIRTABLE -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">3. Airtable</span>
+      <span class="creds-access-type">ACCOUNT ACCESS + API KEY</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>airtable.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Base name</td><td>52stories</td></tr>
+      <tr><td>Base ID</td><td>apprTOobuxs4Od7XB</td></tr>
+      <tr><td>Developer's email to invite</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Access level to grant</td><td>Editor (can view and edit records, needed for testing Make scenarios)</td></tr>
+      <tr><td>Read-only API token (already in library.html)</td><td>patWwUjWox5ZRZudP.2e3f64188ca5f1003979391b7e978ce8e235abf</td></tr>
+      <tr><td>Full API token (for Make — create separately if needed)</td><td class="fill-blank">&nbsp;</td></tr>
+    </table>
+    <div class="creds-how">How to share base: open the base → Share → Invite by email. API token: Account → Developer hub → Personal access tokens → Create token. Make needs a token with read + write scope on the 52stories base.</div>
+  </div>
+
+  <!-- 4. MAKE -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">4. Make (Integromat)</span>
+      <span class="creds-access-type">ACCOUNT ACCESS — invite to organisation</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>make.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Organisation name</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Developer's email to invite</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Access level to grant</td><td>Admin (needs to create scenarios, set connections, manage webhooks)</td></tr>
+    </table>
+    <div class="creds-how">How to invite: Organisation → Members → Invite member. Developer will build all 19 scenarios directly in your Make account. Do not share your login password — use the invite system.</div>
+  </div>
+
+  <!-- 5. MAILJET -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">5. Mailjet</span>
+      <span class="creds-access-type">API KEY — no account login needed for Make</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL (for DKIM verification)</td><td>app.mailjet.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Sender address configured</td><td>stories@24stories.co.za</td></tr>
+      <tr><td>API key (public)</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>API secret (private)</td><td class="fill-blank">&nbsp;</td></tr>
+    </table>
+    <div class="creds-how">How to get keys: Account → API keys → Primary API key. The developer needs these to configure the Mailjet connection in Make. Also share your account login so they can confirm DKIM verification for stories@24stories.co.za before any scenario goes live — or do this step yourself and confirm it's done.</div>
+  </div>
+
+  <!-- 6. PAYFAST -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">6. PayFast</span>
+      <span class="creds-access-type">MERCHANT CREDENTIALS — no account login needed for Make</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>payfast.io</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Merchant ID</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Merchant key</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Passphrase</td><td>Not set (leave blank)</td></tr>
+      <tr><td>Notify URL (main — already live — DO NOT CHANGE)</td><td>https://hook.eu1.make.com/63gxymbozbgic8v4qtvjzn9nkruo3g8k</td></tr>
+      <tr><td>Notify URL (extra copies — set once Scenario 12 is built)</td><td class="fill-blank">&nbsp;</td></tr>
+    </table>
+    <div class="creds-how">Merchant ID and key are in your PayFast dashboard under Settings → Merchant details. The developer needs these to wire up the PayFast payment form in library.html (library.html placeholders: PAYFAST_MERCHANT_ID, PAYFAST_MERCHANT_KEY). Do not change the existing notify_url without checking with the developer first.</div>
+  </div>
+
+  <!-- 7. CLOUDINARY -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">7. Cloudinary</span>
+      <span class="creds-access-type">API KEY — already configured in tell.html and library.html</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>cloudinary.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Cloud name (already in code)</td><td>dorv3glde</td></tr>
+      <tr><td>Upload preset (already in code)</td><td>24stories</td></tr>
+      <tr><td>API key</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>API secret</td><td class="fill-blank">&nbsp;</td></tr>
+    </table>
+    <div class="creds-how">Cloud name and upload preset are already wired into tell.html and library.html — no change needed unless something breaks. API key and secret are in Cloudinary dashboard → Settings → API keys. Developer may need these if they need to reconfigure the upload preset or run any server-side Cloudinary operations.</div>
+  </div>
+
+  <!-- 8. OPENAI -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">8. OpenAI</span>
+      <span class="creds-access-type">API KEY — goes into Netlify environment variable</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>platform.openai.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>API key</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Netlify env var name</td><td>OPENAI_API_KEY</td></tr>
+      <tr><td>Used for</td><td>Whisper transcription in tell.html (/.netlify/functions/transcribe)</td></tr>
+    </table>
+    <div class="creds-how">Generate key at platform.openai.com → API keys → Create new secret key. Add to Netlify: Site settings → Environment variables → Add variable → OPENAI_API_KEY. Developer needs this to test the voice recording flow end-to-end.</div>
+  </div>
+
+  <!-- 9. ANTHROPIC -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">9. Anthropic (Claude API)</span>
+      <span class="creds-access-type">API KEY — goes into Netlify environment variable</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>console.anthropic.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>API key</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Netlify env var name</td><td>ANTHROPIC_API_KEY</td></tr>
+      <tr><td>Used for</td><td>Text cleanup in tell.html (/.netlify/functions/cleanup) — fixes punctuation, removes filler words, breaks into paragraphs</td></tr>
+    </table>
+    <div class="creds-how">Generate key at console.anthropic.com → API keys → Create key. Add to Netlify: Site settings → Environment variables → Add variable → ANTHROPIC_API_KEY.</div>
+  </div>
+
+  <!-- 10. GODADDY -->
+  <div class="creds-service">
+    <div class="creds-service-header">
+      <span class="creds-service-name">10. GoDaddy (DNS)</span>
+      <span class="creds-access-type">ACCOUNT ACCESS — only needed if DKIM verification is incomplete</span>
+    </div>
+    <table class="creds-table">
+      <tr><th>Item</th><th>Value</th></tr>
+      <tr><td>Login URL</td><td>godaddy.com</td></tr>
+      <tr><td>Your account email</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Your account password</td><td class="fill-blank">&nbsp;</td></tr>
+      <tr><td>Domain managed here</td><td>24stories.co.za</td></tr>
+      <tr><td>DNS access needed for</td><td>Adding Mailjet DKIM TXT record to verify stories@24stories.co.za</td></tr>
+    </table>
+    <div class="creds-how">Only share if DKIM is not yet verified. SPF is already correct — do not touch. Developer needs to add one TXT record from the Mailjet domain verification page. Alternatively: do this step yourself by following Mailjet's instructions and confirm it's done before handover.</div>
+  </div>
+
+  <div class="creds-footer">
+    <p>This page contains sensitive credentials. Store the completed copy securely — do not email it. Shred or delete once the developer confirms access to all services.</p>
+    <p style="margin-top: 6px;">Developer confirmed access: &nbsp; _________________________ &nbsp; Date: _____ / _____ / _____</p>
+  </div>
+
+</div><!-- /creds-appendix -->
+
+<style>
+  /* ---- CREDENTIALS APPENDIX STYLES ---- */
+  .creds-appendix {
+    max-width: 1000px;
+    margin: 60px auto 0;
+    padding: 40px 32px 80px;
+    border-top: 3px solid #1A1A1A;
+  }
+
+  .creds-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    gap: 24px;
+  }
+
+  .creds-title {
+    font-family: Georgia, serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #1A1A1A;
+    margin-bottom: 4px;
+  }
+
+  .creds-subtitle {
+    font-size: 12px;
+    color: #888;
+    letter-spacing: 0.03em;
+  }
+
+  .creds-date {
+    font-size: 13px;
+    color: #555;
+    white-space: nowrap;
+    padding-top: 6px;
+  }
+
+  .creds-note {
+    background: #fff8ec;
+    border-left: 4px solid #B8976A;
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #5a3a00;
+    margin-bottom: 32px;
+  }
+
+  .creds-service {
+    margin-bottom: 32px;
+    page-break-inside: avoid;
+  }
+
+  .creds-service-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    background: #1A1A1A;
+    color: #fff;
+    padding: 9px 16px;
+    margin-bottom: 0;
+  }
+
+  .creds-service-name {
+    font-family: Georgia, serif;
+    font-size: 15px;
+    font-weight: 400;
+  }
+
+  .creds-access-type {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #B8976A;
+  }
+
+  .creds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-family: system-ui, sans-serif;
+    margin-bottom: 0;
+  }
+
+  .creds-table th {
+    background: #F0EBE4;
+    color: #1A1A1A;
+    text-align: left;
+    padding: 7px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .creds-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid #E0DDD8;
+    vertical-align: top;
+    background: #fff;
+  }
+
+  .creds-table tr:nth-child(even) td {
+    background: #faf9f7;
+  }
+
+  .creds-table td:first-child {
+    color: #555;
+    width: 38%;
+    font-size: 12px;
+  }
+
+  .fill-blank {
+    background: #fffde7 !important;
+    min-height: 28px;
+    border-bottom: 1px solid #ccc !important;
+  }
+
+  .creds-how {
+    background: #f5f5f5;
+    border-left: 3px solid #E0DDD8;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.65;
+  }
+
+  .creds-footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #E0DDD8;
+    font-size: 12px;
+    color: #888;
+  }
+
+  /* Print styles */
+  @media print {
+    .topbar { display: none; }
+    .container { display: none; }
+    .creds-appendix {
+      margin: 0;
+      padding: 24px;
+      border-top: none;
+    }
+    .creds-service { page-break-inside: avoid; }
+    .fill-blank { background: #fffde7 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .creds-service-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+
+</body>
+</html>

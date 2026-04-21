@@ -225,7 +225,7 @@
     <tr><td>Story photo upload</td><td><code>HOOK_STORY_PHOTO</code></td><td><code>{ subscriberId, week, photoUrl }</code></td><td>Stories.StoryImageURL for matching subscriber + week</td></tr>
     <tr><td>Caption edit</td><td><code>HOOK_CAPTION</code></td><td><code>{ subscriberId, week, caption }</code></td><td>Stories.StoryImageCaption for matching subscriber + week</td></tr>
     <tr><td>Portrait photo</td><td><code>HOOK_BOOK_PHOTO</code></td><td><code>{ subscriberId, fieldType: "portrait", photoUrl }</code></td><td>Subscribers.PortraitPhotoURL</td></tr>
-    <tr><td>Book title / dedication / delivery address / phone</td><td><code>HOOK_BOOK_TEXT</code></td><td><code>{ subscriberId, fieldType: "bookTitle"|"dedication"|"deliveryAddress"|"deliveryPhone", value }</code></td><td>Corresponding Subscribers field</td></tr>
+    <tr><td>Book title / dedication / delivery address / phone / cover colour</td><td><code>HOOK_BOOK_TEXT</code></td><td><code>{ subscriberId, fieldType: "bookTitle"|"dedication"|"deliveryAddress"|"deliveryPhone"|"coverColour", value }</code></td><td>Corresponding Subscribers field</td></tr>
   </table>
   <p>Photos go to Cloudinary first (cloud: <code>dorv3glde</code>, preset: <code>24stories</code>), then the Cloudinary URL is sent to the Make webhook.</p>
 
@@ -348,6 +348,7 @@
     <tr><td>BookCompiledDate</td><td>Date — Tamara sets when design complete</td></tr>
     <tr><td>BookSentToPrintDate</td><td>Date — Tamara sets when book sent to printer. Triggers Make Scenario 11 → email 12.</td></tr>
     <tr><td>BookProductionStatus</td><td>Formula: "In Design" if BookFormCompleted filled + BookCompiledDate empty; "Ready for Print" if BookCompiledDate filled + BookSentToPrintDate empty; "At Printer" if BookSentToPrintDate filled.</td></tr>
+    <tr><td>CoverColour</td><td>Single Select — Black / Blue / Red. Subscriber chooses in library. Sent via HOOK_BOOK_TEXT (fieldType: "coverColour"). Default if empty: Black.</td></tr>
     <tr><td>PauseStartDate</td><td>Date — Tamara sets when pause begins. Used by Scenario 13 to calculate 12-month expiry.</td></tr>
   </table>
 
@@ -615,8 +616,8 @@
     <tr><td>10</td><td>Fix library.html — add "Awaiting edit" story status state</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>11</td><td>Resolve Prompts table field name: <code>Week</code> locked. library.html already uses <code>Week</code>. No changes needed.</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>12</td><td>Confirm pause/resume mechanism. Locked: Status field only (Active/Paused). IsPaused + IsResumed removed. Scenario 13 = expiry reminder only.</td><td><span class="flag green">DONE</span></td></tr>
-    <tr><td>13</td><td>Reset Airtable to final v3.1 schema (4 tables, exact field names as in Section 7)<br>— Add BookProductionStatus formula field (Subscribers)<br>— Add SubscriberRecordID formula field (Stories)<br>— Build "Books in Production" view (Subscribers)</td><td><span class="flag">TODO</span></td></tr>
-    <tr><td>14</td><td>Produce locked Airtable field name reference document + Make scenario module maps for all 13 scenarios — reference guide used during Make build to avoid badge remapping errors</td><td><span class="flag">TODO</span></td></tr>
+    <tr><td>13</td><td>Reset Airtable to final v3.1 schema (4 tables, exact field names as in Section 7)<br>— Add BookProductionStatus formula field (Subscribers)<br>— Add SubscriberRecordID formula field (Stories)<br>— Build "Books in Production" view (Subscribers)</td><td><span class="flag green">DONE</span></td></tr>
+    <tr><td>14</td><td>Produce locked Airtable field name reference document + Make scenario module maps for all 13 scenarios — reference guide used during Make build to avoid badge remapping errors</td><td><span class="flag green">DONE</span></td></tr>
     <tr><td>15</td><td>Prepare Make-ready email content: subject lines + HTML with Make variable syntax for all 16 emails. Paste-ready for Mailjet modules. Batch in one pass before opening Make.</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>16</td><td>Verify Mailjet domain verification — confirm stories@24stories.co.za DKIM is live on GoDaddy DNS before any scenario goes live</td><td><span class="flag">TODO</span></td></tr>
     <tr><td>17</td><td>Configure library.html for go-live: replace 4 placeholders — AIRTABLE_KEY (read-only token), AIRTABLE_BASE (appXXXX), and 4 Make webhook URLs (HOOK_STORY_PHOTO, HOOK_CAPTION, HOOK_BOOK_PHOTO, HOOK_BOOK_TEXT)</td><td><span class="flag">TODO</span></td></tr>

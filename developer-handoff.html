@@ -576,8 +576,8 @@
         <tbody>
           <tr><td>A — Story Photo</td><td>HOOK_STORY_PHOTO</td><td>{ subscriberId, week, photoUrl }</td><td>Stories.StoryImageURL where SubscriberRecordID = subscriberId AND PromptNumber = week</td></tr>
           <tr><td>B — Caption</td><td>HOOK_CAPTION</td><td>{ subscriberId, week, caption }</td><td>Stories.StoryImageCaption where SubscriberRecordID = subscriberId AND PromptNumber = week</td></tr>
-          <tr><td>C — Book Photo</td><td>HOOK_BOOK_PHOTO</td><td>{ subscriberId, fieldType: "portrait"/"cover", photoUrl }</td><td>Subscribers.PortraitPhotoURL or CoverPhotoURL</td></tr>
-          <tr><td>D — Book Text</td><td>HOOK_BOOK_TEXT</td><td>{ subscriberId, fieldType: "bookTitle"/"dedication"/"deliveryAddress"/"deliveryPhone", value }</td><td>Corresponding Subscribers field</td></tr>
+          <tr><td>C — Book Photo</td><td>HOOK_BOOK_PHOTO</td><td>{ subscriberId, fieldType: "portrait", photoUrl }</td><td>Subscribers.PortraitPhotoURL (inside-cover portrait only — no cover photo field)</td></tr>
+          <tr><td>D — Book Text</td><td>HOOK_BOOK_TEXT</td><td>{ subscriberId, fieldType: "bookTitle"/"dedication"/"deliveryAddress"/"deliveryPhone"/"coverColour", value }</td><td>Corresponding Subscribers field</td></tr>
         </tbody>
       </table>
     </div>

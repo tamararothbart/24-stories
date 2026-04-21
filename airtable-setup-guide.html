@@ -39,7 +39,7 @@
 <div class="wrapper">
 
   <h1>24 Stories — Airtable Setup Guide</h1>
-  <p class="subtitle">VERSION 3.2 — 2026-04-14 — LOCKED FIELD NAMES — USE EXACTLY AS WRITTEN</p>
+  <p class="subtitle">VERSION 3.3 — 2026-04-21 — LOCKED FIELD NAMES — USE EXACTLY AS WRITTEN</p>
 
   <div class="locked">
     Base name in Airtable: <strong>"52stories"</strong> (old name — correct base, do not rename). 4 tables. Work through each table below in order. Tick each field as you add it.
@@ -83,6 +83,7 @@
     <tr><td>BookTitle</td><td>Single line text</td><td>Subscriber-editable in library. Default shown: "The Collected Stories of [FirstName] [Surname]". Written to Airtable only if subscriber changes it.</td></tr>
     <tr><td>PortraitPhotoURL</td><td>URL</td><td>Cloudinary URL of inside-cover portrait. Set via library.</td></tr>
     <tr><td>DedicationText</td><td>Long text</td><td>Set via library</td></tr>
+    <tr class="new-row"><td>CoverColour</td><td>Single select</td><td>Options: <strong>Black / Blue / Red</strong>. Subscriber chooses in library book prep section. Set via HOOK_BOOK_TEXT webhook (fieldType: "coverColour"). Default if empty: Black. <span class="badge-new">NEW</span></td></tr>
     <tr><td>BookCompiledDate</td><td>Date</td><td>Tamara sets when book design is complete</td></tr>
     <tr><td>BookSentToPrintDate</td><td>Date</td><td>Tamara sets when book goes to printer. Make watches this → fires email 12 to Storyteller.</td></tr>
     <tr class="new-row"><td>BookDispatchEmailSent</td><td>Checkbox</td><td>Set to true by Make after email-12 is sent. Prevents double-send if Tamara corrects BookSentToPrintDate after it was already set. Scenario 11 filters: BookSentToPrintDate not empty AND this is not checked. <span class="badge-new">NEW</span></td></tr>
@@ -175,6 +176,8 @@
     <tr><td>PromptFrequency</td><td>Subscribers</td><td>Old schema — not needed</td></tr>
     <tr><td>NextPromptDueDate</td><td>Subscribers</td><td>Old schema — replaced by PromptNumber logic</td></tr>
     <tr><td>Alt1 / Alt2 / Alternative1 / Alternative2</td><td>Prompts</td><td>Replaced by OtherAngles</td></tr>
+    <tr><td>CoverPhotoURL</td><td>Subscribers</td><td>Removed 2026-04-18 — book cover is text-only linen cloth. No cover photo field.</td></tr>
+    <tr><td>BookSummary</td><td>Subscribers</td><td>Removed 2026-04-18 — no longer part of the offer.</td></tr>
   </table>
 
   <!-- ==================== CHECKLIST ==================== -->
@@ -188,8 +191,9 @@
     <div class="checkbox-row"><input type="checkbox"> <span class="badge-new">NEW</span> LastPromptSentDate added (Date field)</div>
     <div class="checkbox-row"><input type="checkbox"> <span class="badge-new">NEW</span> BookOnboardingEmailDate added (Date field)</div>
     <div class="checkbox-row"><input type="checkbox"> <span class="badge-new">NEW</span> BookDispatchEmailSent added (Checkbox field)</div>
+    <div class="checkbox-row"><input type="checkbox"> <span class="badge-new">NEW</span> CoverColour added (Single select — options: Black, Blue, Red)</div>
     <div class="checkbox-row"><input type="checkbox"> BookProductionStatus formula added and showing correctly</div>
-    <div class="checkbox-row"><input type="checkbox"> Old fields (IsPaused, IsResumed, BookDispatchedDate, etc.) deleted</div>
+    <div class="checkbox-row"><input type="checkbox"> Old fields (IsPaused, IsResumed, BookDispatchedDate, CoverPhotoURL, BookSummary, etc.) deleted</div>
     <div class="checkbox-row"><input type="checkbox"> "Books in Production" view created with filter + sort + hidden fields</div>
   </div>
 

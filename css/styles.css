@@ -1529,13 +1529,13 @@ h1.hero-heading, .hero-content h1 {
     align-items: start;
 }
 
-/* Big decorative step numbers */
+/* Big step numbers — bold, readable, proportional */
 .steps-grid--five .step-n {
     font-family: Georgia, serif;
-    font-size: 2.75rem;
-    font-weight: 400;
-    color: var(--gold);
-    letter-spacing: 0;
+    font-size: 3.25rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -0.02em;
     line-height: 1;
     margin-bottom: 0;
 }
@@ -2010,7 +2010,7 @@ h1.hero-heading, .hero-content h1 {
         gap: 48px;
     }
     .step-connector { display: none; }
-    .steps-grid--five .step-n { font-size: 2.25rem; }
+    .steps-grid--five .step-n { font-size: 2.5rem; }
 }
 
 @media (max-width: 1024px) {

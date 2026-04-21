@@ -1530,7 +1530,7 @@ h1.hero-heading, .hero-content h1 {
 }
 
 /* Big step numbers — bold, readable, proportional */
-.steps-grid--five .step-n {
+.steps-grid--five .step-icon-block .step-n {
     font-family: Georgia, serif;
     font-size: 3.25rem;
     font-weight: 700;
@@ -2010,7 +2010,7 @@ h1.hero-heading, .hero-content h1 {
         gap: 48px;
     }
     .step-connector { display: none; }
-    .steps-grid--five .step-n { font-size: 2.5rem; }
+    .steps-grid--five .step-icon-block .step-n { font-size: 2.5rem; }
 }
 
 @media (max-width: 1024px) {

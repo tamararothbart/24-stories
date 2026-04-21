@@ -455,6 +455,16 @@
         }
 
         .book-field textarea:focus { border-color: var(--gold); }
+        .cover-colour-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+        .colour-opt {
+            display: flex; align-items: center; gap: 8px;
+            background: none; border: 1px solid #DDD; border-radius: 3px;
+            padding: 9px 16px; cursor: pointer; font-size: 14px;
+            font-family: inherit; color: var(--charcoal); transition: border-color 0.15s;
+        }
+        .colour-opt:hover { border-color: var(--gold); }
+        .colour-opt.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); font-weight: 500; }
+        .colour-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
         .book-field textarea::placeholder { color: #ccc; font-style: italic; }
 
         /* Book summary */
@@ -603,7 +613,7 @@
             <div class="book-prep">
                 <p class="book-prep-eyebrow">Your Legacy Book</p>
                 <h2 class="book-prep-heading">Preparing your book</h2>
-                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, dedication, and delivery address at any time.</p>
+                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, choose your cover colour, write your dedication, and confirm your delivery address at any time.</p>
 
                 <!-- PORTRAIT -->
                 <div class="book-field">
@@ -626,6 +636,24 @@
                     <p class="book-field-sub">Or leave as is.</p>
                     <textarea id="bookTitle" placeholder="Type your own title here" rows="2"></textarea>
                     <p class="field-saved-msg" id="bookTitleSaved"></p>
+                </div>
+
+                <!-- COVER COLOUR -->
+                <div class="book-field">
+                    <p class="book-field-label">Cover colour</p>
+                    <p class="book-field-sub">Choose the ink colour for your title and name. All covers are printed on warm stone-grey linen cloth.</p>
+                    <div class="cover-colour-options" id="coverColourOptions">
+                        <button class="colour-opt" data-colour="Black" type="button">
+                            <span class="colour-dot" style="background:#1A1A1A;"></span>Black
+                        </button>
+                        <button class="colour-opt" data-colour="Blue" type="button">
+                            <span class="colour-dot" style="background:#1A3DB5;"></span>Blue
+                        </button>
+                        <button class="colour-opt" data-colour="Red" type="button">
+                            <span class="colour-dot" style="background:#C8102E;"></span>Red
+                        </button>
+                    </div>
+                    <p class="field-saved-msg" id="coverColourSaved"></p>
                 </div>
 
                 <!-- DEDICATION -->
@@ -1025,7 +1053,6 @@
         // ---- BOOK PREP ----
         function renderBookPrep(f) {
             setupBookPhoto('btnPortrait', 'portraitInput', 'portraitFilename', 'portraitUploading', 'portraitOk', 'portraitExisting', 'portrait', f.PortraitPhotoURL || '');
-            setupBookPhoto('btnCover',    'coverInput',    'coverFilename',    'coverUploading',    'coverOk',    'coverExisting',    'cover',    f.CoverPhotoURL    || '');
 
             // Book title: show default with real name, pre-fill textarea if subscriber has saved their own
             var fullName = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
@@ -1039,7 +1066,23 @@
             setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
             setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
+            setupCoverColour(f.CoverColour || '');
             setupExtraCopies();
+        }
+
+        function setupCoverColour(saved) {
+            var btns  = document.querySelectorAll('.colour-opt');
+            var msg   = document.getElementById('coverColourSaved');
+            btns.forEach(function(btn) {
+                if (btn.dataset.colour === saved) btn.classList.add('selected');
+                btn.addEventListener('click', function() {
+                    btns.forEach(function(b) { b.classList.remove('selected'); });
+                    btn.classList.add('selected');
+                    postMake(HOOK_BOOK_TEXT, { subscriberId: subscriberId, fieldType: 'coverColour', value: btn.dataset.colour });
+                    msg.textContent = 'Saved';
+                    setTimeout(function() { msg.textContent = ''; }, 2000);
+                });
+            });
         }
 
         function setupBookPhoto(btnId, inputId, fnameId, uploadingId, okId, existingId, fieldType, existingUrl) {

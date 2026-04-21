@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
 
@@ -223,34 +224,287 @@
          ============================================================ -->
     <section class="book-section">
         <div class="container">
+            <p class="section-eyebrow" style="margin-bottom:32px;">See what your stories become&hellip;</p>
             <div class="book-outcome-grid">
 
                 <div class="book-outcome-visual reveal">
-                    <!--
-                        MEMOIR MOCKUP IMAGE PLACEHOLDER
-                        MidJourney: "digital family memoir displayed on tablet screen,
-                        elegant layout, warm lighting, open on a story page with a photograph,
-                        lifestyle photography"
-                    -->
-                    <div class="img-placeholder img-placeholder--book">
-                        <span class="ph-label">[ MEMOIR MOCKUP IMAGE ]</span>
-                        <span class="ph-prompt">MidJourney: "digital family memoir displayed on tablet screen, elegant layout, warm lighting, open on a story page with a photograph, lifestyle photography"</span>
+
+                    <!-- BOOK SAMPLE CAROUSEL -->
+                    <div class="book-swiper-wrap">
+                      <div class="swiper book-swiper">
+                        <div class="swiper-wrapper">
+
+                          <!-- COVER -->
+                          <div class="swiper-slide slide-cover">
+                            <div class="page-inner" style="background:none;">
+                              <img src="book-images/THIS IS THE RIGHT IMAGE FOR BOOK COVER.png" alt="Book cover" style="width:100%;height:100%;object-fit:cover;display:block;">
+                            </div>
+                          </div>
+
+                          <!-- PORTRAIT p.1 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="portrait-wrap"><img src="book-images/sample-mary-miller/00-portrait-mary-miller.png" alt="Mary J. Miller"></div>
+                              <div class="page-number">1</div>
+                            </div>
+                          </div>
+
+                          <!-- DEDICATION p.2 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="front-matter">
+                                <p class="dedication-text">This book is dedicated to everyone I have known and loved in the long, complicated, ordinary miracle of a shared life.</p>
+                              </div>
+                              <div class="page-number">2</div>
+                            </div>
+                          </div>
+
+                          <!-- EPIGRAPH p.3 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="front-matter">
+                                <p class="epigraph-quote">"Make up a story. For our sake and yours forget your name in the street; tell us what the world has been to you in the dark places and in the light. Don't tell us what to believe, what to fear. Show us belief's wide skirt and the stitch that unravels fear's caul."</p>
+                                <p class="epigraph-attribution">Toni Morrison, Nobel Prize Lecture, 1993</p>
+                              </div>
+                              <div class="page-number">3</div>
+                            </div>
+                          </div>
+
+                          <!-- CH1 OPENING p.4 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="chapter-title-block"><div class="chapter-title">I Got It From<br>My Mama</div></div>
+                                <div class="body-text"><p>There is a particular way my mother entered a room. Not loudly — she was never loud — but with a quality of attention that made you feel the room had been waiting for her. She noticed things. The cup left on the wrong shelf. The child sitting slightly apart from the others. The conversation that needed redirecting before it became something else. I did not know, for many years, that I had inherited this quality. I thought I was simply paying attention. It took my eldest daughter, at seventeen, watching me across a dinner table, to say: you do exactly what Grandma Sylvia did. You scan the room. You always know where everyone is. And she was right. I do. I always have.</p></div>
+                              </div>
+                              <div class="page-number">4</div>
+                            </div>
+                          </div>
+
+                          <!-- CH1 CONTINUATION p.5 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="body-text">
+                                  <p>What we inherit from our mothers is rarely the thing we expect. We think of it in terms of objects — the ring, the recipe, the handwriting on a card kept in a drawer. We imagine inheritance as something handed over deliberately, with ceremony, in a moment of understood significance. But most of what I got from my mother arrived without announcement, slipping into me the way water finds its level: the slight forward tilt when listening to someone who is struggling to find their words, the specific way of folding napkins that I cannot do any other way even now, the habit of noticing who has not been thanked, the absolute inability to leave a gathering without checking that nobody is standing alone.</p>
+                                  <p>She was a woman who held things together by noticing them. A family is not held together by love alone — love is easy; love is the given. What holds a family together is the continuous, invisible labour of attention. Who has gone quiet. Who is eating too little. Who needs to be asked something in private that they cannot say in the room. This was my mother's particular genius, and she never named it or claimed it as such. It was simply what she did. What I watched her do, every day of my childhood, without understanding that I was learning.</p>
+                                </div>
+                              </div>
+                              <div class="page-number">5</div>
+                            </div>
+                          </div>
+
+                          <!-- CH1 PHOTO p.9 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch01-i-got-it-from-my-mama.png" alt=""></div>
+                                <div class="caption">Spring, 1963, our house in Gardenia Crescent, Milnerton. Me, aged 8, with my mother, Sylvia. The fabric had been bought on a Saturday morning at Spraklins – one bolt, two dresses. Mom's idea, but I wore mine until it no longer fitted. Then I kept it anyway.</div>
+                              </div>
+                              <div class="page-number">9</div>
+                            </div>
+                          </div>
+
+                          <!-- CH2 OPENING p.10 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="chapter-title-block"><div class="chapter-title">A Dialogue Between<br>the Moon<br>and Stars</div></div>
+                                <div class="body-text"><p>When I was very small I believed, with the certainty that only very small children can believe things, that the sky was a conversation I was not yet old enough to understand. The stars were not decorative. They were communicating. They had been doing so long before any of us arrived, and they would continue long after, and the fact that we had not yet learned to listen was our failing, not theirs. I told my grandfather Solly this one evening when I was about seven, lying on my back in the grass while he sat nearby in a folding chair. He put down whatever he was reading and looked at me for a long moment. Then he said: you might be right. Let's keep listening.</p></div>
+                              </div>
+                              <div class="page-number">10</div>
+                            </div>
+                          </div>
+
+                          <!-- CH2 PHOTO p.14 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch02-option-b-fancy-dress-v2.png" alt=""></div>
+                                <div class="caption">Circa 1964. Probably on my way to a fancy-dress party. But I didn't need an excuse. The crown might have been a cereal box and the cape, an old curtain, but I was the self-declared Queen of the Back Garden and sole ruler of everything beyond the stoep.</div>
+                              </div>
+                              <div class="page-number">14</div>
+                            </div>
+                          </div>
+
+                          <!-- CH3 OPENING p.15 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="chapter-title-block"><div class="chapter-title">Non-Returnable<br>People</div></div>
+                                <div class="body-text"><p>There is a kind of person who exists in every family — the one who cannot be discussed neutrally, who generates a particular charge in the room simply by being mentioned, who is loved or resented or feared or pitied or, most usually, several of these at once. Every family has its version of this person, and most families have several. They are the ones the stories always circle back to, the ones whose names come up at the wrong moment with the wrong weight, the ones who left something unresolved that the family is still carrying, decades later, like an account that was never properly settled.</p></div>
+                              </div>
+                              <div class="page-number">15</div>
+                            </div>
+                          </div>
+
+                          <!-- CH3 TEXT p.17 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="body-text">
+                                  <p>The first seder without him, she took his seat at the head of the table without being asked and without announcing it. She simply sat down there, opened the Haggadah to the first page, and began. If she looked at the chair to her right — his chair, for forty-one years his chair — she did not do it where anyone could see.</p>
+                                  <p>I was eleven that year. I was sitting halfway down the table next to my cousin Sharon, and we were, I am not proud to say, talking about something entirely unrelated to the Haggadah. I remember the sound of Bobbe Rivka's voice beginning the first paragraph — she had a reading voice that carried without effort, the voice of someone who had grown up in a house where reading aloud mattered — and the way the table went quiet around it.</p>
+                                </div>
+                              </div>
+                              <div class="page-number">17</div>
+                            </div>
+                          </div>
+
+                          <!-- CH3 PHOTO p.20 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch03-pesach-bw.png" alt=""></div>
+                                <div class="caption">Pesach, April 1967, Sea Point. The Miller Family seder – the first without grandpa Hershel. Bobba Rivka, aged seventy-two, took her place at the head of the table without discussion and led every word from memory.</div>
+                              </div>
+                              <div class="page-number">20</div>
+                            </div>
+                          </div>
+
+                          <!-- CH4 OPENING p.21 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="chapter-title-block"><div class="chapter-title">Books and<br>Smoking Guns</div></div>
+                                <div class="body-text"><p>The University of Cape Town sits on the slopes of Devil's Peak in a way that is not accidental. It was built to look authoritative — the wide stone steps of Jameson Hall, the mountain rising above it, the long view down over the city and the sea. It was built to say: here is where things are known, where the important thinking happens, where the future is made. This is exactly the kind of architecture that is useful to protest against, which is why the steps of Jameson Hall became, in the early nineteen-seventies, one of the most politically charged surfaces in South Africa.</p></div>
+                              </div>
+                              <div class="page-number">21</div>
+                            </div>
+                          </div>
+
+                          <!-- CH4 PHOTO p.26 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch04-uct-protest.png" alt=""></div>
+                                <div class="caption">August 1974, The steps of Jameson Hall, University of Cape Town. We gathered in support of the UCT Wages Commission, calling for a living wage for the university's Black workers. I was a second-year Psychology student. I had a lecture at two o'clock. I didn't go.</div>
+                              </div>
+                              <div class="page-number">26</div>
+                            </div>
+                          </div>
+
+                          <!-- CH5 OPENING p.27 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="chapter-title-block"><div class="chapter-title">A Bride Married<br>to Amazement</div></div>
+                                <div class="body-text"><p>I have never been particularly good at faith in the conventional sense. This is not something I say proudly — it is simply true, a fact about my particular way of being in the world. I find it difficult to maintain conviction about things I cannot, in some sense, verify. What I have, instead of faith in the conventional sense, is something harder to name: a recurring, involuntary sense of amazement at the fact that any of this exists at all. That there is something rather than nothing. That the Cederberg sky is actually that sky, and not a lesser one.</p></div>
+                              </div>
+                              <div class="page-number">27</div>
+                            </div>
+                          </div>
+
+                          <!-- CH5 TEXT p.29 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="body-text">
+                                  <p>What I said yes to, that morning, was not fully knowable in advance. This is the nature of the commitment: you are agreeing to a future you cannot see, with a person you do not yet completely know, on the basis of a present that is already more than you had expected. It requires a particular kind of courage that is different from the courage needed for most things — not the courage to act in the face of known risk, but the courage to act in the face of necessary uncertainty.</p>
+                                  <p>That morning it was beautiful. I gathered my dress at the car door — David had hired a white BMW that was too large for the parking bay we had been given and had spent twenty minutes solving this problem while I waited with my mother in the anteroom — and I looked at him holding the door open and laughing at something, and I thought: this is the person.</p>
+                                </div>
+                              </div>
+                              <div class="page-number">29</div>
+                            </div>
+                          </div>
+
+                          <!-- CH5 PHOTO p.31 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch05-wedding-car-bw.png" alt=""></div>
+                                <div class="caption">15 August 1982, Cape Town. David charmingly holds the door open as I gather my wedding dress for the last time. We were on a six o'clock flight to Mauritius. The destination was a surprise.</div>
+                              </div>
+                              <div class="page-number">31</div>
+                            </div>
+                          </div>
+
+                          <!-- CH26 TITLE p.143 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="ch26-title">What I've Learned:<br>A List of Brave<br>and Startling Truths<br>I Hope You'll<br>Carry Forward</div>
+                              </div>
+                              <div class="page-number">143</div>
+                            </div>
+                          </div>
+
+                          <!-- CH26 ITEMS p.144 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page">
+                                <div class="bullet-list">
+                                  <ol>
+                                    <li>Pay attention. It is the most radical act available to you and the one most consistently abandoned in the name of efficiency.</li>
+                                    <li>The people who are difficult to love are usually the ones who most need it. This does not mean you are obliged to love them. It means it is worth trying to understand them before you give up.</li>
+                                    <li>Your body knows things before your mind does. Learn to listen to it before it has to shout.</li>
+                                    <li>Grief is not a problem to be solved. It is a measure of how much something mattered. Treat it accordingly.</li>
+                                    <li>Most arguments are not about the thing they appear to be about. The skill is finding out what they are actually about, which usually requires stopping talking and listening instead.</li>
+                                    <li>The version of yourself you are most afraid to show people is, more often than not, the most interesting one.</li>
+                                  </ol>
+                                </div>
+                              </div>
+                              <div class="page-number">144</div>
+                            </div>
+                          </div>
+
+                          <!-- CH26 PHOTO p.148 -->
+                          <div class="swiper-slide">
+                            <div class="page-inner">
+                              <div class="chapter-page" style="padding:0;">
+                                <div class="photo-page-inner"><img src="book-images/sample-mary-miller/ch26-option-b-bush-sunset.png" alt=""></div>
+                                <div class="caption">July 2025. Timbavati Private Nature Reserve, Limpopo. Amen, and I, at the end of the dry season in the camp I've been returning to since 1993. The sun takes its time going down in the bush. I've never once wished it would set sooner.</div>
+                              </div>
+                              <div class="page-number">148</div>
+                            </div>
+                          </div>
+
+                        </div><!-- end swiper-wrapper -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                        <div class="swiper-pagination"></div>
+                      </div><!-- end swiper -->
+                      <p class="book-carousel-caption">Printed and bound. A book to hold. An heirloom to keep.</p>
+                      <p class="slide-counter" id="bookSlideCounter">1 / 17</p>
+                    </div><!-- end book-swiper-wrap -->
+
+                    <div class="cover-toggle-wrap">
+                        <div class="cover-book-scene">
+                            <div class="cover-mini-wrap">
+                                <div class="cover-mini" id="coverMini">
+                                    <div class="cover-spread-widget" id="coverFace"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="cover-toggle-caption">Choose a colour for your cover title.</p>
+                        <div class="cover-swatches">
+                            <button class="cover-swatch-btn cover-swatch-btn--active" data-cover="book-images/THIS IS THE RIGHT IMAGE FOR BOOK COVER.png">
+                                <span class="cover-swatch cover-swatch--black"></span>
+                                <span class="swatch-name">Black</span>
+                            </button>
+                            <button class="cover-swatch-btn" data-cover="book-images/this is the right cover image using the blue variant.png">
+                                <span class="cover-swatch cover-swatch--blue"></span>
+                                <span class="swatch-name">Blue</span>
+                            </button>
+                            <button class="cover-swatch-btn" data-cover="book-images/This is the right cover image using the red variant.png">
+                                <span class="cover-swatch cover-swatch--red"></span>
+                                <span class="swatch-name">Red</span>
+                            </button>
+                        </div>
                     </div>
-                    <p class="book-caption">Printed and bound. A book to hold. An heirloom to keep.</p>
                 </div>
 
                 <div class="book-outcome-content reveal">
-                    <p class="section-eyebrow">Where Every Story Is Headed</p>
                     <h2>24 Stories Become a Book</h2>
-                    <p>The Legacy Book can be commissioned at any time — no need to wait for the final prompt. Most families decide within the first few weeks, after reading that first story and realising what they are creating together. After the final prompt, the book goes into production.</p>
-                    <p>A custom cover. A portrait photograph. A title chosen by the family. The interior typeset with care, each story accompanied by a photograph. Every story edited — your loved one's voice preserved, polished, and ready for print.</p>
+                    <p>Every 24 Stories subscription ends the same way — with a beautifully printed hardcover delivered to your door. After the final prompt, the book goes into production. No extra step, no extra decision.</p>
+                    <p>A linen cloth cover in the colour you choose. A title chosen by the family. The interior typeset with care, each story accompanied by a photograph. Every story edited — your loved one's voice preserved, polished, and ready for print.</p>
                     <ul class="book-features">
                         <li>Every story professionally edited — voice preserved, never altered in spirit</li>
                         <li>One photograph per story, placed and captioned by our team</li>
-                        <li>Custom cover with a portrait photograph</li>
+                        <li>Linen cloth hardcover — black, blue, or red</li>
                         <li>The storyteller's dedication, printed inside</li>
                         <li>Printed, bound, and delivered to your door</li>
-                        <li>Digital and print-ready formats available</li>
+                        <li>Extra copies available at R1,200 each</li>
                     </ul>
                     <div class="book-cta-row">
                         <a href="#pricing" class="btn btn-primary">See Pricing</a>
@@ -759,6 +1013,39 @@
             btn.textContent = 'Send my library link';
         });
     });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+    const bookSwiper = new Swiper('.book-swiper', {
+        loop: false,
+        effect: 'slide',
+        speed: 400,
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        pagination: { el: '.swiper-pagination', clickable: true },
+        keyboard: { enabled: true },
+        on: {
+            slideChange: function () {
+                var el = document.getElementById('bookSlideCounter');
+                if (el) el.textContent = (this.activeIndex + 1) + ' / ' + this.slides.length;
+            }
+        }
+    });
+    </script>
+    <script>
+    // Cover colour toggle
+    (function () {
+        var btns = document.querySelectorAll('.cover-swatch-btn');
+        var coverFace = document.getElementById('coverFace');
+        if (!coverFace) return;
+        btns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                coverFace.style.backgroundImage = "url('" + btn.dataset.cover + "')";
+                btns.forEach(function (b) { b.classList.remove('cover-swatch-btn--active'); });
+                btn.classList.add('cover-swatch-btn--active');
+            });
+        });
+    })();
     </script>
 </body>
 </html>

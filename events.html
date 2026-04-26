@@ -239,7 +239,18 @@
                 <input type="hidden" name="_subject" value="New Mailing List Signup — 24 Stories Live">
                 <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" placeholder="Your email address" required>
-                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">Keep Me Posted</button>
+                <input type="tel" name="whatsapp" placeholder="WhatsApp number (optional)">
+                <div style="text-align:left; margin-top:4px;">
+                    <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; margin-bottom:12px;">
+                        <input type="checkbox" name="interest_events" value="yes" style="width:18px; height:18px; accent-color:#B8976A; flex-shrink:0; margin-top:2px;">
+                        <span style="font-size:.88rem; color:rgba(247,245,242,0.7); line-height:1.6;">Keep me posted on upcoming events</span>
+                    </label>
+                    <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer;">
+                        <input type="checkbox" name="interest_storyteller" value="yes" style="width:18px; height:18px; accent-color:#B8976A; flex-shrink:0; margin-top:2px;">
+                        <span style="font-size:.88rem; color:rgba(247,245,242,0.7); line-height:1.6;">I'm interested in telling a story</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px;">Keep Me Posted</button>
             </form>
 
             <p class="community-note">We do not share your details with anyone. You will only hear from us about 24 Stories Live events.</p>

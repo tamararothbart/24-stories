@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>24 Stories Live — Quick Reference Card</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, serif;
+    background: #fff;
+    color: #1A1A1A;
+    padding: 32px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  @media print {
+    body { padding: 16px; }
+    .no-print { display: none; }
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: normal;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #1A1A1A;
+    border-bottom: 2px solid #B8976A;
+    padding-bottom: 12px;
+    margin-bottom: 28px;
+  }
+  .section {
+    margin-bottom: 32px;
+    border: 1px solid #D0CCC6;
+    padding: 20px 24px;
+  }
+  .section-title {
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #B8976A;
+    margin-bottom: 14px;
+  }
+  .row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 10px;
+    align-items: flex-start;
+  }
+  .label {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    min-width: 140px;
+    padding-top: 2px;
+  }
+  .value {
+    font-size: 14px;
+    color: #1A1A1A;
+    line-height: 1.6;
+  }
+  .value a {
+    color: #B8976A;
+    text-decoration: none;
+  }
+  .steps {
+    margin-top: 8px;
+    padding-left: 0;
+    list-style: none;
+  }
+  .steps li {
+    font-size: 14px;
+    color: #1A1A1A;
+    line-height: 1.7;
+    padding: 4px 0 4px 20px;
+    position: relative;
+  }
+  .steps li::before {
+    content: counter(step);
+    counter-increment: step;
+    position: absolute;
+    left: 0;
+    font-size: 11px;
+    font-weight: bold;
+    color: #B8976A;
+    top: 6px;
+  }
+  ol.steps { counter-reset: step; }
+  .divider { border: none; border-top: 1px solid #E8E4DF; margin: 14px 0; }
+  .print-btn {
+    display: inline-block;
+    background: #1A1A1A;
+    color: #fff;
+    padding: 12px 28px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    border: none;
+    margin-bottom: 28px;
+    font-family: Georgia, serif;
+  }
+  .print-btn:hover { background: #B8976A; }
+  .tag {
+    display: inline-block;
+    background: #F7F5F2;
+    border: 1px solid #D0CCC6;
+    font-size: 11px;
+    padding: 2px 8px;
+    color: #888;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Print This Page</button>
+
+<h1>24 Stories Live — Quick Reference</h1>
+
+<!-- ─── LINKS ────────────────────────────────── -->
+<div class="section">
+  <p class="section-title">Key Links</p>
+  <div class="row">
+    <span class="label">Events page</span>
+    <span class="value"><a href="https://24stories.co.za/events.html">24stories.co.za/events.html</a></span>
+  </div>
+  <div class="row">
+    <span class="label">Storyteller form</span>
+    <span class="value"><a href="https://24stories.co.za/events-apply.html">24stories.co.za/events-apply.html</a> — send this link to prospective storytellers</span>
+  </div>
+  <div class="row">
+    <span class="label">Airtable</span>
+    <span class="value"><a href="https://airtable.com/appHPLRYmURYxlG3K">airtable.com</a> → 24 Stories-Live workspace → Community table / Storyteller Applications table</span>
+  </div>
+  <div class="row">
+    <span class="label">Your email</span>
+    <span class="value">hello@24stories.co.za — all replies go from here</span>
+  </div>
+</div>
+
+<!-- ─── GENERAL INQUIRY ───────────────────────── -->
+<div class="section">
+  <p class="section-title">Someone asks a general question about 24 Stories Live</p>
+  <ol class="steps">
+    <li>Reply from hello@24stories.co.za with event details (theme, date, venue when confirmed)</li>
+    <li>Direct them to <strong>24stories.co.za/events.html</strong> to join the mailing list if not already signed up</li>
+    <li>Update their Status in Airtable → Community table → <strong>Contacted</strong></li>
+  </ol>
+</div>
+
+<!-- ─── EVENT INTEREST ───────────────────────── -->
+<div class="section">
+  <p class="section-title">Someone signs up via Stay in the Loop (event interest)</p>
+  <ol class="steps">
+    <li>Netlify sends notification to hello@24stories.co.za</li>
+    <li>Paste the email to Claude — Claude creates the Airtable record (Community table)</li>
+    <li>When event date is confirmed — email them with theme, date, venue and ticket details</li>
+    <li>Update Status → <strong>Attending</strong> once they confirm</li>
+  </ol>
+</div>
+
+<!-- ─── STORYTELLER INTEREST ─────────────────── -->
+<div class="section">
+  <p class="section-title">Someone ticks "I'm interested in telling a story"</p>
+  <ol class="steps">
+    <li>Netlify sends notification to hello@24stories.co.za</li>
+    <li>Paste the email to Claude — Claude creates the Airtable record (Community table, Status: <strong>New</strong>)</li>
+    <li>Reply from hello@ — introduce yourself, send the link: <strong>24stories.co.za/events-apply.html</strong></li>
+    <li>Update their Status → <strong>Form Sent</strong></li>
+    <li>When they submit the application form, Netlify sends another notification to hello@</li>
+    <li>Paste that email to Claude — Claude creates the Airtable record (Storyteller Applications table)</li>
+    <li>Update Community table Status → <strong>Application Received</strong></li>
+    <li>Review their application — reply with next steps (prep call details if selected)</li>
+    <li>Update Status → <strong>Selected</strong> or <strong>Waitlisted</strong></li>
+  </ol>
+</div>
+
+<!-- ─── AIRTABLE STATUS GUIDE ─────────────────── -->
+<div class="section">
+  <p class="section-title">Airtable Status — Community Table</p>
+  <div class="row"><span class="label">New</span><span class="value">Just signed up — not yet contacted</span></div>
+  <div class="row"><span class="label">Contacted</span><span class="value">You've replied or reached out</span></div>
+  <div class="row"><span class="label">Form Sent</span><span class="value">You sent them the storyteller application link</span></div>
+  <div class="row"><span class="label">Application Received</span><span class="value">They submitted the full form</span></div>
+  <div class="row"><span class="label">Selected</span><span class="value">Confirmed storyteller for an event</span></div>
+  <div class="row"><span class="label">Waitlisted</span><span class="value">Good story, held for a future event</span></div>
+  <div class="row"><span class="label">Attending</span><span class="value">Coming as audience</span></div>
+  <div class="row"><span class="label">Unsubscribed</span><span class="value">Asked to be removed</span></div>
+</div>
+
+<p style="font-size:11px; color:#aaa; text-align:center; margin-top:8px;">24 Stories Live &nbsp;·&nbsp; hello@24stories.co.za &nbsp;·&nbsp; 24stories.co.za</p>
+
+</body>
+</html>

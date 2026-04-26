@@ -2437,3 +2437,145 @@ h1.hero-heading, .hero-content h1 {
     color: #1A1A1A;
     font-weight: 500;
 }
+
+/* ===================================
+   FOUNDER VIDEO SECTION
+   =================================== */
+.founder-video-section {
+    background: var(--charcoal);
+    padding: clamp(56px, 8vw, 96px) 0;
+}
+
+.founder-video-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.founder-video-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 840px;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    overflow: hidden;
+}
+
+.founder-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.founder-video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: #111;
+    border: 1px dashed rgba(184,151,106,0.35);
+}
+
+.founder-video-placeholder p {
+    font-family: var(--font-head);
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.55);
+    font-style: italic;
+    text-align: center;
+    line-height: 1.5;
+}
+
+.founder-ph-note {
+    font-family: var(--font-body) !important;
+    font-size: 12px !important;
+    color: rgba(184,151,106,0.6) !important;
+    font-style: normal !important;
+    letter-spacing: 0.05em;
+}
+
+.founder-video-sound {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+}
+
+.founder-video-sound:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.founder-video-sound svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.founder-video-byline {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(184,151,106,0.7);
+    text-align: center;
+    margin: 0;
+}
+
+/* ===================================
+   HERO STORY EXCERPT (Mary Miller pull quote)
+   =================================== */
+.hero-story-excerpt {
+    border-left: 2px solid var(--gold);
+    padding-left: 22px;
+    max-width: 620px;
+    margin-bottom: 44px;
+}
+
+.hero-story-excerpt p {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(0.95rem, 1.65vw, 1.08rem);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.78;
+    font-weight: 400;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    margin-bottom: 10px;
+}
+
+.excerpt-attribution {
+    font-family: var(--font-body) !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.08em;
+    color: var(--gold-light) !important;
+    font-style: normal !important;
+    text-transform: none;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.hero-price-note {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.72);
+    letter-spacing: 0.06em;
+    margin-top: 10px;
+    margin-bottom: 0;
+}

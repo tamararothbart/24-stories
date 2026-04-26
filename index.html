@@ -62,11 +62,15 @@
             <p class="eyebrow">The Legacy Life Story Experience</p>
             <h1>24 Stories. One Book.<br>Six Months.</h1>
             <p class="hero-sub">One life, told one prompt at a time. A gift your family will treasure forever.</p>
-            <p class="hero-quote">"We write to taste life twice, in the moment and in retrospect."</p>
+            <div class="hero-story-excerpt">
+                <p>"There is a particular way my mother entered a room. Not loudly — she was never loud — but with a quality of attention that made you feel the room had been waiting for her. She noticed things. The cup left on the wrong shelf. The child sitting slightly apart from the others. The conversation that needed redirecting before it became something else. I did not know, for many years, that I had inherited this quality. I thought I was simply paying attention. It took my eldest daughter, at seventeen, watching me across a dinner table, to say: you do exactly what Grandma Sylvia did. You scan the room. You always know where everyone is. And she was right. I do. I always have."</p>
+                <p class="excerpt-attribution">— From <em>I Got It From My Mama</em>, Mary J. Miller's Legacy Book</p>
+            </div>
             <div class="hero-actions">
                 <a href="#subscribe" class="btn btn-primary btn-lg">Give This Gift — R6,795</a>
                 <a href="#how-it-works" class="btn btn-ghost btn-lg">See How It Works</a>
             </div>
+            <p class="hero-price-note">One payment. 26 weeks. One book. Free delivery.</p>
 
         </div>
 
@@ -100,6 +104,46 @@
                     <span class="concept-label">Generations who will treasure it</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+         FOUNDER VIDEO
+         Replace: add video file to /24stories-website/ + captions.vtt
+         ============================================================ -->
+    <section class="founder-video-section">
+        <div class="container founder-video-inner">
+            <div class="founder-video-wrap">
+                <!--
+                    TO WIRE UP:
+                    1. Replace src="" with your video filename, e.g. src="founder-video.mp4"
+                    2. Add a captions file: src="founder-captions.vtt" below
+                    3. Delete the .founder-video-placeholder div once the video is live
+                    4. Autoplay muted is already set — visitor can tap "Sound on" for audio
+                -->
+                <video
+                    class="founder-video"
+                    autoplay
+                    muted
+                    playsinline
+                    id="founderVideo">
+                    <source src="" type="video/mp4">
+                    <track kind="captions" src="founder-captions.vtt" srclang="en" label="English" default>
+                </video>
+                <div class="founder-video-placeholder" id="founderVideoPlaceholder">
+                    <p>Founder video</p>
+                    <p class="founder-ph-note">60 seconds · autoplay muted · captions · replace src="" in index.html</p>
+                </div>
+                <button class="founder-video-sound" id="founderVideoSound" aria-label="Unmute video" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    Sound on
+                </button>
+            </div>
+            <p class="founder-video-byline">Tamara Rothbart — founder, 24 Stories</p>
         </div>
     </section>
 
@@ -538,7 +582,48 @@
     </section>
 
     <!-- ============================================================
-         SECTION 3: TESTIMONIALS
+         SECTION 3: PRICING
+         ============================================================ -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <p class="section-eyebrow">Built for South Africa</p>
+            <h2 class="section-title">Simple, Honest Pricing</h2>
+            <p class="section-sub">Twenty-six weeks of guided storytelling. Professional editing on every story. Stories shared with your whole family as they are written. One beautifully designed, printed Legacy Book — delivered to your door. One payment. Everything included.</p>
+
+            <div class="pricing-card-wide featured reveal">
+
+                <div class="pricing-wide-left">
+                    <h3>The Complete<br>Legacy Journey</h3>
+                    <div class="price-display">
+                        <span class="price-currency">R</span>
+                        <span class="price-amount">6,795</span>
+                    </div>
+                    <p class="price-note">Once-off. Everything included.<br>No monthly billing.</p>
+                    <a href="#subscribe" class="btn btn-primary">Get Started</a>
+                </div>
+
+                <div class="pricing-wide-divider"></div>
+
+                <ul class="price-features price-features--grid">
+                    <li>26 weekly story prompts — with alternative angles</li>
+                    <li>Each story shared with your whole family the same week</li>
+                    <li>Record by voice or type — no tech skills needed</li>
+                    <li>A private Story Library — all stories and photographs</li>
+                    <li>Every story professionally edited before it goes to the family</li>
+                    <li>One printed hardcover Legacy Book — included</li>
+                    <li>A captioned photograph added to every story</li>
+                    <li>Free delivery anywhere in South Africa</li>
+                </ul>
+
+            </div>
+
+            <p class="pricing-disclaimer">Extra copies of the Legacy Book: R1,200 each — ordered through your Story Library.</p>
+
+        </div>
+    </section>
+
+    <!-- ============================================================
+         SECTION 4: TESTIMONIALS
          ============================================================ -->
     <section class="testimonials">
         <div class="container">
@@ -583,47 +668,6 @@
                 </div>
 
             </div>
-        </div>
-    </section>
-
-    <!-- ============================================================
-         SECTION 4: PRICING
-         ============================================================ -->
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <p class="section-eyebrow">Built for South Africa</p>
-            <h2 class="section-title">Simple, Honest Pricing</h2>
-            <p class="section-sub">Twenty-six weeks of guided storytelling. Professional editing on every story. Stories shared with your whole family as they are written. One beautifully designed, printed Legacy Book — delivered to your door. One payment. Everything included.</p>
-
-            <div class="pricing-card-wide featured reveal">
-
-                <div class="pricing-wide-left">
-                    <h3>The Complete<br>Legacy Journey</h3>
-                    <div class="price-display">
-                        <span class="price-currency">R</span>
-                        <span class="price-amount">6,795</span>
-                    </div>
-                    <p class="price-note">Once-off. Everything included.<br>No monthly billing.</p>
-                    <a href="#subscribe" class="btn btn-primary">Get Started</a>
-                </div>
-
-                <div class="pricing-wide-divider"></div>
-
-                <ul class="price-features price-features--grid">
-                    <li>26 weekly story prompts — with alternative angles</li>
-                    <li>Each story shared with your whole family the same week</li>
-                    <li>Record by voice or type — no tech skills needed</li>
-                    <li>A private Story Library — all stories and photographs</li>
-                    <li>Every story professionally edited before it goes to the family</li>
-                    <li>One printed hardcover Legacy Book — included</li>
-                    <li>A captioned photograph added to every story</li>
-                    <li>Free delivery anywhere in South Africa</li>
-                </ul>
-
-            </div>
-
-            <p class="pricing-disclaimer">Extra copies of the Legacy Book: R1,200 each — ordered through your Story Library.</p>
-
         </div>
     </section>
 
@@ -1046,6 +1090,25 @@
             btn.textContent = 'Send my library link';
         });
     });
+    </script>
+
+    <script>
+    // Founder video — show sound button and handle unmute
+    (function () {
+        var video = document.getElementById('founderVideo');
+        var btn   = document.getElementById('founderVideoSound');
+        var ph    = document.getElementById('founderVideoPlaceholder');
+        if (!video || !btn) return;
+        // Show sound button and hide placeholder only when video can play
+        video.addEventListener('canplay', function () {
+            if (ph) ph.style.display = 'none';
+            btn.style.display = 'flex';
+        });
+        btn.addEventListener('click', function () {
+            video.muted = !video.muted;
+            btn.textContent = video.muted ? 'Sound on' : 'Sound off';
+        });
+    })();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

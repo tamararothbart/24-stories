@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="24 Stories Live — an intimate storytelling evening in Cape Town. Real people. True stories. No notes. Theme: The Moment Everything Changed.">
+    <meta name="description" content="24 Stories Live — a live storytelling evening in Cape Town. Real people. True stories. No notes. No acting.">
     <title>24 Stories Live — Cape Town Storytelling Events</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,6 @@
     <style>
     /* ─── PAGE-SPECIFIC STYLES ──────────────────────────────────────── */
 
-    /* Hero — dark full-bleed */
     .events-hero {
         background: var(--charcoal);
         padding: calc(var(--sec) + 80px) var(--pad) var(--sec);
@@ -47,12 +46,6 @@
         margin: 0 auto 48px;
         line-height: 1.8;
     }
-    .events-hero .hero-ctas {
-        display: flex;
-        gap: 16px;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
     .tbc-badge {
         display: inline-block;
         border: 1px solid rgba(184,151,106,0.35);
@@ -69,511 +62,90 @@
     .section { padding: var(--sec) var(--pad); }
     .section-cream { background: var(--cream); }
     .section-white { background: var(--white); }
-    .section-charcoal { background: var(--charcoal); }
-
     .section-center { text-align: center; }
     .section-center .section-eyebrow { text-align: center; display: block; }
-
     .narrow { max-width: 720px; margin-left: auto; margin-right: auto; }
-    .medium { max-width: 900px; margin-left: auto; margin-right: auto; }
 
-    /* ─── What is section ─────────────────────────────────────────── */
-    .what-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 80px;
-        align-items: start;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    .what-grid h2 { margin-bottom: 24px; }
-    .what-grid p  { margin-bottom: 16px; }
+    /* ─── About + Pitch sections ─────────────────────────────────── */
     .what-divider {
         width: 40px;
         height: 1px;
         background: var(--gold);
         margin: 32px 0;
     }
-
-    /* ─── Theme block ─────────────────────────────────────────────── */
-    .theme-block {
-        background: var(--charcoal);
-        padding: var(--sec) var(--pad);
-        text-align: center;
-    }
-    .theme-block .section-eyebrow { color: var(--gold); }
-    .theme-block h2 {
-        font-family: var(--font-head);
-        font-style: italic;
-        color: var(--cream);
-        font-size: clamp(2.4rem, 5vw, 4rem);
-        margin: 0 auto 28px;
-        max-width: 700px;
-    }
-    .theme-block p {
-        color: rgba(247,245,242,0.6);
-        max-width: 560px;
-        margin: 0 auto;
-        font-size: 1rem;
-        line-height: 1.9;
-    }
-
-    /* ─── How it works ────────────────────────────────────────────── */
-    .how-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 48px;
-        max-width: 960px;
-        margin: 56px auto 0;
-    }
-    .how-card {
-        text-align: center;
-        padding: 40px 28px;
-        border: 1px solid var(--border);
-    }
-    .how-number {
-        font-family: var(--font-head);
-        font-size: 3rem;
-        font-weight: 300;
-        color: var(--gold);
-        opacity: 0.5;
-        line-height: 1;
-        margin-bottom: 16px;
-    }
-    .how-card h4 {
-        font-family: var(--font-head);
-        font-size: 1.3rem;
-        font-weight: 300;
-        margin-bottom: 14px;
-        color: var(--charcoal);
-    }
-    .how-card p {
-        font-size: .9rem;
-        line-height: 1.8;
-        color: var(--text-mid);
-    }
-
-    /* ─── Guidelines ──────────────────────────────────────────────── */
-    .guidelines-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 56px;
-        max-width: 920px;
-        margin: 0 auto;
-    }
-    .guideline-block h4 {
-        font-family: var(--font-head);
-        font-size: 1.15rem;
-        font-weight: 300;
-        color: var(--charcoal);
-        margin-bottom: 16px;
-        letter-spacing: .03em;
-    }
-    .rule-list {
-        list-style: none;
-        padding: 0;
-    }
-    .rule-list li {
-        font-size: .9rem;
-        color: var(--text-mid);
-        line-height: 1.75;
-        padding: 9px 0;
-        border-bottom: 1px solid var(--border);
-        display: flex;
-        gap: 12px;
-        align-items: flex-start;
-    }
-    .rule-list li:last-child { border-bottom: none; }
-    .rule-list li::before {
-        content: '—';
-        color: var(--gold);
-        font-size: .85rem;
-        flex-shrink: 0;
-        margin-top: 1px;
-    }
-    .timing-table {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: .9rem;
-        margin-top: 4px;
-    }
-    .timing-table td {
-        padding: 10px 0;
-        border-bottom: 1px solid var(--border);
-        color: var(--text-mid);
-        vertical-align: top;
-    }
-    .timing-table td:first-child {
-        font-weight: 500;
-        color: var(--gold);
-        white-space: nowrap;
-        padding-right: 20px;
-        width: 80px;
-    }
-    .timing-table tr:last-child td { border-bottom: none; }
-
-    .pull-quote {
-        background: var(--charcoal);
-        color: var(--cream);
-        padding: 40px 48px;
-        margin-top: 40px;
-        font-family: var(--font-head);
-        font-style: italic;
-        font-size: 1.4rem;
-        font-weight: 300;
-        line-height: 1.5;
-        letter-spacing: .01em;
-        text-align: center;
-    }
-    .pull-quote span {
-        display: block;
-        font-family: var(--font-body);
+    .headline-caps {
+        text-transform: uppercase;
+        letter-spacing: .06em;
         font-style: normal;
-        font-size: .75rem;
-        letter-spacing: .15em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-top: 16px;
     }
-
-    /* ─── Story structure ──────────────────────────────────────────── */
-    .structure-steps {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-        max-width: 640px;
-        margin: 40px auto 0;
-    }
-    .structure-step {
-        display: flex;
-        gap: 28px;
-        padding: 28px 0;
-        border-bottom: 1px solid var(--border);
-        align-items: flex-start;
-    }
-    .structure-step:last-child { border-bottom: none; }
-    .step-label {
-        font-family: var(--font-head);
-        font-size: 1rem;
-        font-weight: 500;
-        color: var(--gold);
-        letter-spacing: .08em;
-        text-transform: uppercase;
-        width: 80px;
-        flex-shrink: 0;
-        padding-top: 2px;
-    }
-    .step-content h5 {
-        font-family: var(--font-head);
-        font-size: 1.1rem;
-        font-weight: 400;
-        color: var(--charcoal);
-        margin-bottom: 6px;
-    }
-    .step-content p {
-        font-size: .9rem;
-        color: var(--text-mid);
-        line-height: 1.75;
-    }
-
-    /* ─── Apply form ──────────────────────────────────────────────── */
-    .apply-section {
-        background: var(--cream);
-        padding: var(--sec) var(--pad);
-    }
-    .apply-inner {
-        max-width: 760px;
-        margin: 0 auto;
-    }
-    .form-intro {
-        margin-bottom: 48px;
-    }
-    .form-intro h2 { margin-bottom: 16px; }
-    .form-intro p  { max-width: 620px; }
-
-    .form-group {
-        margin-bottom: 28px;
-    }
-    .form-group label {
-        display: block;
-        font-size: 11px;
-        font-weight: 500;
-        letter-spacing: .16em;
-        text-transform: uppercase;
-        color: var(--charcoal);
+    .pitch-quote {
+        font-style: italic;
         margin-bottom: 8px;
     }
-    .form-group label .optional {
-        font-weight: 300;
-        color: var(--text-light);
-        text-transform: none;
-        letter-spacing: 0;
+    .pitch-attribution {
         font-size: 11px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 400;
+        margin-bottom: 32px;
+        display: block;
     }
-    .form-group input[type="text"],
-    .form-group input[type="email"],
-    .form-group input[type="tel"],
-    .form-group select,
-    .form-group textarea {
+    .pitch-close {
+        font-style: italic;
+    }
+
+    /* ─── Community / Stay in the Loop ───────────────────────────── */
+    .community-section {
+        background: var(--charcoal);
+        padding: var(--sec) var(--pad);
+        text-align: center;
+    }
+    .community-inner {
+        max-width: 520px;
+        margin: 0 auto;
+    }
+    .community-section .section-eyebrow { color: var(--gold); display: block; margin-bottom: 20px; }
+    .community-section h2 {
+        color: var(--cream);
+        margin-bottom: 28px;
+    }
+    .community-section p {
+        color: rgba(247,245,242,0.6);
+        font-size: .95rem;
+        line-height: 1.85;
+        margin-bottom: 14px;
+    }
+    .community-note {
+        font-size: .8rem !important;
+        color: rgba(247,245,242,0.35) !important;
+        margin-top: 20px !important;
+    }
+    .community-form {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .community-form input[type="text"],
+    .community-form input[type="email"] {
         width: 100%;
-        background: var(--white);
-        border: 1px solid var(--border-fine);
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
         padding: 14px 18px;
         font-family: var(--font-body);
         font-size: 15px;
         font-weight: 300;
-        color: var(--charcoal);
-        line-height: 1.6;
+        color: var(--cream);
         outline: none;
-        transition: border-color var(--dur) var(--ease);
         border-radius: 0;
+        transition: border-color var(--dur) var(--ease);
         -webkit-appearance: none;
         appearance: none;
     }
-    .form-group select {
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B8976A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 16px center;
-        padding-right: 40px;
-        cursor: pointer;
-    }
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-        border-color: var(--gold);
-    }
-    .form-group textarea { resize: vertical; min-height: 100px; }
-    .form-group textarea.tall { min-height: 130px; }
+    .community-form input::placeholder { color: rgba(247,245,242,0.3); }
+    .community-form input:focus { border-color: var(--gold); }
 
-    .form-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-    }
-
-    .radio-group {
-        display: flex;
-        gap: 24px;
-        margin-top: 4px;
-    }
-    .radio-option {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        font-size: .9rem;
-        color: var(--text-mid);
-    }
-    .radio-option input[type="radio"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--gold);
-        cursor: pointer;
-        flex-shrink: 0;
-    }
-
-    .checkbox-group {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        margin-top: 4px;
-    }
-    .checkbox-option {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        cursor: pointer;
-    }
-    .checkbox-option input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--gold);
-        cursor: pointer;
-        flex-shrink: 0;
-        margin-top: 2px;
-    }
-    .checkbox-option span {
-        font-size: .88rem;
-        color: var(--text-mid);
-        line-height: 1.6;
-    }
-
-    .form-divider {
-        border: none;
-        border-top: 1px solid var(--border);
-        margin: 36px 0;
-    }
-    .form-section-label {
-        font-size: 11px;
-        font-weight: 500;
-        letter-spacing: .16em;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 20px;
-        display: block;
-    }
-
-    .form-note {
-        font-size: .82rem;
-        color: var(--text-light);
-        line-height: 1.7;
-        font-style: italic;
-        margin-top: 8px;
-    }
-
-    .refinement-box {
-        background: var(--white);
-        border: 1px solid var(--border);
-        padding: 24px 28px;
-        margin-top: 8px;
-    }
-    .refinement-box p {
-        font-size: .88rem;
-        color: var(--text-mid);
-        margin-bottom: 14px;
-    }
-
-    .form-submit-row {
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        flex-wrap: wrap;
-    }
-    .form-submit-row .form-note { margin-top: 0; }
-
-    /* ─── Success message ─────────────────────────────────────────── */
-    .form-success {
-        display: none;
-        background: var(--white);
-        border: 1px solid var(--border);
-        padding: 40px;
-        text-align: center;
-        margin-top: 32px;
-    }
-    .form-success h3 {
-        font-family: var(--font-head);
-        font-weight: 300;
-        color: var(--charcoal);
-        margin-bottom: 12px;
-    }
-    .form-success p { font-size: .9rem; color: var(--text-mid); }
-
-    /* ─── Alerts section ──────────────────────────────────────────── */
-    .alerts-section {
-        background: var(--white);
-        padding: var(--sec) var(--pad);
-    }
-    .alerts-inner {
-        max-width: 760px;
-        margin: 0 auto;
-    }
-    .alerts-columns {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        margin-top: 48px;
-    }
-    .alert-card {
-        border: 1px solid var(--border);
-        padding: 36px 32px;
-    }
-    .alert-card .card-label {
-        font-size: 11px;
-        letter-spacing: .18em;
-        text-transform: uppercase;
-        color: var(--gold);
-        font-weight: 400;
-        margin-bottom: 16px;
-        display: block;
-    }
-    .alert-card h4 {
-        font-family: var(--font-head);
-        font-size: 1.2rem;
-        font-weight: 300;
-        color: var(--charcoal);
-        margin-bottom: 12px;
-    }
-    .alert-card p {
-        font-size: .88rem;
-        color: var(--text-mid);
-        line-height: 1.75;
-        margin-bottom: 24px;
-    }
-    .alert-card .btn { white-space: nowrap; }
-
-    /* Email alert form */
-    .alert-email-form { display: flex; flex-direction: column; gap: 12px; }
-    .alert-email-form input[type="text"],
-    .alert-email-form input[type="email"] {
-        width: 100%;
-        background: var(--cream);
-        border: 1px solid var(--border-fine);
-        padding: 12px 16px;
-        font-family: var(--font-body);
-        font-size: 14px;
-        font-weight: 300;
-        color: var(--charcoal);
-        outline: none;
-        border-radius: 0;
-        transition: border-color var(--dur) var(--ease);
-    }
-    .alert-email-form input:focus { border-color: var(--gold); }
-
-    /* ─── Mailing list ────────────────────────────────────────────── */
-    .mailing-section {
-        background: var(--charcoal);
-        padding: var(--sec) var(--pad);
-    }
-    .mailing-inner {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 80px;
-        max-width: 1000px;
-        margin: 0 auto;
-        align-items: start;
-    }
-    .mailing-text .section-eyebrow { color: var(--gold); }
-    .mailing-text h2 {
-        color: var(--cream);
-        margin-bottom: 20px;
-    }
-    .mailing-text p {
-        color: rgba(247,245,242,0.6);
-        font-size: .95rem;
-        margin-bottom: 14px;
-        line-height: 1.85;
-    }
-    .mailing-note {
-        font-size: .8rem !important;
-        color: rgba(247,245,242,0.35) !important;
-        margin-top: 8px;
-    }
-    .mailing-form-wrap .form-group label { color: rgba(247,245,242,0.55); }
-    .mailing-form-wrap .form-group input,
-    .mailing-form-wrap .form-group select {
-        background: rgba(255,255,255,0.06);
-        border-color: rgba(255,255,255,0.12);
-        color: var(--cream);
-    }
-    .mailing-form-wrap .form-group input::placeholder { color: rgba(247,245,242,0.3); }
-    .mailing-form-wrap .form-group input:focus,
-    .mailing-form-wrap .form-group select:focus { border-color: var(--gold); }
-    .mailing-form-wrap .form-group select option { background: var(--charcoal); color: var(--cream); }
-    .mailing-form-wrap .form-note { color: rgba(247,245,242,0.35); }
-
-    /* ─── Responsive ──────────────────────────────────────────────── */
-    @media (max-width: 768px) {
-        .what-grid,
-        .how-grid,
-        .guidelines-grid,
-        .alerts-columns,
-        .mailing-inner { grid-template-columns: 1fr; gap: 40px; }
-        .how-grid { gap: 24px; }
-        .form-row { grid-template-columns: 1fr; }
-        .pull-quote { padding: 32px 24px; font-size: 1.2rem; }
-        .events-hero .hero-ctas { flex-direction: column; align-items: center; }
-    }
     </style>
 </head>
 <body>
@@ -588,8 +160,7 @@
             </a>
             <div class="nav-menu" id="navMenu">
                 <a href="#about">About</a>
-                <a href="#apply">Tell a Story</a>
-                <a href="#alerts">Get Updates</a>
+                <a href="#community">Stay in the Loop</a>
                 <a href="index.html" class="btn btn-nav-cta">The Book Experience</a>
             </div>
             <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
@@ -605,315 +176,42 @@
     <section class="events-hero">
         <div class="container">
             <span class="eyebrow">24 Stories Live &nbsp;·&nbsp; Cape Town</span>
-            <div class="tbc-badge">First Event &nbsp;·&nbsp; Cape Town &nbsp;·&nbsp; Date &amp; Venue TBC</div>
+            <div class="tbc-badge">Next Event &nbsp;·&nbsp; Cape Town &nbsp;·&nbsp; Date &amp; Venue TBC</div>
             <h1>A room for stories<br>that deserve to be told<br><em>out loud.</em></h1>
-            <p class="hero-sub">An intimate live storytelling evening. Real people. True stories. No notes. No performance.</p>
-            <div class="hero-ctas">
-                <a href="#apply" class="btn btn-primary btn-lg">Apply to Tell a Story</a>
-                <a href="#alerts" class="btn btn-ghost btn-lg">Get Event Updates</a>
-            </div>
+            <p class="hero-sub">A live storytelling evening. Real people. True stories. No notes. No acting.</p>
+            <a href="#community" class="btn btn-ghost btn-lg">Stay in the Loop</a>
         </div>
     </section>
 
 
     <!-- ════════════════════════════════════════════
-         WHAT IS THIS
+         ABOUT
     ════════════════════════════════════════════ -->
     <section class="section section-white" id="about">
         <div class="container">
-            <div class="what-grid">
-                <div>
-                    <span class="section-eyebrow">What is 24 Stories Live?</span>
-                    <h2>A listening room,<br>not a stage.</h2>
-                    <div class="what-divider"></div>
-                    <p>24 Stories Live is a small, curated evening in Cape Town where ordinary people tell true personal stories — five to seven minutes, without notes, in their own voice.</p>
-                    <p>It is not a performance night. There are no professional speakers, no panels, no TED-style presentations. Just a room of people willing to speak honestly about something they have lived through.</p>
-                    <p>Inspired by the Moth tradition of live storytelling, each evening is built around a single theme. Stories are told in first person, from memory, and grounded in specific moments — not lessons, not summaries, not advice.</p>
-                </div>
-                <div>
-                    <span class="section-eyebrow">Who is it for?</span>
-                    <h3 style="font-size:1.5rem;margin-bottom:20px;">Storytellers &amp; listeners.</h3>
-                    <ul class="rule-list">
-                        <li>Anyone who has a true story worth telling — no experience required.</li>
-                        <li>Anyone who wants to spend an evening in the presence of honest, human storytelling.</li>
-                        <li>People who have lived through something and haven't yet found the right room to say it.</li>
-                        <li>Listeners who know that real stories — told without polish — stay with you.</li>
-                    </ul>
-                    <div class="what-divider"></div>
-                    <p style="font-size:.9rem;">We are keeping the first event small and intentional. Limited audience. A handful of carefully selected storytellers. A room that feels like a privilege to be inside.</p>
-                </div>
+            <div class="narrow">
+                <span class="section-eyebrow">What is 24 Stories Live?</span>
+                <h2 class="headline-caps">True Stories.<br>Told Live.</h2>
+                <div class="what-divider"></div>
+                <p>24 Stories Live is an evening in Cape Town where ordinary people tell extraordinary stories.</p>
+                <p>Each evening is built around a single theme. Storytellers speak from memory, in first person, grounded in specific moments. Five minutes. No notes.</p>
             </div>
         </div>
     </section>
 
 
     <!-- ════════════════════════════════════════════
-         THE THEME
-    ════════════════════════════════════════════ -->
-    <section class="theme-block">
-        <div class="container">
-            <span class="section-eyebrow">First Event &nbsp;·&nbsp; Theme</span>
-            <h2>"The Moment Everything Changed"</h2>
-            <p>Not the year. Not the chapter. The specific moment — a conversation, a phone call, a realisation, a decision — when the before and the after became two different lives. Every person in the room has one. This evening is about saying it out loud.</p>
-        </div>
-    </section>
-
-
-    <!-- ════════════════════════════════════════════
-         HOW THE NIGHT WORKS
+         PITCH
     ════════════════════════════════════════════ -->
     <section class="section section-cream">
-        <div class="container section-center">
-            <span class="section-eyebrow">The Format</span>
-            <h2 class="section-title">How the evening works</h2>
-            <p class="section-sub">A simple structure designed to create the conditions for real storytelling — for both tellers and listeners.</p>
-            <div class="how-grid">
-                <div class="how-card">
-                    <div class="how-number">01</div>
-                    <h4>One theme. One evening.</h4>
-                    <p>Every event is built around a single theme. All stories connect — directly or obliquely — to that theme. This is what makes the room feel like a whole experience rather than a sequence of separate performances.</p>
-                </div>
-                <div class="how-card">
-                    <div class="how-number">02</div>
-                    <h4>5 to 7 minutes. No notes.</h4>
-                    <p>Storytellers speak from memory, in first person, without reading. Timing signals are given gently at five minutes and six minutes. At seven minutes, the host will help you land. No story runs on indefinitely.</p>
-                </div>
-                <div class="how-card">
-                    <div class="how-number">03</div>
-                    <h4>Curated. Intimate. Attended.</h4>
-                    <p>We select stories carefully and keep the room small. Storytellers receive a briefing and — if they want it — a short preparation conversation before the event. You will not be thrown in cold.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ════════════════════════════════════════════
-         STORYTELLING GUIDELINES
-    ════════════════════════════════════════════ -->
-    <section class="section section-white">
         <div class="container">
-            <div class="narrow section-center" style="margin-bottom:56px;">
-                <span class="section-eyebrow">For Storytellers</span>
-                <h2 class="section-title">What we ask of you</h2>
-                <p>No storytelling experience is required. What matters is honesty, specificity, and a willingness to be in the room with your own story.</p>
+            <div class="narrow">
+                <p class="pitch-quote">"We are lonesome animals. We spend all our life trying to be less lonesome. One of our ancient methods is to tell a story, begging the listener to say — and to feel — 'Yes, that's the way it is, or at least that's the way I feel it.'"</p>
+                <span class="pitch-attribution">— John Steinbeck</span>
+                <p>That is what 24 Stories Live is for.</p>
+                <p>Someone stands up in a room in Cape Town. No script. No acting. Just a person and one true thing that happened to them. And somewhere in the audience, a listener thinks: Yes. That's the way it is. That's the way I feel it.</p>
+                <p style="margin-top:2em;">You will laugh. You might cry. You will be entertained. And you will leave understanding yourself a little better. Why? Because stories make us more alive, more human, more courageous. Why? Because stories are a way to say what can't be said any other way.</p>
             </div>
-
-            <div class="guidelines-grid">
-
-                <div class="guideline-block">
-                    <h4>Story Guidelines</h4>
-                    <ul class="rule-list">
-                        <li>This must be a true story — your own experience, not someone else's.</li>
-                        <li>Tell it in first person. You are the person this happened to.</li>
-                        <li>Focus on one moment or arc. Resist the urge to tell everything.</li>
-                        <li>Stay grounded in specific moments — a detail, a place, a conversation. Specificity is what makes a story land.</li>
-                        <li>Avoid explaining the meaning at the end. Let the story do the work. Trust your listener.</li>
-                        <li>Aim for clarity, not perfection. A stumble is fine. A polished performance is not what we are looking for.</li>
-                    </ul>
-                </div>
-
-                <div class="guideline-block">
-                    <h4>Story Structure to Keep in Mind</h4>
-                    <div class="structure-steps" style="margin-top:0;">
-                        <div class="structure-step" style="padding-top:0;">
-                            <div class="step-label">Beginning</div>
-                            <div class="step-content">
-                                <p>Where are we? What is happening? Ground the listener in a specific moment or scene.</p>
-                            </div>
-                        </div>
-                        <div class="structure-step">
-                            <div class="step-label">Middle</div>
-                            <div class="step-content">
-                                <p>What changes? What is at stake? This is where the story moves.</p>
-                            </div>
-                        </div>
-                        <div class="structure-step">
-                            <div class="step-label">End</div>
-                            <div class="step-content">
-                                <p>What shifted? You don't have to explain it — but the story should arrive somewhere.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div style="margin-top:36px;">
-                        <h4>Timing</h4>
-                        <table class="timing-table">
-                            <tr><td>5 min</td><td>Gentle signal from the host — begin moving toward your ending.</td></tr>
-                            <tr><td>6 min</td><td>Wrap-up cue — land the story.</td></tr>
-                            <tr><td>7 min</td><td>The host will step in to help you close. This is not a judgment — it is care for the room.</td></tr>
-                        </table>
-                    </div>
-
-                    <div style="margin-top:36px;">
-                        <h4>On the Night</h4>
-                        <ul class="rule-list">
-                            <li>Arrive 30 minutes early to check in with the host.</li>
-                            <li>No notes or reading on stage.</li>
-                            <li>If you feel nervous — that is normal. It is welcome. The room is with you.</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div><!-- /guidelines-grid -->
-
-            <div class="pull-quote narrow">
-                Don't perform the story.<br>Tell it like you lived it.
-                <span>The only rule that matters</span>
-            </div>
-
-        </div>
-    </section>
-
-
-    <!-- ════════════════════════════════════════════
-         STORY APPLICATION FORM
-    ════════════════════════════════════════════ -->
-    <section class="apply-section" id="apply">
-        <div class="apply-inner">
-
-            <div class="form-intro">
-                <span class="section-eyebrow">Apply to Tell a Story</span>
-                <h2>Tell us about your story</h2>
-                <p>We read every application carefully. You will hear from us within a week. The first event takes place in Cape Town before the end of July — exact date and venue to be confirmed. If your story is selected, we will be in touch with all details.</p>
-            </div>
-
-            <!-- Netlify form — submissions go to your Netlify dashboard
-                 and trigger an email notification to hello@24stories.co.za -->
-            <form
-                name="storyteller-application"
-                method="POST"
-                action="/thank-you.html"
-                netlify
-                netlify-honeypot="bot-field"
-                id="storyForm"
-            >
-                <!-- Netlify bot field (hidden) -->
-                <input type="hidden" name="bot-field">
-                <input type="hidden" name="form-name" value="storyteller-application">
-                <input type="hidden" name="_subject" value="New Story Application — 24 Stories Live">
-
-                <!-- ── Contact details ── -->
-                <span class="form-section-label">Your Details</span>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Your name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required placeholder="you@email.com">
-                    </div>
-                </div>
-
-                <div class="form-group" style="max-width:360px;">
-                    <label for="phone">Phone / WhatsApp Number</label>
-                    <input type="tel" id="phone" name="phone" placeholder="+27 or 0xx">
-                </div>
-
-                <hr class="form-divider">
-
-                <!-- ── The story ── -->
-                <span class="form-section-label">Your Story</span>
-
-                <div class="form-group">
-                    <label for="story-about">In 3–5 sentences, tell us what your story is about</label>
-                    <textarea id="story-about" name="story_about" class="tall" required placeholder="Describe the story — not the lesson, just what happened."></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="story-matters">Why does this story matter to you?</label>
-                    <textarea id="story-matters" name="story_matters" required placeholder="What makes you want to tell this particular story?"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="story-moment">What is the central moment or turning point?</label>
-                    <textarea id="story-moment" name="story_moment" required placeholder="The specific moment the story hinges on — a conversation, a realisation, a decision."></textarea>
-                </div>
-
-                <hr class="form-divider">
-
-                <!-- ── Experience ── -->
-                <span class="form-section-label">A Bit About You</span>
-
-                <div class="form-group">
-                    <label>Have you told this story before?</label>
-                    <div class="radio-group">
-                        <label class="radio-option">
-                            <input type="radio" name="told_before" value="Yes"> Yes
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="told_before" value="No"> No
-                        </label>
-                        <label class="radio-option">
-                            <input type="radio" name="told_before" value="Parts of it"> Parts of it
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group" style="max-width:320px;">
-                    <label for="comfort">How comfortable are you speaking in front of a small group?</label>
-                    <select id="comfort" name="comfort_level" required>
-                        <option value="" disabled selected>Select a level</option>
-                        <option value="1 — Very nervous">1 — Very nervous (but willing)</option>
-                        <option value="2 — A little anxious">2 — A little anxious</option>
-                        <option value="3 — Reasonably comfortable">3 — Reasonably comfortable</option>
-                        <option value="4 — Comfortable">4 — Comfortable</option>
-                        <option value="5 — Very comfortable">5 — Very comfortable</option>
-                    </select>
-                    <p class="form-note">No experience required. Level 1 storytellers are very welcome — nerves and honesty often go hand in hand.</p>
-                </div>
-
-                <hr class="form-divider">
-
-                <!-- ── Optional support ── -->
-                <span class="form-section-label">Optional Support</span>
-
-                <div class="form-group">
-                    <div class="refinement-box">
-                        <p>If your story is selected, we offer a free 15-minute story refinement conversation before the event. This is a chance to talk through your story, identify the central moment, and find the right place to begin and end. It is entirely optional — many people don't need it. But it is there if you want it.</p>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="wants_refinement_call" value="Yes">
-                            <span>Yes, I'd welcome a short preparation conversation if my story is selected.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <hr class="form-divider">
-
-                <!-- ── Consent + confirmation ── -->
-                <span class="form-section-label">Before You Submit</span>
-
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="consent_true" value="agreed" required>
-                            <span>I understand this is a true storytelling event. The story I am submitting is my own, told in first person, based on real experience.</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="consent_rules" value="agreed" required>
-                            <span>I agree to follow the storytelling guidelines — including the 5–7 minute limit, no notes on stage, and first-person format.</span>
-                        </label>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="consent_capetown" value="agreed" required>
-                            <span>I understand that 24 Stories Live events take place in Cape Town. The date and venue are still to be confirmed. If my story is selected, I will be contacted with all details in advance.</span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-submit-row">
-                    <button type="submit" class="btn btn-primary btn-lg">Submit My Story Application</button>
-                    <p class="form-note">We read every submission personally. You will hear from us within one week.</p>
-                </div>
-
-            </form>
-
-            <div class="form-success" id="formSuccess">
-                <h3>Thank you — we have received your story.</h3>
-                <p>We read every application personally and will be in touch within a week. In the meantime, if you have any questions, write to us at <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">hello@24stories.co.za</a>.</p>
-            </div>
-
         </div>
     </section>
 
@@ -921,125 +219,30 @@
     <!-- ════════════════════════════════════════════
          STAY IN THE LOOP
     ════════════════════════════════════════════ -->
-    <section class="alerts-section" id="alerts">
-        <div class="alerts-inner">
-            <span class="section-eyebrow">Stay in the Loop</span>
-            <h2>Be the first to know.</h2>
-            <p style="max-width:560px;margin-top:12px;">Date and venue for the first event are still being confirmed. Leave your details below and we will reach out the moment they are set — with tickets, storyteller selections, and everything you need to be in the room.</p>
+    <section class="community-section" id="community">
+        <div class="community-inner">
+            <span class="section-eyebrow">Join the 24 Stories Community</span>
+            <h2>Stay in the Loop</h2>
+            <p>Be the first to know when the next event is confirmed. All 24 Stories Live events take place in Cape Town — Atlantic Seaboard, CBD or Southern Suburbs.</p>
+            <p>Leave your name and email below and we will be in touch with the theme, date, and venue.</p>
 
-            <div class="alerts-columns">
+            <form
+                name="mailing-list"
+                method="POST"
+                action="/thank-you.html"
+                netlify
+                netlify-honeypot="bot-ml"
+                class="community-form"
+            >
+                <input type="hidden" name="bot-ml">
+                <input type="hidden" name="form-name" value="mailing-list">
+                <input type="hidden" name="_subject" value="New Mailing List Signup — 24 Stories Live">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email address" required>
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:4px;">Keep Me Posted</button>
+            </form>
 
-                <!-- Email alerts -->
-                <div class="alert-card">
-                    <span class="card-label">Email Updates</span>
-                    <h4>Send me event details by email</h4>
-                    <p>Leave your name and email and we will contact you as soon as the date is confirmed — whether you are interested in attending as an audience member, telling a story, or both.</p>
-
-                    <form
-                        name="event-alerts"
-                        method="POST"
-                        action="/thank-you.html"
-                        netlify
-                        netlify-honeypot="bot-field-alerts"
-                        id="alertsForm"
-                    >
-                        <input type="hidden" name="bot-field-alerts">
-                        <input type="hidden" name="form-name" value="event-alerts">
-                        <input type="hidden" name="_subject" value="New Event Alert Signup — 24 Stories Live">
-                        <div class="alert-email-form">
-                            <input type="text" name="name" placeholder="Your name" required>
-                            <input type="email" name="email" placeholder="Your email address" required>
-                            <select name="interest" style="width:100%;background:var(--cream);border:1px solid var(--border-fine);padding:12px 16px;font-family:var(--font-body);font-size:14px;font-weight:300;color:var(--charcoal);outline:none;border-radius:0;-webkit-appearance:none;appearance:none;background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B8976A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E\");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;">
-                                <option value="" disabled selected>I am interested in…</option>
-                                <option value="Audience only">Coming as an audience member</option>
-                                <option value="Storyteller only">Telling a story</option>
-                                <option value="Either">Either — tell me more</option>
-                            </select>
-                            <button type="submit" class="btn btn-primary" style="width:100%;">Keep Me Posted</button>
-                        </div>
-                    </form>
-
-                    <div id="alertsSuccess" style="display:none;margin-top:20px;padding:20px;background:var(--cream);border:1px solid var(--border);font-size:.88rem;color:var(--text-mid);">
-                        You are on the list. We will be in touch as soon as the date is confirmed.
-                    </div>
-
-                </div>
-
-                <!-- WhatsApp -->
-                <div class="alert-card" style="display:flex;flex-direction:column;justify-content:space-between;">
-                    <div>
-                        <span class="card-label">WhatsApp</span>
-                        <h4>Message Tamara directly</h4>
-                        <p>Prefer to hear about the event by WhatsApp — or want to ask a question before applying? Send a message directly. This goes to the person building this, not a form.</p>
-                        <p style="font-style:italic;color:var(--text-light);font-size:.85rem;">Say: <em style="color:var(--text-light);font-style:normal;">"Hi Tamara, I'd like updates on 24 Stories Live"</em> — and we will keep you in the loop.</p>
-                    </div>
-                    <a
-                        href="https://wa.me/27795090667?text=Hi%20Tamara%2C%20I%27d%20like%20updates%20on%2024%20Stories%20Live"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="btn btn-primary"
-                        style="text-align:center;display:block;margin-top:28px;"
-                    >Message on WhatsApp</a>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
-    <!-- ════════════════════════════════════════════
-         MAILING LIST
-    ════════════════════════════════════════════ -->
-    <section class="mailing-section" id="mailing-list">
-        <div class="container">
-            <div class="mailing-inner">
-                <div class="mailing-text">
-                    <span class="section-eyebrow">Mailing List</span>
-                    <h2>Join the 24 Stories community.</h2>
-                    <p>All 24 Stories Live events take place in Cape Town — in the CBD and along the Atlantic Seaboard. If you would like to hear about upcoming evenings — themes, dates, and venues — leave your name and email address below.</p>
-                    <p>We will reach out when the next event is confirmed. Whether you are considering telling a story or simply want to be in the room, this is the best way to stay close to what we are building.</p>
-                    <p class="mailing-note">We do not share your details with anyone. You will only hear from us about 24 Stories Live events.</p>
-                </div>
-                <div class="mailing-form-wrap">
-                    <form
-                        name="mailing-list"
-                        method="POST"
-                        action="/thank-you.html"
-                        netlify
-                        netlify-honeypot="bot-ml"
-                        id="mailingForm"
-                    >
-                        <input type="hidden" name="bot-ml">
-                        <input type="hidden" name="form-name" value="mailing-list">
-                        <input type="hidden" name="_subject" value="New Mailing List Signup — 24 Stories Live">
-
-                        <div class="form-group">
-                            <label for="ml-name">Your Name</label>
-                            <input type="text" id="ml-name" name="name" required placeholder="First name is fine">
-                        </div>
-                        <div class="form-group">
-                            <label for="ml-email">Email Address</label>
-                            <input type="email" id="ml-email" name="email" required placeholder="you@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label for="ml-interest">I am most interested in…</label>
-                            <select id="ml-interest" name="interest">
-                                <option value="" disabled selected>Select one</option>
-                                <option value="Coming as audience">Coming as an audience member</option>
-                                <option value="Telling a story">Telling a story</option>
-                                <option value="Both / not sure yet">Both — not sure yet</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width:100%;margin-top:8px;">Join the Mailing List</button>
-                        <p class="form-note" style="margin-top:12px;text-align:center;">You will receive a confirmation by email. Unsubscribe any time.</p>
-                    </form>
-
-                    <div id="mailingSuccess" style="display:none;padding:32px;background:var(--cream);border:1px solid var(--border);text-align:center;">
-                        <p style="font-family:var(--font-head);font-size:1.2rem;font-weight:300;color:var(--charcoal);margin-bottom:10px;">You are on the list.</p>
-                        <p style="font-size:.88rem;color:var(--text-mid);">We will be in touch as soon as the next event is confirmed — theme, date, and venue. If you have questions in the meantime, write to us at <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">hello@24stories.co.za</a>.</p>
-                    </div>
-                </div>
-            </div>
+            <p class="community-note">We do not share your details with anyone. You will only hear from us about 24 Stories Live events.</p>
         </div>
     </section>
 
@@ -1057,9 +260,7 @@
                 <div>
                     <p class="footer-col-title">This Page</p>
                     <a href="#about">About the Event</a>
-                    <a href="#apply">Apply to Tell a Story</a>
-                    <a href="#alerts">Get Updates</a>
-                    <a href="#mailing-list">Mailing List</a>
+                    <a href="#community">Stay in the Loop</a>
                 </div>
                 <div>
                     <p class="footer-col-title">Contact</p>
@@ -1079,10 +280,6 @@
     </footer>
 
 
-    <!-- ════════════════════════════════════════════
-         SCRIPTS
-    ════════════════════════════════════════════ -->
     <script src="js/script.js"></script>
-
 </body>
 </html>

@@ -13,30 +13,30 @@
     <style>
     .apply-hero {
         background: var(--charcoal);
-        padding: calc(var(--sec) + 80px) var(--pad) var(--sec);
+        padding: calc(80px + 28px) var(--pad) 28px;
         text-align: center;
     }
-    .apply-hero .eyebrow { color: var(--gold); margin-bottom: 20px; }
+    .apply-hero .eyebrow { color: var(--gold); margin-bottom: 10px; }
     .apply-hero h1 {
         font-family: var(--font-head);
-        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-size: clamp(1.8rem, 3.5vw, 2.6rem);
         font-weight: 300;
         color: var(--cream);
         line-height: 1.15;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     .apply-hero p {
-        font-size: 1rem;
+        font-size: .88rem;
         font-weight: 300;
-        color: rgba(247,245,242,0.6);
+        color: rgba(247,245,242,0.95);
         max-width: 520px;
         margin: 0 auto;
-        line-height: 1.8;
+        line-height: 1.7;
     }
 
     .apply-body {
         background: var(--cream);
-        padding: var(--sec) var(--pad);
+        padding: 8px var(--pad) var(--sec);
     }
     .apply-inner {
         max-width: 720px;
@@ -89,7 +89,7 @@
     .form-group textarea.tall { min-height: 140px; }
     .form-note {
         font-size: .82rem;
-        color: var(--text-light);
+        color: var(--charcoal);
         line-height: 1.7;
         font-style: italic;
         margin-top: 8px;
@@ -155,8 +155,8 @@
         margin-top: 2px;
     }
     .checkbox-option span {
-        font-size: .88rem;
-        color: var(--text-mid);
+        font-size: .78rem;
+        color: var(--charcoal);
         line-height: 1.6;
     }
     .refinement-box {
@@ -167,7 +167,7 @@
     }
     .refinement-box p {
         font-size: .88rem;
-        color: var(--text-mid);
+        color: var(--charcoal);
         margin-bottom: 14px;
         line-height: 1.7;
     }
@@ -312,11 +312,7 @@
                 <div class="form-group">
                     <div class="refinement-box">
                         <p>Each 24 Stories Live evening is built around a single theme. We review every application with our current and upcoming themes in mind — and we will be in touch when we feel your story is the right fit, even where the connection is a stretch. This may mean your story is held for a future event rather than the next one.</p>
-                        <p>Every selected storyteller takes part in a short 15-minute preparation conversation with Tamara before the event — a chance to shape the story for the room, find where to begin, and decide where to land. This is not optional. It is part of how we make sure the evening works for everyone.</p>
-                        <label class="checkbox-option">
-                            <input type="checkbox" name="consent_process" value="agreed" required>
-                            <span>I understand that my application will be considered across upcoming themed evenings, and that if selected I will take part in a preparation conversation before the event.</span>
-                        </label>
+                        <p>Every selected storyteller takes part in a short 15-minute preparation conversation with a qualified 24 Stories team member before the event — a chance to shape the story for the room, find where to begin, and decide where to land.</p>
                     </div>
                 </div>
 
@@ -327,6 +323,10 @@
 
                 <div class="form-group">
                     <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            <input type="checkbox" name="consent_process" value="agreed" required>
+                            <span>I understand that my application will be considered across upcoming themed evenings, and that if selected I will take part in a preparation conversation before the event.</span>
+                        </label>
                         <label class="checkbox-option">
                             <input type="checkbox" name="consent_true" value="agreed" required>
                             <span>I understand this is a true storytelling event. The story I am submitting is my own, told in first person, based on real experience.</span>

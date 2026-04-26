@@ -995,7 +995,7 @@ h1.hero-heading, .hero-content h1 {
 .price-features--grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 0;
+    gap: 0 48px;
     margin-bottom: 0;
     flex: 1;
 }

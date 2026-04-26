@@ -2446,6 +2446,49 @@ h1.hero-heading, .hero-content h1 {
 }
 
 /* ===================================
+   WHATSAPP FLOATING BUTTON
+   =================================== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 999;
+    width: 52px;
+    height: 52px;
+    background: var(--charcoal);
+    border: 1px solid rgba(184,151,106,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    text-decoration: none;
+    transition: all var(--dur) var(--ease);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.whatsapp-float:hover {
+    background: var(--gold);
+    color: var(--white);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+}
+
+.whatsapp-float svg {
+    width: 24px;
+    height: 24px;
+}
+
+@media (max-width: 600px) {
+    .whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 46px;
+        height: 46px;
+    }
+}
+
+/* ===================================
    FOUNDER VIDEO SECTION
    =================================== */
 .founder-video-section {

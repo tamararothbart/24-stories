@@ -687,7 +687,52 @@
                 </div>
 
                 <div class="subscribe-form reveal">
-                    <div class="form-card">
+
+                    <!-- PRELAUNCH-START: Delete this entire div on launch day (8 June) -->
+                    <div id="prelaunch-mode">
+                        <div class="form-card">
+                            <p style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#1A1A1A; line-height:1.8; margin:0 0 28px 0;">We open on 8 June. Register your interest below and we will be in touch personally when doors open.</p>
+                            <form name="interest" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="interestForm">
+                                <input type="hidden" name="form-name" value="interest">
+                                <p style="display:none;"><input name="bot-field"></p>
+                                <div class="field">
+                                    <input type="text" name="name" placeholder="Your name" required>
+                                </div>
+                                <div class="field">
+                                    <input type="email" name="email" placeholder="Your email address" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block btn-lg">Register My Interest</button>
+                                <p class="form-reassurance">We will be in touch personally. No obligation.</p>
+                                <p style="font-size:13px; color:#888; text-align:center; margin:8px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#888;">hello@24stories.co.za</a> &nbsp;·&nbsp; <a href="https://wa.me/27795090667" target="_blank" rel="noopener" style="color:#888;">WhatsApp us</a></p>
+                            </form>
+                            <div id="interestSuccess" style="display:none; text-align:center; padding:32px 0;">
+                                <p style="font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:300; color:#1A1A1A; margin-bottom:12px;">Thank you.</p>
+                                <p style="font-size:15px; color:#555; line-height:1.8;">We will be in touch personally when doors open on 8 June.</p>
+                            </div>
+                            <script>
+                            document.getElementById('interestForm').addEventListener('submit', function(e) {
+                                e.preventDefault();
+                                var form = this;
+                                fetch('/', {
+                                    method: 'POST',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                                    body: new URLSearchParams(new FormData(form)).toString()
+                                }).then(function() {
+                                    form.style.display = 'none';
+                                    document.getElementById('interestSuccess').style.display = 'block';
+                                }).catch(function() {
+                                    form.style.display = 'none';
+                                    document.getElementById('interestSuccess').style.display = 'block';
+                                });
+                            });
+                            </script>
+                        </div>
+                    </div>
+                    <!-- PRELAUNCH-END -->
+
+                    <!-- LAUNCH-DAY: On 8 June, remove style="display:none;" from this div -->
+                    <div id="signup-forms" style="display:none;">
+                        <div class="form-card">
 
                         <!-- FORM PATH SELECTION -->
                         <p class="form-path-heading">How would you like to begin?</p>
@@ -857,7 +902,9 @@
 
                         </form>
 
+                        </div>
                     </div>
+
                 </div>
 
             </div>

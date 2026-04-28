@@ -1266,10 +1266,15 @@
     document.getElementById('fdForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var form = this;
-        fetch('/', {
+        var data = {
+            name: form.querySelector('[name="name"]').value,
+            email: form.querySelector('[name="email"]').value,
+            source: 'website'
+        };
+        fetch('https://hook.eu1.make.com/ztl6hy927pl1icdfq5wpov82xyqmyf1h', {
             method: 'POST',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            body: new URLSearchParams(new FormData(form)).toString()
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
         }).then(function() {
             form.style.display = 'none';
             document.getElementById('fdSuccess').style.display = 'block';

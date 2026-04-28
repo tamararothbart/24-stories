@@ -69,7 +69,7 @@
                 <a href="#how-it-works" class="btn btn-ghost btn-lg">See How It Works</a>
             </div>
             <p class="hero-price-note">One payment. 26 weeks. One book. Free delivery.</p>
-            <p class="hero-price-note" style="margin-top:12px;">Not ready to commit? <a href="free-download.html" style="color:#B8976A; text-decoration:underline;">Download 5 free story questions.</a></p>
+            <p class="hero-price-note" style="margin-top:12px;">Not ready to commit? <a href="#free-download" style="color:#B8976A; text-decoration:underline;">Download 5 free story questions.</a></p>
 
         </div>
 
@@ -581,6 +581,67 @@
     </section>
 
     <!-- ============================================================
+         FREE DOWNLOAD — EMAIL CAPTURE
+         ============================================================ -->
+    <section id="free-download" style="background:#1A1A1A; padding:80px 0;">
+        <div class="container" style="max-width:680px; margin:0 auto; text-align:center;">
+
+            <p style="font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#B8976A; margin:0 0 20px;">A Free Gift</p>
+
+            <h2 style="font-family:'Playfair Display',serif; font-size:36px; font-weight:400; color:#ffffff; margin:0 0 20px; line-height:1.3;">5 Questions Worth Asking</h2>
+
+            <p style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#E8E4DF; line-height:1.8; margin:0 0 12px;">I have spent 25 years learning which questions unlock the stories families forget to ask.</p>
+            <p style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#E8E4DF; line-height:1.8; margin:0 0 40px;">Before you decide anything — I would like to give you five of them. Free.</p>
+
+            <form name="free-download" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="freeDownloadForm" style="text-align:left;">
+                <input type="hidden" name="form-name" value="free-download">
+                <p style="display:none;"><input name="bot-field"></p>
+
+                <div style="display:flex; gap:16px; margin-bottom:16px; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:200px;">
+                        <input type="text" name="name" placeholder="Your first name" required
+                               style="width:100%; box-sizing:border-box; padding:14px 18px; font-family:'Cormorant Garamond',serif; font-size:17px; background:#ffffff; border:none; border-radius:2px; color:#1A1A1A; outline:none;">
+                    </div>
+                    <div style="flex:2; min-width:240px;">
+                        <input type="email" name="email" placeholder="Your email address" required
+                               style="width:100%; box-sizing:border-box; padding:14px 18px; font-family:'Cormorant Garamond',serif; font-size:17px; background:#ffffff; border:none; border-radius:2px; color:#1A1A1A; outline:none;">
+                    </div>
+                </div>
+
+                <button type="submit"
+                        style="width:100%; padding:18px; background:#B8976A; color:#ffffff; font-family:'Cormorant Garamond',serif; font-size:17px; font-weight:500; letter-spacing:0.08em; border:none; border-radius:2px; cursor:pointer;">
+                    Send Me the 5 Questions
+                </button>
+            </form>
+
+            <div id="freeDownloadSuccess" style="display:none; padding:32px 0; text-align:center;">
+                <p style="font-family:'Playfair Display',serif; font-size:26px; color:#ffffff; margin:0 0 12px;">On its way to you now.</p>
+                <p style="font-family:'Cormorant Garamond',serif; font-size:18px; color:#E8E4DF; line-height:1.8; margin:0;">Check your inbox — and if you do not see it within a few minutes, check your spam folder.</p>
+            </div>
+
+            <p style="font-family:'Cormorant Garamond',serif; font-size:15px; color:#888; margin:20px 0 0; line-height:1.8;">Delivered to your inbox. No obligation. No mailing list.</p>
+        </div>
+
+        <script>
+        document.getElementById('freeDownloadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            fetch('/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams(new FormData(form)).toString()
+            }).then(function() {
+                form.style.display = 'none';
+                document.getElementById('freeDownloadSuccess').style.display = 'block';
+            }).catch(function() {
+                form.style.display = 'none';
+                document.getElementById('freeDownloadSuccess').style.display = 'block';
+            });
+        });
+        </script>
+    </section>
+
+    <!-- ============================================================
          SECTION 3: PRICING
          ============================================================ -->
     <section id="pricing" class="pricing">
@@ -728,7 +789,7 @@
                             });
                             </script>
                         </div>
-                        <p style="text-align:center; margin-top:24px; font-family:'Cormorant Garamond',serif; font-size:17px; color:#1A1A1A; line-height:1.8;">Not sure yet? <a href="free-download.html" style="color:#B8976A; text-decoration:underline;">Download 5 free story questions</a> and see what this kind of conversation can open up.</p>
+                        <p style="text-align:center; margin-top:24px; font-family:'Cormorant Garamond',serif; font-size:17px; color:#1A1A1A; line-height:1.8;">Not sure yet? <a href="#free-download" style="color:#B8976A; text-decoration:underline;">Download 5 free story questions</a> and see what this kind of conversation can open up.</p>
                     </div>
                     <!-- PRELAUNCH-END -->
 

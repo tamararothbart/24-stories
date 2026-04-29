@@ -1266,6 +1266,9 @@
     document.getElementById('fdForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var form = this;
+        var btn = form.querySelector('button[type="submit"]');
+        if (btn.disabled) return;
+        btn.disabled = true;
         var data = {
             name: form.querySelector('[name="name"]').value,
             email: form.querySelector('[name="email"]').value,

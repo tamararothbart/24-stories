@@ -100,7 +100,7 @@ function emailShell(name, bodyRows) {
 
           <tr>
             <td align="center" style="padding:36px 48px 24px; border-bottom:1px solid #E8E4DF;">
-              <img src="https://24stories.co.za/logo.png" alt="24 Stories" width="120" style="width:120px; height:auto; display:block; margin:0 auto;">
+              <img src="https://24stories.co.za/logo.png" alt="24 Stories" width="220" style="width:220px; height:auto; display:block; margin:0 auto;">
             </td>
           </tr>
 

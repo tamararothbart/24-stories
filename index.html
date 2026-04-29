@@ -712,16 +712,14 @@
                     <div id="prelaunch-mode">
                         <div class="form-card">
                             <p style="font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:#1A1A1A; line-height:1.8; margin:0 0 28px 0;">We open on <strong style="color:#B8976A;">8 June at 7pm</strong>. Register your interest below and we will be in touch before then so you can hit the ground running.</p>
-                            <form name="interest" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" id="interestForm">
-                                <input type="hidden" name="form-name" value="interest">
-                                <p style="display:none;"><input name="bot-field"></p>
+                            <form id="interestForm">
                                 <div class="field">
                                     <input type="text" name="name" placeholder="Your name" required>
                                 </div>
                                 <div class="field">
                                     <input type="email" name="email" placeholder="Your email address" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block btn-lg">Register My Interest</button>
+                                <button type="submit" id="interestBtn" class="btn btn-primary btn-block btn-lg">Register My Interest</button>
                                 <p class="form-reassurance">We will be in touch personally. No obligation.</p>
                                 <p style="font-size:13px; color:#888; text-align:center; margin:8px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#888;">hello@24stories.co.za</a> &nbsp;·&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:#888;">WhatsApp us</a></p>
                             </form>
@@ -733,10 +731,17 @@
                             document.getElementById('interestForm').addEventListener('submit', function(e) {
                                 e.preventDefault();
                                 var form = this;
-                                fetch('/', {
+                                var btn = document.getElementById('interestBtn');
+                                if (btn.disabled) return;
+                                btn.disabled = true;
+                                btn.textContent = 'Sending…';
+                                fetch('/.netlify/functions/early-interest', {
                                     method: 'POST',
-                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                                    body: new URLSearchParams(new FormData(form)).toString()
+                                    headers: {'Content-Type': 'application/json'},
+                                    body: JSON.stringify({
+                                        name:  form.querySelector('[name="name"]').value,
+                                        email: form.querySelector('[name="email"]').value
+                                    })
                                 }).then(function() {
                                     form.style.display = 'none';
                                     document.getElementById('interestSuccess').style.display = 'block';

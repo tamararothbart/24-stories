@@ -226,25 +226,19 @@
             <p>Be the first to know when the next event is confirmed. All 24 Stories Live events take place in Cape Town — Atlantic Seaboard, CBD or Southern Suburbs.</p>
             <p>Leave your name and email below and we will be in touch with the theme, date, and venue.</p>
 
-            <form
-                name="mailing-list"
-                method="POST"
-                action="/thank-you.html"
-                netlify
-                netlify-honeypot="bot-ml"
-                class="community-form"
-            >
-                <input type="hidden" name="bot-ml">
-                <input type="hidden" name="form-name" value="mailing-list">
-                <input type="hidden" name="_subject" value="New Mailing List Signup — 24 Stories Live">
+            <form id="mailingListForm" class="community-form">
                 <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" placeholder="Your email address" required>
                 <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; text-align:left; margin-top:4px;">
                     <input type="checkbox" name="interest_storyteller" value="yes" style="width:18px; height:18px; accent-color:#B8976A; flex-shrink:0; margin-top:2px;">
                     <span style="font-size:.88rem; color:rgba(247,245,242,0.7); line-height:1.6;">I'm interested in telling a story</span>
                 </label>
-                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:16px;">Keep Me Posted</button>
+                <button type="submit" id="mailingListBtn" class="btn btn-primary" style="width:100%;margin-top:16px;">Keep Me Posted</button>
             </form>
+            <div id="mailingListSuccess" style="display:none; padding:24px 0;">
+                <p style="font-family:'Playfair Display',serif; font-size:22px; color:var(--cream); margin:0 0 12px;">You are on the list.</p>
+                <p style="font-family:'Cormorant Garamond',serif; font-size:17px; color:rgba(247,245,242,0.7); line-height:1.7; margin:0;">We will be in touch as soon as the next event is confirmed.</p>
+            </div>
 
             <p class="community-note">We do not share your details with anyone. You will only hear from us about 24 Stories Live events.</p>
         </div>
@@ -325,6 +319,32 @@
             </div>
         </div>
     </div>
+
+    <script>
+    document.getElementById('mailingListForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var form = this;
+        var btn = document.getElementById('mailingListBtn');
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        fetch('/.netlify/functions/events-inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:        form.querySelector('[name="name"]').value,
+                email:       form.querySelector('[name="email"]').value,
+                storyteller: form.querySelector('[name="interest_storyteller"]').checked ? 'yes' : ''
+            })
+        }).then(function() {
+            form.style.display = 'none';
+            document.getElementById('mailingListSuccess').style.display = 'block';
+        }).catch(function() {
+            form.style.display = 'none';
+            document.getElementById('mailingListSuccess').style.display = 'block';
+        });
+    });
+    </script>
 
     <script>
     function openFDModal() {

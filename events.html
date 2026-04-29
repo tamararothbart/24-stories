@@ -288,13 +288,17 @@
     <script src="js/script.js"></script>
 
     <!-- FREE DOWNLOAD STICKY BAR -->
-    <div id="fdBar" style="position:fixed; bottom:0; left:0; right:0; background:#F7F5F2; border-top:2px solid #B8976A; z-index:999; padding:18px 24px; display:flex; align-items:center; justify-content:center; gap:32px; flex-wrap:wrap;">
-        <div>
-            <p style="font-family:'Playfair Display',serif; font-size:18px; font-weight:400; color:#1A1A1A; margin:0 0 2px; line-height:1.3;">Free: 5 Stories Worth Saving</p>
-            <p style="font-family:'Cormorant Garamond',serif; font-size:15px; color:#444; margin:0; line-height:1.5;">The questions your family hasn't thought to ask.</p>
+    <div id="fdBar" style="position:fixed; bottom:0; left:0; right:0; background:#F7F5F2; border-top:2px solid #B8976A; z-index:999; padding:20px 24px 20px 32px;">
+        <div style="max-width:900px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:24px; flex-wrap:wrap;">
+            <div style="flex:1; min-width:200px;">
+                <p style="font-family:'Playfair Display',serif; font-size:19px; font-weight:400; color:#1A1A1A; margin:0 0 4px; line-height:1.3;">Free: 5 Stories Worth Saving</p>
+                <p style="font-family:'Cormorant Garamond',serif; font-size:16px; color:#444; margin:0; line-height:1.5;">The questions your family hasn't thought to ask. The stories they cannot afford to lose.</p>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; flex-shrink:0;">
+                <button onclick="openFDModal()" style="background:#B8976A; color:#ffffff; font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; letter-spacing:0.08em; padding:14px 36px; border:none; border-radius:2px; cursor:pointer; white-space:nowrap;">Download Free</button>
+                <button onclick="document.getElementById('fdBar').style.display='none'" aria-label="Close" style="background:none; border:none; font-size:26px; color:#888; cursor:pointer; line-height:1; padding:0 4px;">×</button>
+            </div>
         </div>
-        <button onclick="openFDModal()" style="flex-shrink:0; background:#B8976A; color:#ffffff; font-family:'Cormorant Garamond',serif; font-size:16px; font-weight:600; letter-spacing:0.08em; padding:14px 36px; border:none; border-radius:2px; cursor:pointer; white-space:nowrap;">Download Free</button>
-        <button onclick="document.getElementById('fdBar').style.display='none'" aria-label="Close" style="position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; font-size:22px; color:#888; cursor:pointer; line-height:1;">×</button>
     </div>
 
     <!-- FREE DOWNLOAD MODAL -->

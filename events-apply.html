@@ -229,17 +229,7 @@
     <section class="apply-body">
         <div class="apply-inner">
 
-            <form
-                name="storyteller-application"
-                method="POST"
-                action="/thank-you.html"
-                netlify
-                netlify-honeypot="bot-field"
-                id="storyForm"
-            >
-                <input type="hidden" name="bot-field">
-                <input type="hidden" name="form-name" value="storyteller-application">
-                <input type="hidden" name="_subject" value="New Story Application — 24 Stories Live">
+            <form id="storyForm">
 
                 <!-- Contact details -->
                 <span class="form-section-label">Your Details</span>
@@ -343,7 +333,7 @@
                 </div>
 
                 <div class="form-submit-row">
-                    <button type="submit" class="btn btn-primary btn-lg">Submit My Story</button>
+                    <button type="submit" id="storySubmitBtn" class="btn btn-primary btn-lg">Submit My Story</button>
                     <p class="form-note">We read every submission personally. You will hear from us within one week.</p>
                 </div>
 
@@ -388,5 +378,35 @@
     </footer>
 
     <script src="js/script.js"></script>
+    <script>
+    document.getElementById('storyForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var form = this;
+        var btn = document.getElementById('storySubmitBtn');
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        var fiveMin = form.querySelector('[name="five_minutes"]:checked');
+        fetch('/.netlify/functions/story-application', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:          form.querySelector('[name="name"]').value,
+                email:         form.querySelector('[name="email"]').value,
+                phone:         form.querySelector('[name="phone"]').value,
+                story_about:   form.querySelector('[name="story_about"]').value,
+                story_matters: form.querySelector('[name="story_matters"]').value,
+                five_minutes:  fiveMin ? fiveMin.value : '',
+                comfort_level: form.querySelector('[name="comfort_level"]').value
+            })
+        }).then(function() {
+            form.style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+        }).catch(function() {
+            form.style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'block';
+        });
+    });
+    </script>
 </body>
 </html>

@@ -1271,7 +1271,7 @@
             email: form.querySelector('[name="email"]').value,
             source: 'website'
         };
-        fetch('https://hook.eu1.make.com/ztl6hy927pl1icdfq5wpov82xyqmyf1h', {
+        fetch('/.netlify/functions/free-download', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)

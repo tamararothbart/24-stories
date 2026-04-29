@@ -1269,6 +1269,7 @@
         var btn = form.querySelector('button[type="submit"]');
         if (btn.disabled) return;
         btn.disabled = true;
+        btn.textContent = 'Sending…';
         var data = {
             name: form.querySelector('[name="name"]').value,
             email: form.querySelector('[name="email"]').value,

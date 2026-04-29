@@ -84,7 +84,7 @@ function confirmationHtml(name) {
           <td style="padding:44px 48px 44px;">
             <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">${greeting}</p>
             <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">Thank you for registering your interest in 24 Stories.</p>
-            <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">We open on 8 June. We will be in touch before then with everything you need to get started.</p>
+            <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">You are among the first to hear about us. When we launch, you will be among the first we contact — your early interest will receive priority. We look forward to guiding you on your legacy writing journey.</p>
             <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0;">Any questions in the meantime — write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A; text-decoration:underline;">hello@24stories.co.za</a> or <a href="https://wa.me/27823758320" style="color:#B8976A; text-decoration:underline;">WhatsApp us</a>.</p>
           </td>
         </tr>

@@ -2228,7 +2228,7 @@ h1.hero-heading, .hero-content h1 {
 }
 
 @media (max-width: 768px) {
-    .embedded-prompts { padding: 32px 24px; }
+    .embedded-prompts { display: none; }
     .book-cta-row { flex-direction: column; align-items: flex-start; }
     .final-cta { min-height: 380px; }
     .plan-highlight-card { padding: 20px; }

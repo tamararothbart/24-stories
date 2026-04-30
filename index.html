@@ -154,7 +154,7 @@
             <h2 class="section-title">Simpler Than Anyone Expects</h2>
             <p class="section-sub">Sign up once. After that, all the storyteller needs to do is speak. Every step is designed around people who don't consider themselves "good with technology."</p>
 
-            <div class="steps-grid steps-grid--five">
+            <div class="steps-grid steps-grid--five steps-desktop-only">
 
                 <div class="step-icon-block reveal">
                     <span class="step-n">01</span>
@@ -257,6 +257,59 @@
                     <p>Before your final prompt, complete a simple book production form in your Story Library. Your stories are professionally copyedited and compiled — printed, bound, and delivered to your door.</p>
                 </div>
 
+            </div>
+
+            <!-- MOBILE ONLY: steps swiper carousel -->
+            <div class="swiper steps-swiper steps-mobile-only" id="stepsSwiper">
+                <div class="swiper-wrapper">
+
+                    <div class="step-icon-block swiper-slide">
+                        <span class="step-n">01</span>
+                        <div class="step-icon">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="6" y="13" width="40" height="28" rx="2" stroke="#B8976A" stroke-width="1.5"/><path d="M6 20L26 32L46 20" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Receive a weekly story prompt</h3>
+                        <p>Every week, a prompt arrives in your inbox. There is no obligation to follow it; you can tell whatever story you want. The prompt is simply an opening door to your memories.</p>
+                    </div>
+
+                    <div class="step-icon-block swiper-slide">
+                        <span class="step-n">02</span>
+                        <div class="step-icon">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="19" y="6" width="14" height="24" rx="7" stroke="#B8976A" stroke-width="1.5"/><path d="M10 28C10 37.4 42 37.4 42 28" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round"/><line x1="26" y1="40" x2="26" y2="46" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round"/><line x1="19" y1="46" x2="33" y2="46" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Speak for 5 minutes — or write the story</h3>
+                        <p>One tap opens a simple page in the browser. You can speak — or simply type. No app, no account, no technical knowledge required.</p>
+                    </div>
+
+                    <div class="step-icon-block swiper-slide">
+                        <span class="step-n">03</span>
+                        <div class="step-icon">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="8" y="36" width="36" height="9" rx="1" stroke="#B8976A" stroke-width="1.5"/><rect x="11" y="25" width="30" height="9" rx="1" stroke="#B8976A" stroke-width="1.5"/><rect x="14" y="14" width="24" height="9" rx="1" stroke="#B8976A" stroke-width="1.5"/><line x1="19" y1="18.5" x2="27" y2="18.5" stroke="#B8976A" stroke-width="1" stroke-linecap="round"/><line x1="16" y1="29.5" x2="28" y2="29.5" stroke="#B8976A" stroke-width="1" stroke-linecap="round"/></svg>
+                        </div>
+                        <h3>Watch your story archive grow — and connect</h3>
+                        <p>Each story is sent to everyone on your family email list. Stories are saved in your Story Library, building week by week into a priceless Legacy Book.</p>
+                    </div>
+
+                    <div class="step-icon-block swiper-slide">
+                        <span class="step-n">04</span>
+                        <div class="step-icon">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="6" y="12" width="40" height="30" rx="2" stroke="#B8976A" stroke-width="1.5"/><circle cx="19" cy="24" r="5" stroke="#B8976A" stroke-width="1.5"/><path d="M6 38L18 27L25 34L33 26L46 38" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="31" y="6" width="15" height="10" rx="1.5" stroke="#B8976A" stroke-width="1.5"/></svg>
+                        </div>
+                        <h3>Add a photograph to each story</h3>
+                        <p>Upload a photograph with a caption when you record your story, or later, directly in your Story Library. These travel with each story into the Legacy Book.</p>
+                    </div>
+
+                    <div class="step-icon-block swiper-slide">
+                        <span class="step-n">05</span>
+                        <div class="step-icon">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none"><rect x="8" y="6" width="30" height="40" rx="2" stroke="#B8976A" stroke-width="1.5"/><rect x="12" y="10" width="22" height="28" rx="1" stroke="#B8976A" stroke-width="1"/><path d="M38 10L44 14V42L38 46" stroke="#B8976A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <h3>Your Stories Become a Book</h3>
+                        <p>Before your final prompt, complete a simple book production form in your Story Library. Your stories are professionally copyedited and compiled — printed, bound, and delivered to your door.</p>
+                    </div>
+
+                </div>
+                <div class="swiper-pagination steps-pagination"></div>
             </div>
 
             <!-- Embedded sample prompts -->
@@ -1191,6 +1244,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+    if (window.innerWidth <= 768) {
+        new Swiper('#stepsSwiper', {
+            slidesPerView: 1,
+            spaceBetween: 24,
+            pagination: { el: '.steps-pagination', clickable: true },
+        });
+    }
+
     const bookSwiper = new Swiper('.book-swiper', {
         loop: false,
         effect: 'slide',

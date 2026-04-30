@@ -2137,21 +2137,85 @@ h1.hero-heading, .hero-content h1 {
     .steps-desktop-only { display: none !important; }
     .steps-mobile-only { display: block; }
 
-    .steps-swiper { padding-bottom: 40px; }
-
-    .steps-swiper .step-icon-block {
-        text-align: center;
-        padding: 0 8px 8px;
+    .steps-swiper {
+        padding-bottom: 56px;
+        padding-top: 8px;
+        position: relative;
     }
 
-    .steps-pagination { margin-top: 8px; }
+    /* Big number — matches desktop style */
+    .steps-swiper .step-icon-block .step-n {
+        font-family: Georgia, serif;
+        font-size: 3rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        letter-spacing: -0.01em;
+        line-height: 1;
+        margin-bottom: 12px;
+        display: block;
+        text-align: center;
+    }
+
+    /* Centered slide content */
+    .steps-swiper .step-icon-block {
+        text-align: center;
+        padding: 0 16px 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .steps-swiper .step-icon-block .step-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+    }
+
+    .steps-swiper .step-icon-block h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+        text-align: center;
+    }
+
+    .steps-swiper .step-icon-block p {
+        font-size: 15px;
+        text-align: center;
+        max-width: 320px;
+    }
+
+    /* Pagination dots — bold and visible */
+    .steps-pagination {
+        bottom: 0 !important;
+    }
     .steps-pagination .swiper-pagination-bullet {
+        width: 10px;
+        height: 10px;
         background: var(--gold);
         opacity: 0.35;
     }
     .steps-pagination .swiper-pagination-bullet-active {
         background: var(--gold);
         opacity: 1;
+        width: 28px;
+        border-radius: 5px;
+    }
+
+    /* Prev / next arrows — gold, positioned clearly */
+    .steps-prev,
+    .steps-next {
+        color: var(--gold) !important;
+        width: 36px !important;
+        height: 36px !important;
+        top: auto !important;
+        bottom: 44px !important;
+    }
+    .steps-prev { left: 20px !important; }
+    .steps-next { right: 20px !important; }
+    .steps-prev::after,
+    .steps-next::after {
+        font-size: 18px !important;
+        font-weight: 600;
     }
 }
 

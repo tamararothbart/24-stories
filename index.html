@@ -309,6 +309,8 @@
                     </div>
 
                 </div>
+                <div class="swiper-button-prev steps-prev"></div>
+                <div class="swiper-button-next steps-next"></div>
                 <div class="swiper-pagination steps-pagination"></div>
             </div>
 
@@ -1249,6 +1251,7 @@
             slidesPerView: 1,
             spaceBetween: 24,
             pagination: { el: '.steps-pagination', clickable: true },
+            navigation: { nextEl: '.steps-next', prevEl: '.steps-prev' },
         });
     }
 

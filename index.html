@@ -29,6 +29,26 @@
         </div>
     </nav>
 
+    <!-- Mobile form overlay — shown on mobile when Get Started is tapped -->
+    <div id="mobileFormOverlay" style="display:none;">
+        <div id="mobileFormBox">
+            <button id="mobileFormClose" aria-label="Close">&times;</button>
+            <p id="mobileFormEyebrow">Begin Now</p>
+            <p id="mobileFormHeading">Register your interest</p>
+            <p id="mobileFormIntro">We open on <strong>8 June at 7pm</strong>. Register below and we will be in touch before then.</p>
+            <form id="mobileInterestForm">
+                <div class="field">
+                    <input type="text" name="name" placeholder="Your name" required>
+                </div>
+                <div class="field">
+                    <input type="email" name="email" placeholder="Your email address" required>
+                </div>
+                <button type="submit" id="mobileInterestBtn" class="btn btn-primary btn-block">Register My Interest</button>
+                <p id="mobileFormReassurance">We will be in touch personally. No obligation.</p>
+            </form>
+        </div>
+    </div>
+
     <!-- Mobile thank-you overlay — shown on mobile after interest form submit -->
     <div id="mobileThankYou" style="display:none;">
         <div id="mobileThankYouBox">
@@ -1404,24 +1424,58 @@
     </script>
 
     <script>
-    // Mobile thank-you overlay — close button dismisses it
-    document.getElementById('mobileThankYouClose').addEventListener('click', function() {
-        document.getElementById('mobileThankYou').style.display = 'none';
-        document.body.style.overflow = '';
-    });
-    </script>
-
-    <script>
-    // On mobile, "Get Started" nav link jumps straight to the form card, accounting for fixed navbar height
     (function () {
-        var navCta = document.querySelector('a.btn-nav-cta');
-        if (!navCta) return;
-        navCta.addEventListener('click', function (e) {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                var target = document.getElementById('prelaunch-mode') || document.getElementById('subscribe-form');
-                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+        function openMobileForm() {
+            document.getElementById('mobileFormOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeMobileForm() {
+            document.getElementById('mobileFormOverlay').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        function showMobileThankYou() {
+            closeMobileForm();
+            document.getElementById('mobileThankYou').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close buttons
+        document.getElementById('mobileFormClose').addEventListener('click', closeMobileForm);
+        document.getElementById('mobileThankYouClose').addEventListener('click', function() {
+            document.getElementById('mobileThankYou').style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        // All Get Started / Give This Gift buttons on mobile open the form overlay
+        document.querySelectorAll('a[href="#subscribe"], a.btn-nav-cta').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    openMobileForm();
+                }
+            });
+        });
+
+        // Mobile form submission
+        document.getElementById('mobileInterestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var btn = document.getElementById('mobileInterestBtn');
+            if (btn.disabled) return;
+            btn.disabled = true;
+            btn.textContent = 'Sending…';
+            fetch('/.netlify/functions/early-interest', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name:  form.querySelector('[name="name"]').value,
+                    email: form.querySelector('[name="email"]').value
+                })
+            }).then(function() {
+                showMobileThankYou();
+            }).catch(function() {
+                showMobileThankYou();
+            });
         });
     })();
     </script>

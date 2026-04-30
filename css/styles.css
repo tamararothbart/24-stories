@@ -2246,6 +2246,66 @@ h1.hero-heading, .hero-content h1 {
     .plan-highlight-card { padding: 20px; }
 }
 
+/* Mobile form overlay */
+#mobileFormOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+#mobileFormBox {
+    background: var(--cream);
+    padding: 36px 28px 32px;
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+}
+#mobileFormClose {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: none;
+    border: none;
+    font-size: 26px;
+    color: var(--charcoal);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+}
+#mobileFormEyebrow {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 10px;
+}
+#mobileFormHeading {
+    font-family: var(--font-head);
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--charcoal);
+    margin: 0 0 12px;
+}
+#mobileFormIntro {
+    font-size: 15px;
+    color: var(--charcoal);
+    line-height: 1.75;
+    margin: 0 0 24px;
+}
+#mobileFormIntro strong { color: var(--gold); font-weight: 500; }
+#mobileFormReassurance {
+    font-size: 13px;
+    color: #888;
+    text-align: center;
+    margin: 12px 0 0;
+}
+
 /* Mobile thank-you overlay */
 #mobileThankYou {
     display: none;

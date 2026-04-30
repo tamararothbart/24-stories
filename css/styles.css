@@ -2244,8 +2244,52 @@ h1.hero-heading, .hero-content h1 {
     .book-cta-row { flex-direction: column; align-items: flex-start; }
     .final-cta { min-height: 380px; }
     .plan-highlight-card { padding: 20px; }
-    #prelaunch-mode { scroll-margin-top: 80px; }
-    #interestSuccess { scroll-margin-top: 80px; }
+}
+
+/* Mobile thank-you overlay */
+#mobileThankYou {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,26,0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+#mobileThankYouBox {
+    background: var(--cream);
+    padding: 40px 28px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+}
+#mobileThankYouHeading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--charcoal);
+    margin: 0 0 16px;
+}
+#mobileThankYouBody {
+    font-size: 16px;
+    color: var(--charcoal);
+    line-height: 1.85;
+    margin: 0 0 28px;
+}
+#mobileThankYouBody a {
+    color: var(--gold);
+}
+#mobileThankYouClose {
+    background: var(--gold);
+    color: #fff;
+    border: none;
+    padding: 14px 36px;
+    font-size: 14px;
+    font-family: var(--font-body);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
 }
 
 @media (max-width: 480px) {

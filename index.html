@@ -29,6 +29,15 @@
         </div>
     </nav>
 
+    <!-- Mobile thank-you overlay — shown on mobile after interest form submit -->
+    <div id="mobileThankYou" style="display:none;">
+        <div id="mobileThankYouBox">
+            <p id="mobileThankYouHeading">Thank you.</p>
+            <p id="mobileThankYouBody">You are on our early interest list. We will be in touch as soon as we launch — your interest will receive priority. Any questions in the meantime — <a href="https://wa.me/27823758320" target="_blank" rel="noopener">WhatsApp us</a> or write to <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>.</p>
+            <button id="mobileThankYouClose">Close</button>
+        </div>
+    </div>
+
     <!-- ============================================================
          SECTION 1: HERO
          ============================================================ -->
@@ -799,21 +808,17 @@
                                     })
                                 }).then(function() {
                                     form.style.display = 'none';
-                                    var success = document.getElementById('interestSuccess');
-                                    success.style.display = 'block';
+                                    document.getElementById('interestSuccess').style.display = 'block';
                                     if (window.innerWidth <= 768) {
-                                        setTimeout(function() {
-                                            success.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                        }, 200);
+                                        document.getElementById('mobileThankYou').style.display = 'flex';
+                                        document.body.style.overflow = 'hidden';
                                     }
                                 }).catch(function() {
                                     form.style.display = 'none';
-                                    var success = document.getElementById('interestSuccess');
-                                    success.style.display = 'block';
+                                    document.getElementById('interestSuccess').style.display = 'block';
                                     if (window.innerWidth <= 768) {
-                                        setTimeout(function() {
-                                            success.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                                        }, 200);
+                                        document.getElementById('mobileThankYou').style.display = 'flex';
+                                        document.body.style.overflow = 'hidden';
                                     }
                                 });
                             });
@@ -1395,6 +1400,14 @@
             form.style.display = 'none';
             document.getElementById('fdSuccess').style.display = 'block';
         });
+    });
+    </script>
+
+    <script>
+    // Mobile thank-you overlay — close button dismisses it
+    document.getElementById('mobileThankYouClose').addEventListener('click', function() {
+        document.getElementById('mobileThankYou').style.display = 'none';
+        document.body.style.overflow = '';
     });
     </script>
 

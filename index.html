@@ -803,11 +803,8 @@
                                     success.style.display = 'block';
                                     if (window.innerWidth <= 768) {
                                         setTimeout(function() {
-                                            var navbar = document.getElementById('navbar');
-                                            var navH = navbar ? navbar.offsetHeight : 0;
-                                            var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
-                                            window.scrollTo({ top: top, behavior: 'smooth' });
-                                        }, 80);
+                                            success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        }, 200);
                                     }
                                 }).catch(function() {
                                     form.style.display = 'none';
@@ -815,11 +812,8 @@
                                     success.style.display = 'block';
                                     if (window.innerWidth <= 768) {
                                         setTimeout(function() {
-                                            var navbar = document.getElementById('navbar');
-                                            var navH = navbar ? navbar.offsetHeight : 0;
-                                            var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
-                                            window.scrollTo({ top: top, behavior: 'smooth' });
-                                        }, 80);
+                                            success.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                        }, 200);
                                     }
                                 });
                             });
@@ -1413,11 +1407,7 @@
             if (window.innerWidth <= 768) {
                 e.preventDefault();
                 var target = document.getElementById('prelaunch-mode') || document.getElementById('subscribe-form');
-                if (!target) return;
-                var navbar = document.getElementById('navbar');
-                var navH = navbar ? navbar.offsetHeight : 0;
-                var top = target.getBoundingClientRect().top + window.scrollY - navH - 12;
-                window.scrollTo({ top: top, behavior: 'smooth' });
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     })();

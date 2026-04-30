@@ -2244,6 +2244,8 @@ h1.hero-heading, .hero-content h1 {
     .book-cta-row { flex-direction: column; align-items: flex-start; }
     .final-cta { min-height: 380px; }
     .plan-highlight-card { padding: 20px; }
+    #prelaunch-mode { scroll-margin-top: 80px; }
+    #interestSuccess { scroll-margin-top: 80px; }
 }
 
 @media (max-width: 480px) {

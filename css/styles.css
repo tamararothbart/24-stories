@@ -33,7 +33,7 @@
     --dur:   0.4s;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scrollbar-gutter: stable; }
 
 body {
     font-family: var(--font-body);

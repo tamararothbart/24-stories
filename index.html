@@ -761,7 +761,7 @@
                     <img src="subscribe-stock.jpg" alt="Writing a story" class="subscribe-photo">
                 </div>
 
-                <div class="subscribe-form reveal">
+                <div class="subscribe-form reveal" id="subscribe-form">
 
                     <!-- PRELAUNCH-START: Delete this entire div on launch day (8 June) -->
                     <div id="prelaunch-mode">
@@ -1384,6 +1384,21 @@
             document.getElementById('fdSuccess').style.display = 'block';
         });
     });
+    </script>
+
+    <script>
+    // On mobile, "Get Started" nav link jumps straight to the form, skipping the quote + image above it
+    (function () {
+        var navCta = document.querySelector('a.btn-nav-cta');
+        if (!navCta) return;
+        navCta.addEventListener('click', function (e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                var form = document.getElementById('subscribe-form');
+                if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    })();
     </script>
 
 </body>

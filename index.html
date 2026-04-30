@@ -78,9 +78,9 @@
         </div>
     </section>
 
-    <!-- CONCEPT STRIP + FOUNDER VIDEO — two columns, cream background -->
+    <!-- CONCEPT STRIP -->
     <section class="concept-strip">
-        <div class="container concept-strip-inner">
+        <div class="container">
             <div class="concept-numbers">
                 <div class="concept-item">
                     <span class="concept-num">24</span>
@@ -102,17 +102,46 @@
                     <span class="concept-label">Generations who will treasure it</span>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Founder video placeholder — replace src when video is ready -->
-            <div class="concept-video-wrap">
-                <video class="founder-video" autoplay muted playsinline id="founderVideo">
+    <!-- ============================================================
+         FOUNDER VIDEO
+         Replace: add video file to /24stories-website/ + captions.vtt
+         ============================================================ -->
+    <section class="founder-video-section">
+        <div class="container founder-video-inner">
+            <div class="founder-video-wrap">
+                <!--
+                    TO WIRE UP:
+                    1. Replace src="" with your video filename, e.g. src="founder-video.mp4"
+                    2. Add a captions file: src="founder-captions.vtt" below
+                    3. Delete the .founder-video-placeholder div once the video is live
+                    4. Autoplay muted is already set — visitor can tap "Sound on" for audio
+                -->
+                <video
+                    class="founder-video"
+                    autoplay
+                    muted
+                    playsinline
+                    id="founderVideo">
                     <source src="" type="video/mp4">
+                    <track kind="captions" src="founder-captions.vtt" srclang="en" label="English" default>
                 </video>
                 <div class="founder-video-placeholder" id="founderVideoPlaceholder">
                     <p>Founder video</p>
-                    <p class="founder-ph-note">Tamara Rothbart — founder, 24 Stories</p>
+                    <p class="founder-ph-note">60 seconds · autoplay muted · captions · replace src="" in index.html</p>
                 </div>
+                <button class="founder-video-sound" id="founderVideoSound" aria-label="Unmute video" style="display:none;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                    </svg>
+                    Sound on
+                </button>
             </div>
+            <p class="founder-video-byline">Tamara Rothbart — founder, 24 Stories</p>
         </div>
     </section>
 

@@ -1387,15 +1387,19 @@
     </script>
 
     <script>
-    // On mobile, "Get Started" nav link jumps straight to the form, skipping the quote + image above it
+    // On mobile, "Get Started" nav link jumps straight to the form card, accounting for fixed navbar height
     (function () {
         var navCta = document.querySelector('a.btn-nav-cta');
         if (!navCta) return;
         navCta.addEventListener('click', function (e) {
             if (window.innerWidth <= 768) {
                 e.preventDefault();
-                var form = document.getElementById('subscribe-form');
-                if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                var target = document.getElementById('prelaunch-mode') || document.getElementById('subscribe-form');
+                if (!target) return;
+                var navbar = document.getElementById('navbar');
+                var navH = navbar ? navbar.offsetHeight : 0;
+                var top = target.getBoundingClientRect().top + window.scrollY - navH - 12;
+                window.scrollTo({ top: top, behavior: 'smooth' });
             }
         });
     })();

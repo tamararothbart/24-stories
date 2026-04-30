@@ -799,10 +799,24 @@
                                     })
                                 }).then(function() {
                                     form.style.display = 'none';
-                                    document.getElementById('interestSuccess').style.display = 'block';
+                                    var success = document.getElementById('interestSuccess');
+                                    success.style.display = 'block';
+                                    if (window.innerWidth <= 768) {
+                                        var navbar = document.getElementById('navbar');
+                                        var navH = navbar ? navbar.offsetHeight : 0;
+                                        var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
+                                        window.scrollTo({ top: top, behavior: 'smooth' });
+                                    }
                                 }).catch(function() {
                                     form.style.display = 'none';
-                                    document.getElementById('interestSuccess').style.display = 'block';
+                                    var success = document.getElementById('interestSuccess');
+                                    success.style.display = 'block';
+                                    if (window.innerWidth <= 768) {
+                                        var navbar = document.getElementById('navbar');
+                                        var navH = navbar ? navbar.offsetHeight : 0;
+                                        var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
+                                        window.scrollTo({ top: top, behavior: 'smooth' });
+                                    }
                                 });
                             });
                             </script>

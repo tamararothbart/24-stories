@@ -1270,6 +1270,28 @@
             }
         }
     });
+
+    // Scale book pages to fit the actual container width on mobile
+    (function () {
+        function scaleBook() {
+            var wrap = document.querySelector('.book-swiper-wrap');
+            if (!wrap) return;
+            var availW = wrap.offsetWidth;
+            if (availW >= 540) return; // desktop: original scale handles it
+            var scale = availW / 680;
+            var height = Math.round(845 * scale);
+            document.querySelectorAll('.book-swiper .swiper-slide').forEach(function(s) {
+                s.style.width  = availW + 'px';
+                s.style.height = height + 'px';
+            });
+            document.querySelectorAll('.book-swiper .page-inner').forEach(function(p) {
+                p.style.transform = 'scale(' + scale + ')';
+            });
+            bookSwiper.update();
+        }
+        scaleBook();
+        window.addEventListener('resize', scaleBook);
+    })();
     </script>
     <script>
     // Cover colour toggle

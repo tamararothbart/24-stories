@@ -2184,9 +2184,12 @@ h1.hero-heading, .hero-content h1 {
         max-width: 320px;
     }
 
-    /* Pagination dots — bold and visible */
+    /* Pagination dots — bold and visible, clear of slide text */
     .steps-pagination {
-        bottom: 20px !important;
+        bottom: 28px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: auto !important;
     }
     .steps-pagination .swiper-pagination-bullet {
         width: 10px;

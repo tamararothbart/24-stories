@@ -345,16 +345,23 @@ h1.hero-heading, .hero-content h1 {
    CONCEPT STRIP
    =================================== */
 .concept-strip {
-    background: var(--charcoal);
-    padding: 40px 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
+    background: var(--cream);
+    padding: clamp(48px, 7vw, 80px) 0;
+    border-top: 1px solid var(--border-fine);
+}
+
+.concept-strip-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 80px);
+    align-items: center;
 }
 
 .concept-numbers {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 32px;
+    justify-content: flex-start;
+    gap: 28px;
     flex-wrap: wrap;
 }
 
@@ -377,17 +384,71 @@ h1.hero-heading, .hero-content h1 {
 
 .concept-label {
     font-size: 13px;
-    color: rgba(255,255,255,0.82);
+    color: var(--text-mid);
     letter-spacing: 0.05em;
     font-weight: 300;
 }
 
 .concept-divider {
-    color: rgba(255,255,255,0.15);
+    color: var(--border);
     font-size: 24px;
     font-weight: 300;
     line-height: 1;
     margin-top: -8px;
+}
+
+.concept-video-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #E8E4DF;
+    border: 1px dashed rgba(184,151,106,0.4);
+    overflow: hidden;
+}
+
+.concept-video-wrap .founder-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.concept-video-wrap .founder-video-placeholder {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: transparent;
+    border: none;
+}
+
+.concept-video-wrap .founder-video-placeholder p {
+    font-family: var(--font-head);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: rgba(26,26,26,0.4);
+    text-align: center;
+    margin: 0;
+}
+
+.concept-video-wrap .founder-ph-note {
+    font-family: var(--font-body) !important;
+    font-size: 12px !important;
+    font-style: normal !important;
+    color: rgba(184,151,106,0.7) !important;
+    letter-spacing: 0.06em;
+}
+
+@media (max-width: 768px) {
+    .concept-strip-inner {
+        grid-template-columns: 1fr;
+    }
+    .concept-numbers {
+        justify-content: center;
+    }
 }
 
 /* ===================================
@@ -2491,144 +2552,100 @@ h1.hero-heading, .hero-content h1 {
 /* ===================================
    FOUNDER VIDEO SECTION
    =================================== */
-/* ===================================
-   FOUNDER INTRO — two-column
-   =================================== */
-.founder-intro {
-    background: var(--cream);
-    padding: clamp(64px, 9vw, 112px) 0;
-    border-top: 1px solid var(--border-fine);
+.founder-video-section {
+    background: var(--charcoal);
+    padding: clamp(56px, 8vw, 96px) 0;
 }
 
-.founder-intro-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(48px, 7vw, 96px);
-    align-items: center;
-}
-
-.founder-intro-text {
-    max-width: 520px;
-}
-
-.founder-intro-heading {
-    font-family: var(--font-head);
-    font-size: clamp(1.9rem, 3.2vw, 2.8rem);
-    font-weight: 300;
-    color: var(--charcoal);
-    line-height: 1.15;
-    margin: 12px 0 28px;
-}
-
-.founder-intro-body {
-    font-family: var(--font-body);
-    font-size: 16px;
-    line-height: 1.85;
-    color: var(--text-mid);
-    margin-bottom: 20px;
-}
-
-.founder-sig {
-    font-family: var(--font-head);
-    font-size: 1.1rem;
-    font-style: italic;
-    color: var(--charcoal);
-    line-height: 1.5;
-    margin-top: 32px;
-}
-
-.founder-sig span {
-    font-family: var(--font-body);
-    font-size: 12px;
-    font-style: normal;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    display: block;
-    margin-top: 4px;
-}
-
-.founder-stats {
-    display: flex;
-    gap: 32px;
-    margin-top: 36px;
-    padding-top: 32px;
-    border-top: 1px solid var(--border-fine);
-}
-
-.founder-stat {
+.founder-video-inner {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    align-items: center;
+    gap: 20px;
 }
 
-.founder-stat-num {
-    font-family: var(--font-head);
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--gold);
-    line-height: 1;
-}
-
-.founder-stat-label {
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-mid);
-}
-
-.founder-intro-image {
+.founder-video-wrap {
+    position: relative;
     width: 100%;
+    max-width: 840px;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    overflow: hidden;
 }
 
-.founder-intro-image img {
+.founder-video {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
-.founder-img-placeholder {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    background: var(--cream);
-    border: 1px dashed rgba(184,151,106,0.4);
+.founder-video-placeholder {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
+    background: #111;
+    border: 1px dashed rgba(184,151,106,0.35);
 }
 
-.founder-img-placeholder p {
+.founder-video-placeholder p {
     font-family: var(--font-head);
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    color: rgba(255,255,255,0.55);
     font-style: italic;
-    color: rgba(26,26,26,0.35);
     text-align: center;
-    margin: 0;
+    line-height: 1.5;
 }
 
-.founder-img-ph-note {
+.founder-ph-note {
     font-family: var(--font-body) !important;
     font-size: 12px !important;
-    font-style: normal !important;
     color: rgba(184,151,106,0.6) !important;
+    font-style: normal !important;
     letter-spacing: 0.05em;
-    line-height: 1.7 !important;
-    text-align: center;
 }
 
-@media (max-width: 768px) {
-    .founder-intro-inner {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    .founder-intro-image {
-        order: -1;
-    }
-    .founder-img-placeholder {
-        aspect-ratio: 3 / 2;
-    }
+.founder-video-sound {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(0,0,0,0.55);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+}
+
+.founder-video-sound:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.founder-video-sound svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.founder-video-byline {
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(184,151,106,0.7);
+    text-align: center;
+    margin: 0;
 }
 
 /* ===================================

@@ -76,9 +76,9 @@ strong { font-weight: 500; color: var(--charcoal); }
 .eyebrow, .section-eyebrow {
     display: block;
     font-family: var(--font-body);
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.18em;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--gold);
     margin-bottom: 16px;

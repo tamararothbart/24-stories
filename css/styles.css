@@ -2664,43 +2664,62 @@ h1.hero-heading, .hero-content h1 {
 /* ===================================
    WHATSAPP FLOATING BUTTON
    =================================== */
-.whatsapp-float {
+.social-float-stack {
     position: fixed;
-    bottom: 32px;
-    right: 32px;
-    z-index: 999;
+    bottom: 24px;
+    right: 24px;
+    z-index: 998;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.social-float {
     width: 52px;
     height: 52px;
-    background: var(--charcoal);
-    border: 1px solid rgba(184,151,106,0.4);
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--gold);
     text-decoration: none;
-    transition: all var(--dur) var(--ease);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.28);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.whatsapp-float:hover {
-    background: var(--gold);
-    color: var(--white);
-    border-color: var(--gold);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+.social-float:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.32);
 }
 
-.whatsapp-float svg {
+.social-float svg {
     width: 24px;
     height: 24px;
 }
 
-@media (max-width: 600px) {
-    .whatsapp-float {
-        bottom: 20px;
-        right: 20px;
-        width: 46px;
-        height: 46px;
+.social-float--wa {
+    background: #25D366;
+    color: #fff;
+}
+
+.social-float--fb {
+    background: #1877F2;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .social-float-stack {
+        bottom: 16px;
+        right: 16px;
+        gap: 10px;
+    }
+    .social-float {
+        width: 48px;
+        height: 48px;
+    }
+    .social-float svg {
+        width: 22px;
+        height: 22px;
     }
 }
 

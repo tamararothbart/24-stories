@@ -2548,6 +2548,35 @@ h1.hero-heading, .hero-content h1 {
     margin-top: 4px;
 }
 
+.founder-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 36px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-fine);
+}
+
+.founder-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.founder-stat-num {
+    font-family: var(--font-head);
+    font-size: 2rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+}
+
+.founder-stat-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+}
+
 .founder-intro-image {
     width: 100%;
 }

@@ -802,20 +802,24 @@
                                     var success = document.getElementById('interestSuccess');
                                     success.style.display = 'block';
                                     if (window.innerWidth <= 768) {
-                                        var navbar = document.getElementById('navbar');
-                                        var navH = navbar ? navbar.offsetHeight : 0;
-                                        var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
-                                        window.scrollTo({ top: top, behavior: 'smooth' });
+                                        setTimeout(function() {
+                                            var navbar = document.getElementById('navbar');
+                                            var navH = navbar ? navbar.offsetHeight : 0;
+                                            var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
+                                            window.scrollTo({ top: top, behavior: 'smooth' });
+                                        }, 80);
                                     }
                                 }).catch(function() {
                                     form.style.display = 'none';
                                     var success = document.getElementById('interestSuccess');
                                     success.style.display = 'block';
                                     if (window.innerWidth <= 768) {
-                                        var navbar = document.getElementById('navbar');
-                                        var navH = navbar ? navbar.offsetHeight : 0;
-                                        var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
-                                        window.scrollTo({ top: top, behavior: 'smooth' });
+                                        setTimeout(function() {
+                                            var navbar = document.getElementById('navbar');
+                                            var navH = navbar ? navbar.offsetHeight : 0;
+                                            var top = success.getBoundingClientRect().top + window.scrollY - navH - 12;
+                                            window.scrollTo({ top: top, behavior: 'smooth' });
+                                        }, 80);
                                     }
                                 });
                             });

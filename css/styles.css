@@ -2138,7 +2138,7 @@ h1.hero-heading, .hero-content h1 {
     .steps-mobile-only { display: block; }
 
     .steps-swiper {
-        padding-bottom: 56px;
+        padding-bottom: 64px;
         padding-top: 8px;
         position: relative;
     }
@@ -2201,21 +2201,29 @@ h1.hero-heading, .hero-content h1 {
         border-radius: 5px;
     }
 
-    /* Prev / next arrows — gold, positioned clearly */
+    /* Prev / next arrows — gold filled circles, bottom row alongside dots */
     .steps-prev,
     .steps-next {
-        color: var(--gold) !important;
-        width: 36px !important;
-        height: 36px !important;
         top: auto !important;
-        bottom: 44px !important;
+        bottom: 0 !important;
+        width: 44px !important;
+        height: 44px !important;
+        background: var(--gold) !important;
+        border-radius: 50% !important;
+        color: #fff !important;
+        margin-top: 0 !important;
     }
-    .steps-prev { left: 20px !important; }
-    .steps-next { right: 20px !important; }
+    .steps-prev { left: 0 !important; }
+    .steps-next { right: 0 !important; }
     .steps-prev::after,
     .steps-next::after {
-        font-size: 18px !important;
-        font-weight: 600;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        color: #fff !important;
+    }
+    .steps-prev.swiper-button-disabled,
+    .steps-next.swiper-button-disabled {
+        opacity: 0.3 !important;
     }
 }
 

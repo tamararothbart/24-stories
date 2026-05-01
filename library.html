@@ -715,11 +715,7 @@
         var CLOUDINARY_CLOUD  = 'dorv3glde';
         var CLOUDINARY_PRESET = '24stories';
 
-        // Make webhooks — one per action type
-        var HOOK_STORY_PHOTO  = 'YOUR_MAKE_WEBHOOK_URL_STORY_PHOTO';   // updates Stories.StoryImageURL
-        var HOOK_CAPTION      = 'YOUR_MAKE_WEBHOOK_URL_CAPTION';        // updates Stories.StoryImageCaption
-        var HOOK_BOOK_PHOTO   = 'YOUR_MAKE_WEBHOOK_URL_BOOK_PHOTO';     // updates Subscribers portrait/cover
-        var HOOK_BOOK_TEXT    = 'YOUR_MAKE_WEBHOOK_URL_BOOK_TEXT';      // updates dedication / address / bookComplete
+        var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
 
         // PayFast — extra copies order (replace placeholders before go-live)
         var PAYFAST_MERCHANT_ID  = 'YOUR_PAYFAST_MERCHANT_ID';
@@ -1018,7 +1014,7 @@
                     existingUrl = url;
                     uploadMsg.style.display = 'none';
                     okMsg.style.display     = 'block';
-                    postMake(HOOK_STORY_PHOTO, { subscriberId: subscriberId, week: week, photoUrl: url });
+                    postMake(LIBRARY_UPDATE_URL, { type: 'story-photo', subscriberId: subscriberId, week: week, photoUrl: url });
                     btn.textContent = 'Replace photo';
                     // Update or add preview
                     var existing = sec.querySelector('.existing-photo');
@@ -1041,7 +1037,7 @@
                 clearTimeout(captionTimer);
                 captionMsg.textContent = '';
                 captionTimer = setTimeout(function() {
-                    postMake(HOOK_CAPTION, { subscriberId: subscriberId, week: week, caption: captionEl.value });
+                    postMake(LIBRARY_UPDATE_URL, { type: 'caption', subscriberId: subscriberId, week: week, caption: captionEl.value });
                     captionMsg.textContent = 'Saved';
                     setTimeout(function() { captionMsg.textContent = ''; }, 2000);
                 }, 1800);
@@ -1078,7 +1074,7 @@
                 btn.addEventListener('click', function() {
                     btns.forEach(function(b) { b.classList.remove('selected'); });
                     btn.classList.add('selected');
-                    postMake(HOOK_BOOK_TEXT, { subscriberId: subscriberId, fieldType: 'coverColour', value: btn.dataset.colour });
+                    postMake(LIBRARY_UPDATE_URL, { type: 'book-text', subscriberId: subscriberId, fieldType: 'coverColour', value: btn.dataset.colour });
                     msg.textContent = 'Saved';
                     setTimeout(function() { msg.textContent = ''; }, 2000);
                 });
@@ -1113,7 +1109,7 @@
                     existingUrl = url;
                     uploadMsg.style.display = 'none';
                     okMsg.style.display     = 'block';
-                    postMake(HOOK_BOOK_PHOTO, { subscriberId: subscriberId, fieldType: fieldType, photoUrl: url });
+                    postMake(LIBRARY_UPDATE_URL, { type: 'book-photo', subscriberId: subscriberId, fieldType: fieldType, photoUrl: url });
                     btn.textContent = 'Replace portrait';
                     if (existingEl.querySelector('img')) {
                         existingEl.querySelector('img').src = url;
@@ -1132,7 +1128,7 @@
                 clearTimeout(timer);
                 saved.textContent = '';
                 timer = setTimeout(function() {
-                    postMake(HOOK_BOOK_TEXT, { subscriberId: subscriberId, fieldType: fieldType, value: el.value });
+                    postMake(LIBRARY_UPDATE_URL, { type: 'book-text', subscriberId: subscriberId, fieldType: fieldType, value: el.value });
                     saved.textContent = 'Saved';
                     setTimeout(function() { saved.textContent = ''; }, 2000);
                 }, 1800);

@@ -40,6 +40,7 @@ exports.handler = async function(event) {
       const fieldMap = {
         bookTitle:       'BookTitle',
         dedication:      'DedicationText',
+        epigraph:        'EpigraphText',
         deliveryAddress: 'DeliveryAddress',
         deliveryPhone:   'DeliveryPhone',
         coverColour:     'CoverColour',

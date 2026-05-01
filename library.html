@@ -613,7 +613,7 @@
             <div class="book-prep">
                 <p class="book-prep-eyebrow">Your Legacy Book</p>
                 <h2 class="book-prep-heading">Preparing your book</h2>
-                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, choose your cover colour, write your dedication, and confirm your delivery address at any time.</p>
+                <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, choose your cover colour, write your dedication and epigraph, and confirm your delivery address at any time.</p>
 
                 <!-- PORTRAIT -->
                 <div class="book-field">
@@ -659,9 +659,16 @@
                 <!-- DEDICATION -->
                 <div class="book-field">
                     <p class="book-field-label">Dedication <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
-                    <p class="book-field-sub">A dedication opens your book with a few words to someone you love. In addition — or instead — you may include an epigraph: a short quotation, a line of poetry, or a phrase that captures the spirit of your stories. Both are optional.</p>
-                    <textarea id="dedicationText" placeholder="To my children and grandchildren, and all who come after them…" rows="4"></textarea>
+                    <p class="book-field-sub">A few words to someone you love. It opens the book before the stories begin.</p>
+                    <textarea id="dedicationText" placeholder="This book is dedicated to everyone I have known and loved in the long, complicated, ordinary miracle of a shared life." rows="4"></textarea>
                     <p class="field-saved-msg" id="dedicationSaved"></p>
+                </div>
+
+                <div class="book-field">
+                    <p class="book-field-label">Epigraph <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
+                    <p class="book-field-sub">A short quotation, a line of poetry, or a phrase that captures the spirit of your stories. It appears on its own page, just before your stories begin. Include the attribution on a second line.</p>
+                    <textarea id="epigraphText" placeholder='"Make up a story. For our sake and yours forget your name in the street; tell us what the world has been to you in the dark places and in the light. Don&#39;t tell us what to believe, what to fear. Show us belief&#39;s wide skirt and the stitch that unravels fear&#39;s caul."&#10;&#10;— Toni Morrison, Nobel Prize Lecture, 1993' rows="6"></textarea>
+                    <p class="field-saved-msg" id="epigraphSaved"></p>
                 </div>
 
                 <!-- DELIVERY ADDRESS -->
@@ -1056,10 +1063,12 @@
             if (f.BookTitle) document.getElementById('bookTitle').value = f.BookTitle;
 
             if (f.DedicationText)  document.getElementById('dedicationText').value  = f.DedicationText;
+            if (f.EpigraphText)    document.getElementById('epigraphText').value    = f.EpigraphText;
             if (f.DeliveryAddress) document.getElementById('deliveryAddress').value = f.DeliveryAddress;
 
             setupTextSave('bookTitle',      'bookTitleSaved',  'bookTitle');
             setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
+            setupTextSave('epigraphText',   'epigraphSaved',   'epigraph');
             setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
             setupCoverColour(f.CoverColour || '');

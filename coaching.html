@@ -55,7 +55,18 @@
     .narrow { max-width: 680px; margin-left: auto; margin-right: auto; }
     .section-eyebrow-gold { color: var(--gold); }
 
-    /* ─── Intro ───────────────────────────────────────────────────── */
+    /* ─── Tamara intro / photo ──────────────────────────────────── */
+    .tamara-intro-grid {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 64px;
+        align-items: start;
+    }
+    .tamara-photo img {
+        width: 100%;
+        display: block;
+        filter: grayscale(15%);
+    }
     .intro-text {
         font-family: var(--font-accent);
         font-size: clamp(1.15rem, 2vw, 1.35rem);
@@ -186,44 +197,56 @@
     }
 
     /* ─── CTA / Book ──────────────────────────────────────────────── */
-    .book-section {
-        background: var(--charcoal);
-        padding: var(--sec) var(--pad);
+    .coaching-cta-section {
+        background: var(--gold);
+        padding: calc(var(--sec) * 1.2) var(--pad);
         text-align: center;
     }
-    .book-section h2 {
+    .coaching-cta-section h2 {
         font-family: var(--font-head);
-        font-size: clamp(2rem, 4vw, 3rem);
+        font-size: clamp(2.2rem, 5vw, 3.6rem);
         font-weight: 300;
-        color: var(--cream);
+        color: #ffffff;
+        letter-spacing: -0.01em;
         margin-bottom: 16px;
     }
-    .book-section p {
-        color: rgba(247,245,242,0.65);
-        font-size: 1rem;
-        line-height: 1.8;
+    .coaching-cta-section .cta-sub {
+        font-family: var(--font-accent);
+        font-size: 1.1rem;
+        color: rgba(255,255,255,0.8);
         max-width: 480px;
-        margin: 0 auto 36px;
+        margin: 0 auto 40px;
+        line-height: 1.8;
         font-weight: 300;
     }
-    .calendly-placeholder {
+    .coaching-cta-btn {
         display: inline-block;
-        border: 1px solid rgba(184,151,106,0.5);
-        color: rgba(247,245,242,0.6);
+        background: var(--charcoal);
+        color: var(--cream);
         font-family: var(--font-body);
-        font-size: 11px;
-        letter-spacing: 0.15em;
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        padding: 14px 32px;
         text-decoration: none;
-        cursor: default;
+        padding: 22px 52px;
+        border-radius: 2px;
+        margin-bottom: 24px;
     }
+    .coaching-cta-detail {
+        font-size: 14px;
+        color: rgba(255,255,255,0.7);
+        margin: 0;
+    }
+    .coaching-cta-detail a { color: #ffffff; text-decoration: underline; }
 
     /* ─── Responsive ──────────────────────────────────────────────── */
     @media (max-width: 768px) {
         .options-grid { grid-template-columns: 1fr; gap: 20px; }
         .option-card { padding: 28px 20px; }
         .coaching-hero { padding-top: calc(var(--sec) + 60px); }
+        .tamara-intro-grid { grid-template-columns: 1fr; gap: 32px; }
+        .tamara-photo img { max-width: 220px; }
     }
     </style>
 </head>
@@ -264,14 +287,22 @@
 
 
     <!-- ════════════════════════════════════════════
-         INTRO
+         TAMARA INTRO + PHOTO
     ════════════════════════════════════════════ -->
     <section class="section section-white">
-        <div class="container narrow">
-            <span class="section-eyebrow">Who This Is For</span>
-            <div class="gold-rule"></div>
-            <p class="intro-text">For those who need extra help in crafting their stories, Tamara — the founder of 24 Stories — offers personal story coaching by arrangement.</p>
-            <p class="intro-text" style="margin-top: 24px;">You can choose a single coaching session, a bundle of four sessions, or a coaching session for each of your 24 chapters across 24 weeks.</p>
+        <div class="container">
+            <div class="tamara-intro-grid">
+                <div class="tamara-photo">
+                    <!-- Place tamara-portrait.jpg in the root folder -->
+                    <img src="tamara-portrait.jpg" alt="Tamara Rothbart, story coach" />
+                </div>
+                <div>
+                    <span class="section-eyebrow">Your Coach</span>
+                    <div class="gold-rule"></div>
+                    <p class="intro-text">Tamara Rothbart is the founder of 24 Stories. She offers personal story coaching for those who want extra support in crafting the stories they are here to tell.</p>
+                    <p class="intro-text" style="margin-top: 24px;">You can book a single session, a bundle of four, or a weekly session for each of your 24 chapters — one per week across the full programme.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -313,6 +344,19 @@
 
 
     <!-- ════════════════════════════════════════════
+         BOOK A SESSION — main CTA
+    ════════════════════════════════════════════ -->
+    <section class="coaching-cta-section">
+        <div class="container">
+            <h2>Write to Tamara</h2>
+            <p class="cta-sub">She arranges each session personally. Send a note to introduce yourself and she will be in touch.</p>
+            <a href="mailto:hello@24stories.co.za" class="coaching-cta-btn">hello@24stories.co.za</a>
+            <p class="coaching-cta-detail">or <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer">WhatsApp</a></p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
          HOW IT WORKS
     ════════════════════════════════════════════ -->
     <section class="section section-white">
@@ -326,21 +370,8 @@
             </ol>
 
             <div class="pricing-note">
-                <p>All sessions are conducted personally by Tamara. Availability is limited to ten new admissions per month. Early booking is recommended.</p>
+                <p>All sessions are conducted personally by Tamara.</p>
             </div>
-        </div>
-    </section>
-
-
-    <!-- ════════════════════════════════════════════
-         BOOK A SESSION
-    ════════════════════════════════════════════ -->
-    <section class="book-section">
-        <div class="container">
-            <h2>Book a Session</h2>
-            <p>Write directly to Tamara — founder of 24 Stories and principal coach — and she will arrange a time that suits you.</p>
-            <a href="mailto:hello@24stories.co.za" style="display:inline-block; background:var(--gold); color:#ffffff; font-family:var(--font-body); font-size:12px; font-weight:400; letter-spacing:0.14em; text-transform:uppercase; text-decoration:none; padding:18px 40px; border-radius:2px; margin-bottom:20px;">Write to Tamara</a>
-            <p style="margin-top: 4px; font-size: 14px; color: rgba(247,245,242,0.5);">hello@24stories.co.za &nbsp;·&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer" style="color: var(--gold);">WhatsApp</a></p>
         </div>
     </section>
 

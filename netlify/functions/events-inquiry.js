@@ -23,50 +23,23 @@ exports.handler = async function(event) {
   const AIRTABLE_BASE = 'apprTOobuxs4Od7XB';
   const LEADS_TABLE   = 'tbl4as6w4R2xoICpu';
   const AIRTABLE_PAT  = process.env.AIRTABLE_PAT;
-  const MJ_KEY        = process.env.MAILJET_API_KEY;
-  const MJ_SECRET     = process.env.MAILJET_API_SECRET;
 
-  // 1 — Save to Airtable Leads
+  // Save to Airtable Leads — Source flagged as Events or Storyteller Application interest
+  const source = storyteller === 'yes' ? 'Events — Storyteller Interest' : 'Events';
   const atRes = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${LEADS_TABLE}`, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${AIRTABLE_PAT}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ fields: { Name: name, Email: email, Source: 'Events' } })
+    body: JSON.stringify({ fields: { Name: name, Email: email, Source: source } })
   });
   if (!atRes.ok) {
     const err = await atRes.text();
     console.error('Airtable error:', err);
   }
 
-  // 2 — Send appropriate email
-  const isStoryteller = storyteller === 'yes';
-  const subject = isStoryteller
-    ? 'Telling a story at 24 Stories Live'
-    : 'You are on the list — 24 Stories Live';
-  const html = isStoryteller ? applyEmailHtml(name) : loopEmailHtml(name);
-
-  const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
-  const mjRes = await fetch('https://api.mailjet.com/v3.1/send', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Basic ${mjAuth}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      Messages: [{
-        From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        To:   [{ Email: email, Name: name }],
-        Subject: subject,
-        HTMLPart: html
-      }]
-    })
-  });
-  if (!mjRes.ok) {
-    const err = await mjRes.text();
-    console.error('Mailjet error:', err);
-  }
+  // No email fires. Email announcing event date/venue is sent manually by Tamara when confirmed.
 
   return {
     statusCode: 200,
@@ -82,99 +55,4 @@ function corsHeaders() {
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Content-Type': 'application/json'
   };
-}
-
-function emailShell(name, bodyRows) {
-  const greeting = `Hello${name ? ' ' + name : ''},`;
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="margin:0; padding:0; background:#F7F5F2; font-family:Georgia, 'Times New Roman', serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F7F5F2; padding:40px 20px;">
-    <tr>
-      <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; max-width:600px; width:100%;">
-
-          <tr>
-            <td align="center" style="padding:36px 48px 24px; border-bottom:1px solid #E8E4DF;">
-              <img src="https://24stories.co.za/logo.png" alt="24 Stories" width="220" style="width:220px; height:auto; display:block; margin:0 auto;">
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:44px 48px 0;">
-              <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">${greeting}</p>
-            </td>
-          </tr>
-
-          ${bodyRows}
-
-          <tr>
-            <td style="padding:0 48px;">
-              <div style="height:1px; background:#E8E4DF;"></div>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:32px 48px 44px;">
-              <p style="font-family:Georgia, serif; font-size:15px; color:#1A1A1A; margin:0 0 6px;">With warmth,</p>
-              <p style="font-family:Georgia, serif; font-size:15px; color:#1A1A1A; margin:0;">The 24 Stories Team</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center" style="padding:20px 48px 32px; background:#F7F5F2; border-top:1px solid #E8E4DF;">
-              <p style="font-family:Georgia, serif; font-size:13px; color:#888; margin:0; line-height:1.6;">
-                &copy; 2025 24 Stories &nbsp;&middot;&nbsp; 24stories.co.za &nbsp;&middot;&nbsp; Cape Town, South Africa
-              </p>
-            </td>
-          </tr>
-
-        </table>
-      </td>
-    </tr>
-  </table>
-</body>
-</html>`;
-}
-
-function loopEmailHtml(name) {
-  const body = `
-    <tr>
-      <td style="padding:0 48px 44px;">
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">Thank you for joining us. We will be in touch as soon as the next 24 Stories Live event is confirmed — theme, date, and venue included.</p>
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0;">All events take place in Cape Town. We look forward to seeing you there.</p>
-      </td>
-    </tr>
-  `;
-  return emailShell(name, body);
-}
-
-function applyEmailHtml(name) {
-  const body = `
-    <tr>
-      <td style="padding:0 48px 32px;">
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">We would love to hear your story.</p>
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">24 Stories Live storytellers speak from memory, in first person, about one specific moment. Five minutes. No notes. No acting. Just you and something true.</p>
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0;">When you are ready, you can apply here:</p>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" style="padding:8px 48px 32px;">
-        <a href="https://24stories.co.za/events-apply.html" target="_blank"
-           style="display:inline-block; background:#B8976A; color:#ffffff; font-family:Georgia, serif; font-size:14px; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; padding:16px 40px; border-radius:2px;">
-          Apply to Tell a Story
-        </a>
-      </td>
-    </tr>
-    <tr>
-      <td style="padding:0 48px 44px;">
-        <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0;">We read every application personally and will be in touch.</p>
-      </td>
-    </tr>
-  `;
-  return emailShell(name, body);
 }

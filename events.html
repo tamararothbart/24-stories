@@ -130,21 +130,35 @@
     .community-form input[type="text"],
     .community-form input[type="email"] {
         width: 100%;
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.12);
+        background: #ffffff;
+        border: 1px solid rgba(255,255,255,0.4);
         padding: 14px 18px;
         font-family: var(--font-body);
         font-size: 15px;
-        font-weight: 300;
-        color: var(--cream);
+        font-weight: 400;
+        color: var(--charcoal);
         outline: none;
         border-radius: 0;
         transition: border-color var(--dur) var(--ease);
         -webkit-appearance: none;
         appearance: none;
     }
-    .community-form input::placeholder { color: rgba(247,245,242,0.3); }
+    .community-form input::placeholder { color: #999; }
     .community-form input:focus { border-color: var(--gold); }
+    #mailingListBtn {
+        background: transparent;
+        border: 1px solid rgba(184,151,106,0.5);
+        color: rgba(247,245,242,0.75);
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 13px;
+        text-transform: none;
+        letter-spacing: 0;
+        line-height: 1.5;
+        padding: 14px 20px;
+        white-space: normal;
+    }
 
     .events-mobile-logo { display: none; }
     .footer-back-link { display: none; }
@@ -164,20 +178,6 @@
         #about { padding-bottom: 28px; }
         .section-cream { padding-top: 28px; }
         .community-section { padding-bottom: 24px; }
-        #mailingListBtn {
-            background: transparent;
-            border: 1px solid rgba(184,151,106,0.5);
-            color: rgba(247,245,242,0.75);
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-weight: 400;
-            font-size: 13px;
-            text-transform: none;
-            letter-spacing: 0;
-            line-height: 1.5;
-            padding: 14px 20px;
-            white-space: normal;
-        }
         .footer { padding-top: 24px; }
         .footer-logo { display: none; }
         .footer-this-page { display: none; }

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Story coaching with Tamara Rothbart, founder of 24 Stories. Individual sessions, four-session bundles, or weekly coaching across your full 24 chapters.">
+    <title>Story Coaching — 24 Stories</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ─── PAGE-SPECIFIC STYLES ──────────────────────────────────────── */
+
+    .coaching-hero {
+        background: var(--charcoal);
+        padding: calc(var(--sec) + 80px) var(--pad) var(--sec);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .coaching-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(184,151,106,0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .coaching-hero .eyebrow { color: var(--gold); margin-bottom: 20px; }
+    .coaching-hero h1 {
+        font-family: var(--font-head);
+        font-size: clamp(2.8rem, 6vw, 4.8rem);
+        font-weight: 300;
+        color: var(--cream);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+    }
+    .coaching-hero h1 em { color: var(--gold); font-style: italic; }
+    .coaching-hero .hero-sub {
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: rgba(247,245,242,0.65);
+        max-width: 560px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    /* ─── Sections ────────────────────────────────────────────────── */
+    .section { padding: var(--sec) var(--pad); }
+    .section-cream { background: var(--cream); }
+    .section-white { background: var(--white); }
+    .section-dark  { background: var(--charcoal); }
+    .narrow { max-width: 680px; margin-left: auto; margin-right: auto; }
+    .section-eyebrow-gold { color: var(--gold); }
+
+    /* ─── Intro ───────────────────────────────────────────────────── */
+    .intro-text {
+        font-family: var(--font-accent);
+        font-size: clamp(1.15rem, 2vw, 1.35rem);
+        line-height: 1.85;
+        color: var(--charcoal);
+        font-weight: 300;
+    }
+    .gold-rule {
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        margin: 36px 0;
+    }
+
+    /* ─── Options cards ───────────────────────────────────────────── */
+    .options-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+        margin-top: 48px;
+    }
+    .option-card {
+        border: 1px solid #D8D4CF;
+        padding: 36px 28px;
+        background: var(--white);
+        position: relative;
+    }
+    .option-card.featured {
+        border-color: var(--gold);
+        background: #FDFAF7;
+    }
+    .option-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--gold);
+        color: var(--white);
+        font-family: var(--font-body);
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        padding: 4px 14px;
+        white-space: nowrap;
+    }
+    .option-title {
+        font-family: var(--font-head);
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        margin-bottom: 12px;
+    }
+    .option-desc {
+        font-size: 15px;
+        color: #555;
+        line-height: 1.75;
+        margin-bottom: 24px;
+        font-weight: 300;
+    }
+    .option-price {
+        font-family: var(--font-accent);
+        font-size: 1.5rem;
+        color: var(--charcoal);
+        font-weight: 400;
+    }
+    .option-price-note {
+        font-size: 13px;
+        color: var(--gold);
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        margin-top: 6px;
+    }
+    .option-saving {
+        font-size: 13px;
+        color: #888;
+        margin-top: 4px;
+    }
+
+    /* ─── How it works ────────────────────────────────────────────── */
+    .coaching-steps {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        counter-reset: step;
+    }
+    .coaching-steps li {
+        counter-increment: step;
+        display: flex;
+        gap: 24px;
+        margin-bottom: 32px;
+        align-items: flex-start;
+    }
+    .coaching-steps li::before {
+        content: counter(step);
+        flex-shrink: 0;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        font-family: var(--font-accent);
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 2px;
+    }
+    .coaching-steps li p {
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--charcoal);
+        margin: 0;
+    }
+
+    /* ─── Pricing note ────────────────────────────────────────────── */
+    .pricing-note {
+        background: #F7F5F2;
+        border-left: 3px solid var(--gold);
+        padding: 20px 28px;
+        margin-top: 40px;
+    }
+    .pricing-note p {
+        font-family: var(--font-accent);
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--charcoal);
+        margin: 0;
+    }
+
+    /* ─── CTA / Book ──────────────────────────────────────────────── */
+    .book-section {
+        background: var(--charcoal);
+        padding: var(--sec) var(--pad);
+        text-align: center;
+    }
+    .book-section h2 {
+        font-family: var(--font-head);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 300;
+        color: var(--cream);
+        margin-bottom: 16px;
+    }
+    .book-section p {
+        color: rgba(247,245,242,0.65);
+        font-size: 1rem;
+        line-height: 1.8;
+        max-width: 480px;
+        margin: 0 auto 36px;
+        font-weight: 300;
+    }
+    .calendly-placeholder {
+        display: inline-block;
+        border: 1px solid rgba(184,151,106,0.5);
+        color: rgba(247,245,242,0.6);
+        font-family: var(--font-body);
+        font-size: 11px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 14px 32px;
+        text-decoration: none;
+        cursor: default;
+    }
+
+    /* ─── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+        .options-grid { grid-template-columns: 1fr; gap: 20px; }
+        .option-card { padding: 28px 20px; }
+        .coaching-hero { padding-top: calc(var(--sec) + 60px); }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════════
+         NAVIGATION
+    ════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="logo.png" alt="24 Stories" style="height:64px; width:auto; display:block;" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="index.html#how-it-works">How It Works</a>
+                <a href="index.html#pricing">Pricing</a>
+                <a href="coaching.html" style="color: var(--gold);">Coaching</a>
+                <a href="events.html">Live Events</a>
+                <a href="index.html#subscribe" class="btn btn-nav-cta">Get Started</a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- ════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════ -->
+    <section class="coaching-hero">
+        <div class="container">
+            <span class="eyebrow">24 Stories &nbsp;·&nbsp; Additional Services</span>
+            <h1>Story Coaching<br><em>for those who want</em><br><em>extra support.</em></h1>
+            <p class="hero-sub">A qualified story coach, available by arrangement. Ten new admissions a month.</p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         INTRO
+    ════════════════════════════════════════════ -->
+    <section class="section section-white">
+        <div class="container narrow">
+            <span class="section-eyebrow">Who This Is For</span>
+            <div class="gold-rule"></div>
+            <p class="intro-text">For those who need extra help in crafting their stories, Tamara — the founder of 24 Stories — offers personal story coaching by arrangement. She accepts ten new admissions a month.</p>
+            <p class="intro-text" style="margin-top: 24px;">You can choose a single coaching session, a bundle of four sessions, or a coaching session for each of your 24 chapters across 24 weeks.</p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         OPTIONS
+    ════════════════════════════════════════════ -->
+    <section class="section section-cream">
+        <div class="container">
+            <span class="section-eyebrow section-eyebrow-gold">Your Options</span>
+            <div class="options-grid">
+
+                <div class="option-card">
+                    <p class="option-title">Single Session</p>
+                    <p class="option-desc">One hour of personal coaching. A good way to try the process before committing to a bundle.</p>
+                    <p class="option-price">R650</p>
+                    <p class="option-price-note">per session</p>
+                </div>
+
+                <div class="option-card featured">
+                    <span class="option-badge">10% saving</span>
+                    <p class="option-title">Four-Session Bundle</p>
+                    <p class="option-desc">Four hours of coaching, used at your own pace across your story journey.</p>
+                    <p class="option-price">R2,340</p>
+                    <p class="option-price-note">R585 per session</p>
+                    <p class="option-saving">Was R2,600</p>
+                </div>
+
+                <div class="option-card">
+                    <span class="option-badge" style="background: var(--charcoal);">20% saving</span>
+                    <p class="option-title">24-Week Programme</p>
+                    <p class="option-desc">A coaching session for each of your 24 chapters — one session per week for the full duration.</p>
+                    <p class="option-price">R12,480</p>
+                    <p class="option-price-note">R520 per session</p>
+                    <p class="option-saving">Was R15,600</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         HOW IT WORKS
+    ════════════════════════════════════════════ -->
+    <section class="section section-white">
+        <div class="container narrow">
+            <span class="section-eyebrow">How It Works</span>
+            <div class="gold-rule"></div>
+            <ol class="coaching-steps">
+                <li><p>To get the most from each session, it helps to submit your story beforehand. That said, you are welcome to enter a session without a prepared story — it is entirely up to you.</p></li>
+                <li><p>We suggest booking a single session before deciding whether to commit to a four-session bundle or the full 24-week programme.</p></li>
+                <li><p>The hourly rate is <strong>R650</strong>. This includes a preparatory read of your story, provided it is submitted at least 24 hours before the session begins.</p></li>
+            </ol>
+
+            <div class="pricing-note">
+                <p>All sessions are conducted personally by Tamara. Availability is limited to ten new admissions per month. Early booking is recommended.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         BOOK A SESSION
+    ════════════════════════════════════════════ -->
+    <section class="book-section">
+        <div class="container">
+            <h2>Book a Session</h2>
+            <p>Use the link below to find a time that works for you. A preliminary session is the best place to start.</p>
+            <span class="calendly-placeholder">Booking Link Coming Soon</span>
+            <p style="margin-top: 24px; font-size: 14px;">Or write to us at <a href="mailto:hello@24stories.co.za" style="color: var(--gold);">hello@24stories.co.za</a></p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         GHOSTWRITING
+    ════════════════════════════════════════════ -->
+    <section style="background: #1A1A1A; padding: 64px 0;">
+        <div class="container" style="max-width: 580px; text-align: center;">
+            <p class="section-eyebrow" style="color: #B8976A;">Working on something larger?</p>
+            <p style="font-size: 17px; color: #888; line-height: 1.9; margin: 0 0 28px; font-family: Georgia, serif;">For those with a more complex story to tell — or who prefer to hand the process entirely to a writer — a private ghostwriting service is available by arrangement.</p>
+            <a href="mailto:hello@24stories.co.za" style="color: #B8976A; font-family: Georgia, serif; font-size: 16px; text-decoration: underline; letter-spacing: 0.02em;">Enquire by email &rarr;</a>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">24 Stories</p>
+                <p class="footer-tagline">The stories only they can tell.</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <p class="footer-col-title">The Service</p>
+                    <a href="index.html#how-it-works">How It Works</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="coaching.html">Coaching</a>
+                    <a href="events.html">Live Events</a>
+                </div>
+                <div>
+                    <p class="footer-col-title">Contact</p>
+                    <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>
+                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                    <a href="https://www.facebook.com/profile.php?id=61588941804554" target="_blank" rel="noopener noreferrer">Facebook</a>
+                </div>
+                <div>
+                    <p class="footer-col-title">Also from us</p>
+                    <a href="events.html">24 Stories Live Events</a>
+                    <a href="../lifelegacy-website/index.html">Life Legacy Stories</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 24 Stories — 24stories.co.za. All rights reserved. &nbsp;·&nbsp; <a href="terms.html" style="color:inherit; opacity:0.6;">Terms</a></p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>

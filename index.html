@@ -1231,11 +1231,7 @@
     <script>
     // ============================================================
     // RESEND LIBRARY LINK
-    // ⚠ Replace MAKE_WEBHOOK_URL below with the actual Make webhook
-    //   URL once the resend scenario is built. Until then the form
-    //   will fail gracefully and show the mailto fallback.
-    // ============================================================
-    const RESEND_WEBHOOK_URL = 'MAKE_WEBHOOK_URL_PLACEHOLDER';
+    const RESEND_WEBHOOK_URL = '/.netlify/functions/resend-library-link';
 
     document.getElementById('resendForm').addEventListener('submit', function (e) {
         e.preventDefault();

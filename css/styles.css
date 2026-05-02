@@ -2136,11 +2136,11 @@ h1.hero-heading, .hero-content h1 {
 }
 
 /* Steps — mobile swiper / desktop grid */
-.steps-mobile-only { display: none; }
+.steps-mobile-only { display: none !important; }
 
 @media (max-width: 768px) {
     .steps-desktop-only { display: none !important; }
-    .steps-mobile-only { display: block; }
+    .steps-mobile-only { display: block !important; }
 
     .steps-swiper {
         padding-bottom: 0;

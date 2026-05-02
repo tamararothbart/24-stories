@@ -2928,3 +2928,24 @@ h1.hero-heading, .hero-content h1 {
     margin-top: 10px;
     margin-bottom: 0;
 }
+
+/* ===================================
+   HERO — mobile layout adjustments
+   =================================== */
+@media (max-width: 768px) {
+    .hero {
+        min-height: auto;
+        padding-bottom: 48px;
+    }
+    .hero-content {
+        padding-bottom: 24px;
+    }
+    .hero .hero-actions {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+    }
+    .hero-price-note { display: none; }
+    .hero-scroll { display: none; }
+}

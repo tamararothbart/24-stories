@@ -186,7 +186,7 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
         <a href="${libUrl}" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
         <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#C0392B;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
       </div>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
       <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>
   </div>
@@ -207,7 +207,7 @@ function email2Html(giftGiverName, storytellerFirstName) {
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(storytellerFirstName)} has received a welcome. The first prompt arrives on Wednesday, and soon these stories will begin landing in the inboxes of those who will treasure them.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">When the final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — a lasting record of a life, shaped by the gift you have given.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
       <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>
   </div>
@@ -242,7 +242,7 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
         <a href="${libUrl}" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open the library &#8594;</a><br>
         <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#C0392B;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
       </div>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
       <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>
   </div>

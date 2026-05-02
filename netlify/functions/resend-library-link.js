@@ -88,76 +88,22 @@ function libraryLinkEmailHtml(name, libUrl) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-<body style="margin:0; padding:0; background:#F7F5F2; font-family:Georgia, 'Times New Roman', serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F7F5F2; padding:40px 20px;">
-    <tr>
-      <td align="center">
-        <table width="600" cellpadding="0" cellspacing="0" border="0" style="background:#ffffff; max-width:600px; width:100%;">
-
-          <tr>
-            <td align="center" style="padding:36px 48px 24px; border-bottom:1px solid #E8E4DF;">
-              <img src="https://24stories.co.za/logo.png" alt="24 Stories" width="220" style="width:220px; height:auto; display:block; margin:0 auto;">
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:44px 48px 0;">
-              <p style="font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">${greeting}</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:0 48px 32px;">
-              <p style="font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">Here is your personal Story Library link. Bookmark it — everything is here.</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:0 48px 8px;">
-              <p style="font-size:11px; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#B8976A; margin:0 0 12px;">Your Story Library</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center" style="padding:0 48px 12px;">
-              <a href="${libUrl}" target="_blank"
-                 style="display:inline-block; background:#B8976A; color:#ffffff; font-family:Georgia, serif; font-size:14px; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; padding:16px 40px; border-radius:2px;">
-                Open Your Library &rarr;
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center" style="padding:0 48px 36px;">
-              <p style="font-size:13px; color:#888; margin:12px 0 0; word-break:break-all;">${libUrl}</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:0 48px;">
-              <div style="height:1px; background:#E8E4DF;"></div>
-            </td>
-          </tr>
-
-          <tr>
-            <td style="padding:32px 48px 44px;">
-              <p style="font-size:15px; color:#1A1A1A; margin:0 0 6px;">With warmth,</p>
-              <p style="font-size:15px; color:#1A1A1A; margin:0;">The 24 Stories Team</p>
-            </td>
-          </tr>
-
-          <tr>
-            <td align="center" style="padding:20px 48px 32px; background:#F7F5F2; border-top:1px solid #E8E4DF;">
-              <p style="font-size:13px; color:#888; margin:0; line-height:1.6;">
-                &copy; 2026 24 Stories &nbsp;&middot;&nbsp; 24stories.co.za &nbsp;&middot;&nbsp; Cape Town, South Africa
-              </p>
-            </td>
-          </tr>
-
-        </table>
-      </td>
-    </tr>
-  </table>
+<body style="margin:0; padding:0; background:#E8E4DF; font-family:Georgia, 'Times New Roman', serif;">
+  <div style="max-width:640px; margin:40px auto; padding:0 20px 60px;">
+    <div style="background:#F7F5F2; padding:48px 40px; color:#1A1A1A;">
+      <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:40px;">
+      <p style="font-size:17px; line-height:1.9; margin:0 0 22px;">${greeting}</p>
+      <p style="font-size:17px; line-height:1.9; margin:0 0 36px;">Here is your personal Story Library link.</p>
+      <hr style="border:none; border-top:1px solid #D0CCC6; margin:36px 0;">
+      <div style="border-top:3px solid #B8976A; padding:28px 0 24px; margin:40px 0 32px;">
+        <p style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B8976A; font-weight:bold; margin:0 0 14px;">Your Story Library</p>
+        <a href="${libUrl}" style="display:inline-block; background:#B8976A; color:#ffffff; text-decoration:none; padding:15px 32px; font-size:16px; letter-spacing:0.03em; margin-bottom:14px;">Open Your Library &rarr;</a><br>
+        <p style="font-size:13px; color:#555; line-height:1.7; margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A; text-decoration:underline; word-break:break-all;">${libUrl}</a></p>
+      </div>
+      <p style="font-size:17px; line-height:1.9; margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A; font-size:17px;">The 24 Stories Team</strong></p>
+      <p style="font-size:15px; color:#444; line-height:1.8; margin:20px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A; text-decoration:underline;">hello@24stories.co.za</a></p>
+    </div>
+  </div>
 </body>
 </html>`;
 }

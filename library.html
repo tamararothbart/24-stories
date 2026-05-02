@@ -816,11 +816,10 @@
         // ============================================================
         // CONFIGURE BEFORE GO-LIVE — replace all placeholder values
         // ============================================================
-        var AIRTABLE_KEY      = 'patWwUjWox5ZRZudP.2e3f64188ca5f1003979391b7e978ce8e235abf';
-        var AIRTABLE_BASE     = 'apprTOobuxs4Od7XB';
         var CLOUDINARY_CLOUD  = 'dorv3glde';
         var CLOUDINARY_PRESET = '24stories';
 
+        var LIBRARY_READ_URL   = '/.netlify/functions/library-read';
         var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
         var APPROVE_STORY_URL  = '/.netlify/functions/approve-story';
         var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
@@ -831,11 +830,6 @@
         var PAYFAST_PASSPHRASE   = '';   // leave empty if no passphrase set in PayFast dashboard
         var PAYFAST_NOTIFY_URL   = 'YOUR_SCENARIO_12_WEBHOOK_URL';   // Make Scenario 12 webhook
 
-        // Airtable field name in Stories table that stores the parent Subscriber's record ID.
-        // Add a formula field in Stories: RECORD_ID() won't work on a linked field directly.
-        // Recommended: add a formula field called "SubscriberRecordID" = ARRAYJOIN({SubscriberID}, "")
-        // This will output the linked subscriber's Airtable record ID as plain text.
-        var STORIES_SUBSCRIBER_FIELD = 'SubscriberRecordID';
         // ============================================================
 
         var subscriberId = new URLSearchParams(window.location.search).get('id') || '';
@@ -906,36 +900,26 @@
             showState('library');
         }
 
-        function atFetch(path) {
-            return fetch('https://api.airtable.com/v0/' + AIRTABLE_BASE + path, {
-                headers: { Authorization: 'Bearer ' + AIRTABLE_KEY }
-            }).then(function(r) { return r.json(); });
-        }
-
         function loadLibrary() {
-            Promise.all([
-                atFetch('/Subscribers/' + subscriberId),
-                atFetch('/Stories?filterByFormula=' + encodeURIComponent('FIND("' + subscriberId + '",{' + STORIES_SUBSCRIBER_FIELD + '})') + '&maxRecords=26'),
-                atFetch('/Prompts?sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc&maxRecords=26')
-            ]).then(function(results) {
-                var sub     = results[0];
-                var stories = results[1];
-                var prompts = results[2];
+            fetch(LIBRARY_READ_URL + '?id=' + encodeURIComponent(subscriberId))
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var sub     = data.subscriber;
+                var stories = data.stories;
+                var prompts = data.prompts;
 
-                if (sub.error || !sub.fields) { showState('error'); return; }
+                if (!sub || sub.error || !sub.fields) { showState('error'); return; }
 
                 var f    = sub.fields;
                 var name = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
                 document.getElementById('headerName').textContent = name || '';
 
-                // Index stories by PromptNumber
                 var byWeek = {};
                 (stories.records || []).forEach(function(r) {
                     var wk = r.fields.PromptNumber;
                     if (wk) byWeek[wk] = r.fields;
                 });
 
-                // Index prompts by Week number
                 var promptsByWeek = {};
                 (prompts.records || []).forEach(function(r) {
                     var wk = r.fields.Week;
@@ -947,14 +931,12 @@
                 renderBookPrep(f);
                 showState('library');
 
-                // Auto-open the first card with no story yet
                 for (var w = 1; w <= 26; w++) {
                     if (getStatus(byWeek[w]) === 'empty') {
                         var card = document.getElementById('week-' + w);
                         if (card) { card.classList.add('open'); break; }
                     }
                 }
-
             }).catch(function() { showState('error'); });
         }
 

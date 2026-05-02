@@ -150,8 +150,8 @@ async function sendEmail(mjAuth, { to, subject, html }) {
 function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, storyHelperName, libUrl) {
   const isSelfSignup = !giftGiverEmail || giftGiverEmail.toLowerCase() === storytellerEmail.toLowerCase();
   const giftLine = isSelfSignup
-    ? '<p>You have given yourself a beautiful gift.</p>'
-    : `<p><strong>${esc(giftGiverName)}</strong> has given you a beautiful gift.</p>`;
+    ? '<p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have given yourself a beautiful gift.</p>'
+    : `<p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(giftGiverName)} has given you a beautiful gift.</p>`;
 
   const helperSection = storyHelperName ? `
     <hr style="border:none; border-top:1px solid #D0CCC6; margin:36px 0;">
@@ -164,8 +164,8 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
 <body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
   <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
     <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
-      <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+      <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
       ${giftLine}
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Each week, a gentle prompt will arrive to help you recall and record a piece of your life. Share it as spoken words or written text — whatever feels natural — and we'll send it directly to the people who will treasure them.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have a week to respond to each prompt. Don't overthink it. The best stories aren't polished — they're true. Speak as if you're sitting across the table from someone you love.</p>

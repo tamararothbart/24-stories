@@ -561,6 +561,93 @@
 
         .library-footer a { color: var(--gold); }
 
+        /* ---- ADMIN ACTIONS (Tamara only) ---- */
+        .admin-action {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .admin-action-label {
+            font-size: 0.58rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+
+        .btn-send-family {
+            background: none;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 10px 20px;
+            font-family: var(--font-body);
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-send-family:hover:not(:disabled) { background: var(--gold); color: var(--white); }
+        .btn-send-family:disabled { opacity: 0.5; cursor: default; }
+
+        .send-family-msg {
+            font-size: 0.78rem;
+            margin-top: 8px;
+            min-height: 1.2em;
+        }
+
+        .book-dispatch-section {
+            margin-top: 40px;
+            padding-top: 32px;
+            border-top: 1px dashed var(--border);
+        }
+
+        .book-dispatch-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .book-dispatch-date {
+            border: 1px solid var(--border);
+            padding: 10px 14px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--charcoal);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .book-dispatch-date:focus { border-color: var(--gold); }
+
+        .btn-book-dispatch {
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: 12px 24px;
+            font-family: var(--font-body);
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-book-dispatch:hover:not(:disabled) { background: var(--gold); }
+        .btn-book-dispatch:disabled { opacity: 0.5; cursor: default; }
+
+        .book-dispatch-msg {
+            font-size: 0.78rem;
+            min-height: 1.2em;
+        }
+
         /* ---- RESPONSIVE ---- */
         @media (max-width: 600px) {
             .library-header { padding: 14px 20px; }
@@ -703,6 +790,18 @@
                 </div>
 
 
+                <!-- BOOK DISPATCH — Tamara only -->
+                <div class="book-dispatch-section">
+                    <p class="admin-action-label">Tamara — book production</p>
+                    <p class="book-field-label">Mark as sent to print</p>
+                    <p class="book-field-sub">Enter the date the book file was sent to the printer. This triggers the delivery confirmation email (email-12) to the subscriber.</p>
+                    <div class="book-dispatch-row">
+                        <input type="date" class="book-dispatch-date" id="bookDispatchDate">
+                        <button class="btn-book-dispatch" id="btnBookDispatch" type="button">Mark as sent to print</button>
+                    </div>
+                    <p class="book-dispatch-msg" id="bookDispatchMsg"></p>
+                </div>
+
             </div><!-- /book-prep -->
 
         </div><!-- /library-body -->
@@ -723,6 +822,8 @@
         var CLOUDINARY_PRESET = '24stories';
 
         var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
+        var APPROVE_STORY_URL  = '/.netlify/functions/approve-story';
+        var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
 
         // PayFast — extra copies order (replace placeholders before go-live)
         var PAYFAST_MERCHANT_ID  = 'YOUR_PAYFAST_MERCHANT_ID';
@@ -961,6 +1062,54 @@
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +
                     '<p class="edited-text">' + esc(story.EditedText) + '</p>';
+
+                // Admin section — Tamara: send edited story to storyteller + family
+                var adminDiv = document.createElement('div');
+                adminDiv.className = 'admin-action';
+                adminDiv.innerHTML = '<p class="admin-action-label">Tamara — send to family</p>';
+
+                var btnSend = document.createElement('button');
+                btnSend.className = 'btn-send-family';
+                btnSend.type = 'button';
+                btnSend.textContent = 'Send to Family';
+
+                var sendMsg = document.createElement('p');
+                sendMsg.className = 'send-family-msg';
+
+                (function(w, s) {
+                    btnSend.addEventListener('click', function() {
+                        if (!confirm('Send week ' + w + ' to the storyteller and family now?')) return;
+                        btnSend.disabled = true;
+                        btnSend.textContent = 'Sending…';
+                        fetch(APPROVE_STORY_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                subscriberId: subscriberId,
+                                weekNumber: w,
+                                editedText: s.EditedText,
+                                storyImageURL: s.StoryImageURL || '',
+                                caption: s.StoryImageCaption || ''
+                            })
+                        })
+                        .then(function(r) { return r.json(); })
+                        .then(function() {
+                            btnSend.textContent = 'Sent';
+                            sendMsg.style.color = 'var(--green)';
+                            sendMsg.textContent = 'Story delivered to storyteller and family.';
+                        })
+                        .catch(function() {
+                            btnSend.disabled = false;
+                            btnSend.textContent = 'Send to Family';
+                            sendMsg.style.color = 'var(--red)';
+                            sendMsg.textContent = 'Error — please try again.';
+                        });
+                    });
+                })(week, story);
+
+                adminDiv.appendChild(btnSend);
+                adminDiv.appendChild(sendMsg);
+                div.appendChild(adminDiv);
             }
             return div;
         }
@@ -1073,6 +1222,7 @@
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
             setupCoverColour(f.CoverColour || '');
             setupExtraCopies();
+            setupBookDispatch(f);
         }
 
         function setupCoverColour(saved) {
@@ -1232,6 +1382,48 @@
                 btn.disabled = true;
                 btn.textContent = 'Redirecting to PayFast\u2026';
                 form.submit();
+            });
+        }
+
+        // ---- BOOK DISPATCH ----
+        function setupBookDispatch(f) {
+            var dateInput = document.getElementById('bookDispatchDate');
+            var btn       = document.getElementById('btnBookDispatch');
+            var msgEl     = document.getElementById('bookDispatchMsg');
+
+            if (f.BookSentToPrintDate) {
+                dateInput.value     = f.BookSentToPrintDate;
+                btn.textContent     = 'Update sent to print date';
+            }
+
+            btn.addEventListener('click', function() {
+                var date = dateInput.value;
+                if (!date) {
+                    msgEl.style.color = 'var(--red)';
+                    msgEl.textContent = 'Please enter a date.';
+                    return;
+                }
+                if (!confirm('Mark book as sent to print on ' + date + '? This sends email-12 to the subscriber.')) return;
+                btn.disabled    = true;
+                btn.textContent = 'Saving…';
+                fetch(BOOK_DISPATCH_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriberId: subscriberId, bookSentToPrintDate: date })
+                })
+                .then(function(r) { return r.json(); })
+                .then(function() {
+                    btn.disabled    = false;
+                    btn.textContent = 'Update sent to print date';
+                    msgEl.style.color = 'var(--green)';
+                    msgEl.textContent = 'Saved. Email-12 sent to subscriber.';
+                })
+                .catch(function() {
+                    btn.disabled    = false;
+                    btn.textContent = f.BookSentToPrintDate ? 'Update sent to print date' : 'Mark as sent to print';
+                    msgEl.style.color = 'var(--red)';
+                    msgEl.textContent = 'Error — please try again.';
+                });
             });
         }
 

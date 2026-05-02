@@ -626,7 +626,7 @@
     </div>
 
     <script>
-        var MAKE_WEBHOOK_URL = 'https://hook.eu1.make.com/h002hbcjgl8nno7hfvnas27404xhderf';
+        var STORY_SUBMIT_URL = '/.netlify/functions/story-submission';
         var CLOUDINARY_CLOUD = 'dorv3glde';
         var CLOUDINARY_PRESET = '24stories';
 
@@ -1022,7 +1022,7 @@
             btn.textContent = 'Sending...';
             document.getElementById('errorMsg').classList.remove('visible');
 
-            fetch(MAKE_WEBHOOK_URL, {
+            fetch(STORY_SUBMIT_URL, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -1032,6 +1032,7 @@
                     audioURL:     audioURL || '',
                     imageURL:     imageURL || '',
                     caption:      document.getElementById('captionText').value.trim(),
+                    weekTheme:    theme || '',
                     submittedAt:  new Date().toISOString()
                 })
             })

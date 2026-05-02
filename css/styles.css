@@ -2239,6 +2239,70 @@ h1.hero-heading, .hero-content h1 {
     }
 }
 
+/* Testimonials — mobile swiper / desktop grid */
+.testi-mobile-only { display: none !important; }
+
+@media (max-width: 768px) {
+    .testi-desktop-only { display: none !important; }
+    .testi-mobile-only { display: block !important; }
+
+    .testi-swiper {
+        position: relative;
+        padding: 0 40px 48px;
+    }
+
+    .testi-swiper .testi {
+        height: auto;
+        padding: 28px 20px;
+        background: var(--cream);
+        border: 1px solid var(--border);
+    }
+
+    .testi-pagination {
+        bottom: 16px;
+    }
+
+    .testi-pagination .swiper-pagination-bullet {
+        background: var(--gold);
+        opacity: 0.4;
+        width: 7px;
+        height: 7px;
+    }
+
+    .testi-pagination .swiper-pagination-bullet-active {
+        opacity: 1;
+    }
+
+    .testi-prev,
+    .testi-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 36px !important;
+        height: 36px !important;
+        background: var(--gold) !important;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+    }
+    .testi-prev { left: 0; }
+    .testi-next { right: 0; }
+    .testi-prev::after,
+    .testi-next::after {
+        font-family: swiper-icons;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+    }
+    .testi-prev::after { content: 'prev'; }
+    .testi-next::after { content: 'next'; }
+    .testi-prev.swiper-button-disabled,
+    .testi-next.swiper-button-disabled { opacity: 0.25; }
+}
+
 @media (max-width: 768px) {
     .embedded-prompts { display: none; }
     .book-cta-row { flex-direction: column; align-items: flex-start; }

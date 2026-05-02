@@ -172,8 +172,8 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These weekly gifts will land in your family and friends' inboxes — eagerly awaited, deeply cherished.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives today — look out for a second email from us shortly.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no rush. Read the prompt, let a memory surface, and come back when you're ready. The link embedded in this email works all week — you don't need to record the moment it arrives.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday — look out for an email from us then.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no rush. Read the prompt, let a memory surface, and come back when you're ready. The link works all week — you don't need to respond the moment it arrives.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order. It is also where you complete the details for your Legacy Book.</p>

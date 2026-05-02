@@ -94,10 +94,9 @@ function libraryLinkEmailHtml(name, libUrl) {
       <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:40px;">
       <p style="font-size:17px; line-height:1.9; margin:0 0 22px;">${greeting}</p>
       <p style="font-size:17px; line-height:1.9; margin:0 0 36px;">Here is your personal Story Library link.</p>
-      <div style="border-top:3px solid #B8976A; padding:28px 0 24px; margin:40px 0 32px;">
-        <p style="font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#B8976A; font-weight:bold; margin:0 0 14px;">Your Story Library</p>
+      <div style="margin:0 0 32px;">
         <a href="${libUrl}" style="display:inline-block; background:#B8976A; color:#ffffff; text-decoration:none; padding:15px 32px; font-size:16px; letter-spacing:0.03em; margin-bottom:14px;">Open Your Library &rarr;</a><br>
-        <p style="font-size:13px; color:#555; line-height:1.7; margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A; text-decoration:underline; word-break:break-all;">${libUrl}</a></p>
+        <p style="font-size:13px; color:#555; line-height:1.7; margin:4px 0 0;"><a href="${libUrl}" style="color:#555; text-decoration:none; word-break:break-all;">${libUrl}</a></p>
       </div>
       <p style="font-size:17px; line-height:1.9; margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A; font-size:17px;">The 24 Stories Team</strong></p>
     </div>

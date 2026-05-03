@@ -2138,6 +2138,14 @@ h1.hero-heading, .hero-content h1 {
 /* Steps — mobile swiper / desktop grid */
 .steps-mobile-only { display: none !important; }
 
+/* Kill all pagination inside steps swiper, regardless of source */
+.steps-swiper .swiper-pagination,
+.steps-swiper .swiper-pagination-bullet,
+.steps-pagination,
+.steps-pagination .swiper-pagination-bullet {
+    display: none !important;
+}
+
 @media (max-width: 768px) {
     .steps-desktop-only { display: none !important; }
     .steps-mobile-only { display: block !important; }
@@ -3001,9 +3009,9 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .crux-body {
-    font-size: clamp(1.1rem, 4vw, 1.25rem);
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
     color: var(--charcoal);
-    line-height: 1.85;
+    line-height: 1.7;
     max-width: 640px;
     font-style: italic;
     font-family: 'Cormorant Garamond', Georgia, serif;

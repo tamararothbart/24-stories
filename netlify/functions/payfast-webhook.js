@@ -156,7 +156,8 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
   const helperSection = storyHelperName ? `
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px 0;">Your Story Helper</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;"><strong>${esc(storyHelperName)}</strong> is your designated helper. They have been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>` : '';
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;"><strong>${esc(storyHelperName)}</strong> is your designated helper.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your helper has been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">

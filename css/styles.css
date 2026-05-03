@@ -3081,7 +3081,7 @@ h1.hero-heading, .hero-content h1 {
 .hero-split {
     display: flex;
     align-items: center;
-    gap: 56px;
+    gap: 48px;
     padding-top: 40px;
     padding-bottom: 80px;
     width: 100%;
@@ -3090,8 +3090,8 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .hero-split .hero-content {
-    flex: 0 0 420px;
-    max-width: 420px;
+    flex: 0 0 480px;
+    max-width: 480px;
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -3102,26 +3102,45 @@ h1.hero-heading, .hero-content h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 14px;
     z-index: 2;
 }
 
-.hero-book-panel .bex-spread {
+/* Wrapper allows absolute cover corner positioning */
+.hero-spread-wrap {
+    position: relative;
+    display: inline-block;
+}
+
+.hero-spread-wrap .bex-spread {
     box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 4px 14px rgba(0,0,0,0.35);
 }
 
 .hero-book-panel .bex-slot.book-swiper {
-    width: 330px;
-    height: 410px;
+    width: 300px;
+    height: 373px;
 }
 
 .hero-book-panel .bex-slot.book-swiper .page-inner {
-    transform: scale(0.485);
+    transform: scale(0.441);
+}
+
+/* Blue cover — bleeds off bottom-left corner of spread */
+.hero-cover-corner {
+    position: absolute;
+    bottom: -22px;
+    left: -18px;
+    width: 118px;
+    height: auto;
+    transform: rotate(-7deg);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+    z-index: 10;
+    pointer-events: none;
 }
 
 .hero-book-panel .bex-attribution {
     color: rgba(255,255,255,0.55);
-    margin-top: 4px;
+    margin-top: 8px;
 }
 
 @media (max-width: 768px) {

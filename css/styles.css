@@ -3143,6 +3143,37 @@ h1.hero-heading, .hero-content h1 {
     margin-top: 8px;
 }
 
+/* Cream hero — hide dark photo, warm background */
+.hero { background: #F5EDE0; }
+.hero .hero-img-bg,
+.hero .hero-overlay { display: none !important; }
+
+/* Text colours on cream */
+.hero-split .hero-content h1,
+.hero-split .hero-content .hero-sub,
+.hero-split .hero-content .hero-quote { color: #1A1A1A; text-shadow: none; }
+.hero-split .hero-content .hero-quote-attr { color: #1A1A1A; }
+.hero-split .hero-content .hero-price-note { color: #555; }
+
+/* Vivid gold on cream */
+.hero-split .eyebrow { color: #A05800; }
+
+/* Ghost button — charcoal on cream */
+.hero-split .btn-ghost {
+    color: #1A1A1A;
+    border-color: #1A1A1A;
+}
+.hero-split .btn-ghost:hover {
+    background: #1A1A1A;
+    color: #fff;
+}
+
+/* White book pages so they lift off the cream background */
+.hero-book-panel .bex-slot.book-swiper { background: #ffffff; }
+
+/* Scroll indicator — hide on cream bg */
+.hero .hero-scroll { display: none; }
+
 @media (max-width: 768px) {
     .hero-split { display: block; }
     .hero-split .hero-content { max-width: 100%; }

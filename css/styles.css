@@ -2935,17 +2935,46 @@ h1.hero-heading, .hero-content h1 {
 @media (max-width: 768px) {
     .hero {
         min-height: auto;
-        padding-bottom: 48px;
+        padding-bottom: 40px;
+        background: #fff;
     }
+    .hero-img-bg,
+    .hero-overlay {
+        display: none;
+    }
+    .hero .eyebrow { color: var(--gold); }
+    .hero-content h1 {
+        color: var(--charcoal);
+        text-shadow: none;
+    }
+    .hero-sub { color: #444; }
+    .hero-quote {
+        color: var(--charcoal);
+        text-shadow: none;
+    }
+    .hero-quote-attr { color: #666; }
     .hero-content {
-        padding-bottom: 24px;
+        padding-bottom: 16px;
     }
     .hero .hero-actions {
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 10px;
         align-items: center;
     }
+    .hero .hero-actions .btn-primary {
+        background: transparent;
+        color: var(--charcoal);
+        border-color: var(--charcoal);
+    }
+    .hero .hero-actions .btn-ghost {
+        color: var(--charcoal);
+        border-color: var(--charcoal);
+    }
+    .btn-lg { padding: 14px 24px; }
+    .btn-price-tag { display: none; }
     .hero-price-note { display: none; }
     .hero-scroll { display: none; }
+    .concept-strip { padding: 20px 0; }
+    .founder-video-section { padding: 32px 0; }
 }

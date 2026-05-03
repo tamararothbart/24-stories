@@ -154,9 +154,9 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
     : `<p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(giftGiverName)} has given you a beautiful gift.</p>`;
 
   const helperSection = storyHelperName ? `
-    <hr style="border:none; border-top:1px solid #D0CCC6; margin:36px 0;">
-    <p style="font-size:14px; letter-spacing:0.12em; text-transform:uppercase; color:#B8976A; font-weight:bold; margin:0 0 24px 0;">Your Story Helper</p>
-    <p><strong>${esc(storyHelperName)}</strong> is your designated helper. They have been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>` : '';
+      <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+      <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px 0;">Your Story Helper</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;"><strong>${esc(storyHelperName)}</strong> is your designated helper. They have been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>` : '';
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -167,25 +167,29 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
       ${giftLine}
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Each week, a gentle prompt will arrive to help you recall and record a piece of your life. Share it as spoken words or written text — whatever feels natural — and we'll send it directly to the people who will treasure them.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have a week to respond to each prompt. Don't overthink it. The best stories aren't polished — they're true. Speak as if you're sitting across the table from someone you love.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Each week, a gentle prompt will arrive to help you recall and record a piece of your life. Share it as spoken words or written text — whatever feels natural — and we'll send it directly to the people who will treasure it.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have a week to respond to each prompt. The best stories aren't polished — they're true. Speak as if you're sitting across the table from someone you love.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These weekly gifts will land in your family and friends' inboxes — eagerly awaited, deeply cherished.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+      <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">How it works</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each prompt leads to one chapter.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;"><strong>Each chapter is intended as a self-contained story.</strong></p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each story can be as long or as short as you like — a family joke or an epic chronicle of your career.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">The stories do not need to be told in chronological order from childhood to later years. Tell them as the memories surface.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You can ignore the prompts and tell whatever story you wish to record on the day. 24 Stories is designed to simply give you the space, place, and time to start telling your loved ones who you are.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The finished product, your collected stories, will be more than the sum of its parts.</p>
+      <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday — look out for an email from us then.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no rush. Read the prompt, let a memory surface, and come back when you're ready. The link works all week — you don't need to respond the moment it arrives.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives today — look out for a second email from us shortly.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no rush. Read the prompt, let a memory surface, and come back when you're ready. The link embedded in this email works all week — you don't need to record the moment it arrives.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order. It is also where you complete the details for your Legacy Book.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library link is in every email from us — <span style="color:#C0392B;font-weight:bold;">see below</span>. Save it somewhere safe. You can use it on any device, at any time.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order. Your library is where you return to fill gaps — a missed prompt, a missing image. It is also where you complete the details for your Legacy Book. You can do so any time before the end of week 26.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your library link is in every email from us. If you lose it, visit <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">www.24stories.co.za</a> and request the link.</p>
+      <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
       ${helperSection}
       <p style="font-size:16px;font-style:italic;color:#5C4A30;line-height:1.9;margin:36px 0 22px;">When your final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — yours to hold, share, and keep for generations.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-      <div style="border-top:3px solid #C0392B;padding:28px 0 24px;margin:40px 0 32px;">
-        <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#C0392B;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
-        <a href="${libUrl}" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
-        <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#C0392B;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
-      </div>
       <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
       <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>

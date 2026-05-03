@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="24 stories. One life. A gift your family will treasure forever. 26 weekly prompts, professional editing, stories shared with your whole family, and one beautifully printed Legacy Book — delivered to your door.">
     <title>24 Stories — One Story a Week. A Lifetime Preserved.</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260503f">
+    <link rel="stylesheet" href="css/styles.css?v=20260503g">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -348,8 +348,6 @@
                     </div>
 
                 </div>
-                <div class="swiper-button-prev steps-prev"></div>
-                <div class="swiper-button-next steps-next"></div>
             </div>
 
             <!-- Embedded sample prompts -->
@@ -1345,8 +1343,9 @@
         new Swiper('#stepsSwiper', {
             slidesPerView: 1,
             spaceBetween: 24,
-            navigation: { nextEl: '.steps-next', prevEl: '.steps-prev' },
+            pagination: false,
         });
+        document.querySelectorAll('#stepsSwiper .swiper-pagination, #stepsSwiper .swiper-pagination-bullet').forEach(function(el){ el.remove(); });
         new Swiper('#testiSwiper', {
             slidesPerView: 1,
             spaceBetween: 24,

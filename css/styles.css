@@ -150,6 +150,7 @@ strong { font-weight: 500; color: var(--charcoal); }
 .btn-lg  { padding: 18px 56px; font-size: 13px; }
 .btn-nav { padding: 11px 28px; font-size: 12px; }
 .btn-block { display: block; width: 100%; }
+.btn-price-tag { display: none; }
 
 .btn-nav-cta {
     display: inline-block;

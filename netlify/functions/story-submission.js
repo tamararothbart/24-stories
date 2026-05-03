@@ -81,6 +81,42 @@ exports.handler = async function(event) {
     return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Story save failed' }) };
   }
 
+  // Alert Tamara
+  try {
+    const subRes = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`,
+      { headers: { 'Authorization': `Bearer ${PAT}` } }
+    );
+    const subData = subRes.ok ? await subRes.json() : {};
+    const firstName = (subData.fields || {}).StorytellerFirstName || '';
+    const surname   = (subData.fields || {}).StorytellerSurname   || '';
+    const name      = [firstName, surname].filter(Boolean).join(' ') || subscriberId;
+
+    const MJ_KEY    = process.env.MAILJET_API_KEY;
+    const MJ_SECRET = process.env.MAILJET_API_SECRET;
+    const mjAuth    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+    const preview   = storyText.length > 400 ? storyText.slice(0, 400) + '…' : storyText;
+    const alertHtml = `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;">
+      <strong>${name}</strong> has submitted their Week ${weekNumber} story.</p>
+      <p style="font-family:Georgia,serif;font-size:15px;line-height:1.9;color:#333;white-space:pre-wrap;">${preview}</p>
+      <p style="font-family:Georgia,serif;font-size:14px;color:#888;">Open Airtable to edit and approve.</p>`;
+
+    await fetch('https://api.mailjet.com/v3.1/send', {
+      method: 'POST',
+      headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        Messages: [{
+          From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+          To:      [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }],
+          Subject: `New story — ${name} — Week ${weekNumber}`,
+          HTMLPart: alertHtml
+        }]
+      })
+    });
+  } catch (e) {
+    console.error('Alert email failed:', e.message);
+  }
+
   return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ success: true }) };
 };
 

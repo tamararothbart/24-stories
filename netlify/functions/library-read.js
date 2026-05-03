@@ -12,7 +12,7 @@ exports.handler = async function(event) {
   const PAT  = process.env.AIRTABLE_PAT;
   const hdrs = { 'Authorization': `Bearer ${PAT}` };
 
-  const storiesFormula = encodeURIComponent(`FIND("${subscriberId}",{SubscriberRecordID})`);
+  const storiesFormula = encodeURIComponent(`FIND("${subscriberId}",ARRAYJOIN({SubscriberID}))`);
   const promptsSort    = 'sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc';
 
   const [subRes, storiesRes, promptsRes] = await Promise.all([

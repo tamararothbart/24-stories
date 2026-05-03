@@ -604,7 +604,7 @@
                 <textarea id="captionText" placeholder="Who is in this photo? Where and when was it taken?" rows="3"></textarea>
             </div>
             <p class="photo-uploading" id="photoUploading">Uploading photo...</p>
-            <p style="font-size: 0.85rem; color: #888; line-height: 1.7; margin: 14px 0 0 0; font-style: italic;">No image on hand right now? You can add a photograph and caption at any time by visiting <a href="[LibraryURL]" style="color: var(--gold); text-decoration: underline;">your Story Library</a>.</p>
+            <p style="font-size: 0.85rem; color: #888; line-height: 1.7; margin: 14px 0 0 0; font-style: italic;">No image on hand right now? You can add a photograph and caption at any time by visiting <a id="libraryLink" href="#" style="color: var(--gold); text-decoration: underline;">your Story Library</a>.</p>
         </div>
 
         <div class="submit-section">
@@ -641,6 +641,10 @@
         var weekLabelText = 'Week ' + weekNumber;
         if (weekName) weekLabelText += ' — ' + weekName;
         document.getElementById('weekLabel').textContent = weekLabelText;
+
+        if (subscriberId) {
+            document.getElementById('libraryLink').href = 'https://24stories.co.za/library.html?id=' + subscriberId;
+        }
         document.getElementById('promptText').textContent = promptText;
 
         var altHtml = '';

@@ -3171,6 +3171,12 @@ h1.hero-heading, .hero-content h1 {
 /* White book pages so they lift off the cream background */
 .hero-book-panel .bex-slot.book-swiper { background: #ffffff; }
 
+/* Cream mat — equal border around photo on all sides */
+.hero-book-panel .photo-page-inner {
+    background: #F5EDE0;
+    padding: 28px;
+}
+
 /* Scroll indicator — hide on cream bg */
 .hero .hero-scroll { display: none; }
 

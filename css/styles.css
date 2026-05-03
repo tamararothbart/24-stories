@@ -2982,12 +2982,12 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .crux-label {
-    font-size: 11px;
-    letter-spacing: 0.14em;
+    font-size: 16px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--gold);
-    font-family: var(--font-body);
-    font-weight: 400;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
     margin-bottom: 18px;
 }
 
@@ -3001,8 +3001,8 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .crux-body {
-    font-size: clamp(1rem, 3.5vw, 1.1rem);
-    color: #555;
+    font-size: clamp(1.1rem, 4vw, 1.25rem);
+    color: var(--charcoal);
     line-height: 1.85;
     max-width: 640px;
     font-style: italic;

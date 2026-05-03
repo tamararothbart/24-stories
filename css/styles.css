@@ -3177,6 +3177,12 @@ h1.hero-heading, .hero-content h1 {
     padding: 28px;
 }
 
+/* Larger caption — legible at hero scale */
+.hero-book-panel .bex-slot .caption {
+    font-size: 22px;
+    line-height: 30px;
+}
+
 /* Scroll indicator — hide on cream bg */
 .hero .hero-scroll { display: none; }
 

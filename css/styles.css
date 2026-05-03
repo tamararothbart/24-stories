@@ -2189,15 +2189,9 @@ h1.hero-heading, .hero-content h1 {
         max-width: 320px;
     }
 
-    /* Pagination dots — outside swiper, in normal flow */
+    /* Pagination dots — hidden */
     .steps-pagination {
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        transform: none !important;
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 32px;
+        display: none !important;
     }
     .steps-pagination .swiper-pagination-bullet {
         width: 10px;
@@ -2977,4 +2971,44 @@ h1.hero-heading, .hero-content h1 {
     .hero-scroll { display: none; }
     .concept-strip { padding: 20px 0; }
     .founder-video-section { padding: 32px 0; }
+}
+
+/* ===================================
+   CRUX SECTION — mobile only (desktop TBD)
+   =================================== */
+.crux-section {
+    background: var(--cream);
+    padding: 40px 0;
+}
+
+.crux-label {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-family: var(--font-body);
+    font-weight: 400;
+    margin-bottom: 18px;
+}
+
+.crux-headline {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
+    font-weight: 400;
+    color: var(--charcoal);
+    line-height: 1.55;
+    margin-bottom: 18px;
+}
+
+.crux-body {
+    font-size: clamp(1rem, 3.5vw, 1.1rem);
+    color: #555;
+    line-height: 1.85;
+    max-width: 640px;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+@media (min-width: 769px) {
+    .crux-section { display: none; }
 }

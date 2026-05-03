@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="24 stories. One life. A gift your family will treasure forever. 26 weekly prompts, professional editing, stories shared with your whole family, and one beautifully printed Legacy Book — delivered to your door.">
     <title>24 Stories — One Story a Week. A Lifetime Preserved.</title>
-    <link rel="stylesheet" href="css/styles.css?v=20260503h">
+    <link rel="stylesheet" href="css/styles.css?v=20260503i">
     <style>
         .steps-pagination,.steps-swiper .swiper-pagination,.steps-swiper .swiper-pagination-bullet{display:none!important;height:0!important;overflow:hidden!important;}
         .steps-swiper{margin-top:28px!important;}
@@ -154,37 +154,45 @@
          ============================================================ -->
     <section class="founder-video-section">
         <div class="container founder-video-inner">
-            <div class="founder-video-wrap">
-                <!--
-                    TO WIRE UP:
-                    1. Replace src="" with your video filename, e.g. src="founder-video.mp4"
-                    2. Add a captions file: src="founder-captions.vtt" below
-                    3. Delete the .founder-video-placeholder div once the video is live
-                    4. Autoplay muted is already set — visitor can tap "Sound on" for audio
-                -->
-                <video
-                    class="founder-video"
-                    autoplay
-                    muted
-                    playsinline
-                    id="founderVideo">
-                    <source src="" type="video/mp4">
-                    <track kind="captions" src="founder-captions.vtt" srclang="en" label="English" default>
-                </video>
-                <div class="founder-video-placeholder" id="founderVideoPlaceholder">
-                    <p>Founder video</p>
-                    <p class="founder-ph-note">60 seconds · autoplay muted · captions · replace src="" in index.html</p>
+            <div class="founder-video-col">
+                <div class="founder-video-wrap">
+                    <!--
+                        TO WIRE UP:
+                        1. Replace src="" with your video filename, e.g. src="founder-video.mp4"
+                        2. Add a captions file: src="founder-captions.vtt" below
+                        3. Delete the .founder-video-placeholder div once the video is live
+                        4. Autoplay muted is already set — visitor can tap "Sound on" for audio
+                    -->
+                    <video
+                        class="founder-video"
+                        autoplay
+                        muted
+                        playsinline
+                        id="founderVideo">
+                        <source src="" type="video/mp4">
+                        <track kind="captions" src="founder-captions.vtt" srclang="en" label="English" default>
+                    </video>
+                    <div class="founder-video-placeholder" id="founderVideoPlaceholder">
+                        <p>Founder video</p>
+                        <p class="founder-ph-note">60 seconds · autoplay muted · captions · replace src="" in index.html</p>
+                    </div>
+                    <button class="founder-video-sound" id="founderVideoSound" aria-label="Unmute video" style="display:none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                        Sound on
+                    </button>
                 </div>
-                <button class="founder-video-sound" id="founderVideoSound" aria-label="Unmute video" style="display:none;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
-                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                    </svg>
-                    Sound on
-                </button>
+                <p class="founder-video-byline">Tamara Rothbart — founder, 24 Stories</p>
             </div>
-            <p class="founder-video-byline">Tamara Rothbart — founder, 24 Stories</p>
+            <div class="founder-crux">
+                <p class="founder-crux-label">How It Works</p>
+                <p class="founder-crux-line">Each prompt leads to one chapter.</p>
+                <p class="founder-crux-key">Each chapter is a self-contained story.</p>
+                <p class="founder-crux-body">After 6 months, you will have a collection of stories, woven together to reveal the tapestry of your unique, beautiful life.</p>
+            </div>
         </div>
     </section>
 

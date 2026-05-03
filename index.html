@@ -1413,7 +1413,7 @@
         });
     }
 
-    const bookSwiper = new Swiper('.book-swiper', {
+    const bookSwiper = new Swiper('.swiper.book-swiper', {
         loop: false,
         effect: 'slide',
         speed: 400,
@@ -1438,10 +1438,10 @@
             if (availW >= 540) return;
             var scale = availW / 680;
             var height = Math.round(845 * scale);
-            document.querySelectorAll('.book-swiper .swiper-slide').forEach(function(s) {
+            document.querySelectorAll('.swiper.book-swiper .swiper-slide').forEach(function(s) {
                 s.style.height = height + 'px';
             });
-            document.querySelectorAll('.book-swiper .page-inner').forEach(function(p) {
+            document.querySelectorAll('.swiper.book-swiper .page-inner').forEach(function(p) {
                 p.style.transform = 'scale(' + scale + ')';
             });
         }

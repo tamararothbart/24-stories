@@ -223,14 +223,13 @@ document.addEventListener('DOMContentLoaded', () => {
         container.insertBefore(wrapper, hint);
     }
 
-    // Reads all named recipient fields (auto-filled and open) into a comma-separated string for Make.
     function buildFamilyEmails(formEl, namePrefix) {
         const arr = [];
         for (let i = 1; i <= 10; i++) {
             const f = formEl.querySelector(`[name="${namePrefix}-${i}"]`);
             if (f && f.value.trim()) arr.push(f.value.trim());
         }
-        return arr.join(',');
+        return arr.join('\n');
     }
 
     function showSuccess(formEl, headline, sub) {

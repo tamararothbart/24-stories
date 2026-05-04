@@ -21,22 +21,30 @@ exports.handler = async function(event) {
 
   const BASE = 'apprTOobuxs4Od7XB';
   const PAT  = process.env.AIRTABLE_PAT;
+  const hdrs = { 'Authorization': `Bearer ${PAT}` };
 
-  // Check if a story record already exists for this subscriber + week
-  const formula = encodeURIComponent(
-    `AND(FIND("${subscriberId}",ARRAYJOIN({SubscriberID})),{PromptNumber}=${weekNumber})`
-  );
-  const searchRes = await fetch(
-    `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=1`,
-    { headers: { 'Authorization': `Bearer ${PAT}` } }
-  );
+  // Fetch subscriber first — needed for upsert check and alert email
+  const subRes = await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`, { headers: hdrs });
+  const subData = subRes.ok ? await subRes.json() : {};
 
-  if (!searchRes.ok) {
-    console.error('Airtable search error:', await searchRes.text());
-    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Lookup failed' }) };
+  // Find existing story for this week using subscriber's linked story record IDs.
+  // ARRAYJOIN({SubscriberID}) returns display values not record IDs, so we use RECORD_ID() instead.
+  const linkedStoryIds = (subData.fields || {}).Stories || [];
+  let existing = { records: [] };
+  if (linkedStoryIds.length > 0) {
+    const orParts = linkedStoryIds.map(id => `RECORD_ID()="${id}"`).join(',');
+    const formula = encodeURIComponent(`AND(OR(${orParts}),{PromptNumber}=${weekNumber})`);
+    const searchRes = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=1`,
+      { headers: hdrs }
+    );
+    if (!searchRes.ok) {
+      console.error('Airtable search error:', await searchRes.text());
+      return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Lookup failed' }) };
+    }
+    existing = await searchRes.json();
   }
 
-  const existing = await searchRes.json();
   const fields = {
     SubscriberID:      [subscriberId],   // linked record array
     PromptNumber:      parseInt(weekNumber, 10),
@@ -83,11 +91,6 @@ exports.handler = async function(event) {
 
   // Alert Tamara
   try {
-    const subRes = await fetch(
-      `https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`,
-      { headers: { 'Authorization': `Bearer ${PAT}` } }
-    );
-    const subData = subRes.ok ? await subRes.json() : {};
     const firstName = (subData.fields || {}).StorytellerFirstName || '';
     const surname   = (subData.fields || {}).StorytellerSurname   || '';
     const name      = [firstName, surname].filter(Boolean).join(' ') || subscriberId;

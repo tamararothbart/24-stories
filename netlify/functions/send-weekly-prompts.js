@@ -128,20 +128,21 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
-  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week 1 — ${esc(weekName)}</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Here is your first prompt.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story journey begins today. Below is your first prompt. Take your time with it. There is no right or wrong answer — only your version.</p>
-  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
-    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Your prompt this week</p>
-    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin:20px 0 10px;">Theme</p>
-    <p style="font-size:16px;color:#333;font-style:italic;line-height:1.7;margin:0 0 16px;">${esc(theme)}</p>
-    <p style="font-size:20px;line-height:1.7;font-style:italic;color:#1A1A1A;margin:0 0 20px;">${esc(promptText)}</p>
-    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin:20px 0 10px;">Other angles</p>
-    <p style="font-size:16px;color:#333;line-height:1.7;margin:0;">${esc(otherAngles)}</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello <strong>${esc(firstName)}</strong>, your story journey begins today.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Take your time with it. There is no right or wrong answer — only your version.</p>
+  <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week 1 — ${esc(weekName)} &nbsp;&middot;&nbsp; Theme: ${esc(theme)}</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">${esc(promptText)}</p>
+    <div style="border-top:1px solid #E0DCD7;padding-top:16px;">
+      <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
+      <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">${esc(otherAngles)}</p>
+    </div>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
   </div>
-  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Tell your story &#8594;</a>
-  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you are ready, this button takes you straight to your recording page.</p>
+  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Tell your story &#8594;</a>
+  <div style="background:#EFECEA;padding:32px;margin:0 0 32px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">How 24 Stories works</p>
     <ol style="margin:0;padding-left:22px;">
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each week you receive a prompt like this one.</li>
@@ -159,8 +160,8 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
-    <p style="font-size:14px;color:#555;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
-    <p style="font-size:14px;color:#555;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>

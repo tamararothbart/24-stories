@@ -175,14 +175,13 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">How it works</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each prompt leads to one chapter.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;"><strong>Each chapter is intended as a self-contained story.</strong></p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each story can be as long or as short as you like — a family joke or an epic chronicle of your career.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">The stories do not need to be told in chronological order from childhood to later years. Tell them as the memories surface.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You can ignore the prompts and tell whatever story you wish to record on the day. 24 Stories is designed to simply give you the space, place, and time to start telling your loved ones who you are.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The finished product, your collected stories, will be more than the sum of its parts.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday — look out for an email from us then.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no rush. Read the prompt, let a memory surface, and come back when you're ready. The link in each prompt email works all week — you don't need to record the moment it arrives.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Read the prompt, let a memory surface, and come back when you're ready. The link in each prompt email works all week — you don't need to record the moment it arrives.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order.</p>

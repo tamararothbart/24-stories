@@ -583,28 +583,6 @@
             margin-bottom: 10px;
         }
 
-        .btn-send-family {
-            background: none;
-            border: 1px solid var(--gold);
-            color: var(--gold);
-            padding: 10px 20px;
-            font-family: var(--font-body);
-            font-size: 0.73rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-send-family:hover:not(:disabled) { background: var(--gold); color: var(--white); }
-        .btn-send-family:disabled { opacity: 0.5; cursor: default; }
-
-        .send-family-msg {
-            font-size: 0.78rem;
-            margin-top: 8px;
-            min-height: 1.2em;
-        }
 
         .book-dispatch-section {
             margin-top: 40px;
@@ -832,7 +810,6 @@
 
         var LIBRARY_READ_URL   = '/.netlify/functions/library-read';
         var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
-        var APPROVE_STORY_URL  = '/.netlify/functions/approve-story';
         var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
 
         // PayFast — extra copies order (replace placeholders before go-live)
@@ -1056,54 +1033,6 @@
                     '<p class="edited-label">Your story</p>' +
                     '<p class="edited-text">' + esc(story.EditedText) + '</p>';
 
-                // Admin section — Tamara: send edited story to storyteller + family
-                var adminDiv = document.createElement('div');
-                adminDiv.className = 'admin-action';
-                adminDiv.innerHTML = '<p class="admin-action-label">Tamara — send to family</p>';
-
-                var btnSend = document.createElement('button');
-                btnSend.className = 'btn-send-family';
-                btnSend.type = 'button';
-                btnSend.textContent = 'Send to Family';
-
-                var sendMsg = document.createElement('p');
-                sendMsg.className = 'send-family-msg';
-
-                (function(w, s) {
-                    btnSend.addEventListener('click', function() {
-                        if (!confirm('Send week ' + w + ' to the storyteller and family now?')) return;
-                        btnSend.disabled = true;
-                        btnSend.textContent = 'Sending…';
-                        fetch(APPROVE_STORY_URL, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                subscriberId: subscriberId,
-                                weekNumber: w
-                            })
-                        })
-                        .then(function(r) {
-                            if (!r.ok) throw new Error('Server error ' + r.status);
-                            return r.json();
-                        })
-                        .then(function() {
-                            btnSend.textContent = 'Sent';
-                            sendMsg.style.color = 'var(--green)';
-                            sendMsg.textContent = 'Story delivered to storyteller and family.';
-                        })
-                        .catch(function(err) {
-                            btnSend.disabled = false;
-                            btnSend.textContent = 'Send to Family';
-                            sendMsg.style.color = 'var(--red)';
-                            sendMsg.textContent = 'Error — please try again.';
-                            console.error('approve-story error:', err);
-                        });
-                    });
-                })(week, story);
-
-                adminDiv.appendChild(btnSend);
-                adminDiv.appendChild(sendMsg);
-                div.appendChild(adminDiv);
             }
             return div;
         }

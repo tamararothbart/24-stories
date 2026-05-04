@@ -955,7 +955,7 @@
             if (!story) return 'empty';
             if (!story.EditedText && story.StoryText) return 'awaiting';
             if (!story.EditedText) return 'empty';
-            if (story.StoryImageURL) return 'full';
+            if (story.StoryImageURL && story.StoryImageCaption) return 'full';
             return 'story';
         }
 

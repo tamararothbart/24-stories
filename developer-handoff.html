@@ -304,10 +304,16 @@
 
   <h3>How to find a specific audio file</h3>
   <ul class="plain">
+    <li><strong>While editing in edit.html (primary method):</strong> if the story was recorded by voice, a gold "Original recording" bar appears below the story metadata. Press play to listen while you read and edit — no need to leave the page.</li>
     <li>In Airtable: open the Stories record → click the AudioURL field value. It opens in your browser and plays.</li>
     <li>In Cloudinary Media Library: navigate to <strong>stories/audio/</strong> folder. All audio files are listed there with thumbnails and file names.</li>
     <li>File names follow the format set by Cloudinary at upload time — typically a timestamp or random ID. The Airtable AudioURL is the reliable way to find the right file for a given story.</li>
   </ul>
+
+  <div class="alert alert-green">
+    <strong>Editing a transcription with mishears</strong>
+    When a transcript has misheard words — thick accents, dropped words, unclear speech — open edit.html for that story. If the story was recorded by voice, the "Original recording" bar is visible directly below the Storyteller / Week / Theme line. Press play and listen while you read the transcript. You do not need to open Airtable or Cloudinary. The player is there specifically for this purpose.
+  </div>
 
   <div class="alert alert-gold">
     <strong>Cloudinary and the Netlify Functions</strong>

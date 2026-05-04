@@ -94,6 +94,22 @@
 
   .btn-library:hover { opacity: 0.85; }
 
+  .btn-send-family {
+    background: none;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 10px 22px;
+    font-family: Georgia, serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .btn-send-family:hover:not(:disabled) { background: var(--gold); color: #fff; }
+  .btn-send-family:disabled { opacity: 0.5; cursor: default; }
+
   /* ---- META BAR ---- */
   .meta-bar {
     padding: 10px 28px;
@@ -197,6 +213,7 @@
   </div>
   <div class="header-right">
     <span class="save-status" id="saveStatus"></span>
+    <button class="btn-send-family" id="btnSendFamily" type="button" style="display:none;">Send to Family</button>
     <a class="btn-library" id="libraryBtn" href="#" target="_blank">Open Story Library &rarr;</a>
   </div>
 </div>
@@ -242,9 +259,9 @@
 
   function save() {
     var text = document.getElementById('editedText').value;
-    if (text === lastSaved) return;
+    if (text === lastSaved) return Promise.resolve();
     setStatus('saving', 'Saving...');
-    fetch('/.netlify/functions/story-save', {
+    return fetch('/.netlify/functions/story-save', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ storyId: storyId, editedText: text })
@@ -258,6 +275,7 @@
     })
     .catch(function() {
       setStatus('error', 'Save failed — check connection');
+      throw new Error('Save failed');
     });
   }
 
@@ -308,6 +326,41 @@
         var text = document.getElementById('editedText').value;
         if (text !== lastSaved) save();
       });
+
+      // Send to Family button
+      if (subId && week) {
+        var btnSend = document.getElementById('btnSendFamily');
+        btnSend.style.display = '';
+        btnSend.addEventListener('click', function() {
+          if (!confirm('Send Week ' + week + ' to ' + name + ' and their family?')) return;
+          btnSend.disabled = true;
+          btnSend.textContent = 'Saving…';
+          clearTimeout(saveTimer);
+          save().then(function() {
+            btnSend.textContent = 'Sending…';
+            return fetch('/.netlify/functions/approve-story', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ subscriberId: subId, weekNumber: week })
+            });
+          })
+          .then(function(r) {
+            if (!r.ok) throw new Error('Server error ' + r.status);
+            return r.json();
+          })
+          .then(function() {
+            btnSend.textContent = 'Sent';
+            btnSend.style.borderColor = '#7dc97d';
+            btnSend.style.color = '#7dc97d';
+          })
+          .catch(function(err) {
+            btnSend.disabled = false;
+            btnSend.textContent = 'Send to Family';
+            alert('Could not send — check the story has been saved and try again.');
+            console.error('approve-story error:', err);
+          });
+        });
+      }
     })
     .catch(function() { show('stateError'); });
   }

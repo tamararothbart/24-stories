@@ -201,6 +201,45 @@
 
   #editedText:focus { border-color: var(--gold); }
 
+  /* ---- PHOTO PREVIEW ---- */
+  .photo-preview {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  .photo-preview-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    font-family: Georgia, serif;
+  }
+
+  .photo-preview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .photo-caption-text {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: #555;
+    line-height: 1.7;
+    font-family: Georgia, serif;
+  }
+
+  .photo-edit-note {
+    margin-top: 8px;
+    font-size: 0.72rem;
+    color: #bbb;
+    font-style: italic;
+    font-family: Georgia, serif;
+  }
+
   /* ---- LOADING / ERROR STATES ---- */
   .state-loading,
   .state-error {
@@ -262,6 +301,12 @@
   <div class="editor-wrap" id="editorWrap" style="display:none;">
     <p class="editor-label">Edited Text — auto-saves as you type</p>
     <textarea id="editedText" spellcheck="true" autocorrect="on"></textarea>
+    <div class="photo-preview" id="photoPreview" style="display:none;">
+      <p class="photo-preview-label">Photograph &amp; caption</p>
+      <img id="previewImg" src="" alt="Story photograph" style="display:none;">
+      <p class="photo-caption-text" id="previewCaption" style="display:none;"></p>
+      <p class="photo-edit-note">Edit photo and caption in the Story Library.</p>
+    </div>
   </div>
 </div>
 
@@ -343,6 +388,20 @@
       if (f.AudioURL) {
         document.getElementById('audioPlayer').src = f.AudioURL;
         document.getElementById('audioBar').style.display = '';
+      }
+
+      if (f.StoryImageURL || f.StoryImageCaption) {
+        if (f.StoryImageURL) {
+          var img = document.getElementById('previewImg');
+          img.src = f.StoryImageURL;
+          img.style.display = '';
+        }
+        if (f.StoryImageCaption) {
+          var cap = document.getElementById('previewCaption');
+          cap.textContent = f.StoryImageCaption;
+          cap.style.display = '';
+        }
+        document.getElementById('photoPreview').style.display = '';
       }
 
       var text = f.EditedText || f.StoryText || '';

@@ -590,18 +590,20 @@
 
         <!-- PHOTO UPLOAD -->
         <div class="photo-section">
-            <p class="photo-section-label">Add a photo <span style="font-weight:300; text-transform:none; letter-spacing:0; color:var(--gold);">— optional</span></p>
-            <p class="photo-section-sub">A photograph from that time — your family will receive it with your story.</p>
+            <p class="photo-section-label">Photograph</p>
+            <p class="photo-section-sub">A photograph from that time. Your family will receive it alongside your story.</p>
             <div class="photo-pick-row">
-                <button class="btn-photo-pick" id="btnPhotoPick" type="button">Choose photo</button>
-                <span class="photo-filename" id="photoFilename">No photo selected</span>
+                <button class="btn-photo-pick" id="btnPhotoPick" type="button">Add a photo</button>
+                <span class="photo-filename" id="photoFilename"></span>
                 <input type="file" id="photoInput" accept="image/*" style="display:none;">
             </div>
             <div class="photo-preview" id="photoPreview">
                 <img id="photoPreviewImg" src="" alt="Preview">
             </div>
             <div class="photo-caption" id="photoCaption">
-                <textarea id="captionText" placeholder="Who is in this photo? Where and when was it taken?" rows="3"></textarea>
+                <p class="photo-section-label" style="margin-top:18px;">Caption</p>
+                <p class="photo-section-sub">Who is in this photo? Where and when was it taken?</p>
+                <textarea id="captionText" placeholder="Type your caption here..." rows="2"></textarea>
                 <button class="btn-cleanup" id="btnCleanupCaption" style="display:none;">Clean up my caption</button>
             </div>
             <p class="photo-uploading" id="photoUploading">Uploading photo...</p>

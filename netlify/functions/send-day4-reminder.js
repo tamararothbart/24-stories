@@ -12,7 +12,7 @@ exports.handler = async function() {
   const targetDate = threeDaysAgo.toISOString().slice(0, 10);
 
   const formula = encodeURIComponent(
-    `AND({Status}="Active",{LastPromptSentDate}="${targetDate}")`
+    `AND({Status}="Active",DATESTR({LastPromptSentDate})="${targetDate}")`
   );
   const subRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${formula}&maxRecords=100`,

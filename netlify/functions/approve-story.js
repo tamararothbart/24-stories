@@ -168,7 +168,7 @@ function email7Html(storytellerFirstName, weekNumber, storyText, imageUrl, capti
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber}</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)} would like to share a story with you. Enjoy.</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)} would like to share a story with you.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 40px;white-space:pre-wrap;">${esc(storyText)}</p>
   ${photoBlock}

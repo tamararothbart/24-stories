@@ -170,6 +170,7 @@
         .transcript-box {
             width: 100%;
             min-height: 200px;
+            max-height: 420px;
             border: 2px solid var(--gold);
             padding: 20px 24px 40px;
             font-family: var(--font-body);
@@ -179,7 +180,8 @@
             background: var(--white);
             resize: vertical;
             outline: none;
-            overflow-y: scroll;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             transition: border-color 0.2s;
         }
 
@@ -578,6 +580,7 @@
             <div id="speakResult" style="display:none;">
                 <p class="result-label" id="speakResultLabel">Your transcription — press Clean up before sending</p>
                 <textarea class="transcript-box" id="audioStoryText" rows="10"></textarea>
+                <p class="word-count" id="wordCountSpeak"></p>
                 <button class="btn-cleanup" id="btnCleanupSpeak" style="display:none;">Clean up my story</button>
                 <button class="btn-rerecord" id="btnReRecord">Start over and record again</button>
             </div>
@@ -703,7 +706,16 @@
             if (!text) { el.textContent = ''; return; }
             var words = text.split(/\s+/).filter(Boolean).length;
             var mins = Math.round(words / 130);
-            el.textContent = 'Word count: ' + words + (mins >= 1 ? ' · ~' + mins + ' min read' : '');
+            el.textContent = words + ' words' + (mins >= 1 ? ' · ~' + mins + ' min' : '');
+        }
+
+        function updateSpeakWordCount() {
+            var text = document.getElementById('audioStoryText').value.trim();
+            var el = document.getElementById('wordCountSpeak');
+            if (!text) { el.textContent = ''; return; }
+            var words = text.split(/\s+/).filter(Boolean).length;
+            var mins = Math.round(words / 130);
+            el.textContent = words + ' words' + (mins >= 1 ? ' · ~' + mins + ' min' : '');
         }
 
         function saveDraft() {
@@ -732,7 +744,7 @@
         // appends each token to targetEl.value as it arrives.
         // onComplete() fires when stream ends. onError() fires on fetch or API failure
         // — caller is responsible for any fallback display.
-        function streamCleanup(text, targetEl, onComplete, onError) {
+        function streamCleanup(text, targetEl, onComplete, onError, onToken) {
             fetch('/.netlify/functions/cleanup', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -767,6 +779,8 @@
                                 var parsed = JSON.parse(data);
                                 if (parsed.token) {
                                     targetEl.value += parsed.token;
+                                    targetEl.scrollTop = targetEl.scrollHeight;
+                                    onToken && onToken();
                                 }
                             } catch(e) {
                                 // skip malformed events
@@ -935,7 +949,10 @@
                     .then(function(data) {
                         clearInterval(countdownInterval);
                         var rawTranscript = data.transcript || '';
-                        document.getElementById('audioStoryText').value = rawTranscript;
+                        var audioEl = document.getElementById('audioStoryText');
+                        audioEl.value = rawTranscript;
+                        audioEl.scrollTop = 0;
+                        updateSpeakWordCount();
                         document.getElementById('speakResultLabel').textContent = 'Your transcription — press Clean up before sending';
                         document.getElementById('btnCleanupSpeak').style.display = 'block';
                         document.getElementById('btnCleanupSpeak').disabled = false;
@@ -984,6 +1001,8 @@
             showSpeakState('speakIdle');
         });
 
+        document.getElementById('audioStoryText').addEventListener('input', updateSpeakWordCount);
+
         document.getElementById('btnCleanupSpeak').addEventListener('click', function() {
             var story = document.getElementById('audioStoryText').value.trim();
             if (!story) return;
@@ -992,12 +1011,15 @@
             btn.textContent = 'Cleaning up...';
             document.getElementById('btnSubmit').disabled = true;
             document.getElementById('audioStoryText').value = '';
+            document.getElementById('wordCountSpeak').textContent = '';
             document.getElementById('speakResultLabel').textContent = 'Cleaning up your story...';
             streamCleanup(story, document.getElementById('audioStoryText'),
                 function onComplete() {
-                    document.getElementById('speakResultLabel').textContent = 'Your story — read it through and make any changes before pressing Send';
-                    btn.style.display = 'none';
+                    document.getElementById('speakResultLabel').textContent = 'Your story — read it through and edit as you wish, then press Send';
+                    btn.disabled = false;
+                    btn.textContent = 'Clean up again';
                     document.getElementById('btnSubmit').disabled = false;
+                    updateSpeakWordCount();
                 },
                 function onError() {
                     document.getElementById('audioStoryText').value = story;
@@ -1005,6 +1027,7 @@
                     btn.disabled = false;
                     btn.textContent = 'Clean up my story';
                     document.getElementById('btnSubmit').disabled = false;
+                    updateSpeakWordCount();
                 }
             );
         });

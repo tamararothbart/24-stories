@@ -176,7 +176,7 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each prompt leads to one chapter.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;"><strong>Each chapter is intended as a self-contained story.</strong></p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">The stories do not need to be told in chronological order from childhood to later years. Tell them as the memories surface.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You can ignore the prompts and tell whatever story you wish to record on the day. 24 Stories is designed to simply give you the space, place, and time to start telling your loved ones who you are.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You can ignore the prompts and tell whatever story you wish to record on the day. 24 Stories is designed to give you the space, place, and time to start telling your loved ones who you are.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The finished product, your collected stories, will be more than the sum of its parts.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
@@ -185,8 +185,8 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're ready, click the button to record your story or type it. Your words are transcribed automatically, then tidied up for you. Read through your story, edit as much as you like, and press Send when you're satisfied.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library is where you return to fill gaps — a missed prompt, a missing image. It is also where you complete the details for your Legacy Book. You can do so any time before the end of week 26.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts. If you want to race ahead, you can upload stories directly to the library.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library is also where you return to fill gaps — a missed prompt, a missing image. It is also where you complete the details for your Legacy Book before the end of week 26.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your library link is in every email from us. If you lose it, visit <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">www.24stories.co.za</a> and request the link.</p>
       <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
       ${helperSection}

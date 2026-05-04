@@ -129,8 +129,8 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello <strong>${esc(firstName)}</strong>.</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 16px;line-height:1.4;">Your memoir-writing journey begins today. Here is your first prompt.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Remember, each prompt is intended as its own, self-contained story. Take your time and have fun with it. There is no right or wrong way to tell your story.</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 16px;line-height:1.4;">Your memoir-writing journey begins today. Here is your first prompt.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Each prompt is intended as its own, self-contained story. Take your time and have fun with it. There is no right or wrong way to tell your story.</p>
   <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
     <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week 1 — ${esc(weekName)} &nbsp;&middot;&nbsp; Theme: ${esc(theme)}</p>
     <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">${esc(promptText)}</p>

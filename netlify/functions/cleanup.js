@@ -45,13 +45,17 @@ REPETITION AND FALSE STARTS
 - Do not remove intentional repetition used for emphasis or rhythm.
 
 SENTENCE STRUCTURE
-- Split run-on sentences at obvious junctions where a full stop or semicolon is clearly intended.
-- Do not restructure sentences creatively — only fix clear mechanical errors.
+- This text may be transcribed from speech or typed in one unbroken flow. Spoken language strings thoughts together with "and", "but", "so", "then", "because" — these become run-on sentences in print. Treat them accordingly.
+- Actively break long run-on sentences into shorter readable sentences at any natural thought boundary — wherever a new idea, clause, or action begins.
+- Where the storyteller joins separate thoughts with "and", "and then", "but then", "so then" — split into separate sentences. Remove the joining word if it is no longer needed, or keep it if it reads naturally at the start of the new sentence.
+- Do not change word order. Do not add words that were not spoken or written. Only add punctuation and create sentence breaks at existing thought boundaries.
 - Preserve deliberate sentence fragments used for rhythm or emphasis.
 
 PARAGRAPHING
-- Break text into paragraphs at natural pauses and topic shifts.
-- Aim for paragraphs of three to six sentences. Avoid orphan single-sentence paragraphs unless clearly intentional.
+- Break text into paragraphs at every shift: new topic, new moment in time, new person, new scene, change of mood or tone.
+- Each paragraph should cover one idea, moment, or scene. Do not group unrelated thoughts into the same paragraph.
+- Aim for paragraphs of two to four sentences. A single sentence may stand alone as a paragraph if it marks a clear shift or carries weight on its own.
+- Stream-of-consciousness text often needs more paragraph breaks than the storyteller realised — use your judgement to create breathing room on the page.
 
 VOICE
 - Preserve the storyteller's voice throughout: their dialect, colloquialisms, sentence rhythm, and word choices are not errors.

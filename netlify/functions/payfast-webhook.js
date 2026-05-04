@@ -186,7 +186,7 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts. If you want to race ahead, you can upload stories directly to the library.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library is also where you return to fill gaps — a missed prompt, a missing image. It is also where you complete the details for your Legacy Book before the end of week 26.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library is also where you return to fill gaps — a missed prompt, a missing image. And it is where you complete the details for your Legacy Book before the end of week 26.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your library link is in every email from us. If you lose it, visit <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">www.24stories.co.za</a> and request the link.</p>
       <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
       ${helperSection}

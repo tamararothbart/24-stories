@@ -19,10 +19,20 @@ exports.handler = async function() {
   const { records } = await subRes.json();
 
   for (const sub of records) {
-    const f            = sub.fields;
-    const subscriberId = sub.id;
-    const promptNumber = f.PromptNumber || 0;
-    const weekNumber   = promptNumber + 1;
+    const f              = sub.fields;
+    const subscriberId   = sub.id;
+    const promptNumber   = f.PromptNumber || 0;
+    const linkedStoryIds = f.Stories || [];
+    let weekNumber       = promptNumber + 1;
+
+    // Skip weeks the storyteller has already submitted from the library
+    while (weekNumber <= 26) {
+      const alreadyDone = await checkStoryExists(BASE, PAT, linkedStoryIds, weekNumber);
+      if (!alreadyDone) break;
+      weekNumber++;
+    }
+    if (weekNumber > 26) continue; // all remaining weeks already submitted
+
     const libToken     = f.LibraryToken || subscriberId;
     const libUrl       = `https://24stories.co.za/library.html?id=${libToken}`;
 
@@ -42,8 +52,8 @@ exports.handler = async function() {
     const otherAngles = p.OtherAngles || '';
     const tellUrl     = buildTellUrl(subscriberId, weekNumber, weekName, theme, promptText, otherAngles);
 
-    const isWeek1  = promptNumber === 0;
-    const isWeek26 = promptNumber === 25;
+    const isWeek1  = weekNumber === 1;
+    const isWeek26 = weekNumber === 26;
 
     const html = isWeek1
       ? email4Html(f.StorytellerFirstName, weekName, theme, promptText, otherAngles, tellUrl, libUrl)
@@ -78,6 +88,19 @@ exports.handler = async function() {
 
   return { statusCode: 200, body: JSON.stringify({ sent: records.length }) };
 };
+
+async function checkStoryExists(base, pat, linkedStoryIds, week) {
+  if (!linkedStoryIds || linkedStoryIds.length === 0) return false;
+  const orParts = linkedStoryIds.map(id => `RECORD_ID()="${id}"`).join(',');
+  const formula = encodeURIComponent(`AND(OR(${orParts}),{PromptNumber}=${week})`);
+  const res = await fetch(
+    `https://api.airtable.com/v0/${base}/Stories?filterByFormula=${formula}&maxRecords=1`,
+    { headers: { 'Authorization': `Bearer ${pat}` } }
+  );
+  if (!res.ok) return false;
+  const data = await res.json();
+  return !!(data.records && data.records.length > 0);
+}
 
 function buildTellUrl(id, week, weekName, theme, prompt, angles) {
   const enc = s => encodeURIComponent(s || '').replace(/%20/g, '+');

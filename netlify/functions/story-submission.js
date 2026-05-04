@@ -89,6 +89,10 @@ exports.handler = async function(event) {
     return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Story save failed' }) };
   }
 
+  const savedRecord = await airtableRes.json();
+  const storyRecordId = savedRecord.id || '';
+  const airtableUrl = `https://airtable.com/apprTOobuxs4Od7XB/tblYurFilAGNKdR1V/${storyRecordId}`;
+
   // Alert Tamara
   try {
     const firstName = (subData.fields || {}).StorytellerFirstName || '';
@@ -102,7 +106,9 @@ exports.handler = async function(event) {
     const alertHtml = `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;">
       <strong>${name}</strong> has submitted their Week ${weekNumber} story.</p>
       <p style="font-family:Georgia,serif;font-size:15px;line-height:1.9;color:#333;white-space:pre-wrap;">${preview}</p>
-      <p style="font-family:Georgia,serif;font-size:14px;color:#888;">Open Airtable to edit and approve.</p>`;
+      <p style="margin:24px 0;">
+        <a href="${airtableUrl}" style="background:#1A1A1A;color:#ffffff;text-decoration:none;padding:14px 28px;font-family:Georgia,serif;font-size:15px;display:inline-block;">Edit this story in Airtable &rarr;</a>
+      </p>`;
 
     await fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',

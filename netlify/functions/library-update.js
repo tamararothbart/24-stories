@@ -67,9 +67,18 @@ exports.handler = async function(event) {
 };
 
 async function findStoryRecord(base, pat, subscriberId, week) {
-  const formula = encodeURIComponent(
-    `AND(FIND("${subscriberId}",ARRAYJOIN({SubscriberID})),{PromptNumber}=${week})`
+  // Fetch subscriber to get linked story record IDs — ARRAYJOIN returns display names not IDs
+  const subRes = await fetch(
+    `https://api.airtable.com/v0/${base}/Subscribers/${subscriberId}`,
+    { headers: { 'Authorization': `Bearer ${pat}` } }
   );
+  if (!subRes.ok) throw new Error('Subscriber fetch failed');
+  const sub = await subRes.json();
+  const linkedIds = (sub.fields || {}).Stories || [];
+  if (linkedIds.length === 0) return null;
+
+  const orParts = linkedIds.map(id => `RECORD_ID()="${id}"`).join(',');
+  const formula = encodeURIComponent(`AND(OR(${orParts}),{PromptNumber}=${week})`);
   const res = await fetch(
     `https://api.airtable.com/v0/${base}/Stories?filterByFormula=${formula}&maxRecords=1`,
     { headers: { 'Authorization': `Bearer ${pat}` } }

@@ -146,9 +146,9 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">How 24 Stories works</p>
     <ol style="margin:0;padding-left:22px;">
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each week you receive a prompt like this one.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Click the button above to type your story or record it in your own voice.</li>
-      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">We tidy it up and send it to your family.</li>
-      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">There is no rush. You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">On the recording page, a drop-down guide walks you through the process step by step. Read it before you start — it takes a minute and makes the recording much smoother.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each story gives you the option to add a photograph and caption. If you do not have one on hand, you can return to your Story Library at any time to add it.</li>
     </ol>
     <p style="font-size:16px;color:#333;margin:16px 0 0;">You do not need to write well. You just need to tell it the way it happened.</p>

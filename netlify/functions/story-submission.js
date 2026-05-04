@@ -49,6 +49,7 @@ exports.handler = async function(event) {
     SubscriberID:      [subscriberId],   // linked record array
     PromptNumber:      parseInt(weekNumber, 10),
     StoryText:         storyText,
+    EditedText:        storyText,        // pre-populated so Tamara edits in place — StoryText stays as original record
     AudioURL:          audioURL   || '',
     StoryImageURL:     imageURL   || '',
     StoryImageCaption: caption    || '',

@@ -1079,23 +1079,24 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 subscriberId: subscriberId,
-                                weekNumber: w,
-                                editedText: s.EditedText,
-                                storyImageURL: s.StoryImageURL || '',
-                                caption: s.StoryImageCaption || ''
+                                weekNumber: w
                             })
                         })
-                        .then(function(r) { return r.json(); })
+                        .then(function(r) {
+                            if (!r.ok) throw new Error('Server error ' + r.status);
+                            return r.json();
+                        })
                         .then(function() {
                             btnSend.textContent = 'Sent';
                             sendMsg.style.color = 'var(--green)';
                             sendMsg.textContent = 'Story delivered to storyteller and family.';
                         })
-                        .catch(function() {
+                        .catch(function(err) {
                             btnSend.disabled = false;
                             btnSend.textContent = 'Send to Family';
                             sendMsg.style.color = 'var(--red)';
                             sendMsg.textContent = 'Error — please try again.';
+                            console.error('approve-story error:', err);
                         });
                     });
                 })(week, story);

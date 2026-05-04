@@ -1,4 +1,4 @@
-// Triggered from library.html when Tamara saves EditedText — saves to Airtable and sends emails 6+7
+// Triggered from library.html — fetches EditedText from Airtable and sends emails 6+7
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: corsHeaders() };
@@ -14,10 +14,10 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { subscriberId, weekNumber, editedText, storyImageURL, caption } = payload;
+  const { subscriberId, weekNumber } = payload;
 
-  if (!subscriberId || !weekNumber || !editedText) {
-    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'subscriberId, weekNumber and editedText required' }) };
+  if (!subscriberId || !weekNumber) {
+    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'subscriberId and weekNumber required' }) };
   }
 
   const BASE      = 'apprTOobuxs4Od7XB';
@@ -25,66 +25,56 @@ exports.handler = async function(event) {
   const MJ_KEY    = process.env.MAILJET_API_KEY;
   const MJ_SECRET = process.env.MAILJET_API_SECRET;
   const mjAuth    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+  const hdrs      = { 'Authorization': `Bearer ${PAT}` };
 
-  // Find the Stories record for this subscriber + week
-  const storyFormula = encodeURIComponent(
-    `AND(FIND("${subscriberId}",ARRAYJOIN({SubscriberID})),{PromptNumber}=${weekNumber})`
-  );
-  const searchRes = await fetch(
-    `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${storyFormula}&maxRecords=1`,
-    { headers: { 'Authorization': `Bearer ${PAT}` } }
-  );
-  if (!searchRes.ok) {
-    console.error('Story lookup failed:', await searchRes.text());
-    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Story lookup failed' }) };
-  }
-  const searchData = await searchRes.json();
-
-  // Save EditedText (and image/caption if provided) to the Stories record
-  if (searchData.records && searchData.records.length > 0) {
-    const storyRecId    = searchData.records[0].id;
-    const storyFields   = searchData.records[0].fields;
-    const imageToSend   = storyImageURL || storyFields.StoryImageURL || '';
-    const captionToSend = caption       || storyFields.StoryImageCaption || '';
-
-    const patchFields = { EditedText: editedText };
-    if (imageToSend)   patchFields.StoryImageURL       = imageToSend;
-    if (captionToSend) patchFields.StoryImageCaption   = captionToSend;
-
-    const patchRes = await fetch(
-      `https://api.airtable.com/v0/${BASE}/Stories/${storyRecId}`,
-      {
-        method: 'PATCH',
-        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fields: patchFields })
-      }
-    );
-    if (!patchRes.ok) console.error('Story PATCH failed:', await patchRes.text());
-  }
-
-  // Fetch subscriber details
+  // Fetch subscriber — needed for linked story IDs and email details
   const subRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`,
-    { headers: { 'Authorization': `Bearer ${PAT}` } }
+    { headers: hdrs }
   );
   if (!subRes.ok) {
     console.error('Subscriber fetch failed:', await subRes.text());
     return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Subscriber fetch failed' }) };
   }
-  const sub = await subRes.json();
-  const f   = sub.fields;
 
-  const libToken    = f.LibraryToken || subscriberId;
-  const libUrl      = `https://24stories.co.za/library.html?id=${libToken}`;
-  const imageUrl    = storyImageURL || '';
-  const imageCaption = caption || '';
+  // Find the story using linked record IDs — ARRAYJOIN returns display names not record IDs
+  const sub = await subRes.json();
+  const linkedIds = (sub.fields || {}).Stories || [];
+  let storyFields = null;
+
+  if (linkedIds.length > 0) {
+    const orParts   = linkedIds.map(id => `RECORD_ID()="${id}"`).join(',');
+    const formula   = encodeURIComponent(`AND(OR(${orParts}),{PromptNumber}=${weekNumber})`);
+    const storyRes  = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=1`,
+      { headers: hdrs }
+    );
+    if (storyRes.ok) {
+      const storyData = await storyRes.json();
+      if (storyData.records && storyData.records.length > 0) {
+        storyFields = storyData.records[0].fields;
+      }
+    }
+  }
+
+  if (!storyFields || !storyFields.EditedText) {
+    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'No edited story found for this week — edit and save before sending' }) };
+  }
+
+  const editedText = storyFields.EditedText;
+  const imageUrl   = storyFields.StoryImageURL     || '';
+  const caption    = storyFields.StoryImageCaption || '';
+
+  const f        = sub.fields;
+  const libToken = f.LibraryToken || subscriberId;
+  const libUrl   = `https://24stories.co.za/library.html?id=${libToken}`;
 
   // Email 6 — to storyteller only
   if (f.StorytellerEmail) {
     await sendEmail(mjAuth, {
       to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
       subject: `Week ${weekNumber} — your story has been sent`,
-      html:    email6Html(f.StorytellerFirstName, weekNumber, editedText, imageUrl, imageCaption, libUrl)
+      html:    email6Html(f.StorytellerFirstName, weekNumber, editedText, imageUrl, caption, libUrl)
     });
   }
 
@@ -97,7 +87,7 @@ exports.handler = async function(event) {
     if (!familyList.includes(f.StoryHelperEmail)) familyList.push(f.StoryHelperEmail);
   }
 
-  const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, editedText, imageUrl, imageCaption);
+  const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, editedText, imageUrl, caption);
   const familySubject = `${f.StorytellerFirstName || 'A story'} — Week ${weekNumber}`;
 
   for (const recipientEmail of familyList) {

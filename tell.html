@@ -603,7 +603,10 @@
             <div class="photo-caption" id="photoCaption">
                 <p class="photo-section-label" style="margin-top:18px;">Caption</p>
                 <p class="photo-section-sub">Who is in this photo? Where and when was it taken?</p>
-                <textarea id="captionText" placeholder="Type your caption here..." rows="2"></textarea>
+                <div class="photo-pick-row" id="captionBtnRow">
+                    <button class="btn-photo-pick" id="btnAddCaption" type="button">Add a caption</button>
+                </div>
+                <textarea id="captionText" placeholder="Type your caption here..." rows="2" style="display:none;"></textarea>
                 <button class="btn-cleanup" id="btnCleanupCaption" style="display:none;">Clean up my caption</button>
             </div>
             <p class="photo-uploading" id="photoUploading">Uploading photo...</p>
@@ -800,6 +803,15 @@
                     updateWordCount();
                 }
             );
+        });
+
+        // ---- CAPTION REVEAL ----
+        var btnAddCaption  = document.getElementById('btnAddCaption');
+        var captionBtnRow  = document.getElementById('captionBtnRow');
+        btnAddCaption.addEventListener('click', function() {
+            captionBtnRow.style.display = 'none';
+            captionText.style.display   = '';
+            captionText.focus();
         });
 
         // ---- CAPTION CLEANUP ----

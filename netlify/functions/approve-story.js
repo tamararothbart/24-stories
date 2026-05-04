@@ -84,13 +84,22 @@ exports.handler = async function(event) {
 
   // Include story helper in family delivery
   if (f.StoryHelperEmail && f.StoryHelperEmail.toLowerCase() !== (f.StorytellerEmail || '').toLowerCase()) {
-    if (!familyList.includes(f.StoryHelperEmail)) familyList.push(f.StoryHelperEmail);
+    familyList.push(f.StoryHelperEmail);
   }
+
+  // Deduplicate case-insensitively before sending
+  const seen = new Set();
+  const dedupedList = familyList.filter(e => {
+    const lower = e.toLowerCase();
+    if (seen.has(lower)) return false;
+    seen.add(lower);
+    return true;
+  });
 
   const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, editedText, imageUrl, caption);
   const familySubject = `${f.StorytellerFirstName || 'A story'} — Week ${weekNumber}`;
 
-  for (const recipientEmail of familyList) {
+  for (const recipientEmail of dedupedList) {
     await sendEmail(mjAuth, {
       to:      { Email: recipientEmail, Name: '' },
       subject: familySubject,

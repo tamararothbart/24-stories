@@ -126,7 +126,7 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">We tidy it up and send it to your family.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">There is no rush. You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each story gives you the option to add a photograph and caption. If you do not have one on hand, you can return to your Story Library at any time to add it.</li>
-      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">After 26 chapters, everything you have told becomes a Legacy Book.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each prompt is intended as its own, self-contained story. After 26 prompts you will have a collection of stories that make up your Legacy Book.</li>
     </ol>
     <p style="font-size:16px;color:#333;margin:16px 0 0;">You do not need to write well. You just need to tell it the way it happened.</p>
   </div>

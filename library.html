@@ -325,20 +325,20 @@
 
         .btn-photo {
             background: none;
-            border: 1px solid var(--gold);
+            border: 1px solid var(--red);
             padding: 10px 20px;
             font-family: var(--font-body);
             font-size: 0.73rem;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            color: var(--gold);
+            color: var(--red);
             cursor: pointer;
             transition: all 0.2s;
             flex-shrink: 0;
         }
 
-        .btn-photo:hover { background: var(--gold); color: var(--white); }
+        .btn-photo:hover { background: var(--red); color: var(--white); }
 
         .photo-filename-sm {
             font-size: 0.78rem;
@@ -1119,7 +1119,7 @@
                 '<p class="photo-sub">A photograph from that time. Your family will receive it alongside your story.</p>' +
                 (existingUrl ? '<div class="existing-photo"><img src="' + esc(existingUrl) + '" alt="Story photograph"></div>' : '') +
                 '<div class="photo-actions">' +
-                    '<button class="btn-photo js-pick" type="button">' + (existingUrl ? 'Change photo' : 'Add a photo') + '</button>' +
+                    (!existingUrl ? '<button class="btn-photo js-pick" type="button">Add a photo</button>' : '') +
                     '<span class="photo-filename-sm js-fname"></span>' +
                     '<input type="file" class="js-file" accept="image/*" style="display:none;">' +
                 '</div>' +
@@ -1127,8 +1127,9 @@
                 '<p class="save-ok-msg js-ok">Photo saved.</p>' +
                 '<div class="caption-area">' +
                     '<p class="photo-label" style="margin-top:18px;">Caption</p>' +
-                    (!existingCaption ? '<p class="photo-sub" style="color:var(--red);">Add a caption.</p>' : '') +
-                    '<textarea class="js-caption" placeholder="Who is in this photo? Where and when was it taken?" rows="2">' + esc(existingCaption) + '</textarea>' +
+                    '<p class="photo-sub">Who is in this photo? Where and when was it taken?</p>' +
+                    (!existingCaption ? '<div class="photo-actions"><button class="btn-photo js-caption-btn" type="button">Add a caption</button></div>' : '') +
+                    '<textarea class="js-caption" placeholder="Type your caption here..." rows="2" style="' + (!existingCaption ? 'display:none;' : '') + '">' + esc(existingCaption) + '</textarea>' +
                     '<p class="field-saved-msg js-caption-saved"></p>' +
                 '</div>';
 
@@ -1139,10 +1140,9 @@
             var uploadMsg = sec.querySelector('.js-uploading');
             var okMsg     = sec.querySelector('.js-ok');
 
-            btn.addEventListener('click', function() {
-                if (existingUrl && !confirm('This will replace your existing photo. Continue?')) return;
-                fileInput.click();
-            });
+            if (btn) {
+                btn.addEventListener('click', function() { fileInput.click(); });
+            }
 
             fileInput.addEventListener('change', function() {
                 var file = fileInput.files[0];
@@ -1155,8 +1155,7 @@
                     uploadMsg.style.display = 'none';
                     okMsg.style.display     = 'block';
                     postMake(LIBRARY_UPDATE_URL, { type: 'story-photo', subscriberId: subscriberId, week: week, photoUrl: url });
-                    btn.textContent = 'Change photo';
-                    // Update or add preview
+                    if (btn) btn.style.display = 'none';
                     var existing = sec.querySelector('.existing-photo');
                     if (existing) {
                         existing.querySelector('img').src = url;
@@ -1169,9 +1168,19 @@
                 });
             });
 
-            // Caption auto-save
+            // "Add a caption" button reveals the textarea
+            var captionBtn = sec.querySelector('.js-caption-btn');
             var captionEl  = sec.querySelector('.js-caption');
             var captionMsg = sec.querySelector('.js-caption-saved');
+            if (captionBtn) {
+                captionBtn.addEventListener('click', function() {
+                    captionBtn.style.display = 'none';
+                    captionEl.style.display  = '';
+                    captionEl.focus();
+                });
+            }
+
+            // Caption auto-save
             var captionTimer;
             captionEl.addEventListener('input', function() {
                 clearTimeout(captionTimer);

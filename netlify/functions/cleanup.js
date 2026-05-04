@@ -10,7 +10,8 @@ SPELLING
 PUNCTUATION
 - Add full stops, commas, question marks, and exclamation marks where clearly needed.
 - Use a comma before coordinating conjunctions (and, but, so, yet) when joining two independent clauses.
-- Fix comma splices by replacing the comma with a full stop or semicolon.
+- Fix comma splices: replace with a full stop if the two clauses are separate thoughts; use a semicolon if they are closely linked in meaning and both are short.
+- Use a semicolon (not a full stop) between two short, closely related sentences where the connection between them is the point — e.g. "She never said a word; she didn't need to."
 - Use the Oxford (serial) comma in lists of three or more items.
 - Use an em-dash (—) rather than a hyphen (-) for a pause or aside mid-sentence.
 - Use an ellipsis (…) only for deliberate trailing off. Remove mid-sentence ellipses that are transcription artefacts.

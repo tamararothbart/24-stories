@@ -181,7 +181,8 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Read the prompt, let a memory surface, and come back when you're ready. The link in each prompt email works all week — you don't need to record the moment it arrives.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Read the prompt and let a memory surface. The link in each prompt email works all week — you don't need to record the moment it arrives.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're ready, click the button to record your story or type it. Your words are transcribed automatically, then tidied up for you. Read through your story, edit as much as you like, and press Send when you're satisfied.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. It holds all 26 of your weekly prompts — you can browse them at any time, in any order.</p>

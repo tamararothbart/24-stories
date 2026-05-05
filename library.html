@@ -404,7 +404,7 @@
         }
 
         .book-prep-eyebrow {
-            font-size: 0.68rem;
+            font-size: 0.82rem;
             font-weight: 500;
             letter-spacing: 0.15em;
             text-transform: uppercase;
@@ -420,34 +420,34 @@
         }
 
         .book-prep-intro {
-            font-size: 0.88rem;
-            color: #666;
+            font-size: 1rem;
+            color: #555;
             line-height: 1.8;
             margin-bottom: 44px;
-            max-width: 520px;
+            max-width: 560px;
         }
 
-        .book-field { margin-bottom: 40px; }
+        .book-field { margin-bottom: 44px; }
 
-        .addr-row { display:flex; align-items:flex-start; border-bottom:1px solid #E8E4DF; padding:10px 0; gap:12px; }
-        .addr-label { font-size:0.75rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#888; min-width:120px; padding-top:6px; flex-shrink:0; }
-        .addr-input { flex:1; border:none; outline:none; font-size:15px; font-family:Georgia,serif; color:#1A1A1A; background:transparent; padding:4px 0; resize:none; line-height:1.5; }
-        .addr-textarea { min-height:44px; overflow:hidden; }
+        .addr-row { display:flex; align-items:flex-start; border-bottom:1px solid #E8E4DF; padding:12px 0; gap:16px; }
+        .addr-label { font-size:0.82rem; font-weight:600; letter-spacing:0.07em; text-transform:uppercase; color:#666; min-width:140px; padding-top:4px; flex-shrink:0; }
+        .addr-input { flex:1; border:none; outline:none; font-size:16px; font-family:Georgia,serif; color:#1A1A1A; background:transparent; padding:4px 0; resize:none; line-height:1.6; }
+        .addr-textarea { min-height:48px; overflow:hidden; }
 
         .book-field-label {
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.13em;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--charcoal);
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .book-field-sub {
-            font-size: 0.82rem;
-            color: #999;
-            margin-bottom: 16px;
-            line-height: 1.6;
+            font-size: 0.97rem;
+            color: #666;
+            margin-bottom: 18px;
+            line-height: 1.75;
         }
 
         .book-field textarea {
@@ -455,28 +455,28 @@
             border: 1px solid var(--border);
             padding: 16px 20px;
             font-family: var(--font-body);
-            font-size: 0.9rem;
-            line-height: 1.8;
+            font-size: 1rem;
+            line-height: 1.85;
             color: var(--charcoal);
             background: var(--white);
             resize: vertical;
             outline: none;
             transition: border-color 0.2s;
-            min-height: 96px;
+            min-height: 100px;
         }
 
         .book-field textarea:focus { border-color: var(--gold); }
-        .cover-colour-options { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+        .cover-colour-options { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; }
         .colour-opt {
             display: flex; align-items: center; gap: 8px;
             background: none; border: 1px solid #DDD; border-radius: 3px;
-            padding: 9px 16px; cursor: pointer; font-size: 14px;
+            padding: 11px 20px; cursor: pointer; font-size: 15px;
             font-family: inherit; color: var(--charcoal); transition: border-color 0.15s;
         }
         .colour-opt:hover { border-color: var(--gold); }
         .colour-opt.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); font-weight: 500; }
-        .colour-dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
-        .book-field textarea::placeholder { color: #ccc; font-style: italic; }
+        .colour-dot { display: inline-block; width: 13px; height: 13px; border-radius: 50%; flex-shrink: 0; }
+        .book-field textarea::placeholder { color: #bbb; font-style: italic; }
 
         /* Book summary */
         /* Extra copies */
@@ -489,7 +489,7 @@
         }
 
         .copies-input-row label {
-            font-size: 0.82rem;
+            font-size: 0.97rem;
             color: var(--charcoal);
         }
 
@@ -515,8 +515,8 @@
         }
 
         .copies-breakdown {
-            font-size: 0.78rem;
-            color: #aaa;
+            font-size: 0.92rem;
+            color: #777;
             margin-bottom: 16px;
             min-height: 1.2em;
         }
@@ -718,11 +718,11 @@
 
                     <!-- Box 1: Default title -->
                     <div style="border:1px solid #1A1A1A; padding:22px 24px; margin-top:14px;">
-                        <p style="font-size:12px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Use the default title</p>
-                        <p style="font-size:16px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">Dear Family — The Collected Stories of</p>
+                        <p style="font-size:13px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Use the default title</p>
+                        <p style="font-size:17px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">Dear Family — The Collected Stories of</p>
                         <input type="text" id="bookTitleName" placeholder="[Your Full Name]" maxlength="50"
-                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:16px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
-                        <p style="font-size:13px; color:#666; margin:8px 0 0; font-family:Arial,sans-serif;">Write your full name in the field above.</p>
+                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:17px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
+                        <p style="font-size:15px; color:#555; margin:8px 0 0; font-family:Arial,sans-serif;">Write your full name in the field above.</p>
                     </div>
                     <p class="field-saved-msg" id="bookTitleNameSaved"></p>
 
@@ -731,11 +731,11 @@
 
                     <!-- Box 2: Custom title -->
                     <div style="border:1px solid #1A1A1A; padding:22px 24px;">
-                        <p style="font-size:12px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Choose your own title</p>
+                        <p style="font-size:13px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Choose your own title</p>
                         <input type="text" id="bookTitleCustom" placeholder="Write your own title here" maxlength="30"
-                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:16px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
-                        <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:8px 0 0;text-align:right;font-family:Arial,sans-serif;">0 / 30 characters</p>
-                        <p id="bookTitleWarning" style="font-size:13px;color:#B8976A;margin:4px 0 0;font-family:Arial,sans-serif;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
+                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:17px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
+                        <p id="bookTitleCounter" style="font-size:15px;color:#888;margin:8px 0 0;text-align:right;font-family:Arial,sans-serif;">0 / 30 characters</p>
+                        <p id="bookTitleWarning" style="font-size:15px;color:#B8976A;margin:4px 0 0;font-family:Arial,sans-serif;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
                     </div>
                     <p class="field-saved-msg" id="bookTitleCustomSaved"></p>
                 </div>

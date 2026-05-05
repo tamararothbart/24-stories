@@ -429,6 +429,11 @@
 
         .book-field { margin-bottom: 40px; }
 
+        .addr-row { display:flex; align-items:flex-start; border-bottom:1px solid #E8E4DF; padding:10px 0; gap:12px; }
+        .addr-label { font-size:0.75rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#888; min-width:120px; padding-top:6px; flex-shrink:0; }
+        .addr-input { flex:1; border:none; outline:none; font-size:15px; font-family:Georgia,serif; color:#1A1A1A; background:transparent; padding:4px 0; resize:none; line-height:1.5; }
+        .addr-textarea { min-height:44px; overflow:hidden; }
+
         .book-field-label {
             font-size: 0.68rem;
             font-weight: 500;
@@ -696,35 +701,42 @@
                     <p class="book-field-sub">A portrait of you — clear, well-lit, meaningful to you.</p>
                     <div id="portraitExisting"></div>
                     <div class="photo-actions">
-                        <button class="btn-photo" id="btnPortrait" type="button">Choose portrait</button>
+                        <button class="btn-photo" id="btnPortrait" type="button">Upload portrait</button>
                         <span class="photo-filename-sm" id="portraitFilename"></span>
                         <input type="file" id="portraitInput" accept="image/*" style="display:none;">
                     </div>
                     <p class="upload-msg" id="portraitUploading">Uploading...</p>
                     <p class="save-ok-msg" id="portraitOk">Portrait saved.</p>
+                    <p class="book-field-label" style="margin-top:20px;">Portrait caption</p>
+                    <textarea id="portraitCaption" placeholder="Name (including maiden name if applicable), date and place of birth." rows="2"></textarea>
+                    <p class="field-saved-msg" id="portraitCaptionSaved"></p>
                 </div>
 
                 <!-- BOOK TITLE -->
                 <div class="book-field">
                     <p class="book-field-label">Book title</p>
-                    <p class="book-field-sub">Type your name to use the default title. Or skip this and write your own below.</p>
 
-                    <!-- Default title: static prefix + name input inline -->
-                    <div style="display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 6px; margin:14px 0 6px;">
-                        <span style="font-size:17px; font-style:italic; color:#888; white-space:nowrap;">Dear Family — the Collected Stories of</span>
-                        <input type="text" id="bookTitleName" placeholder="Your Full Name" maxlength="50"
-                               style="border:none; border-bottom:2px solid #B8976A; background:transparent; font-size:17px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:2px 4px; min-width:160px; flex:1; outline:none;">
+                    <!-- Box 1: Default title -->
+                    <div style="border:1px solid #1A1A1A; padding:22px 24px; margin-top:14px;">
+                        <p style="font-size:12px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Use the default title</p>
+                        <p style="font-size:16px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">Dear Family — The Collected Stories of</p>
+                        <input type="text" id="bookTitleName" placeholder="[Your Full Name]" maxlength="50"
+                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:16px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
+                        <p style="font-size:13px; color:#666; margin:8px 0 0; font-family:Arial,sans-serif;">Write your full name in the field above.</p>
                     </div>
                     <p class="field-saved-msg" id="bookTitleNameSaved"></p>
 
-                    <!-- Separator -->
-                    <p style="text-align:center; color:#CCC; font-size:13px; letter-spacing:0.08em; margin:20px 0;">— or use your own title —</p>
+                    <!-- OR -->
+                    <p style="text-align:center; font-size:14px; font-weight:bold; font-family:Arial,sans-serif; letter-spacing:0.15em; color:#1A1A1A; margin:18px 0;">— OR —</p>
 
-                    <!-- Custom title with character counter -->
-                    <input type="text" id="bookTitleCustom" placeholder="Write your own title" maxlength="30"
-                           style="width:100%; box-sizing:border-box; border:1px solid #D0CCC6; font-size:16px; font-family:Georgia,serif; padding:12px 14px; color:#1A1A1A; background:#fff; outline:none;">
-                    <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:4px 0 0;text-align:right;display:none;">0 / 30</p>
-                    <p id="bookTitleWarning" style="font-size:13px;color:#B8976A;margin:4px 0 0;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
+                    <!-- Box 2: Custom title -->
+                    <div style="border:1px solid #1A1A1A; padding:22px 24px;">
+                        <p style="font-size:12px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Choose your own title</p>
+                        <input type="text" id="bookTitleCustom" placeholder="Write your own title here" maxlength="30"
+                               style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:16px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
+                        <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:8px 0 0;text-align:right;font-family:Arial,sans-serif;">0 / 30 characters</p>
+                        <p id="bookTitleWarning" style="font-size:13px;color:#B8976A;margin:4px 0 0;font-family:Arial,sans-serif;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
+                    </div>
                     <p class="field-saved-msg" id="bookTitleCustomSaved"></p>
                 </div>
 
@@ -756,22 +768,51 @@
 
                 <div class="book-field">
                     <p class="book-field-label">Epigraph <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
-                    <p class="book-field-sub">A short quotation, a line of poetry, or a phrase that captures the spirit of your stories. It appears on its own page, just before your stories begin. Include the attribution on a second line.</p>
-                    <textarea id="epigraphText" placeholder='"Make up a story. For our sake and yours forget your name in the street; tell us what the world has been to you in the dark places and in the light. Don&#39;t tell us what to believe, what to fear. Show us belief&#39;s wide skirt and the stitch that unravels fear&#39;s caul."&#10;&#10;— Toni Morrison, Nobel Prize Lecture, 1993' rows="6"></textarea>
+                    <p class="book-field-sub">A short quotation, a line of poetry, or a phrase that captures the spirit of your stories. It appears on its own page, just before your stories begin.</p>
+                    <textarea id="epigraphText" placeholder="Paste or type your chosen quotation here." rows="5"></textarea>
                     <p class="field-saved-msg" id="epigraphSaved"></p>
                 </div>
 
                 <!-- DELIVERY ADDRESS -->
                 <div class="book-field">
                     <p class="book-field-label">Delivery address</p>
-                    <p class="book-field-sub">Where would you like your book delivered? Delivery is free within South Africa. If you are based abroad, please provide a South African address — a family member or friend — and arrange onward shipping from there.</p>
-                    <textarea id="deliveryAddress" placeholder="Name&#10;Unit number&#10;Street address&#10;Suburb&#10;City&#10;Province&#10;Postal code" rows="7"></textarea>
+                    <p class="book-field-sub">Where would you like your book delivered? Delivery is free within South Africa. If you are shipping outside of South Africa, email <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">hello@24stories.co.za</a> to arrange international shipment — at cost to you.</p>
+                    <div style="margin-top:14px;">
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrName">Name</label>
+                            <input type="text" id="addrName" class="addr-input" autocomplete="name">
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrUnit">Unit / Complex</label>
+                            <input type="text" id="addrUnit" class="addr-input" autocomplete="address-line2">
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrStreet">Street address</label>
+                            <textarea id="addrStreet" class="addr-input addr-textarea" rows="2" autocomplete="street-address"></textarea>
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrSuburb">Suburb</label>
+                            <input type="text" id="addrSuburb" class="addr-input">
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrCity">City</label>
+                            <input type="text" id="addrCity" class="addr-input" autocomplete="address-level2">
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrProvince">Province</label>
+                            <input type="text" id="addrProvince" class="addr-input" autocomplete="address-level1">
+                        </div>
+                        <div class="addr-row">
+                            <label class="addr-label" for="addrPostal">Postal code</label>
+                            <input type="text" id="addrPostal" class="addr-input" autocomplete="postal-code" style="max-width:120px;">
+                        </div>
+                    </div>
                     <p class="field-saved-msg" id="addressSaved"></p>
                 </div>
 
                 <!-- DELIVERY PHONE -->
                 <div class="book-field">
-                    <p class="book-field-label">Mobile number for delivery</p>
+                    <p class="book-field-label">Mobile number for delivery <span style="font-weight:300;text-transform:none;letter-spacing:0;color:var(--gold);">— optional</span></p>
                     <p class="book-field-sub">We share this with the courier so they can reach you on delivery day.</p>
                     <textarea id="deliveryPhone" placeholder="+27 82 000 0000" rows="1"></textarea>
                     <p class="field-saved-msg" id="phoneSaved"></p>
@@ -780,7 +821,7 @@
                 <!-- EXTRA COPIES -->
                 <div class="book-field">
                     <p class="book-field-label">Additional copies</p>
-                    <p class="book-field-sub">Your book is included in your 24 Stories package. If you would like extra copies for family members, you may order them here. All copies are printed and delivered together to the address above — we find this is often a wonderful opportunity to bring family together. It is then your joy to distribute them in person.<br><br>
+                    <p class="book-field-sub">Your book is included in your 24 Stories package. If you would like extra copies for family members, order them here. All copies go to the address above.<br><br>
                     <strong>1–9 copies: R1,200 each &nbsp;·&nbsp; 10 or more copies: R1,000 each</strong></p>
                     <div class="copies-input-row">
                         <label for="copiesInput">Number of additional copies</label>
@@ -793,17 +834,6 @@
                 </div>
 
 
-                <!-- BOOK DISPATCH — Tamara only -->
-                <div class="book-dispatch-section">
-                    <p class="admin-action-label">Tamara — book production</p>
-                    <p class="book-field-label">Mark as sent to print</p>
-                    <p class="book-field-sub">Enter the date the book file was sent to the printer. This triggers the delivery confirmation email (email-12) to the subscriber.</p>
-                    <div class="book-dispatch-row">
-                        <input type="date" class="book-dispatch-date" id="bookDispatchDate">
-                        <button class="btn-book-dispatch" id="btnBookDispatch" type="button">Mark as sent to print</button>
-                    </div>
-                    <p class="book-dispatch-msg" id="bookDispatchMsg"></p>
-                </div>
 
             </div><!-- /book-prep -->
 
@@ -1174,8 +1204,7 @@
 
             function updateCounter() {
                 var len = customEl.value.length;
-                counter.style.display = len > 0 ? 'block' : 'none';
-                counter.textContent = len + ' / 30';
+                counter.textContent = len + ' / 30 characters';
                 warning.style.display = len >= 20 ? 'block' : 'none';
             }
             updateCounter();
@@ -1205,12 +1234,65 @@
                 titleTimer = setTimeout(function() { saveBookTitle(customSaved); }, 1800);
             });
 
-            if (f.DedicationText)  document.getElementById('dedicationText').value  = f.DedicationText;
-            if (f.EpigraphText)    document.getElementById('epigraphText').value    = f.EpigraphText;
-            if (f.DeliveryAddress) document.getElementById('deliveryAddress').value = f.DeliveryAddress;
-            setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
-            setupTextSave('epigraphText',   'epigraphSaved',   'epigraph');
-            setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');
+            if (f.DedicationText)    document.getElementById('dedicationText').value    = f.DedicationText;
+            if (f.EpigraphText)      document.getElementById('epigraphText').value      = f.EpigraphText;
+            if (f.PortraitCaption)   document.getElementById('portraitCaption').value   = f.PortraitCaption;
+            if (f.DeliveryAddress) {
+                var addrLines = f.DeliveryAddress.split('\n');
+                var addrParsed = {};
+                addrLines.forEach(function(line) {
+                    var m = line.match(/^([^:]+):\s*(.*)$/);
+                    if (m) addrParsed[m[1].trim().toLowerCase()] = m[2].trim();
+                });
+                if (Object.keys(addrParsed).length > 0) {
+                    if (addrParsed['name'])     document.getElementById('addrName').value     = addrParsed['name'];
+                    if (addrParsed['unit / complex']) document.getElementById('addrUnit').value = addrParsed['unit / complex'];
+                    if (addrParsed['street address']) document.getElementById('addrStreet').value = addrParsed['street address'];
+                    if (addrParsed['suburb'])   document.getElementById('addrSuburb').value   = addrParsed['suburb'];
+                    if (addrParsed['city'])     document.getElementById('addrCity').value     = addrParsed['city'];
+                    if (addrParsed['province']) document.getElementById('addrProvince').value = addrParsed['province'];
+                    if (addrParsed['postal code']) document.getElementById('addrPostal').value = addrParsed['postal code'];
+                } else {
+                    document.getElementById('addrName').value = f.DeliveryAddress;
+                }
+            }
+            setupTextSave('dedicationText',   'dedicationSaved',      'dedication');
+            setupTextSave('epigraphText',     'epigraphSaved',        'epigraph');
+            setupTextSave('portraitCaption',  'portraitCaptionSaved', 'portraitCaption');
+            (function() {
+                var addrFields = [
+                    { id:'addrName',    label:'Name' },
+                    { id:'addrUnit',    label:'Unit / Complex' },
+                    { id:'addrStreet',  label:'Street Address' },
+                    { id:'addrSuburb',  label:'Suburb' },
+                    { id:'addrCity',    label:'City' },
+                    { id:'addrProvince',label:'Province' },
+                    { id:'addrPostal',  label:'Postal Code' }
+                ];
+                var saved = document.getElementById('addressSaved');
+                var timer;
+                function buildAddress() {
+                    return addrFields.map(function(f) {
+                        var val = document.getElementById(f.id).value.trim();
+                        return val ? f.label + ': ' + val : '';
+                    }).filter(Boolean).join('\n');
+                }
+                addrFields.forEach(function(field) {
+                    var el = document.getElementById(field.id);
+                    el.addEventListener('input', function() {
+                        saved.textContent = '';
+                        clearTimeout(timer);
+                        timer = setTimeout(function() {
+                            var addr = buildAddress();
+                            if (addr) {
+                                postMake(LIBRARY_UPDATE_URL, { type:'book-text', subscriberId:subscriberId, fieldType:'deliveryAddress', value:addr });
+                                saved.textContent = 'Saved';
+                                setTimeout(function() { saved.textContent = ''; }, 2000);
+                            }
+                        }, 1800);
+                    });
+                });
+            })();
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
             setupCoverColour(f.CoverColour || '');
             setupExtraCopies();

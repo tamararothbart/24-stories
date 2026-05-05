@@ -41,6 +41,7 @@ exports.handler = async function(event) {
         bookTitle:       'BookTitle',
         dedication:      'DedicationText',
         epigraph:        'EpigraphText',
+        portraitCaption: 'PortraitCaption',
         deliveryAddress: 'DeliveryAddress',
         deliveryPhone:   'DeliveryPhone',
         coverColour:     'CoverColour',

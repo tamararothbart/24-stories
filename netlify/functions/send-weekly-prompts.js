@@ -53,6 +53,7 @@ exports.handler = async function() {
     const tellUrl     = buildTellUrl(subscriberId, weekNumber, weekName, theme, promptText, otherAngles);
 
     const isWeek1  = weekNumber === 1;
+    const isWeek24 = weekNumber === 24;
     const isWeek25 = weekNumber === 25;
     const isWeek26 = weekNumber === 26;
 
@@ -73,11 +74,11 @@ exports.handler = async function() {
       await sendEmail(mjAuth, { to: { Email: f.StoryHelperEmail, Name: f.StoryHelperName || '' }, subject, html });
     }
 
-    // Week 26 also sends book onboarding email
-    if (isWeek26 && f.StorytellerEmail) {
+    // Week 24: book onboarding intro fires alongside the prompt
+    if (isWeek24 && f.StorytellerEmail) {
       await sendEmail(mjAuth, {
         to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
-        subject: 'Twenty-six chapters complete — your Legacy Book is ready to compile',
+        subject: 'Two chapters to go — time to prepare your book',
         html:    email9Html(f.StorytellerFirstName, libUrl)
       });
     }
@@ -271,16 +272,16 @@ function email9Html(firstName, libUrl) {
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Twenty-six chapters complete. Time to compile your book.</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Two chapters to go. Time to prepare your book.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The final prompt has been sent. Twenty-six chapters of your life are now preserved in your Story Library — and it is time to bring them together in your book.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You are nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Here is what happens next</p>
   <ul style="list-style:none;padding:0;margin:0 0 28px;">
-    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Fill in any missing stories.</strong> Your library holds all 26 prompts. If there are any you have not yet told, open your library and record them now.</li>
-    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add any final photographs and captions not yet uploaded.</strong> Each story has room for one image. Open your library and add any you have not yet uploaded.</li>
-    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a title in place — you are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait and a dedication.</li>
-    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Mark your library as complete.</strong> When you are ready, press the Mark as Complete button in your library. Your book goes straight to production. Please allow up to three weeks from print to delivery. No further changes can be made after pressing Complete.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Tell any missing stories.</strong> Your library holds all 26 prompts. If there are weeks you have not yet recorded, use your library to do so at any time.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add photographs and captions.</strong> Each chapter has room for one image. If you have not yet added them, you can do so now — or any time before you press Complete.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to three weeks from print to delivery. No further changes can be made after pressing Complete.</li>
   </ul>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There is no deadline — but the sooner you press Complete, the sooner your book arrives.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>

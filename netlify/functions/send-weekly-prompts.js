@@ -182,10 +182,9 @@ function email8Html(firstName, weekNumber, weekName, theme, promptText, otherAng
       <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
       <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">${esc(otherAngles)}</p>
     </div>
-    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Tell any story that moves you.</p>
   </div>
-  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you are ready, this button takes you straight to your recording page.</p>
-  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 32px;">Tell Your Story</a>
+  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:28px 0 32px;">Tell Your Story</a>
   <p style="font-size:17px;color:#333;line-height:1.8;margin:0 0 28px;">Each story gives you the option to add a photograph and caption. If you are not ready, you can return to your Story Library at any time to add it. <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;">Open your library &#8594;</a></p>
   <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 32px;">Chapter ${weekNumber} of 26 — your Legacy Book is taking shape.</p>
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">

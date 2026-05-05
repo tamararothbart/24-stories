@@ -28,6 +28,7 @@ exports.handler = async function() {
     const f            = sub.fields;
     const subscriberId = sub.id;
     const promptNumber = f.PromptNumber || 0; // already incremented after Wednesday send
+    if (promptNumber >= 25) continue; // weeks 25–26 are bonus prompts — no day-4 reminder
     const libToken     = f.LibraryToken || subscriberId;
     const libUrl       = `https://24stories.co.za/library.html?id=${libToken}`;
 

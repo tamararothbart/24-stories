@@ -14,6 +14,8 @@
   .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
   p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
   .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+  ul.checklist { list-style: disc; padding-left: 24px; margin: 0 0 28px; }
+  ul.checklist li { font-size: 16px; line-height: 1.9; color: #222; margin-bottom: 8px; }
   .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
   a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
@@ -21,10 +23,16 @@
 <body>
 
 <div class="meta">
-  <strong>EMAIL 10 — BOOK DETAILS REMINDER (×2: Day 3 + Day 7 post-Week 26)</strong><br>
-  Scenario: 9 (Book Onboarding) &nbsp;|&nbsp; Trigger: Day 3 and Day 7 after Email 9, while BookFormCompleted = empty &nbsp;|&nbsp; To: Storyteller only<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
-  Condition: Stop sending as soon as BookFormCompleted is populated. After 2 sends without response, fire Email 11.<br><br>
+  <strong>EMAIL 10 — BOOK DETAILS REMINDER (×3 sends)</strong><br>
+  Scenario: book-onboarding-reminder.js &nbsp;|&nbsp; To: Storyteller only<br>
+  Subject: <em>A gentle reminder about your book details.</em><br>
+  Status: <strong style="color:#B8976A;">⚑ UPDATED 2026-05-05</strong><br><br>
+  Send schedule:<br>
+  &nbsp; Prompt 24 + Day 3 → Reminder 1<br>
+  &nbsp; Prompt 24 + Day 6 → Reminder 2<br>
+  &nbsp; Prompt 26 + Day 1 → Final reminder<br><br>
+  Stop condition: PortraitPhotoURL + BookTitle + DedicationText all filled &nbsp;OR&nbsp; BookFormCompleted filled.<br>
+  After final reminder (prompt 26 + Day 1), if still not complete, Email 11 fires at Prompt 26 + Day 4.<br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">LibraryURL</span>
@@ -37,29 +45,32 @@
 
   <p class="gold">Your Legacy Book</p>
 
-  <p class="h1">Your Story Library is incomplete.</p>
+  <p class="h1">A gentle reminder about your book details.</p>
 
   <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
 
   <p>
-    There are still items missing from your Story Library. If you need to upload any outstanding
-    photographs, now is the time to do so.
+    If you have already added your portrait, confirmed your title and written your dedication — you can ignore this. Your book is on track.
   </p>
 
   <p>
-    If you have not yet completed your book details — a title, a portrait, and a dedication — we encourage you to do that now.
+    If not, here is a quick reminder of what to do before you press Complete:
   </p>
 
+  <ul class="checklist">
+    <li>Upload a portrait photograph</li>
+    <li>Confirm or update your book title</li>
+    <li>Write a dedication</li>
+  </ul>
+
   <p>
-    Although there is no deadline, your book will not go to production until you press the
-    Complete button in your library. You are welcome to leave elements out, but these details
-    are what make your book uniquely yours.
+    These are what make your book uniquely yours. Your book will be printed exactly as it stands when you press Complete — so take a moment to make sure everything is in place.
   </p>
 
   <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
 
   <p>
-    If you have any questions, write to us at <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> — we are here to help you across the finishing line.
+    Questions? We are here to help. <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>
   </p>
 
   <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">

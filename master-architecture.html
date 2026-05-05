@@ -283,7 +283,7 @@
   <ul>
     <li>Sets <code>BookFormCompleted</code> date in Airtable → triggers Make to alert Tamara</li>
     <li>Locks the library: no further changes can be made</li>
-    <li>Starts the delivery clock (allow up to 3 weeks from print dispatch to door)</li>
+    <li>Starts the delivery clock (allow up to 4 weeks from print dispatch to door)</li>
   </ul>
   <p>Warning modal before pressing: <em>"Once you mark your library as complete, your book goes straight to production. No further stories, photographs, or changes can be added. Your delivery window begins from this moment."</em> Requires explicit confirmation.</p>
 
@@ -517,7 +517,7 @@
     <tr><td>9</td><td>email-9-book-onboarding-week26</td><td>Storyteller</td><td>Prompt 26 sent</td><td><span class="flag green">LOCKED</span></td></tr>
     <tr><td>10</td><td>email-10-book-onboarding-reminder</td><td>Storyteller</td><td>Day 3 + Day 7 after email 9</td><td><span class="flag green">LOCKED</span> — identical content both sends</td></tr>
     <tr><td>11</td><td>email-11-book-onboarding-overdue</td><td>Storyteller</td><td>Day 14 after email 9</td><td><span class="flag green">LOCKED</span></td></tr>
-    <tr><td>12</td><td>email-12-book-delivery-confirmation</td><td>Storyteller</td><td>Tamara sets BookSentToPrintDate (Scenario 11)</td><td><span class="flag green">LOCKED</span> — allow up to 3 weeks delivery</td></tr>
+    <tr><td>12</td><td>email-12-book-delivery-confirmation</td><td>Storyteller</td><td>Tamara sets BookSentToPrintDate (Scenario 11)</td><td><span class="flag green">LOCKED</span> — allow up to 4 weeks delivery</td></tr>
     <tr><td>13</td><td>email-13-late-delivery-apology</td><td>Storyteller / Gift Giver</td><td>Manual</td><td><span class="flag green">LOCKED</span></td></tr>
     <tr><td>14</td><td>email-14-extra-copies-confirmation</td><td>Buyer</td><td>Extra copies PayFast COMPLETE</td><td><span class="flag green">LOCKED</span> — R1,200 pricing</td></tr>
     <tr><td>15</td><td>email-15-pause-confirmation</td><td>Subscriber</td><td>Manual — Tamara sends after pause request</td><td><span class="flag green">LOCKED</span> — key line: "Your pause is valid until [PauseExpiryDate]"</td></tr>
@@ -557,7 +557,7 @@
     <li>Designer fills book template (Canva vs Reedsy — deferred pending StoryWorth automation research). Sets BookCompiledDate.</li>
     <li>Export as print-ready PDF. Send to local SA printer (~R1,100).</li>
     <li>Tamara sets BookSentToPrintDate in Airtable → Scenario 11 fires → email 12 sent to Storyteller.</li>
-    <li>Courier Guy delivery (~R150). Allow up to 3 weeks from print to door.</li>
+    <li>Courier Guy delivery (~R150). Allow up to 4 weeks from print to door.</li>
   </ol>
 
   <h3>Costs</h3>

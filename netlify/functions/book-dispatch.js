@@ -87,7 +87,7 @@ function email12Html(firstName) {
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is on its way.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-six stories. Six months. One book.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us. Please allow up to three weeks for print and delivery.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us. Please allow up to four weeks for print and delivery.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope it is everything you imagined — and more. Hearing from families who have been through this journey means a great deal to us. If you have a moment to share your experience, please write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">

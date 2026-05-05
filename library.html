@@ -709,7 +709,9 @@
                     <p class="book-field-label">Book title</p>
                     <p id="defaultBookTitle" style="font-size:18px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">The Collected Stories of [StorytellerFirstName] [StorytellerSurname]</p>
                     <p class="book-field-sub">Or leave as is.</p>
-                    <textarea id="bookTitle" placeholder="Type your own title here" rows="2"></textarea>
+                    <textarea id="bookTitle" placeholder="Type your own title here" rows="2" maxlength="30"></textarea>
+                    <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:4px 0 0;text-align:right;">0 / 30</p>
+                    <p id="bookTitleWarning" style="font-size:13px;color:#B8976A;margin:4px 0 0;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
                     <p class="field-saved-msg" id="bookTitleSaved"></p>
                 </div>
 
@@ -1149,6 +1151,18 @@
             if (f.DeliveryAddress) document.getElementById('deliveryAddress').value = f.DeliveryAddress;
 
             setupTextSave('bookTitle',      'bookTitleSaved',  'bookTitle');
+            (function() {
+                var ta = document.getElementById('bookTitle');
+                var counter = document.getElementById('bookTitleCounter');
+                var warning = document.getElementById('bookTitleWarning');
+                function updateCounter() {
+                    var len = ta.value.length;
+                    counter.textContent = len + ' / 30';
+                    warning.style.display = len >= 20 ? 'block' : 'none';
+                }
+                ta.addEventListener('input', updateCounter);
+                updateCounter();
+            })();
             setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
             setupTextSave('epigraphText',   'epigraphSaved',   'epigraph');
             setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');

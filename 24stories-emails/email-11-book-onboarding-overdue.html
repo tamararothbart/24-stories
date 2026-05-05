@@ -22,9 +22,12 @@
 
 <div class="meta">
   <strong>EMAIL 11 — BOOK DETAILS OVERDUE</strong><br>
-  Scenario: 9 (Book Onboarding) &nbsp;|&nbsp; Trigger: Day 14 after Email 9, BookFormCompleted still empty &nbsp;|&nbsp; To: Storyteller only<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
-  After this email: Scenario 9 stops. Tamara handles manually — write personally from hello@24stories.co.za to find out why.<br><br>
+  Scenario: book-onboarding-reminder.js &nbsp;|&nbsp; To: Storyteller only<br>
+  Subject: <em>Your Legacy Book is waiting.</em><br>
+  Status: <strong style="color:#B8976A;">⚑ UPDATED 2026-05-05</strong><br><br>
+  Trigger: PromptNumber = 26, Day 4 after LastPromptSentDate, BookFormCompleted still empty.<br><br>
+  Simultaneously: alert email fires to hello@24stories.co.za listing missing fields (red = fields missing / green = all filled, just needs Complete pressed).<br><br>
+  After this email: no further automated emails. Tamara follows up manually from hello@24stories.co.za.<br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">LibraryURL</span>
@@ -37,27 +40,23 @@
 
   <p class="gold">Your Legacy Book</p>
 
-  <p class="h1">Are you struggling to complete your book details?</p>
+  <p class="h1">Your book is waiting.</p>
 
   <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
 
   <p>
-    We notice that you have not yet pressed Complete in your Story Library. Life is busy — we
-    understand. But your book will not go to production until any missing details are uploaded
-    and you press the Complete button.
+    Twenty-six weeks of stories. Your Legacy Book is ready to be compiled — and we want to make sure it reaches you.
   </p>
 
   <p>
-    Here is your library link. Keep this email and use it any time to return to your library.
+    If you are ready and just need to press Complete, your library is one click away.
+  </p>
+
+  <p>
+    If anything is holding you back — missing photographs, uncertainty about your title, or anything else — write to us at <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>. We will help you across the finishing line.
   </p>
 
   <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
-
-  <p>
-    If we can help with anything at all, please write to us at
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>.
-    We are truly excited for you to have your compilation of stories, in hard copy, in your hands.
-  </p>
 
   <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
     With warmth,<br>

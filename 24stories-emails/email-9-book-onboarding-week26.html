@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 9 — Book Onboarding (Week 26 Complete)</title>
+<title>Email 9 — Book Onboarding (Week 24 — Two Chapters to Go)</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -14,20 +14,31 @@
   .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
   p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
   .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .steps { list-style: none; padding: 0; margin: 0 0 28px 0; }
-  .steps li { font-size: 16px; line-height: 1.9; padding: 14px 0; border-bottom: 1px solid #E0DCD7; color: #222; }
-  .steps li strong { color: #1A1A1A; }
-  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
+  .steps { list-style: none; padding: 0; margin: 0 0 28px 0; counter-reset: step-counter; }
+  .steps > li { font-size: 16px; line-height: 1.9; padding: 18px 0 18px 44px; border-bottom: 1px solid #E0DCD7; color: #222; position: relative; counter-increment: step-counter; }
+  .steps > li::before { content: counter(step-counter); position: absolute; left: 0; top: 18px; width: 28px; height: 28px; background: #B8976A; color: #fff; border-radius: 50%; font-size: 13px; font-family: Arial, sans-serif; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1; }
+  .steps > li strong { color: #1A1A1A; display: block; margin-bottom: 8px; font-size: 17px; }
+  .steps > li .sub { margin-top: 12px; }
+  .steps > li .sub-label { font-weight: bold; color: #1A1A1A; display: block; margin: 14px 0 4px; }
+  .complete-block { background: #1A1A1A; color: #F7F5F2; padding: 32px 36px; margin: 36px 0; }
+  .complete-block p { color: #F7F5F2; margin: 0 0 18px 0; font-size: 16px; line-height: 1.9; }
+  .complete-block p:last-child { margin: 0; font-size: 15px; color: #B8976A; }
+  .complete-label { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #B8976A; font-weight: bold; font-family: Arial, sans-serif; margin: 0 0 18px 0; display: block; }
+  .cta { display: inline-block; background: #B8976A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 20px 0 24px; }
   a.gold-link { color: #B8976A; text-decoration: underline; }
+  .footnote { font-size: 15px; color: #666; line-height: 1.8; font-style: italic; margin: 0 0 8px 0; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 9 — BOOK ONBOARDING (WEEK 26 COMPLETE)</strong><br>
-  Scenario: 8 (End of Subscription) &nbsp;|&nbsp; Trigger: Prompt 26 sent &nbsp;|&nbsp; To: Storyteller only<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
-  Make action: Set BookOnboardingEmailSentDate = today. Schedule Scenario 9 reminders (Day 3 and Day 7) if BookFormCompleted = empty.<br><br>
+  <strong>EMAIL 9 — BOOK ONBOARDING (WEEK 24 — TWO CHAPTERS TO GO)</strong><br>
+  Scenario: 8 (Book Onboarding) &nbsp;|&nbsp; Trigger: Prompt 24 sent &nbsp;|&nbsp; To: Storyteller only<br>
+  Subject: <em>Two chapters to go — time to prepare your book.</em><br>
+  Status: <strong style="color:#B8976A;">⚑ UPDATED 2026-05-05 — triggers at week 24, not week 26</strong><br><br>
+  Fires alongside send-weekly-prompts.js when PromptNumber reaches 24. Kicks off book-onboarding-reminder.js sequence.<br>
+  Delivery estimate updated to four weeks (was three).<br>
+  ⚠ Placeholder: title character limit [X] — confirm with printer before go-live.<br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">LibraryURL</span>
@@ -40,35 +51,85 @@
 
   <p class="gold">Your Legacy Book</p>
 
-  <p class="h1">Twenty-six chapters complete. Time to compile your book.</p>
+  <p class="h1">Two chapters to go. Time to prepare your book.</p>
 
   <p>Hello <strong>[StorytellerFirstName]</strong>,</p>
 
   <p>
-    The final prompt has been sent. Twenty-six chapters of your life are now preserved
-    in your Story Library — and it is time to bring them together in your book.
+    You are nearly there. Two more stories to tell. While you tell them, we want to make sure your Collected Stories are ready for print the moment you press Complete.
   </p>
-
-  <hr class="divider">
-
-  <p class="gold">Here is what happens next</p>
-
-  <ul class="steps">
-    <li><strong>Fill in any missing stories.</strong> Your library holds all 26 prompts. If there are any you have not yet told, open your library and record them now.</li>
-    <li><strong>Add any final photographs and captions not yet uploaded.</strong> Each story has room for one image. Open your library and add any you have not yet uploaded.</li>
-    <li><strong>If you have not yet done so, complete your book details.</strong> Your book already has a title in place — you are welcome to keep it, adjust it, or replace it entirely. If you do not change it, the default title will be used. You may also add a portrait and a dedication.</li>
-    <li><strong>Mark your library as complete.</strong> When you are ready, press the Mark as Complete button in your library. Your book goes straight to production and your delivery window begins from that moment. Please allow up to three weeks from print to delivery. The book will be printed exactly as it stands — no further stories, photographs, or changes can be added after pressing the Complete button.</li>
-  </ul>
 
   <p>
-    There is no deadline — but the sooner you press Complete, the sooner your book arrives.
+    There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.
   </p>
-
-  <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
 
   <hr class="divider">
 
-  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
+  <ol class="steps">
+
+    <li>
+      <strong>Tell any skipped stories</strong>
+      Your library holds all 26 prompts. If there are weeks you have not recorded, use your library to do so at any time.
+      <span class="sub">You are not obligated to complete all 26 prompts. You can complete the process without responding to all 26. Your book will simply have fewer chapters.</span>
+    </li>
+
+    <li>
+      <strong>Add missing photographs and captions</strong>
+      Each chapter has room for one captioned image — colour or black and white. If you have not yet added them, you can do so now, or any time before you press Complete.
+    </li>
+
+    <li>
+      <strong>Complete your book details</strong>
+
+      <span class="sub">
+
+        <span class="sub-label">Title</span>
+        The title field is currently filled in with a default suggestion: <em>Dear Family. The Collected Stories of [your full name].</em> Use it, change it, or replace it entirely — as long as the title does not exceed 30 characters.
+
+        <span class="sub-label">Portrait photograph</span>
+        The portrait can be black and white or colour. It should be captioned with your birth date, your married and maiden name (if your name changed), and your place of birth.
+
+        <span class="sub-label">Dedication and epigraph</span>
+        The dedication and epigraph are optional extras.
+
+      </span>
+    </li>
+
+    <li>
+      <strong>Delivery details and number of copies</strong>
+      Fill in your physical address for delivery. You may also add a mobile number — this is optional, so that the courier can alert you when your book is on its way.
+      <span class="sub" style="display:block;margin-top:10px;">Confirm the number of copies you would like to order.</span>
+    </li>
+
+  </ol>
+
+  <hr class="divider">
+
+  <div class="complete-block">
+
+    <span class="complete-label">Press Complete</span>
+
+    <p>
+      When — and only when — all your stories are told and your book form is filled in, press the <strong>Mark as Complete</strong> button in your library.
+    </p>
+
+    <p>
+      After you press Complete, no further changes or additions are possible. Your Collected Stories go straight into production.
+    </p>
+
+    <p>
+      Allow up to four weeks from print to delivery. We take great care to make your book beautiful.
+    </p>
+
+    <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
+
+    <p>
+      There is no deadline — but the sooner you press Complete, the sooner your book arrives.
+    </p>
+
+  </div>
+
+  <p style="font-size: 17px; line-height: 1.9; margin: 36px 0 10px 0;">
     With warmth,<br>
     <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
   </p>

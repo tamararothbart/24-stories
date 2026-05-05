@@ -707,12 +707,25 @@
                 <!-- BOOK TITLE -->
                 <div class="book-field">
                     <p class="book-field-label">Book title</p>
-                    <p id="defaultBookTitle" style="font-size:18px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">The Collected Stories of [StorytellerFirstName] [StorytellerSurname]</p>
-                    <p class="book-field-sub">Or leave as is.</p>
-                    <textarea id="bookTitle" placeholder="Type your own title here" rows="2" maxlength="30"></textarea>
-                    <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:4px 0 0;text-align:right;">0 / 30</p>
+                    <p class="book-field-sub">Type your name to use the default title. Or skip this and write your own below.</p>
+
+                    <!-- Default title: static prefix + name input inline -->
+                    <div style="display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 6px; margin:14px 0 6px;">
+                        <span style="font-size:17px; font-style:italic; color:#888; white-space:nowrap;">Dear Family — the Collected Stories of</span>
+                        <input type="text" id="bookTitleName" placeholder="Your Full Name" maxlength="50"
+                               style="border:none; border-bottom:2px solid #B8976A; background:transparent; font-size:17px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:2px 4px; min-width:160px; flex:1; outline:none;">
+                    </div>
+                    <p class="field-saved-msg" id="bookTitleNameSaved"></p>
+
+                    <!-- Separator -->
+                    <p style="text-align:center; color:#CCC; font-size:13px; letter-spacing:0.08em; margin:20px 0;">— or use your own title —</p>
+
+                    <!-- Custom title with character counter -->
+                    <input type="text" id="bookTitleCustom" placeholder="Write your own title" maxlength="30"
+                           style="width:100%; box-sizing:border-box; border:1px solid #D0CCC6; font-size:16px; font-family:Georgia,serif; padding:12px 14px; color:#1A1A1A; background:#fff; outline:none;">
+                    <p id="bookTitleCounter" style="font-size:13px;color:#999;margin:4px 0 0;text-align:right;display:none;">0 / 30</p>
                     <p id="bookTitleWarning" style="font-size:13px;color:#B8976A;margin:4px 0 0;display:none;">Shorter titles are stronger. Titles over 20 characters can look cramped on the cover.</p>
-                    <p class="field-saved-msg" id="bookTitleSaved"></p>
+                    <p class="field-saved-msg" id="bookTitleCustomSaved"></p>
                 </div>
 
                 <!-- COVER COLOUR -->
@@ -1141,28 +1154,60 @@
         function renderBookPrep(f) {
             setupBookPhoto('btnPortrait', 'portraitInput', 'portraitFilename', 'portraitUploading', 'portraitOk', 'portraitExisting', 'portrait', f.PortraitPhotoURL || '');
 
-            // Book title: show default with real name, pre-fill textarea if subscriber has saved their own
-            var fullName = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
-            document.getElementById('defaultBookTitle').textContent = 'The Collected Stories of ' + fullName;
-            if (f.BookTitle) document.getElementById('bookTitle').value = f.BookTitle;
+            // Book title: two-input design — default prefix + name, OR custom title
+            var TITLE_PREFIX = 'Dear Family — the Collected Stories of ';
+            var nameEl    = document.getElementById('bookTitleName');
+            var customEl  = document.getElementById('bookTitleCustom');
+            var nameSaved = document.getElementById('bookTitleNameSaved');
+            var customSaved = document.getElementById('bookTitleCustomSaved');
+            var counter   = document.getElementById('bookTitleCounter');
+            var warning   = document.getElementById('bookTitleWarning');
+
+            // Populate whichever field matches the saved title
+            if (f.BookTitle) {
+                if (f.BookTitle.indexOf(TITLE_PREFIX) === 0) {
+                    nameEl.value = f.BookTitle.slice(TITLE_PREFIX.length);
+                } else {
+                    customEl.value = f.BookTitle;
+                }
+            }
+
+            function updateCounter() {
+                var len = customEl.value.length;
+                counter.style.display = len > 0 ? 'block' : 'none';
+                counter.textContent = len + ' / 30';
+                warning.style.display = len >= 20 ? 'block' : 'none';
+            }
+            updateCounter();
+
+            function saveBookTitle(savedEl) {
+                var name   = nameEl.value.trim();
+                var custom = customEl.value.trim();
+                var title  = custom ? custom : (name ? TITLE_PREFIX + name : '');
+                if (!title) return;
+                postMake(LIBRARY_UPDATE_URL, { type: 'book-text', subscriberId: subscriberId, fieldType: 'bookTitle', value: title });
+                savedEl.textContent = 'Saved';
+                setTimeout(function() { savedEl.textContent = ''; }, 2000);
+            }
+
+            var titleTimer;
+            nameEl.addEventListener('input', function() {
+                if (nameEl.value) { customEl.value = ''; updateCounter(); }
+                nameSaved.textContent = '';
+                clearTimeout(titleTimer);
+                titleTimer = setTimeout(function() { saveBookTitle(nameSaved); }, 1800);
+            });
+            customEl.addEventListener('input', function() {
+                if (customEl.value) nameEl.value = '';
+                customSaved.textContent = '';
+                updateCounter();
+                clearTimeout(titleTimer);
+                titleTimer = setTimeout(function() { saveBookTitle(customSaved); }, 1800);
+            });
 
             if (f.DedicationText)  document.getElementById('dedicationText').value  = f.DedicationText;
             if (f.EpigraphText)    document.getElementById('epigraphText').value    = f.EpigraphText;
             if (f.DeliveryAddress) document.getElementById('deliveryAddress').value = f.DeliveryAddress;
-
-            setupTextSave('bookTitle',      'bookTitleSaved',  'bookTitle');
-            (function() {
-                var ta = document.getElementById('bookTitle');
-                var counter = document.getElementById('bookTitleCounter');
-                var warning = document.getElementById('bookTitleWarning');
-                function updateCounter() {
-                    var len = ta.value.length;
-                    counter.textContent = len + ' / 30';
-                    warning.style.display = len >= 20 ? 'block' : 'none';
-                }
-                ta.addEventListener('input', updateCounter);
-                updateCounter();
-            })();
             setupTextSave('dedicationText', 'dedicationSaved', 'dedication');
             setupTextSave('epigraphText',   'epigraphSaved',   'epigraph');
             setupTextSave('deliveryAddress', 'addressSaved',   'deliveryAddress');

@@ -1296,7 +1296,6 @@
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
             setupCoverColour(f.CoverColour || '');
             setupExtraCopies();
-            setupBookDispatch(f);
         }
 
         function setupCoverColour(saved) {
@@ -1460,46 +1459,6 @@
         }
 
         // ---- BOOK DISPATCH ----
-        function setupBookDispatch(f) {
-            var dateInput = document.getElementById('bookDispatchDate');
-            var btn       = document.getElementById('btnBookDispatch');
-            var msgEl     = document.getElementById('bookDispatchMsg');
-
-            if (f.BookSentToPrintDate) {
-                dateInput.value     = f.BookSentToPrintDate;
-                btn.textContent     = 'Update sent to print date';
-            }
-
-            btn.addEventListener('click', function() {
-                var date = dateInput.value;
-                if (!date) {
-                    msgEl.style.color = 'var(--red)';
-                    msgEl.textContent = 'Please enter a date.';
-                    return;
-                }
-                if (!confirm('Mark book as sent to print on ' + date + '? This sends email-12 to the subscriber.')) return;
-                btn.disabled    = true;
-                btn.textContent = 'Saving…';
-                fetch(BOOK_DISPATCH_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ subscriberId: subscriberId, bookSentToPrintDate: date })
-                })
-                .then(function(r) { return r.json(); })
-                .then(function() {
-                    btn.disabled    = false;
-                    btn.textContent = 'Update sent to print date';
-                    msgEl.style.color = 'var(--green)';
-                    msgEl.textContent = 'Saved. Email-12 sent to subscriber.';
-                })
-                .catch(function() {
-                    btn.disabled    = false;
-                    btn.textContent = f.BookSentToPrintDate ? 'Update sent to print date' : 'Mark as sent to print';
-                    msgEl.style.color = 'var(--red)';
-                    msgEl.textContent = 'Error — please try again.';
-                });
-            });
-        }
 
         // ---- UTILITIES ----
         function uploadToCloudinary(file, cb) {

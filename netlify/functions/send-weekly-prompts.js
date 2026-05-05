@@ -53,15 +53,18 @@ exports.handler = async function() {
     const tellUrl     = buildTellUrl(subscriberId, weekNumber, weekName, theme, promptText, otherAngles);
 
     const isWeek1  = weekNumber === 1;
+    const isWeek25 = weekNumber === 25;
     const isWeek26 = weekNumber === 26;
 
-    const html = isWeek1
-      ? email4Html(f.StorytellerFirstName, weekName, theme, promptText, otherAngles, tellUrl, libUrl)
-      : email8Html(f.StorytellerFirstName, weekNumber, weekName, theme, promptText, otherAngles, tellUrl, libUrl);
+    const html = isWeek1  ? email4Html(f.StorytellerFirstName, weekName, theme, promptText, otherAngles, tellUrl, libUrl)
+               : isWeek25 ? email25Html(f.StorytellerFirstName, promptText, tellUrl, libUrl)
+               : isWeek26 ? email26Html(f.StorytellerFirstName, promptText, tellUrl, libUrl)
+               : email8Html(f.StorytellerFirstName, weekNumber, weekName, theme, promptText, otherAngles, tellUrl, libUrl);
 
-    const subject = isWeek1
-      ? `Week 1 — ${weekName} — your first prompt`
-      : `Week ${weekNumber} — ${weekName} — your prompt this week`;
+    const subject = isWeek1  ? `Week 1 — ${weekName} — your first prompt`
+                  : isWeek25 ? `Week 25 — Legacy (Part I) — a different kind of prompt`
+                  : isWeek26 ? `Week 26 — Legacy (Part II) — your final chapter`
+                  : `Week ${weekNumber} — ${weekName} — your prompt this week`;
 
     if (f.StorytellerEmail) {
       await sendEmail(mjAuth, { to: { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' }, subject, html });
@@ -187,6 +190,69 @@ function email8Html(firstName, weekNumber, weekName, theme, promptText, otherAng
   <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:28px 0 32px;">Tell Your Story</a>
   <p style="font-size:17px;color:#333;line-height:1.8;margin:0 0 28px;">Each story gives you the option to add a photograph and caption. If you don't have one on hand, you can return to your Story Library at any time to add it. <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;">Open your library &#8594;</a></p>
   <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 32px;">Chapter ${weekNumber} of 26 — your Legacy Book is taking shape.</p>
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email25Html(firstName, promptText, tellUrl, libUrl) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-four weeks of stories told. Twenty-four chapters of your life, preserved.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This week is different.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have spent this journey looking back. This week, we ask you to look up. Tell your family who you are right now. What fills your days? What still matters? What are you still figuring out? This is your self-portrait. Your family will treasure it more than you know.</p>
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In all of us there is a hunger, marrow-deep, to know our heritage — to know who we are and where we have come from. Without this enriching knowledge, there is a hollow yearning.&rdquo;</p>
+    <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
+  </div>
+  <div style="border:2px solid #B8976A;padding:32px;margin:32px 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week 25 &mdash; Legacy (Part I) &nbsp;&middot;&nbsp; Theme: Who I Am Now</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0;">${esc(promptText)}</p>
+  </div>
+  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:8px 0 32px;">Tell Your Story</a>
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 8px;">Chapter 25 of 26 — one more to go.</p>
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email26Html(firstName, promptText, tellUrl, libUrl) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This is your final prompt, and probably the most meaningful.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">For this last chapter, we ask something different. Not a story — a list.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The lessons you have learned. The rules you live by. What you know to be true that you would want your children, and their children, to carry with them long after you are gone.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Write as many or as few as you like. There is no right or wrong way — only your way.</p>
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In every conceivable manner, the family is a link to our past, a bridge to our future.&rdquo;</p>
+    <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
+  </div>
+  <div style="border:2px solid #B8976A;padding:32px;margin:32px 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week 26 &mdash; Legacy (Part II) &nbsp;&middot;&nbsp; Theme: What I Know Now</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0;">${esc(promptText)}</p>
+  </div>
+  <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:8px 0 32px;">Tell Your Story</a>
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 8px;">Twenty-six chapters complete. Your Legacy Book is ready to compile.</p>
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>

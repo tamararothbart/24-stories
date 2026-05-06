@@ -3181,9 +3181,17 @@ h1.hero-heading, .hero-content h1 {
 .hero .hero-scroll { display: none; }
 
 @media (max-width: 768px) {
-    .hero-split { display: block; }
+    .hero-split { display: block; padding-bottom: 0; }
     .hero-split .hero-content { max-width: 100%; }
-    .hero-book-panel { display: none; }
+    .hero-book-panel {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        overflow: hidden;
+    }
+    .hero-book-panel .bex-spread { flex-direction: row; }
+    .hero-book-panel .hero-spread-wrap { zoom: 0.54; }
+    .hero-book-panel .hero-cover-corner { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════

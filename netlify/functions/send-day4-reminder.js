@@ -103,7 +103,7 @@ function email5Html(firstName, weekNumber, weekName, theme, promptText, otherAng
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber} — a gentle nudge</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Still time to tell your story this week.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We have not yet received your story for this week. No doubt your family would love to read it.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Here is your prompt again, in case you need it:</p>
   <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">

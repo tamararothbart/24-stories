@@ -132,7 +132,7 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
-  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello <strong>${esc(firstName)}</strong>.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello ${esc(firstName)}.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 16px;">Your memoir-writing journey begins today. Here is your first prompt.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Each prompt is intended as its own, self-contained story. Take your time and have fun with it. There is no right or wrong way to tell your story.</p>
   <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
@@ -177,7 +177,7 @@ function email8Html(firstName, weekNumber, weekName, theme, promptText, otherAng
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
-  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello <strong>${esc(firstName)}</strong>, your story is ready to be told.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello ${esc(firstName)}, your story is ready to be told.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Here is this week's prompt.</p>
   <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
     <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week ${weekNumber} — ${esc(weekName)} &nbsp;&middot;&nbsp; Theme: ${esc(theme)}</p>
@@ -208,7 +208,7 @@ function email25Html(firstName, promptText, tellUrl, libUrl) {
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-four weeks of stories told. Twenty-four chapters of your life, preserved.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This week is different.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have spent this journey looking back. This week, we ask you to look up. Tell your family who you are right now. What fills your days? What still matters? What are you still figuring out? This is your self-portrait. Your family will treasure it more than you know.</p>
@@ -239,7 +239,7 @@ function email26Html(firstName, promptText, tellUrl, libUrl) {
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;">
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This is your final prompt, and probably the most meaningful.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">For this last chapter, we ask something different. Not a story — a list.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The lessons you have learned. The rules you live by. What you know to be true that you would want your children, and their children, to carry with them long after you are gone.</p>
@@ -273,7 +273,7 @@ function email9Html(firstName, libUrl) {
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Two chapters to go. Time to prepare your book.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You are nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">

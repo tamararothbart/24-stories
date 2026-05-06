@@ -105,7 +105,7 @@ exports.handler = async function(event) {
     const mjAuth    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
     const preview   = storyText.length > 400 ? storyText.slice(0, 400) + '…' : storyText;
     const alertHtml = `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;">
-      <strong>${name}</strong> has submitted their Week ${weekNumber} story.</p>
+      ${name} has submitted their Week ${weekNumber} story.</p>
       <p style="font-family:Georgia,serif;font-size:15px;line-height:1.9;color:#333;white-space:pre-wrap;">${preview}</p>
       <p style="margin:24px 0;">
         <a href="${airtableUrl}" style="background:#1A1A1A;color:#ffffff;text-decoration:none;padding:14px 28px;font-family:Georgia,serif;font-size:15px;display:inline-block;">Edit this story &rarr;</a>

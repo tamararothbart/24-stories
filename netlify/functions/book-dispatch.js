@@ -85,7 +85,7 @@ function email12Html(firstName) {
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is on its way.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-six stories. Six months. One book.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us. Please allow up to four weeks for print and delivery.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">

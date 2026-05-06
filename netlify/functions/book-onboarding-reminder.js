@@ -126,7 +126,6 @@ function alertHtml({ f, missing, libUrl, allFieldsFilled }) {
 </body></html>`;
 }
 
-// NOTE: email10Html and email11Html copy to be rewritten in next session (book onboarding email session)
 function email10Html(firstName, libUrl) {
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
@@ -134,16 +133,16 @@ function email10Html(firstName, libUrl) {
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">A gentle reminder about your book details.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you have already added your portrait, confirmed your title and written your dedication — you can ignore this. Your book is on track.</p>
+  <p style="font-size:24px;font-weight:bold;margin:0 0 28px;line-height:1.4;">A gentle reminder about your book details.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you've already visited your Story Library and added your portrait, confirmed your title and written your dedication — you can ignore this. Your book is on track.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If not, here is a quick reminder of what to do before you press Complete:</p>
   <ul style="list-style:disc;padding-left:24px;margin:0 0 28px;">
-    <li style="font-size:16px;line-height:1.9;color:#222;margin-bottom:8px;">Upload a portrait photograph</li>
-    <li style="font-size:16px;line-height:1.9;color:#222;margin-bottom:8px;">Confirm or update your book title</li>
-    <li style="font-size:16px;line-height:1.9;color:#222;">Write a dedication</li>
+    <li style="font-size:16px;line-height:1.9;color:#222;margin-bottom:8px;">Upload a portrait photograph and caption</li>
+    <li style="font-size:16px;line-height:1.9;color:#222;margin-bottom:8px;">Confirm your book title</li>
+    <li style="font-size:16px;line-height:1.9;color:#222;">Write a dedication and/or epigraph</li>
   </ul>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These are what make your book uniquely yours. Your book will be printed exactly as it stands when you press Complete — so take a moment to make sure everything is in place.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These details are your book's signature. Remember, your Collected Stories will be printed exactly as it stands when you press Complete — so it's really worth taking a moment to make sure everything is in place.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Questions? We are here to help. <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a></p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -159,7 +158,7 @@ function email11Html(firstName, libUrl) {
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is waiting.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello <strong>${esc(firstName)}</strong>,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-six weeks of stories. Your Legacy Book is ready to be compiled — and we want to make sure it reaches you.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you are ready and just need to press Complete, your library is one click away.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If anything is holding you back — missing photographs, uncertainty about your title, or anything else — write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>. We will help you across the finishing line.</p>

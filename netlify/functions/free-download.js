@@ -138,7 +138,7 @@ function emailHtml(name) {
                   </td>
                 </tr>
               </table>
-              <p style="font-family:Georgia, serif; font-size:17px; color:#1A1A1A; margin:10px 0 0; line-height:1.8;">Or find out more at <a href="https://24stories.co.za" style="color:#B8976A; text-decoration:underline;">24stories.co.za</a></p>
+              <p style="font-family:Georgia, serif; font-size:19px; line-height:1.8; color:#1A1A1A; margin:14px 0 0;"><span style="color:#1A1A1A;">Or find out more at </span><a href="https://24stories.co.za" style="color:#B8976A; text-decoration:underline;">24stories.co.za</a></p>
 
             </td>
           </tr>

@@ -283,8 +283,8 @@
                 <button type="submit" id="mailingListBtn" class="btn btn-primary" style="width:100%;margin-top:16px;">Sign Me Up — We do not share your details with anyone. You will only hear from us about 24 Stories.</button>
             </form>
             <div id="mailingListSuccess" style="display:none; padding:24px 0;">
-                <p style="font-family:'Playfair Display',serif; font-size:22px; color:var(--cream); margin:0 0 12px;">You are on the list.</p>
-                <p style="font-family:'Cormorant Garamond',serif; font-size:17px; color:rgba(247,245,242,0.7); line-height:1.7; margin:0;">We will be in touch as soon as the next event is confirmed.</p>
+                <p style="font-family:'Playfair Display',serif; font-size:22px; color:var(--cream); margin:0 0 12px;" id="successHeading">You are on the list.</p>
+                <p style="font-family:'Cormorant Garamond',serif; font-size:17px; color:rgba(247,245,242,0.7); line-height:1.7; margin:0;" id="successBody">We will be in touch as soon as the next event is confirmed.</p>
             </div>
         </div>
     </section>
@@ -351,16 +351,21 @@
         if (btn.disabled) return;
         btn.disabled = true;
         btn.textContent = 'Sending…';
+        var isStoryteller = form.querySelector('[name="interest_storyteller"]').checked;
         fetch('/.netlify/functions/events-inquiry', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name:        form.querySelector('[name="name"]').value,
                 email:       form.querySelector('[name="email"]').value,
-                storyteller: form.querySelector('[name="interest_storyteller"]').checked ? 'yes' : ''
+                storyteller: isStoryteller ? 'yes' : ''
             })
         }).then(function() {
             form.style.display = 'none';
+            if (isStoryteller) {
+                document.getElementById('successHeading').textContent = 'Check your inbox.';
+                document.getElementById('successBody').textContent = 'We have sent you details on how to apply. If you do not see the email within a few minutes, check your spam folder.';
+            }
             document.getElementById('mailingListSuccess').style.display = 'block';
         }).catch(function() {
             form.style.display = 'none';

@@ -3065,6 +3065,15 @@ h1.hero-heading, .hero-content h1 {
     font-family: 'Cormorant Garamond', Georgia, serif;
 }
 
+.crux-cover-img {
+    display: block;
+    width: 62%;
+    max-width: 210px;
+    height: auto;
+    margin: 32px auto;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+}
+
 @media (min-width: 769px) {
     .crux-section { display: none; }
 }

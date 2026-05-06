@@ -126,11 +126,19 @@ function emailHtml(name) {
           <tr>
             <td style="padding:0 48px 44px;">
 
-              <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 24px;">If you find yourself wishing someone would guide the whole conversation — week by week, story by story, all the way to a finished book — that is exactly what 24 Stories does.</p>
+              <p style="font-family:Georgia, serif; font-size:17px; line-height:1.8; color:#1A1A1A; margin:0 0 28px;">If you find yourself wishing someone would guide the whole conversation — week by week, story by story, all the way to a finished book — that is exactly what 24 Stories does.</p>
 
-              <p style="margin:0;">
-                <a href="https://24stories.co.za" style="font-family:Georgia, serif; font-size:15px; color:#B8976A; text-decoration:underline;">24stories.co.za</a>
-              </p>
+              <table cellpadding="0" cellspacing="0" border="0" style="margin:0 0 8px;">
+                <tr>
+                  <td style="background:#B8976A; border-radius:2px;">
+                    <a href="https://24stories.co.za" target="_blank"
+                       style="display:inline-block; background:#B8976A; color:#ffffff; font-family:Georgia, serif; font-size:15px; letter-spacing:0.06em; text-decoration:none; padding:15px 36px; border-radius:2px;">
+                      Get started &#8594;
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="font-family:Georgia, serif; font-size:13px; color:#888; margin:0; line-height:1.6;">Or find out more at <a href="https://24stories.co.za" style="color:#B8976A; text-decoration:underline;">24stories.co.za</a></p>
 
             </td>
           </tr>

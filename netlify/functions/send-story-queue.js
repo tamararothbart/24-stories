@@ -188,9 +188,8 @@ function email6NoRecipientsHtml(firstName, weekNumber, chapterTitle, storyText, 
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber} — your story</p>
-  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story is ready.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story for this week has been edited. Here's how it reads.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Great work! Here is your story, edited and ready to read. It will be stored in your Story Library which you can visit at any time.</p>
   <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
     ${titleBlock}
     <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">${esc(storyText)}</p>
@@ -201,7 +200,7 @@ function email6NoRecipientsHtml(firstName, weekNumber, chapterTitle, storyText, 
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
     <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
   </div>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }

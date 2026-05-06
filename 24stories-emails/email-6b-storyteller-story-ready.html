@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 14 — Extra copies confirmed: post-payment confirmation</title>
+<title>Email 6b — Storyteller notification: story ready, no recipients on file</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -11,29 +11,30 @@
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
   .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
   p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .detail-box { background: #EFECEA; padding: 28px 32px; margin: 0 0 28px 0; }
-  .detail-box .box-label { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 16px 0; }
-  .detail-box p { font-size: 16px; color: #333; margin: 0 0 10px 0; line-height: 1.9; }
-  .detail-box p:last-child { margin: 0; }
+  .story-block { background: #fff; border-left: 4px solid #B8976A; padding: 28px 32px; margin: 24px 0; }
+  .story-block .story-text { font-size: 17px; line-height: 1.9; color: #1A1A1A; margin: 0; white-space: pre-wrap; }
+  .photo-block { margin: 28px 0; }
+  .photo-block img { max-width: 100%; height: auto; display: block; }
+  .photo-caption { font-size: 15px; color: #555; font-style: italic; margin: 12px 0 0; line-height: 1.7; }
   a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 14 — EXTRA COPIES CONFIRMATION</strong><br>
-  Scenario: Make — fires when PayFast confirms extra copies payment &nbsp;|&nbsp; To: Buyer (Storyteller or Gift Giver)<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
-  Flow: Subscriber requests via library → Make sends PayFast link (R1,200 × Quantity) → PayFast confirmed → this email fires.<br>
-  Extra copies are dispatched with the main book order. Delivery address taken from library book prep form.<br><br>
+  <strong>EMAIL 6b — STORYTELLER STORY READY (NO RECIPIENTS)</strong><br>
+  Trigger: Tamara ticks "Sent to Family" in Airtable &amp;|&amp; Subscriber has no family recipients (FamilyEmails empty AND StoryHelperEmail empty) &nbsp;|&nbsp; To: Storyteller only<br>
+  Status: <strong style="color:#4CAF50;">&#10003; COPY APPROVED 2026-05-06</strong><br><br>
+  Subject line: <span class="var">Week [N] — your story</span><br><br>
+  Purpose: Confirm to the storyteller that their story has been edited and is ready. No family recipients on file — story not sent anywhere. No explanation or apology; warm and direct.<br><br>
   Variables in this email:
-  <span class="var">RecipientFirstName</span>
   <span class="var">StorytellerFirstName</span>
-  <span class="var">Quantity</span>
-  <span class="var">TotalAmount</span> (Quantity × R1,200)
+  <span class="var">WeekNumber</span>
+  <span class="var">ChapterTitle</span>
+  <span class="var">StoryText</span>
+  <span class="var">imageURL</span> (conditional — only shown if populated)
+  <span class="var">Caption</span> (conditional — only shown if imageURL populated)
   <span class="var">LibraryURL</span>
 </div>
 
@@ -42,35 +43,23 @@
 
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
 
-  <p class="gold">Extra Copies</p>
+  <p class="gold">Week [WeekNumber] — your story</p>
 
-  <p class="h1">Your extra copies are confirmed.</p>
+  <p>Hello [StorytellerFirstName],</p>
 
-  <p>Hello [RecipientFirstName],</p>
+  <p>Great work! Here is your story, edited and ready to read. It will be stored in your Story Library which you can visit at any time.</p>
 
-  <p>
-    Thank you — your payment of <strong>R[TotalAmount]</strong> has been received.
-    <strong>[Quantity]</strong> additional
-    <!-- Make: {{if(Quantity = 1; "copy"; "copies")}} -->
-    [copies/copy] of [StorytellerFirstName]'s Legacy Book will be
-    printed and delivered alongside the main order.
-  </p>
-
-  <div class="detail-box">
-    <p class="box-label">Order summary</p>
-    <p>Storyteller: [StorytellerFirstName]</p>
-    <p>Extra copies: <strong>[Quantity]</strong></p>
-    <p>Amount paid: <strong>R[TotalAmount]</strong></p>
-    <p>Delivery: included — dispatched with the main book order</p>
+  <div class="story-block">
+    <p style="font-size: 22px; font-weight: normal; color: #1A1A1A; margin: 0 0 20px 0; line-height: 1.4;">[ChapterTitle]</p>
+    <p class="story-text">[StoryText]</p>
   </div>
 
-  <p>
-    Extra copies will be dispatched at the same time as the main book — all copies delivered
-    together to the address on file in your Story Library. We will confirm when your order is
-    on its way.
-  </p>
-
-  <hr class="divider">
+  <!-- Conditional image block — only shown if imageURL is populated -->
+  <div class="photo-block">
+    <img src="[imageURL]" alt="Photo from [StorytellerFirstName]">
+    <p class="photo-caption">[Caption]</p>
+  </div>
+  <!-- End conditional image block -->
 
   <!-- LIBRARY LINK BLOCK -->
   <div style="border-top: 3px solid #B8976A; padding: 28px 0 24px; margin: 40px 0 32px;">
@@ -81,10 +70,10 @@
 
   <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
     With warmth,<br>
-    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
+    The 24 Stories Team
   </p>
   <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Questions? We are here to help.<br>
+    Questions? We're here to help.<br>
     <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
   </p>
 

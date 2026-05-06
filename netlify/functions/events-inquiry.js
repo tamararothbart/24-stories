@@ -41,10 +41,27 @@ exports.handler = async function(event) {
     console.error('Airtable error:', err);
   }
 
+  const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+
+  // Notify Tamara
+  const notifySubject = storyteller === 'yes' ? `New storyteller interest — ${name}` : `New events lead — ${name}`;
+  const notifyDetail  = storyteller === 'yes' ? 'Interested in telling a story. Application link sent.' : 'Interested in attending. No email sent yet.';
+  await fetch('https://api.mailjet.com/v3.1/send', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      Messages: [{
+        From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        To:   [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }],
+        Subject: notifySubject,
+        HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;line-height:1.8;">New events enquiry.<br><br><strong>Name:</strong> ${name}<br><strong>Email:</strong> <a href="mailto:${email}">${email}</a><br><strong>Note:</strong> ${notifyDetail}</p>`
+      }]
+    })
+  });
+
   // Only send email if storyteller checkbox was ticked — they need the application form link
   // General event inquiries: no email until event date/venue confirmed (Tamara sends manually)
   if (storyteller === 'yes') {
-    const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
     const mjRes = await fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',
       headers: {

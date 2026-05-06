@@ -40,9 +40,24 @@ exports.handler = async function(event) {
     console.error('Airtable error:', err);
   }
 
-  // 2 — Send free download email via Mailjet
-  const html = emailHtml(name);
   const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+
+  // 2 — Notify Tamara
+  await fetch('https://api.mailjet.com/v3.1/send', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      Messages: [{
+        From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        To:   [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }],
+        Subject: `Free download request — ${name}`,
+        HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;line-height:1.8;">Someone requested the free download.<br><br><strong>Name:</strong> ${name}<br><strong>Email:</strong> <a href="mailto:${email}">${email}</a><br><strong>Source:</strong> Free Download</p>`
+      }]
+    })
+  });
+
+  // 3 — Send free download email via Mailjet
+  const html = emailHtml(name);
   const mjRes = await fetch('https://api.mailjet.com/v3.1/send', {
     method: 'POST',
     headers: {

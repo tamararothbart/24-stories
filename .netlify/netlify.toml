@@ -1,0 +1,43 @@
+functionsDirectory = "/Users/tamararothbart/24stories-website/netlify/functions"
+functionsDirectoryOrigin = "config"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "/Users/tamararothbart/24stories-website"
+publishOrigin = "default"
+functions = "/Users/tamararothbart/24stories-website/netlify/functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions.transcribe]
+timeout = 26.0
+
+[functions.cleanup]
+timeout = 26.0
+
+[functions.send-weekly-prompts]
+schedule = "0 5 * * 3"
+
+[functions.send-day4-reminder]
+schedule = "0 6 * * 6"
+
+[functions.book-onboarding-reminder]
+schedule = "0 7 * * *"
+
+[functions."*"]

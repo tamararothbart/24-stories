@@ -226,6 +226,76 @@ You do nothing. It is automatic.
 
 ---
 
+## PART 7 — LEADS AND ENQUIRIES
+
+---
+
+### HOW SOURCES WORK IN AIRTABLE
+
+Every lead in the Leads table has a **Source** field. This tells you exactly which form they used. You do not need to guess or cross-reference.
+
+| Source | What it means |
+|---|---|
+| `Interest` | Filled in the early interest form on 24stories.co.za |
+| `Free Download` | Requested the "5 Stories Worth Saving" PDF |
+| `Events` | Signed up to be notified about a live event (attending only) |
+| `Events — Storyteller Interest` | Ticked "I want to tell a story" on the events page |
+| `Storyteller Application` | Submitted the full story application via events-apply.html |
+
+These are separate forms. If someone only requested the free download, their source will say "Free Download" — not "Interest." They would only appear as "Interest" if they also filled in the early interest form separately.
+
+---
+
+### WHAT HAPPENS AUTOMATICALLY WHEN A LEAD COMES IN
+
+You do not need to do anything immediately for any of these.
+
+1. Lead is saved to the Airtable Leads table (name, email, source).
+2. You receive an instant notification at **hello@24stories.co.za** with their name, email, and what they did.
+3. The person receives an automatic confirmation email (except Events — attending only, where no email is sent until the date and venue are confirmed).
+
+**Notification subject lines to recognise in Titan:**
+
+| Subject | Means |
+|---|---|
+| `New interest — [Name]` | Early interest form |
+| `Free download request — [Name]` | Free download requested |
+| `New events lead — [Name]` | Events attending interest |
+| `New storyteller interest — [Name]` | Events storyteller interest |
+| `New Storyteller Application — [Name]` | Full story application submitted |
+
+No immediate action is required. These notifications are for your awareness only.
+
+---
+
+### COLLECTING EMAIL ADDRESSES FOR A CAMPAIGN
+
+When you are ready to run an email campaign to your leads list:
+
+**To export all leads:**
+1. Go to Airtable → base "52stories" → **Leads** table
+2. Click the **grid menu icon** (top left, next to the view name)
+3. Click **Download CSV**
+4. Open the CSV — it contains Name, Email, Source for every lead
+
+**To target a specific segment (e.g. only free download leads):**
+1. In the Leads table, click **Filter**
+2. Set: Source → contains → Free Download (or whichever source you want)
+3. The view updates to show only those records
+4. Download CSV — it exports only the filtered records
+5. Clear the filter when done
+
+**Importing into Mailjet for a campaign:**
+1. In Mailjet, go to **Contacts → All contacts → Add contacts → Import contacts**
+2. Upload the CSV
+3. Map the columns: Email → Email, Name → Name
+4. Mailjet adds them to your contact list
+5. You can then send a campaign to that list
+
+You can create separate Mailjet lists per segment (Interest, Free Download, Events) if you want to track open rates by source separately.
+
+---
+
 ## IF SOMETHING BREAKS
 
 Open Claude Code (the app on your Mac, or VS Code with the Claude extension).

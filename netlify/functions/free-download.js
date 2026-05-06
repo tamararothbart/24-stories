@@ -144,12 +144,6 @@ function emailHtml(name) {
           </tr>
 
           <tr>
-            <td style="padding:0 48px;">
-              <div style="height:1px; background:#E8E4DF;"></div>
-            </td>
-          </tr>
-
-          <tr>
             <td style="padding:32px 48px 44px;">
               <p style="font-family:Georgia, serif; font-size:15px; color:#1A1A1A; margin:0 0 20px;">With warmth,</p>
 
@@ -161,7 +155,7 @@ function emailHtml(name) {
                          style="width:72px; height:72px; border-radius:50%; display:block; border:2px solid #B8976A;">
                   </td>
                   <td style="vertical-align:middle;">
-                    <span style="display:block; font-family:Georgia, serif; font-size:16px; font-weight:bold; color:#1A1A1A; margin-bottom:4px;">Tamara Rothbart</span>
+                    <span style="display:block; font-family:Georgia, serif; font-size:16px; font-weight:normal; color:#1A1A1A; margin-bottom:4px;">Tamara Rothbart</span>
                     <span style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; margin-bottom:8px;">Founder, 24 Stories</span>
                     <a href="https://24stories.co.za" style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; text-decoration:none; margin-bottom:3px;">24stories.co.za</a>
                     <a href="mailto:hello@24stories.co.za" style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; text-decoration:none; margin-bottom:3px;">hello@24stories.co.za</a>

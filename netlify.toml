@@ -16,3 +16,6 @@
 
 [functions.book-onboarding-reminder]
   schedule = "0 7 * * *"   # every day 9am SAST
+
+[functions.send-story-queue]
+  schedule = "*/2 * * * *"  # every 2 minutes — checks for SendToFamily checkbox

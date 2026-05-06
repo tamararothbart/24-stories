@@ -1,0 +1,237 @@
+// Runs every 2 minutes — checks for stories where Tamara has ticked SendToFamily
+// and SentToFamilyDate is empty. Sends emails 6+7, then marks the story as sent.
+exports.handler = async function() {
+  const BASE      = 'apprTOobuxs4Od7XB';
+  const PAT       = process.env.AIRTABLE_PAT;
+  const MJ_KEY    = process.env.MAILJET_API_KEY;
+  const MJ_SECRET = process.env.MAILJET_API_SECRET;
+  const mjAuth    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+  const hdrs      = { 'Authorization': `Bearer ${PAT}` };
+
+  // Find stories ready to send: SendToFamily ticked, not yet sent
+  const formula = encodeURIComponent(`AND({SendToFamily}=TRUE(),{SentToFamilyDate}="")`);
+  const qRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=10`,
+    { headers: hdrs }
+  );
+  if (!qRes.ok) {
+    console.error('Queue query failed:', await qRes.text());
+    return { statusCode: 500, body: 'Queue query failed' };
+  }
+
+  const { records } = await qRes.json();
+  if (!records || records.length === 0) {
+    return { statusCode: 200, body: JSON.stringify({ processed: 0 }) };
+  }
+
+  let processed = 0;
+
+  for (const record of records) {
+    const storyId     = record.id;
+    const storyFields = record.fields;
+
+    if (!storyFields.EditedText) {
+      console.log('Skipping story', storyId, '— EditedText is empty');
+      continue;
+    }
+
+    // SubscriberID is a linked record array — first element is the subscriber record ID
+    const subscriberIds = storyFields.SubscriberID || [];
+    if (subscriberIds.length === 0) {
+      console.error('No SubscriberID on story', storyId);
+      continue;
+    }
+    const subscriberId = subscriberIds[0];
+
+    // Fetch subscriber
+    const subRes = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`,
+      { headers: hdrs }
+    );
+    if (!subRes.ok) {
+      console.error('Subscriber fetch failed for', subscriberId);
+      continue;
+    }
+    const sub = await subRes.json();
+    const f   = sub.fields;
+
+    const editedText   = storyFields.EditedText;
+    const chapterTitle = storyFields.ChapterTitle      || '';
+    const weekNumber   = storyFields.PromptNumber      || '';
+    const imageUrl     = storyFields.StoryImageURL     || '';
+    const caption      = storyFields.StoryImageCaption || '';
+    const libToken     = f.LibraryToken || subscriberId;
+    const libUrl       = `https://24stories.co.za/library.html?id=${libToken}`;
+
+    // Build recipient list
+    const familyRaw  = f.FamilyEmails || '';
+    const familyList = familyRaw.split(/\r?\n/).map(e => e.trim()).filter(Boolean);
+
+    if (f.StoryHelperEmail && f.StoryHelperEmail.toLowerCase() !== (f.StorytellerEmail || '').toLowerCase()) {
+      familyList.push(f.StoryHelperEmail);
+    }
+
+    const seen = new Set();
+    const dedupedList = familyList.filter(e => {
+      const lower = e.toLowerCase();
+      if (seen.has(lower)) return false;
+      seen.add(lower);
+      return true;
+    });
+
+    const hasRecipients = dedupedList.length > 0;
+
+    // Email 6 — storyteller
+    if (f.StorytellerEmail) {
+      const subject = hasRecipients
+        ? `Week ${weekNumber} — your story has been sent`
+        : `Week ${weekNumber} — your story is ready`;
+      const html = hasRecipients
+        ? email6Html(f.StorytellerFirstName, weekNumber, chapterTitle, editedText, imageUrl, caption, libUrl)
+        : email6NoRecipientsHtml(f.StorytellerFirstName, weekNumber, chapterTitle, editedText, imageUrl, caption, libUrl);
+      await sendEmail(mjAuth, {
+        to: { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject, html
+      });
+    }
+
+    // Email 7 — family
+    if (hasRecipients) {
+      const familySubject = `${f.StorytellerFirstName || 'A story'} — Week ${weekNumber}`;
+      const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, chapterTitle, editedText, imageUrl, caption);
+      for (const recipientEmail of dedupedList) {
+        await sendEmail(mjAuth, {
+          to:      { Email: recipientEmail, Name: '' },
+          subject: familySubject,
+          html:    familyHtml
+        });
+      }
+    }
+
+    // Mark as sent — set SentToFamilyDate and uncheck SendToFamily
+    const today = new Date().toISOString().slice(0, 10);
+    await fetch(`https://api.airtable.com/v0/${BASE}/Stories/${storyId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { SentToFamilyDate: today, SendToFamily: false } })
+    });
+
+    processed++;
+    console.log(`Sent story ${storyId} for subscriber ${subscriberId} week ${weekNumber}`);
+  }
+
+  return { statusCode: 200, body: JSON.stringify({ processed }) };
+};
+
+async function sendEmail(mjAuth, { to, subject, html }) {
+  const res = await fetch('https://api.mailjet.com/v3.1/send', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, To: [to], Subject: subject, HTMLPart: html }]
+    })
+  });
+  if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());
+}
+
+function esc(s) {
+  return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function email6Html(firstName, weekNumber, chapterTitle, storyText, imageUrl, caption, libUrl) {
+  const photoBlock = imageUrl
+    ? `<div style="margin:28px 0;">
+         <img src="${imageUrl}" alt="Photo" style="max-width:100%;height:auto;display:block;">
+         ${caption ? `<p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">${esc(caption)}</p>` : ''}
+       </div>`
+    : '';
+  const titleBlock = chapterTitle
+    ? `<p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">${esc(chapterTitle)}</p>`
+    : '';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber} — your story</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story has been sent.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story has been delivered to your family.<br>Here's exactly what they received.</p>
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    ${titleBlock}
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">${esc(storyText)}</p>
+  </div>
+  ${photoBlock}
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email6NoRecipientsHtml(firstName, weekNumber, chapterTitle, storyText, imageUrl, caption, libUrl) {
+  const photoBlock = imageUrl
+    ? `<div style="margin:28px 0;">
+         <img src="${imageUrl}" alt="Photo" style="max-width:100%;height:auto;display:block;">
+         ${caption ? `<p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">${esc(caption)}</p>` : ''}
+       </div>`
+    : '';
+  const titleBlock = chapterTitle
+    ? `<p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">${esc(chapterTitle)}</p>`
+    : '';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber} — your story</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story is ready.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story for this week has been edited. Here's how it reads.</p>
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    ${titleBlock}
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">${esc(storyText)}</p>
+  </div>
+  ${photoBlock}
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, imageUrl, caption) {
+  const photoBlock = imageUrl
+    ? `<div style="margin:28px 0 44px;">
+         <img src="${imageUrl}" alt="Photo from ${esc(storytellerFirstName)}" style="max-width:100%;height:auto;display:block;">
+         ${caption ? `<p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">${esc(caption)}</p>` : ''}
+       </div>`
+    : '';
+  const titleBlock = chapterTitle
+    ? `<p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 24px;line-height:1.4;">${esc(chapterTitle)}</p>`
+    : '';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber}</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)} wants to share something with you.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  ${titleBlock}
+  <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 40px;white-space:pre-wrap;">${esc(storyText)}</p>
+  ${photoBlock}
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there is a story you have always wanted to hear — or one that has been told before and deserves to be kept — ask. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+  </div>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}

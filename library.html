@@ -1023,7 +1023,7 @@
             header.innerHTML =
                 '<div class="card-left">' +
                     '<span class="week-badge">Week ' + week + '</span>' +
-                    '<span class="card-weekname">' + esc(prompt.WeekName || '') + '</span>' +
+                    '<span class="card-weekname">' + esc((story && story.ChapterTitle) ? story.ChapterTitle : (prompt.WeekName || '')) + '</span>' +
                 '</div>' +
                 '<div class="card-right">' +
                     '<span class="status-pill st-' + status + '">' + labels[status] + '</span>' +

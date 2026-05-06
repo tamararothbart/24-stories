@@ -28,11 +28,12 @@
 <div class="meta">
   <strong>EMAIL 6 — STORYTELLER STORY CONFIRMATION</strong><br>
   Scenario: 3 (Family Delivery) &nbsp;|&nbsp; Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Storyteller only<br>
-  Status: <strong style="color:#FF9800;">NEW — needs to be built in Make as new Scenario 3 module</strong><br><br>
+  Status: <strong style="color:#FF9800;">NEW — needs Netlify Function (no automated trigger built yet)</strong><br><br>
   Purpose: Confirm to the storyteller that their story has been sent. Show them what was shared.<br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">WeekNumber</span>
+  <span class="var">ChapterTitle</span>
   <span class="var">StoryText</span>
   <span class="var">imageURL</span> (conditional — only shown if populated)
   <span class="var">Caption</span> (conditional — only shown if imageURL populated)
@@ -52,11 +53,11 @@
 
   <p>
     Your story has been delivered to your family.
-    Here is exactly what they received.
+    Here's exactly what they received.
   </p>
 
   <div class="story-block">
-    <p class="week-label">Week [WeekNumber] — your story</p>
+    <p class="week-label">[ChapterTitle]</p>
     <p class="story-text">[StoryText]</p>
   </div>
 
@@ -71,7 +72,7 @@
   <hr class="divider">
 
   <p style="font-size: 16px; color: #444;">
-    That is chapter [WeekNumber] of 26.
+    That's chapter [WeekNumber] of 26.
   </p>
 
   <hr class="divider">
@@ -88,7 +89,7 @@
     <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
   </p>
   <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Questions? We are here to help.<br>
+    Questions? We're here to help.<br>
     <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
   </p>
 

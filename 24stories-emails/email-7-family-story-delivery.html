@@ -28,11 +28,12 @@
 
 <div class="meta">
   <strong>EMAIL 7 — FAMILY STORY DELIVERY</strong><br>
-  Scenario: 3 (Family Delivery) &nbsp;|&nbsp; Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Family recipients only (up to 10 FamilyEmails addresses)<br>
-  Status: <strong style="color:#4CAF50;">EXISTS IN MAKE — updated with image/caption support (2026-03-27)</strong><br><br>
+  Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Family recipients only (up to 10 FamilyEmails addresses)<br>
+  Status: <strong style="color:#FF9800;">NEW — needs Netlify Function (no automated trigger built yet)</strong><br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">WeekNumber</span>
+  <span class="var">ChapterTitle</span>
   <span class="var">StoryText</span>
   <span class="var">imageURL</span> (conditional)
   <span class="var">Caption</span> (conditional)
@@ -49,10 +50,11 @@
 
   <hr class="divider">
 
+  <p style="font-size: 24px; font-weight: normal; color: #1A1A1A; margin: 0 0 28px 0; line-height: 1.4;">[ChapterTitle]</p>
+
   <p class="story-text">[StoryText]</p>
 
   <!-- Conditional image block — only shown if imageURL is populated -->
-  <!-- In Make: {{if(imageURL; "<div class='photo-block'>..." + imageURL + "..." + Caption + "...</div>"; "")}} -->
   <div class="photo-block">
     <img src="[imageURL]" alt="Photo from [StorytellerFirstName]">
     <p class="photo-caption">[Caption]</p>

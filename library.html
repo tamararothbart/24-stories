@@ -269,6 +269,24 @@
 
         .btn-record-story:hover { background: var(--gold); }
 
+        .btn-send-family {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 14px 28px;
+            background: var(--gold);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-send-family:hover:not(:disabled) { background: var(--charcoal); }
+        .btn-send-family:disabled { opacity: 0.5; cursor: default; }
+
         .pending-note {
             font-family: var(--font-heading);
             font-style: italic;
@@ -855,6 +873,7 @@
         var LIBRARY_READ_URL   = '/.netlify/functions/library-read';
         var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
         var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
+        var APPROVE_STORY_URL  = '/.netlify/functions/approve-story';
 
         // PayFast — extra copies order (replace placeholders before go-live)
         var PAYFAST_MERCHANT_ID  = 'YOUR_PAYFAST_MERCHANT_ID';
@@ -1075,8 +1094,41 @@
             } else {
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +
-                    '<p class="edited-text">' + esc(story.EditedText) + '</p>';
+                    '<p class="edited-text">' + esc(story.EditedText) + '</p>' +
+                    '<button class="btn-send-family js-send-family" type="button">Send to family &#8594;</button>' +
+                    '<p class="js-send-msg" style="font-size:0.9rem;margin:8px 0 0;line-height:1.6;"></p>';
 
+                var sendBtn = div.querySelector('.js-send-family');
+                var sendMsg = div.querySelector('.js-send-msg');
+                sendBtn.addEventListener('click', function() {
+                    if (!confirm('Send this story to the family list now?')) return;
+                    sendBtn.disabled = true;
+                    sendBtn.textContent = 'Sending…';
+                    fetch(APPROVE_STORY_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subscriberId: subscriberId, weekNumber: parseInt(week, 10) })
+                    })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        if (data.success) {
+                            sendBtn.style.display = 'none';
+                            sendMsg.textContent = 'Sent ✓';
+                            sendMsg.style.color = '#B8976A';
+                        } else {
+                            sendBtn.disabled = false;
+                            sendBtn.textContent = 'Send to family →';
+                            sendMsg.textContent = data.error || 'Something went wrong. Try again.';
+                            sendMsg.style.color = '#c00';
+                        }
+                    })
+                    .catch(function() {
+                        sendBtn.disabled = false;
+                        sendBtn.textContent = 'Send to family →';
+                        sendMsg.textContent = 'Connection error. Try again.';
+                        sendMsg.style.color = '#c00';
+                    });
+                });
             }
             return div;
         }

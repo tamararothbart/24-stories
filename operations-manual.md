@@ -76,27 +76,26 @@ Click that button. It takes you directly to the Airtable record for that story. 
 
 ### STEP 5 — YOU SEND THE STORY TO THE FAMILY
 
-**WHERE TO GO:** 24stories.co.za/library.html?id=[subscriber's LibraryToken]
-
-The LibraryToken is the subscriber's Airtable record ID (from the Subscribers table — starts with "rec"). Find it in Airtable by opening the subscriber's record — it is in the browser URL.
-
-**IMPORTANT:** Open the library AFTER you have finished editing in Airtable. The library reads fresh from Airtable every time the page loads. If you edited after opening the library, refresh the page before clicking Send.
+**WHERE TO GO:** Stay in Airtable. You are still on the same story record you just edited.
 
 **WHAT TO DO:**
 
-1. Open the library URL for that subscriber.
+1. Tick the **SendToFamily** checkbox on the story record.
 
-2. Find the week you just edited.
+2. That's it. Do not navigate away — Airtable saves immediately.
 
-3. Click **"Send to Family."**
+**WHAT HAPPENS NEXT (automatic, within 2 minutes):**
 
-4. Confirm the popup.
+- The system detects the ticked checkbox and fires automatically.
+- The subscriber receives an email confirming their story has been sent — with the edited version and the chapter title.
+- Every family email address on their Subscribers record receives the story and chapter title.
+- The story record is updated: **SentToFamilyDate** is set to today and the **SendToFamily** checkbox unticks itself.
 
-**WHAT HAPPENS NEXT (automatic):**
+**IF THE SUBSCRIBER HAS NO FAMILY RECIPIENTS:**
 
-- The subscriber receives an email: "Your story has been sent" — with the edited version and the chapter title.
-- Every family email address on their record receives the story with the chapter title.
-- The subscriber's library now shows the edited version permanently under the chapter title. The raw unedited text disappears from view. The subscriber never sees it.
+Tick SendToFamily anyway. The subscriber still receives a confirmation email showing their edited story. There is nothing else you need to do.
+
+**NOTE:** The subscriber's library continues to show all stories — the edited version appears once EditedText is populated. This happens as soon as you save your edits in Step 4, independently of sending.
 
 ---
 

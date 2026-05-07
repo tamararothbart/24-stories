@@ -467,7 +467,7 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
 
 1. Log in to PayFast merchant dashboard → Transactions → find the transaction → Refund
 2. In Airtable → Subscribers table → set Status = Cancelled
-3. Open Titan → Compose → click the Templates icon → select **Refund confirmation**
+3. Open Titan → click **+ New Email** → click the Templates icon → select **Refund confirmation**
 4. Address it to the subscriber (their email is in the request they sent you)
 5. Replace the three placeholders:
    - [FirstName] → their first name
@@ -476,7 +476,7 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
 6. Send from hello@24stories.co.za
 
 **One-time setup — save the template in Titan:**
-1. Open Titan → Compose
+1. Open Titan → click **+ New Email**
 2. Click the Templates icon in the compose toolbar
 3. Click Save as Template → name it: Refund confirmation
 4. Paste this body:

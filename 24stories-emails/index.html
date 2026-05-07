@@ -151,8 +151,8 @@
   <a href="email-14-extra-copies-confirmation.html" class="card">
     <p class="num">Email 14</p>
     <p class="title">Extra Copies Confirmation</p>
-    <p class="detail">To: Buyer (Storyteller or Gift Giver)<br>Trigger: Extra copies PayFast payment confirmed (R1,200 × Quantity)<br>Flow: library request → Tamara sends PayFast link → payment → this email.</p>
-    <span class="badge flag">No function built — flagged</span>
+    <p class="detail">To: Storyteller<br>Trigger: Extra copies PayFast payment confirmed (R1,200 × Quantity)<br>Flow: library input → PayFast → webhook reads custom_str2 → ExtraCopies updated in Airtable → this email.</p>
+    <span class="badge done">Built — payfast-webhook.js</span>
   </a>
 
 </div>

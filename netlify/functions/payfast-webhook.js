@@ -10,6 +10,7 @@ exports.handler = async function(event) {
   const pfTransactionId  = params.get('pf_payment_id') || '';
   const amountGross      = params.get('amount_gross')   || '';
   const paymentDate      = params.get('payment_date')   || new Date().toISOString().slice(0, 10);
+  const extraCopiesQty   = parseInt(params.get('custom_str2') || '0', 10);
 
   // Only activate on COMPLETE
   if (paymentStatus !== 'COMPLETE') {
@@ -26,6 +27,56 @@ exports.handler = async function(event) {
   const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
   const MJ_KEY       = process.env.MAILJET_API_KEY;
   const MJ_SECRET    = process.env.MAILJET_API_SECRET;
+
+  // Extra copies payment — custom_str2 carries the quantity
+  if (extraCopiesQty > 0) {
+    const ecRes = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`,
+      { headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}` } }
+    );
+    if (!ecRes.ok) {
+      console.error('Extra copies: subscriber fetch failed:', await ecRes.text());
+      return { statusCode: 500, body: 'Subscriber fetch failed' };
+    }
+    const ecSub    = await ecRes.json();
+    const ecFields = ecSub.fields;
+
+    const newExtra = (ecFields.ExtraCopies || 0) + extraCopiesQty;
+
+    await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { ExtraCopies: newExtra } })
+    });
+
+    await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        SubscriberID:         [recordId],
+        PayFastTransactionID: pfTransactionId,
+        Amount:               parseFloat(amountGross) || 0,
+        Date:                 paymentDate.slice(0, 10),
+        Status:               'COMPLETE'
+      }})
+    });
+
+    const rate         = extraCopiesQty < 10 ? 1200 : 1000;
+    const totalAmount  = extraCopiesQty * rate;
+    const libUrl_ec    = `https://24stories.co.za/library.html?id=${recordId}`;
+    const mjAuth_ec    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+    const firstName_ec = ecFields.StorytellerFirstName || '';
+
+    if (ecFields.StorytellerEmail) {
+      await sendEmail(mjAuth_ec, {
+        to:      { Email: ecFields.StorytellerEmail, Name: firstName_ec },
+        subject: 'Your extra copies are confirmed — 24 Stories',
+        html:    email14Html(firstName_ec, extraCopiesQty, totalAmount, libUrl_ec)
+      });
+    }
+
+    return { statusCode: 200, body: 'OK' };
+  }
 
   // Fetch the pending subscriber record
   const getRes = await fetch(
@@ -258,4 +309,34 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
 
 function esc(str) {
   return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function email14Html(firstName, quantity, totalAmount, libUrl) {
+  const copyWord      = quantity === 1 ? 'copy' : 'copies';
+  const formattedAmt  = 'R' + totalAmount.toLocaleString('en-ZA');
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Extra Copies</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your extra ${copyWord} are confirmed.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you — your payment of <strong>${formattedAmt}</strong> has been received. <strong>${quantity}</strong> additional ${copyWord} will be printed and delivered alongside the main book order.</p>
+  <div style="background:#EFECEA;padding:28px 32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Order summary</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Extra ${copyWord}: <strong>${quantity}</strong></p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Amount paid: <strong>${formattedAmt}</strong></p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Delivery: included — dispatched with the main book order</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">All copies will be delivered together to the address on file in your Story Library. We will confirm when your order is on its way.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#B8976A;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
 }

@@ -46,6 +46,9 @@ exports.handler = async function(event) {
   const f   = sub.fields;
 
   if (f.StorytellerEmail) {
+    const totalBooks     = 1 + (f.ExtraCopies || 0);
+    const deliveryAddress = f.DeliveryAddress || '';
+    const bookTitle      = f.BookTitle || '';
     const res = await fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',
       headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
@@ -53,8 +56,8 @@ exports.handler = async function(event) {
         Messages: [{
           From:     { Email: 'stories@24stories.co.za', Name: '24 Stories' },
           To:       [{ Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' }],
-          Subject:  'Your Legacy Book is on its way',
-          HTMLPart: email12Html(f.StorytellerFirstName)
+          Subject:  'Your Collected Stories — on their way',
+          HTMLPart: email12Html(f.StorytellerFirstName, deliveryAddress, totalBooks, bookTitle)
         }]
       })
     });
@@ -77,19 +80,30 @@ function esc(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function email12Html(firstName) {
+function email12Html(firstName, deliveryAddress, totalBooks, bookTitle) {
+  const titleLine = bookTitle
+    ? `We hope <em>${esc(bookTitle)}</em> is everything you imagined — and more.`
+    : `We hope your book is everything you imagined — and more.`;
+  const addressBlock = deliveryAddress
+    ? `<p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Delivery address</p><p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 16px;white-space:pre-wrap;">${esc(deliveryAddress)}</p>`
+    : '';
   return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
-  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is on its way.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-six stories. Six months. One book.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us. Please allow up to four weeks for print and delivery.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Almost there. Your book has been sent to print and is on its way to you — delivered to your door, on us.</p>
+  <div style="background:#EFECEA;padding:28px 32px;margin:0 0 22px;">
+    ${addressBlock}
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Books: <strong>${totalBooks} ${totalBooks === 1 ? 'book' : 'books'} total</strong></p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Please email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> as soon as possible if these details need updating.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks for print and delivery.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope it is everything you imagined — and more. Hearing from families who have been through this journey means a great deal to us. If you have a moment to share your experience, please write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${titleLine} Hearing from families who have been through this journey means a great deal to us. If you have a moment to share your experience, please write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Any questions or issues — please get in touch immediately.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>

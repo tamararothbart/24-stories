@@ -26,6 +26,9 @@
   Instructions for Tamara: Enter BookSentToPrintDate in Airtable when book goes to printer — this fires the email. Send a separate copy from hello@24stories.co.za to Gift Giver if the purchase was a gift.<br><br>
   Variables:
   <span class="var">RecipientFirstName</span>
+  <span class="var">DeliveryAddress</span>
+  <span class="var">TotalBooks</span> (1 + ExtraCopies from Airtable)
+  <span class="var">BookTitle</span>
 </div>
 
 <div class="wrapper">
@@ -33,25 +36,28 @@
 
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
 
-  <p class="gold">Your Legacy Book</p>
+  <p class="gold">Your Collected Stories</p>
 
   <p class="h1">Your book is on its way.</p>
 
   <p>Hello [RecipientFirstName],</p>
 
-  <p>
-    Twenty-six stories. Six months. One book.
-  </p>
+  <p>Almost there. Your book has been sent to print and is on its way to you — delivered to your door, on us.</p>
 
-  <p>
-    Your Legacy Book has been sent to print and is on its way to you — delivered to your door, on us.
-    Please allow up to four weeks for print and delivery.
-  </p>
+  <div style="background: #EFECEA; padding: 28px 32px; margin: 0 0 22px 0;">
+    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0 0 4px 0;">Delivery address</p>
+    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0 0 16px 0; white-space: pre-wrap;">[DeliveryAddress]</p>
+    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0;">Books: <strong>[TotalBooks] books total</strong></p>
+  </div>
+
+  <p>Please email <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> as soon as possible if these details need updating.</p>
+
+  <p>Allow up to four weeks for print and delivery.</p>
 
   <hr class="divider">
 
   <p>
-    We hope it is everything you imagined — and more.
+    We hope <em>[BookTitle]</em> is everything you imagined — and more.
     Hearing from families who have been through this journey means a great deal to us.
     If you have a moment to share your experience, please write to us at
     <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>.

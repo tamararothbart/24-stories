@@ -122,7 +122,7 @@ exports.handler = async function() {
         const daysOverdue = daysSincePrint - 28;
         await sendEmail(mjAuth, {
           to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
-          subject: `ACTION REQUIRED — ${name}'s book is ${daysOverdue} days overdue`,
+          subject: `DELIVERY OVERDUE — ${name} (${daysOverdue} days)`,
           html:    deliveryAlertHtml({ f, daysSincePrint, name })
         });
       }
@@ -157,8 +157,8 @@ exports.handler = async function() {
       const pauseStartFormatted = pauseStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 
       const subject = reminderNum === 1
-        ? `ACTION REQUIRED — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}'s pause has expired`
-        : `ACTION REQUIRED — REMINDER ${reminderNum} — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}'s pause expired ${daysOverdue} days ago`;
+        ? `PAUSE EXPIRED — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`
+        : `PAUSE EXPIRED REMINDER ${reminderNum} — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`;
 
       await sendEmail(mjAuth, {
         to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },

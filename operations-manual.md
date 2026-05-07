@@ -208,6 +208,54 @@ You do nothing. It is automatic.
 
 ---
 
+## PART 3B — SUBSCRIBER PAUSE
+
+---
+
+### RECEIVING A PAUSE REQUEST
+
+A subscriber will email hello@24stories.co.za to request a pause.
+
+**What you do:**
+
+1. In Airtable → Subscribers table → find the subscriber → set **Status = Paused**
+
+That is all. The system does the rest automatically:
+
+- PauseStartDate is set to today
+- The subscriber receives an email confirming their pause is active and the date it expires (12 months from today)
+
+You do not need to set PauseStartDate manually. You do not need to send an email.
+
+---
+
+### WHEN THE PAUSE EXPIRES
+
+When a subscriber's pause reaches 12 months, you will receive an alert at **stories@24stories.co.za**:
+
+Subject: **ACTION REQUIRED — [FirstName Surname]'s pause has expired**
+
+This alert repeats every 7 days until you act. You do not need to look for it — it will find you.
+
+**What you do:**
+
+1. Contact the subscriber from hello@24stories.co.za
+2. If they want to resume: set **Status = Active** in Airtable — prompt delivery restarts automatically from their current PromptNumber. No further action needed.
+3. If they wish to cancel: set **Status = Cancelled** in Airtable.
+
+The alerts stop the moment Status is changed from Paused.
+
+---
+
+### PAUSE POLICY
+
+- Pause is available for up to 12 months from the day of pausing
+- The Story Library remains accessible during the pause — all stories and photographs are safe
+- No weekly prompts are sent while Status = Paused
+- The subscription is non-refundable — pause is the alternative to cancellation
+
+---
+
 ## PART 4 — WEEK 26 / BOOK PRODUCTION
 
 *(To be added when book production flow is confirmed and tested.)*

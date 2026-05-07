@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 15 — Pause confirmed: manual template, set Status = Paused first</title>
+<title>Email 15 — Pause confirmation: fires automatically when Status set to Paused in Airtable</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -21,22 +21,25 @@
 
 <div class="meta">
   <strong>EMAIL 15 — PAUSE CONFIRMATION</strong><br>
-  Trigger: Manual — Tamara sends after receiving a pause request from the subscriber &nbsp;|&nbsp; To: Storyteller<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12. MANUAL TEMPLATE — never automated.</strong><br><br>
-  Tamara's actions before sending:<br>
-  • Set PauseStartDate in Airtable (Subscribers table)<br>
-  • Set Status = Paused in Airtable — send-weekly-prompts.js and send-day4-reminder.js check Status = Active before sending, so paused subscribers are automatically skipped<br>
-  • No automated pause expiry reminder built yet — flag manually at 12-month mark<br>
-  • To resume: set Status = Active in Airtable — prompt delivery resumes from current PromptNumber<br><br>
-  Policy:<br>
-  • Pause lasts up to 12 months from subscription start date<br>
-  • Library remains accessible during pause<br>
-  • No prompts sent while Status = Paused<br>
-  • Subscriber emails hello@ to resume — Tamara sets Status = Active, automated prompt delivery resumes from current PromptNumber<br>
-  • Purchase is non-refundable — pause is the alternative to cancellation<br><br>
-  Variables to fill manually:
+  Trigger: Automatic — fires via Airtable Automation when Status is set to Paused &nbsp;|&nbsp; To: Storyteller<br>
+  Function: <strong>send-pause-confirmation.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ BUILT & LIVE — 2026-05-07. Automated.</strong><br><br>
+  How it works:<br>
+  • Subscriber emails hello@ requesting a pause<br>
+  • Tamara sets Status = Paused in Airtable<br>
+  • Airtable Automation fires → send-pause-confirmation.js<br>
+  • Function writes PauseStartDate = today to Airtable automatically<br>
+  • Function calculates PauseExpiryDate (12 months from today) and sends this email<br>
+  • send-weekly-prompts.js and send-day4-reminder.js skip Status = Paused subscribers automatically<br><br>
+  Expiry alerts:<br>
+  • book-onboarding-reminder.js (runs daily) checks for expired pauses<br>
+  • Alerts fire to stories@24stories.co.za on expiry day and every 7 days after<br>
+  • Subject: ACTION REQUIRED — [Name]'s pause has expired<br>
+  • Alerts stop when Status is changed from Paused<br><br>
+  To resume a subscriber: set Status = Active in Airtable — prompt delivery restarts from current PromptNumber<br><br>
+  Variables (populated automatically by function — no manual filling needed):
   <span class="var">RecipientFirstName</span>
-  <span class="var">PauseExpiryDate</span> (12 months from subscription start date — check SubscriptionStartDate in Airtable)
+  <span class="var">PauseExpiryDate</span>
 </div>
 
 <div class="wrapper">
@@ -63,7 +66,7 @@
   </p>
 
   <p>
-    Please do not forget to send that email. Your pause is valid until <strong>[PauseExpiryDate]</strong> — after that point, we will be in touch to check in.
+    Your pause is valid until <strong>[PauseExpiryDate]</strong>. When the time is right, just write to us.
   </p>
 
   <hr class="divider">

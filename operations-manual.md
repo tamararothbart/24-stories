@@ -296,6 +296,40 @@ You can create separate Mailjet lists per segment (Interest, Free Download, Even
 
 ---
 
+## REFUNDS
+
+### Main subscription refund
+
+The 24 Stories subscription is non-refundable. The pause option (up to 12 months) is the alternative to cancellation.
+
+If you choose to issue a goodwill refund in exceptional circumstances:
+
+1. Log in to PayFast merchant dashboard → Transactions → find the transaction → Refund
+2. In Airtable → Subscribers table → set Status = Cancelled
+3. Send email-16 (refund confirmation) manually from hello@24stories.co.za — fill in RecipientFirstName and Amount manually
+
+---
+
+### Extra copies refund
+
+Extra copies can be refunded if the request is received before BookSentToPrintDate is set. Once the book has gone to print, no refund is possible.
+
+**To process an extra copies refund:**
+
+1. Log in to PayFast merchant dashboard → Transactions → find the extra copies transaction → Refund
+2. In Airtable → Subscribers table → reduce ExtraCopies by the refunded quantity (edit the field directly)
+3. Send a manual confirmation from hello@24stories.co.za — no automated email exists for this
+
+---
+
+### What PayFast handles automatically
+
+- PayFast sends a payment receipt to the buyer on every successful payment (main subscription and extra copies)
+- PayFast does not process refunds automatically — all refunds are initiated manually through the merchant dashboard
+- 24 Stories sends email-14 (extra copies confirmation) automatically on payment — this is separate from the PayFast receipt
+
+---
+
 ## IF SOMETHING BREAKS
 
 Open Claude Code (the app on your Mac, or VS Code with the Claude extension).

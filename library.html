@@ -719,10 +719,11 @@
                     <!-- Box 1: Default title -->
                     <div style="border:1px solid #1A1A1A; padding:22px 24px; margin-top:14px;">
                         <p style="font-size:13px; font-family:Arial,sans-serif; font-weight:bold; letter-spacing:0.12em; text-transform:uppercase; color:#1A1A1A; margin:0 0 14px 0;">Use the default title</p>
-                        <p style="font-size:17px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">Dear Family — The Collected Stories of</p>
-                        <input type="text" id="bookTitleName" placeholder="[Your Full Name]" maxlength="50"
+                        <p style="font-size:17px; font-style:italic; color:#1A1A1A; margin:0 0 10px 0;">Dear Family by</p>
+                        <input type="text" id="bookTitleName" placeholder="Your full name" maxlength="50"
                                style="width:100%; box-sizing:border-box; border:none; border-bottom:1px solid #1A1A1A; font-size:17px; font-family:Georgia,serif; font-style:italic; color:#1A1A1A; padding:6px 0; background:transparent; outline:none;">
-                        <p style="font-size:15px; color:#555; margin:8px 0 0; font-family:Arial,sans-serif;">Write your full name in the field above.</p>
+                        <p style="font-size:17px; font-style:italic; color:#1A1A1A; margin:10px 0 8px 0;">A Collection of Stories</p>
+                        <p style="font-size:15px; color:#555; margin:4px 0 0; font-family:Arial,sans-serif;">Your name is pre-filled. Edit if needed.</p>
                     </div>
                     <p class="field-saved-msg" id="bookTitleNameSaved"></p>
 
@@ -1184,7 +1185,8 @@
             setupBookPhoto('btnPortrait', 'portraitInput', 'portraitFilename', 'portraitUploading', 'portraitOk', 'portraitExisting', 'portrait', f.PortraitPhotoURL || '');
 
             // Book title: two-input design — default prefix + name, OR custom title
-            var TITLE_PREFIX = 'Dear Family — the Collected Stories of ';
+            var TITLE_PREFIX = 'Dear Family by ';
+            var TITLE_SUFFIX = ' A Collection of Stories';
             var nameEl    = document.getElementById('bookTitleName');
             var customEl  = document.getElementById('bookTitleCustom');
             var nameSaved = document.getElementById('bookTitleNameSaved');
@@ -1194,11 +1196,14 @@
 
             // Populate whichever field matches the saved title
             if (f.BookTitle) {
-                if (f.BookTitle.indexOf(TITLE_PREFIX) === 0) {
-                    nameEl.value = f.BookTitle.slice(TITLE_PREFIX.length);
+                if (f.BookTitle.indexOf(TITLE_PREFIX) === 0 && f.BookTitle.slice(-TITLE_SUFFIX.length) === TITLE_SUFFIX) {
+                    nameEl.value = f.BookTitle.slice(TITLE_PREFIX.length, -TITLE_SUFFIX.length);
                 } else {
                     customEl.value = f.BookTitle;
                 }
+            } else {
+                var fullName = ((f.StorytellerFirstName || '') + ' ' + (f.StorytellerSurname || '')).trim();
+                if (fullName) nameEl.value = fullName;
             }
 
             function updateCounter() {
@@ -1211,7 +1216,7 @@
             function saveBookTitle(savedEl) {
                 var name   = nameEl.value.trim();
                 var custom = customEl.value.trim();
-                var title  = custom ? custom : (name ? TITLE_PREFIX + name : '');
+                var title  = custom ? custom : (name ? TITLE_PREFIX + name + TITLE_SUFFIX : '');
                 if (!title) return;
                 postMake(LIBRARY_UPDATE_URL, { type: 'book-text', subscriberId: subscriberId, fieldType: 'bookTitle', value: title });
                 savedEl.textContent = 'Saved';

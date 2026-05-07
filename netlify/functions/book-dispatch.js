@@ -81,8 +81,11 @@ function esc(s) {
 }
 
 function email12Html(firstName, deliveryAddress, totalBooks, bookTitle) {
-  const titleLine = bookTitle
-    ? `We hope <em>${esc(bookTitle)}</em> is everything you imagined — and more.`
+  const displayTitle = bookTitle && bookTitle.includes(' by ')
+    ? bookTitle.split(' by ')[0].trim()
+    : bookTitle;
+  const titleLine = displayTitle
+    ? `We hope <em>${esc(displayTitle)}</em> is everything you imagined — and more.`
     : `We hope your book is everything you imagined — and more.`;
   const addressBlock = deliveryAddress
     ? `<p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Delivery address</p><p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 16px;white-space:pre-wrap;">${esc(deliveryAddress)}</p>`

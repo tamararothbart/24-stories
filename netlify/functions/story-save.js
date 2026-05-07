@@ -13,9 +13,17 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { storyId, editedText } = payload;
+  const { storyId, editedText, chapterTitle } = payload;
   if (!storyId) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Missing storyId' }) };
+  }
+
+  const fields = {};
+  if (editedText  !== undefined) fields.EditedText   = editedText;
+  if (chapterTitle !== undefined) fields.ChapterTitle = chapterTitle;
+
+  if (Object.keys(fields).length === 0) {
+    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Nothing to save' }) };
   }
 
   const BASE = 'apprTOobuxs4Od7XB';
@@ -24,7 +32,7 @@ exports.handler = async function(event) {
   const res = await fetch(`https://api.airtable.com/v0/${BASE}/Stories/${storyId}`, {
     method: 'PATCH',
     headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fields: { EditedText: editedText } })
+    body: JSON.stringify({ fields })
   });
 
   if (!res.ok) {

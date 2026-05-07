@@ -227,7 +227,7 @@ function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, i
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber}</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)} wants to share something with you.</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)} has a story to share with you.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   ${titleBlock}
   <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 40px;white-space:pre-wrap;">${esc(storyText)}</p>
@@ -235,7 +235,7 @@ function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, i
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
-    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there is a story you have always wanted to hear — or one that has been told before and deserves to be kept — ask. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there is a story you have always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
   </div>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;

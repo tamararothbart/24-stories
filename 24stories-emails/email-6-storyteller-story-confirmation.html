@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 6 — Storyteller notification: story sent to family</title>
+<title>Email 6 — Storyteller story confirmation: story sent to family (has recipients)</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -10,79 +10,58 @@
   .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
-  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 22px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
-  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .story-block { background: #fff; border-left: 4px solid #B8976A; padding: 28px 32px; margin: 24px 0; }
-  .story-block .week-label { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 18px 0; }
-  .story-block .story-text { font-size: 17px; line-height: 1.9; color: #1A1A1A; margin: 0; white-space: pre-wrap; }
-  .photo-block { margin: 28px 0; }
-  .photo-block img { max-width: 100%; height: auto; display: block; }
-  .photo-caption { font-size: 15px; color: #555; font-style: italic; margin: 12px 0 0; line-height: 1.7; }
-  a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 6 — STORYTELLER STORY CONFIRMATION</strong><br>
-  Scenario: 3 (Family Delivery) &nbsp;|&nbsp; Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Storyteller only<br>
-  Status: <strong style="color:#FF9800;">NEW — needs Netlify Function (no automated trigger built yet)</strong><br><br>
-  Purpose: Confirm to the storyteller that their story has been sent. Show them what was shared.<br><br>
-  Variables in this email:
+  <strong>EMAIL 6 — STORYTELLER STORY CONFIRMATION (has family recipients)</strong><br>
+  Trigger: Tamara ticks SendToFamily in Airtable Stories, OR calls approve-story.js from library &nbsp;|&nbsp; To: Storyteller<br>
+  Functions: <strong>send-story-queue.js</strong> (queue, every 2 min) and <strong>approve-story.js</strong> (on-demand from library)<br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
+  This version fires when FamilyEmails list is not empty. See email-6b for the no-recipients variant.<br><br>
+  Variables:
   <span class="var">StorytellerFirstName</span>
   <span class="var">WeekNumber</span>
-  <span class="var">ChapterTitle</span>
+  <span class="var">ChapterTitle</span> (conditional — shown if populated)
   <span class="var">StoryText</span>
-  <span class="var">imageURL</span> (conditional — only shown if populated)
-  <span class="var">Caption</span> (conditional — only shown if imageURL populated)
+  <span class="var">ImageURL</span> (conditional — shown if populated)
+  <span class="var">Caption</span> (conditional)
   <span class="var">LibraryURL</span>
 </div>
 
 <div class="wrapper">
 <div class="email">
 
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
 
-  <p class="gold">Week [WeekNumber] — your story</p>
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber] — your story</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story has been sent.</p>
 
-  <p class="h1">Your story has been sent.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story has been delivered to your family.<br>Here's exactly what they received.</p>
 
-  <p>Hello [StorytellerFirstName],</p>
-
-  <p>
-    Your story has been delivered to your family.
-    Here's exactly what they received.
-  </p>
-
-  <div class="story-block">
-    <p style="font-size: 22px; font-weight: normal; color: #1A1A1A; margin: 0 0 20px 0; line-height: 1.4;">[ChapterTitle]</p>
-    <p class="story-text">[StoryText]</p>
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    <!-- CONDITIONAL: ChapterTitle only shown if populated -->
+    <p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">[ChapterTitle]</p>
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">[StoryText]</p>
   </div>
 
-  <!-- Conditional image block — only shown if imageURL is populated -->
-  <div class="photo-block">
-    <img src="[imageURL]" alt="Photo from [StorytellerFirstName]">
-    <p class="photo-caption">[Caption]</p>
+  <!-- CONDITIONAL: Photo block — only shown if ImageURL is populated -->
+  <div style="margin:28px 0;">
+    <img src="[ImageURL]" alt="Photo" style="max-width:100%;height:auto;display:block;">
+    <p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">[Caption]</p>
   </div>
-  <!-- End conditional image block -->
+  <!-- END CONDITIONAL photo block -->
 
-  <!-- LIBRARY LINK BLOCK -->
-  <div style="border-top: 3px solid #B8976A; padding: 28px 0 24px; margin: 40px 0 32px;">
-    <p style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 14px 0;">Your Story Library</p>
-    <a href="[LibraryURL]" style="display: inline-block; background: #B8976A; color: #ffffff; text-decoration: none; padding: 15px 32px; font-size: 16px; letter-spacing: 0.03em; margin-bottom: 14px;">Open your library &#8594;</a><br>
-    <p style="font-size: 13px; color: #555; line-height: 1.7; margin: 4px 0 0 0;">Direct link: <a href="[LibraryURL]" style="color: #B8976A; text-decoration: underline; word-break: break-all;">[LibraryURL]</a></p>
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;word-break:break-all;">[LibraryURL]</a></p>
   </div>
 
-  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
-    With warmth,<br>
-    The 24 Stories Team
-  </p>
-  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Questions? We're here to help.<br>
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 
 </div>
 </div>

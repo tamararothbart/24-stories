@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 4 — Week 1 story prompt: includes How It Works guide</title>
+<title>Email 4 — Week 1 prompt: sent on first Wednesday after activation</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -10,108 +10,72 @@
   .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
-  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
-  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .prompt-box { background: #fff; border-left: 4px solid #B8976A; padding: 28px 32px; margin: 0 0 36px 0; }
-  .prompt-box .prompt-label { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 16px 0; }
-  .prompt-box .prompt-text { font-size: 20px; line-height: 1.7; font-style: italic; color: #1A1A1A; margin: 0 0 20px 0; }
-  .prompt-box .alt-label { font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #666; margin: 20px 0 10px 0; }
-  .prompt-box .alt { font-size: 16px; color: #333; line-height: 1.7; margin: 0 0 8px 0; }
-  .cta { display: inline-block; background: #1A1A1A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 12px 0 36px; }
-  .how-it-works { background: #EFECEA; padding: 32px; margin: 32px 0; }
-  .how-it-works .hiw-title { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 20px 0; }
-  .how-it-works ol { margin: 0; padding-left: 22px; }
-  .how-it-works li { font-size: 16px; color: #333; line-height: 1.8; margin: 0 0 10px 0; }
-  .how-it-works p { font-size: 16px; color: #333; margin: 16px 0 0 0; }
-  a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 4 — WEEK 1 PROMPT (with "How It Works" block)</strong><br>
-  Scenario: 4 (Prompt Delivery) &nbsp;|&nbsp; Trigger: Scheduled daily, fires on storyteller's delivery day &nbsp;|&nbsp; To: Storyteller + Story Helper<br>
-  Status: <strong style="color:#FF9800;">NEEDS UPDATE in Make</strong> — add "How it works" block (Week 1 only) + Story Helper as second recipient<br><br>
-  Variables in this email:
+  <strong>EMAIL 4 — WEEK 1 PROMPT</strong><br>
+  Trigger: Wednesday 7am SAST — sent when PromptNumber = 0 (week 1) &nbsp;|&nbsp; To: Storyteller (and Story Helper if different email)<br>
+  Function: <strong>send-weekly-prompts.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
+  Variables:
   <span class="var">StorytellerFirstName</span>
   <span class="var">WeekName</span>
   <span class="var">Theme</span>
   <span class="var">PromptText</span>
-  <span class="var">OtherAngles</span> (comma-separated keywords from Airtable Prompts table)
-  <span class="var">tell.html link</span> (with id + week + weekname + theme + prompt + angles params)
-  <span class="var">LibraryURL</span><br><br>
-  NOTE: The "How it works" block below appears on Week 1 ONLY. Remove it for Email 8 (weeks 2–26).<br>
-  Status updated: 2026-04-11 — OtherAngles replaces alt1/alt2; BookOrdered removed; library block added.
+  <span class="var">OtherAngles</span>
+  <span class="var">TellURL</span>
+  <span class="var">LibraryURL</span>
 </div>
 
 <div class="wrapper">
 <div class="email">
 
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
 
-  <p class="gold">Week 1 — [WeekName]</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello [StorytellerFirstName].</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 16px;">Your memoir-writing journey begins today. Here is your first prompt.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Each prompt is intended as its own, self-contained story. Take your time and have fun with it. There is no right or wrong way to tell your story.</p>
 
-  <p class="h1">Here is your first prompt.</p>
-
-  <p>Hello [StorytellerFirstName],</p>
-
-  <p>
-    Your story journey begins today.
-    Below is your first prompt. Take your time with it.
-    There is no right or wrong answer — only your version.
-  </p>
-
-  <div class="prompt-box">
-    <p class="prompt-label">Your prompt this week</p>
-    <p class="alt-label">Theme</p>
-    <p class="alt" style="font-style: italic; margin-bottom: 16px;">[Theme]</p>
-    <p class="prompt-text">[PromptText]</p>
-    <p class="alt-label">Other angles</p>
-    <p class="alt">[OtherAngles]</p>
+  <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week 1 — [WeekName] &nbsp;&middot;&nbsp; Theme: [Theme]</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">[PromptText]</p>
+    <div style="border-top:1px solid #E0DCD7;padding-top:16px;">
+      <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
+      <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">[OtherAngles]</p>
+    </div>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
   </div>
 
-  <a href="[TELL_HTML_LINK]" class="cta">Tell your story &#8594;</a>
+  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you are ready, this button takes you straight to your recording page.</p>
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Tell your story &#8594;</a>
 
-  <!-- HOW IT WORKS BLOCK — Week 1 only -->
-  <div class="how-it-works">
-    <p class="hiw-title">How 24 Stories works</p>
-    <ol>
-      <li>Each week you receive a prompt like this one.</li>
-      <li>Click the button above to type your story or record it in your own voice.</li>
-      <li>We tidy it up and send it to your family.</li>
-      <li>There is no rush. You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
-      <li>Each story gives you the option to add a photograph and caption at the time of telling. If you do not have one on hand, you can return to your Story Library at any time to add it — your library link is below.</li>
-      <li>After 26 chapters, everything you have told becomes a Legacy Book.</li>
+  <div style="background:#EFECEA;padding:32px;margin:0 0 32px;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">How 24 Stories works</p>
+    <ol style="margin:0;padding-left:22px;">
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each week you receive a prompt like this one.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Click the button above to type your story or record it in your own voice.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">On the recording page, a drop-down guide walks you through the process step by step. Read it before you start — it takes a minute and makes the recording much smoother.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each story gives you the option to add a photograph and caption. If you do not have one on hand, you can return to your Story Library at any time to add it.</li>
     </ol>
-    <p>You do not need to write well. You just need to tell it the way it happened.</p>
+    <p style="font-size:16px;color:#333;margin:16px 0 0;">You do not need to write well. You just need to tell it the way it happened.</p>
   </div>
 
-  <hr class="divider">
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:16px;font-style:italic;color:#444;">Take your time. A story told slowly is a story told well.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <p style="font-size: 16px; font-style: italic; color: #444;">
-    Take your time. A story told slowly is a story told well.
-  </p>
-
-  <hr class="divider">
-
-  <!-- LIBRARY LINK BLOCK -->
-  <div style="border-top: 3px solid #B8976A; padding: 28px 0 24px; margin: 40px 0 32px;">
-    <p style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 14px 0;">Your Story Library</p>
-    <a href="[LibraryURL]" style="display: inline-block; background: #B8976A; color: #ffffff; text-decoration: none; padding: 15px 32px; font-size: 16px; letter-spacing: 0.03em; margin-bottom: 14px;">Open your library &#8594;</a><br>
-    <p style="font-size: 13px; color: #555; line-height: 1.7; margin: 4px 0 0 0;">Direct link: <a href="[LibraryURL]" style="color: #B8976A; text-decoration: underline; word-break: break-all;">[LibraryURL]</a></p>
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
 
-  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
-    With warmth,<br>
-    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
-  </p>
-
-  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 0;">
-    Questions? We are here to help.<br>
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 
 </div>
 </div>

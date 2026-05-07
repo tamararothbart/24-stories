@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 3 — Story Helper welcome: sent when storyteller is set up</title>
+<title>Email 3 — Story Helper welcome: sent on subscription confirmation (if helper assigned)</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -10,80 +10,57 @@
   .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
-  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
-  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .steps { list-style: none; padding: 0; margin: 0 0 28px 0; }
-  .steps li { font-size: 16px; line-height: 1.9; padding: 14px 0; border-bottom: 1px solid #E0DCD7; color: #222; }
-  .steps li strong { color: #1A1A1A; }
-  a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="meta">
   <strong>EMAIL 3 — STORY HELPER WELCOME</strong><br>
-  Scenario: 1 (Signup) &nbsp;|&nbsp; Trigger: PayFast payment confirmed (payment_status = COMPLETE) &nbsp;|&nbsp; To: Story Helper<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED — built in payfast-webhook.js</strong><br>
-  Condition: Only fires if StoryHelperEmail is populated AND different from GiftGiverEmail and different from StorytellerEmail<br><br>
-  Variables in this email:
+  Trigger: PayFast payment_status = COMPLETE — only if StoryHelperEmail differs from both StorytellerEmail and GiftGiverEmail &nbsp;|&nbsp; To: Story Helper<br>
+  Function: <strong>payfast-webhook.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
+  Variables:
   <span class="var">StoryHelperName</span>
   <span class="var">StorytellerFirstName</span>
-  <span class="var">LibraryURL</span><br><br>
-  Status updated: 2026-04-11 — photo upload instructions updated to reference library; library block added.
+  <span class="var">LibraryURL</span>
 </div>
 
 <div class="wrapper">
 <div class="email">
 
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
 
-  <p class="h1">You have been named as <em>[StorytellerFirstName]</em>'s Story Helper.</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">You have been named as <em>[StorytellerFirstName]</em>'s Story Helper.</p>
 
-  <p>Hello [StoryHelperName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StoryHelperName],</p>
 
-  <p>
-    [StorytellerFirstName] is embarking on the 24 Stories journey towards creating a Legacy Book — and they have asked you to help make it a success.
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">[StorytellerFirstName] is embarking on the 24 Stories journey towards creating a Legacy Book — and has asked you to help make it a success.</p>
 
-  <p>
-    Your role is simple. You help them when they get stuck, remind them when they forget, and add the photographs and captions that bring the stories to life.
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your role is simple. You help [StorytellerFirstName] when stuck, remind [StorytellerFirstName] when the week slips by, and add the photographs and captions that bring the stories to life.</p>
 
-  <hr class="divider">
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <p class="gold">What you will do</p>
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">What you will do</p>
 
-  <ul class="steps">
-    <li><strong>Nudge gently, once a week.</strong> You will receive the same weekly prompt that [StorytellerFirstName] receives. If five days have passed and no story has arrived in your inbox, a simple "Did you get your prompt this week?" is enough.</li>
-    <li><strong>Help them record or type.</strong> Some storytellers need someone to sit with them the first few times. If that is you, that is a gift too.</li>
-    <li><strong>Add a photograph.</strong> Each story has room for one image. [StorytellerFirstName] can upload it themselves — but if they have not, you can do it on their behalf. Open the Story Library, find the relevant story, and upload from there. There is no rush — photographs can be added at any time, in any order. The Story Library link is included in every prompt email — so you always have it to hand. Your link is <span style="color: #C0392B; font-weight: bold;">below</span>.</li>
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Nudge gently, once a week.</strong> You will receive the same weekly prompt that [StorytellerFirstName] receives. If five days have passed and no story has arrived in your inbox, a simple "Did you get your prompt this week?" is enough.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Help with recording or typing.</strong> Some storytellers need someone to sit with them the first few times. If that is you, that is a gift too.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add a photograph.</strong> Each story has room for one image. [StorytellerFirstName] can upload it directly — but if not, you can do it instead. Open the Story Library, find the relevant story, and upload from there. Photographs can be added at any time, in any order. Your link is <span style="color:#C0392B;font-weight:bold;">below</span>.</li>
   </ul>
 
-  <p>
-    You will receive a copy of each story as it is sent to the family.
-    You do not need to do anything to make that happen — it is automatic.
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You will receive a copy of each story as it is sent to the family. You do not need to do anything to make that happen — it is automatic.</p>
 
-  <hr class="divider">
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <!-- LIBRARY LINK BLOCK — red to draw attention on first read -->
-  <div style="border-top: 3px solid #C0392B; padding: 28px 0 24px; margin: 40px 0 32px;">
-    <p style="font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: #C0392B; font-weight: bold; margin: 0 0 14px 0;">The Story Library</p>
-    <p style="font-size: 15px; color: #1A1A1A; line-height: 1.8; margin: 0 0 16px 0;">This is where you and [StorytellerFirstName] will find all the prompts, stories, and photographs. Open it from any device, at any time.</p>
-    <a href="[LibraryURL]" style="display: inline-block; background: #C0392B; color: #ffffff; text-decoration: none; padding: 15px 32px; font-size: 16px; letter-spacing: 0.03em; margin-bottom: 14px;">Open the library &#8594;</a><br>
-    <p style="font-size: 13px; color: #555; line-height: 1.7; margin: 4px 0 0 0;">Direct link: <a href="[LibraryURL]" style="color: #C0392B; text-decoration: underline; word-break: break-all;">[LibraryURL]</a></p>
+  <div style="border-top:3px solid #C0392B;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#C0392B;font-weight:bold;margin:0 0 14px;">The Story Library</p>
+    <p style="font-size:15px;color:#1A1A1A;line-height:1.8;margin:0 0 16px;">This is where you and [StorytellerFirstName] will find all the prompts, stories, and photographs. Open it from any device, at any time.</p>
+    <a href="https://24stories.co.za/library.html?id=[LibraryToken]" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open the library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="https://24stories.co.za/library.html?id=[LibraryToken]" style="color:#C0392B;text-decoration:underline;word-break:break-all;">https://24stories.co.za/library.html?id=[LibraryToken]</a></p>
   </div>
 
-  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
-    With warmth,<br>
-    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
-  </p>
-  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Questions? We are here to help.<br>
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 
 </div>
 </div>

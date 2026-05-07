@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 9 — Book onboarding launch: Week 24 prompt, two chapters to go</title>
+<title>Email 9 — Book onboarding intro: fires alongside Week 24 prompt</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -10,36 +10,23 @@
   .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
-  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
-  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  .steps { list-style: none; padding: 0; margin: 0 0 28px 0; counter-reset: step-counter; }
-  .steps > li { font-size: 16px; line-height: 1.9; padding: 18px 0 18px 44px; border-bottom: 1px solid #E0DCD7; color: #222; position: relative; counter-increment: step-counter; }
-  .steps > li::before { content: counter(step-counter); position: absolute; left: 0; top: 18px; width: 28px; height: 28px; background: #B8976A; color: #fff; border-radius: 50%; font-size: 13px; font-family: Arial, sans-serif; font-weight: bold; display: flex; align-items: center; justify-content: center; line-height: 1; }
-  .steps > li strong { color: #1A1A1A; display: block; margin-bottom: 8px; font-size: 17px; }
-  .steps > li .sub { margin-top: 12px; }
-  .steps > li .sub-label { font-weight: bold; color: #1A1A1A; display: block; margin: 14px 0 4px; }
-  .complete-block { background: #1A1A1A; color: #F7F5F2; padding: 32px 36px; margin: 36px 0; }
-  .complete-block p { color: #F7F5F2; margin: 0 0 18px 0; font-size: 16px; line-height: 1.9; }
-  .complete-block p:last-child { margin: 0; font-size: 15px; color: #B8976A; }
-  .complete-label { font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: #B8976A; font-weight: bold; font-family: Arial, sans-serif; margin: 0 0 18px 0; display: block; }
-  .cta { display: inline-block; background: #B8976A; color: #fff !important; text-decoration: none; padding: 16px 36px; font-size: 16px; letter-spacing: 0.05em; margin: 20px 0 24px; }
-  a.gold-link { color: #B8976A; text-decoration: underline; }
-  .footnote { font-size: 15px; color: #666; line-height: 1.8; font-style: italic; margin: 0 0 8px 0; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 9 — BOOK ONBOARDING (WEEK 24 — TWO CHAPTERS TO GO)</strong><br>
-  Scenario: 8 (Book Onboarding) &nbsp;|&nbsp; Trigger: Prompt 24 sent &nbsp;|&nbsp; To: Storyteller only<br>
-  Subject: <em>Two chapters to go — time to prepare your book.</em><br>
-  Status: <strong style="color:#B8976A;">⚑ UPDATED 2026-05-05 — triggers at week 24, not week 26</strong><br><br>
-  Fires alongside send-weekly-prompts.js when PromptNumber reaches 24. Kicks off book-onboarding-reminder.js sequence.<br>
-  Delivery estimate updated to four weeks (was three).<br>
-  Title character limit: 30 characters (confirmed).<br><br>
-  Variables in this email:
+  <strong>EMAIL 9 — BOOK ONBOARDING INTRO (Week 24)</strong><br>
+  Trigger: Wednesday 7am SAST — fires alongside email-8 when WeekNumber = 24 &nbsp;|&nbsp; To: Storyteller only<br>
+  Function: <strong>send-weekly-prompts.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
+  Part of the book onboarding schedule:<br>
+  Day 0 (Week 24 prompt day): Email-9 fires<br>
+  Day +3 (PromptNumber=24): Email-10 Reminder 1<br>
+  Day +6 (PromptNumber=24): Email-10 Reminder 2<br>
+  Day +15 (PromptNumber=26, day 1): Email-10 Final<br>
+  Day +18 (PromptNumber=26, day 4): Email-11 Overdue + Tamara alert<br>
+  Stop condition: PortraitPhotoURL + BookTitle + DedicationText all filled OR BookFormCompleted filled.<br><br>
+  Variables:
   <span class="var">StorytellerFirstName</span>
   <span class="var">LibraryURL</span>
 </div>
@@ -47,91 +34,34 @@
 <div class="wrapper">
 <div class="email">
 
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
 
-  <p class="gold">Your Legacy Book</p>
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Two chapters to go. Time to prepare your book.</p>
 
-  <p class="h1">Two chapters to go. Time to prepare your book.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
 
-  <p>Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You are nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
 
-  <p>
-    You are nearly there. Two more stories to tell. While you tell them, we want to make sure your Collected Stories are ready for print the moment you press Complete.
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
 
-  <p>
-    There are four things to do in your Story Library. Some you may have already done — if so, you're ahead of the game!
-  </p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <hr class="divider">
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Tell any missing stories.</strong> Your library holds all 26 prompts. If there are weeks you have not yet recorded, use your library to do so at any time.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add photographs and captions.</strong> Each chapter has room for one image. If you have not yet added them, you can do so now — or any time before you press Complete.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to four weeks from print to delivery. No further changes can be made after pressing Complete.</li>
+  </ul>
 
-  <ol class="steps">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There is no deadline — but the sooner you press Complete, the sooner your book arrives.</p>
 
-    <li>
-      <strong>1. Tell any skipped stories</strong>
-      Your library holds all 26 prompts. If there are weeks you have not recorded, use your library to do so now.
-      <span class="sub">You are not obligated to respond to all 26 prompts. If you choose to skip some, your book will simply have fewer chapters.</span>
-    </li>
+  <a href="[LibraryURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
 
-    <li>
-      <strong>2. Add missing photographs and captions</strong>
-      Each chapter has room for one captioned image — colour or black and white. If you have not yet uploaded them, do so before you press Complete.
-    </li>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-    <li>
-      <strong>3. Add your book details</strong>
-
-      <span class="sub">
-
-        <span class="sub-label">Title</span>
-        The title field has a default suggestion: <em>Dear Family — the Collected Stories of [Your Full Name].</em> Keep it by adding your name in the placeholder, or choose your own title — as long as it does not exceed 30 characters.
-
-        <span class="sub-label">Portrait photograph</span>
-        This appears on the first page of your book. Caption it with your name (and your maiden name if applicable), date and place of birth.
-
-        <span class="sub-label">Dedication and epigraph</span>
-        The dedication and epigraph are optional extras.
-
-      </span>
-    </li>
-
-    <li>
-      <strong>4. Delivery details and number of copies</strong>
-      Fill in your physical address for delivery. Including a mobile number is optional. It's so that the courier can alert you when your book is on its way.
-      <span class="sub" style="display:block;margin-top:10px;">Confirm the number of copies you would like to order.</span>
-    </li>
-
-  </ol>
-
-  <hr class="divider">
-
-  <div class="complete-block">
-
-    <span class="complete-label">Press Complete</span>
-
-    <p>
-      When all your stories are told and your book form is filled in, press the <strong>Mark as Complete</strong> button in your library.
-    </p>
-
-    <p>
-      After you press Complete, no further changes or additions are possible. Your Collected Stories go straight into production.
-    </p>
-
-    <p>
-      Allow up to four weeks from print to delivery. We take great care to make your book beautiful.
-    </p>
-
-    <a href="[LibraryURL]" class="cta">Go to Your Story Library &#8594;</a>
-
-  </div>
-
-  <p style="font-size: 17px; line-height: 1.9; margin: 36px 0 10px 0;">
-    With warmth,<br>
-    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
-  </p>
-  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Questions? <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 
 </div>
 </div>

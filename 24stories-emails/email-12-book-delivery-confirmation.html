@@ -10,68 +10,55 @@
   .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
-  .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
-  p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
-  .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
-  a.gold-link { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
 
 <div class="meta">
-  <strong>EMAIL 12 — LEGACY BOOK DISPATCH CONFIRMATION</strong><br>
-  Trigger: Tamara sets BookSentToPrintDate in Airtable — fires book-dispatch.js &nbsp;|&nbsp; To: Storyteller (and Gift Giver if gifted — send separately)<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12</strong><br><br>
-  Instructions for Tamara: Enter BookSentToPrintDate in Airtable when book goes to printer — this fires the email. Send a separate copy from hello@24stories.co.za to Gift Giver if the purchase was a gift.<br><br>
+  <strong>EMAIL 12 — BOOK SENT TO PRINT</strong><br>
+  Trigger: Tamara sets BookSentToPrintDate via library.html (Mark as Complete flow) &nbsp;|&nbsp; To: Storyteller<br>
+  Function: <strong>book-dispatch.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
+  Also saves BookSentToPrintDate to Airtable, which starts the delivery tracking alerts (book-onboarding-reminder.js: day 23, 28, 35+).<br><br>
   Variables:
-  <span class="var">RecipientFirstName</span>
-  <span class="var">DeliveryAddress</span>
-  <span class="var">TotalBooks</span> (1 + ExtraCopies from Airtable)
-  <span class="var">BookTitle</span>
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">DeliveryAddress</span> (conditional — shown in grey box if populated)
+  <span class="var">TotalBooks</span> (1 + ExtraCopies)
+  <span class="var">BookTitle</span> (conditional — used in sign-off sentence if populated)
 </div>
 
 <div class="wrapper">
 <div class="email">
 
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
 
-  <p class="gold">Your Collected Stories</p>
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is on its way.</p>
 
-  <p class="h1">Your book is on its way.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
 
-  <p>Hello [RecipientFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Almost there. Your book has been sent to print and is on its way to you — delivered to your door, on us.</p>
 
-  <p>Almost there. Your book has been sent to print and is on its way to you — delivered to your door, on us.</p>
-
-  <div style="background: #EFECEA; padding: 28px 32px; margin: 0 0 22px 0;">
-    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0 0 18px 0;">Please email <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> as soon as possible if the following details need updating:</p>
-    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0 0 4px 0;">Delivery address</p>
-    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0 0 16px 0; white-space: pre-wrap;">[DeliveryAddress]</p>
-    <p style="font-size: 16px; color: #333; line-height: 1.9; margin: 0;">Books: <strong>[TotalBooks] books total</strong></p>
+  <div style="background:#EFECEA;padding:28px 32px;margin:0 0 22px;">
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 18px 0;">Please email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> as soon as possible if the following details need updating:</p>
+    <!-- CONDITIONAL: Delivery address — only shown if DeliveryAddress is populated -->
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Delivery address</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 16px;white-space:pre-wrap;">[DeliveryAddress]</p>
+    <!-- END CONDITIONAL delivery address -->
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Books: <strong>[TotalBooks] book(s) total</strong></p>
   </div>
 
-  <p>Allow up to four weeks for print and delivery.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks for print and delivery.</p>
 
-  <hr class="divider">
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <p>
-    We hope <em>[BookTitle]</em> is everything you imagined — and more.
-    Hearing from families who have been through this journey means a great deal to us.
-    If you have a moment to share your experience, please write to us at
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a>.
-  </p>
+  <!-- CONDITIONAL title line — if BookTitle: "We hope [Title] is everything you imagined — and more." else generic -->
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope <em>[BookTitle]</em> is everything you imagined — and more. Hearing from families who have been through this journey means a great deal to us. If you have a moment to share your experience, please write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
 
-  <hr class="divider">
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
 
-  <p style="font-size: 17px; line-height: 1.9; margin: 0 0 10px 0;">
-    With warmth,<br>
-    <strong style="font-size: 17px; color: #1A1A1A;">The 24 Stories Team</strong>
-  </p>
-  <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 20px 0 0 0;">
-    Any questions or issues — please get in touch immediately.<br>
-    <a href="mailto:hello@24stories.co.za" class="gold-link">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" class="gold-link">24stories.co.za</a>
-  </p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Any questions or issues — please get in touch immediately.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 
 </div>
 </div>

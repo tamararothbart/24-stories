@@ -20,9 +20,8 @@
 <div class="meta">
   <strong>EMAIL 2 — GIFT GIVER CONFIRMATION</strong><br>
   Scenario: 1 (Signup) &nbsp;|&nbsp; Trigger: PayFast payment confirmed (payment_status = COMPLETE) &nbsp;|&nbsp; To: Gift Giver<br>
-  Testing override: call the Make webhook directly with a test subscriber payload — PayFast activation not required during testing.<br>
-  Status: <strong style="color:#FF9800;">NEEDS UPDATE IN MAKE — v3.1 content.</strong><br>
-  <strong style="color:#FF9800;">NOTE:</strong> Make filter before this module — only fires if StorytellerEmail ≠ GiftGiverEmail (suppress for self-signups)<br><br>
+  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED — built in payfast-webhook.js</strong><br>
+  Condition: only fires if StorytellerEmail ≠ GiftGiverEmail — logic built into payfast-webhook.js<br><br>
   Variables in this email:
   <span class="var">GiftGiverName</span>
   <span class="var">StorytellerFirstName</span>

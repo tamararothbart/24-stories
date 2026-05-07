@@ -25,14 +25,14 @@
   Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12. MANUAL TEMPLATE — never automated.</strong><br><br>
   Tamara's actions before sending:<br>
   • Set PauseStartDate in Airtable (Subscribers table)<br>
-  • Set Status = Paused in Airtable — Make filters Status = Active before every prompt scenario, so paused subscribers are automatically skipped<br>
-  • Make Scenario 13 watches for Status = Paused and fires pause expiry reminder as 12-month limit approaches<br>
-  • To resume: set Status = Active in Airtable — Make resumes prompt schedule from correct week (PromptNumber unchanged)<br><br>
+  • Set Status = Paused in Airtable — send-weekly-prompts.js and send-day4-reminder.js check Status = Active before sending, so paused subscribers are automatically skipped<br>
+  • No automated pause expiry reminder built yet — flag manually at 12-month mark<br>
+  • To resume: set Status = Active in Airtable — prompt delivery resumes from current PromptNumber<br><br>
   Policy:<br>
   • Pause lasts up to 12 months from subscription start date<br>
   • Library remains accessible during pause<br>
   • No prompts sent while Status = Paused<br>
-  • Subscriber emails hello@ to resume — Tamara sets Status = Active, resumes Make schedule manually<br>
+  • Subscriber emails hello@ to resume — Tamara sets Status = Active, automated prompt delivery resumes from current PromptNumber<br>
   • Purchase is non-refundable — pause is the alternative to cancellation<br><br>
   Variables to fill manually:
   <span class="var">RecipientFirstName</span>

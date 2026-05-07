@@ -16,8 +16,7 @@
   .card .title { font-size: 15px; color: #fff; margin: 0 0 9px; font-weight: normal; line-height: 1.4; }
   .card .detail { font-size: 12px; color: #888; line-height: 1.7; margin: 0 0 12px; }
   .badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 2px; font-weight: bold; letter-spacing: 0.05em; text-transform: uppercase; }
-  .build   { background: #3a1e1e; color: #f44336; }
-  .update  { background: #3a2a0a; color: #FF9800; }
+  .flag    { background: #3a1e1e; color: #f44336; }
   .done    { background: #1e3a1e; color: #4CAF50; }
   .manual  { background: #0a2a3a; color: #29b6f6; }
   .footer  { padding: 32px 48px; font-size: 12px; color: #555; border-top: 1px solid #2a2a2a; margin-top: 24px; }
@@ -27,126 +26,133 @@
 
 <div class="header">
   <h1>24 Stories — Email Reference</h1>
-  <p>16 active emails. v3.1 — 11 April 2026. Open any card to preview. All emails updated to v3.1 — ready for proofreading.</p>
+  <p>16 active emails. v3.1 — updated 7 May 2026. All automation: Netlify Functions → Mailjet. No Make.</p>
 </div>
 
 <!-- ===== SIGNUP ===== -->
-<div class="section-label">Signup — Scenario 1 (fires simultaneously on PayFast confirmation)</div>
+<div class="section-label">Signup — fires simultaneously on PayFast confirmation (payfast-webhook.js)</div>
 <div class="grid">
 
   <a href="email-1-storyteller-welcome.html" class="card">
-    <p class="num">Email 1 — Scenario 1</p>
+    <p class="num">Email 1 — payfast-webhook.js</p>
     <p class="title">Storyteller Welcome</p>
     <p class="detail">To: Storyteller<br>Trigger: PayFast payment confirmed<br>Includes library description + library block. Conditional: gift vs self-signup.</p>
-    <span class="badge update">Needs update in Make</span>
+    <span class="badge done">Built — payfast-webhook.js</span>
   </a>
 
   <a href="email-2-giftgiver-confirmation.html" class="card">
-    <p class="num">Email 2 — Scenario 1</p>
+    <p class="num">Email 2 — payfast-webhook.js</p>
     <p class="title">Gift Giver Confirmation</p>
-    <p class="detail">To: Gift Giver only (filter: GiftGiverEmail ≠ StorytellerEmail)<br>Trigger: PayFast payment confirmed<br>Includes non-refundable / pause T&amp;C note.</p>
-    <span class="badge update">Needs update in Make</span>
+    <p class="detail">To: Gift Giver only (condition: GiftGiverEmail ≠ StorytellerEmail)<br>Trigger: PayFast payment confirmed<br>Includes non-refundable / pause T&amp;C note.</p>
+    <span class="badge done">Built — payfast-webhook.js</span>
   </a>
 
   <a href="email-3-storyhelper-welcome.html" class="card">
-    <p class="num">Email 3 — Scenario 1</p>
+    <p class="num">Email 3 — payfast-webhook.js</p>
     <p class="title">Story Helper Welcome</p>
-    <p class="detail">To: Story Helper (filter: StoryHelperEmail not empty AND ≠ GiftGiverEmail AND ≠ StorytellerEmail)<br>Trigger: PayFast payment confirmed<br>Includes library block.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="detail">To: Story Helper (condition: StoryHelperEmail not empty AND ≠ GiftGiverEmail AND ≠ StorytellerEmail)<br>Trigger: PayFast payment confirmed<br>Includes library block.</p>
+    <span class="badge done">Built — payfast-webhook.js</span>
   </a>
 
 </div>
 
 <!-- ===== WEEKLY PROMPT CYCLE ===== -->
-<div class="section-label">Weekly Prompt Cycle — Scenarios 4 + 5</div>
+<div class="section-label">Weekly Prompt Cycle — send-weekly-prompts.js + send-day4-reminder.js</div>
 <div class="grid">
 
   <a href="email-4-week1-prompt.html" class="card">
-    <p class="num">Email 4 — Scenario 4</p>
+    <p class="num">Email 4 — send-weekly-prompts.js</p>
     <p class="title">Week 1 Prompt</p>
     <p class="detail">To: Storyteller + Story Helper (separate sends, filter on Story Helper)<br>Week 1 only — includes How It Works block<br>Variables: PromptText, OtherAngles, LibraryURL</p>
-    <span class="badge update">Needs update in Make</span>
+    <span class="badge done">Built — send-weekly-prompts.js</span>
   </a>
 
   <a href="email-5-day4-reminder.html" class="card">
-    <p class="num">Email 5 — Scenario 5</p>
+    <p class="num">Email 5 — send-day4-reminder.js</p>
     <p class="title">Day 4 Reminder</p>
     <p class="detail">To: Storyteller + Story Helper (separate sends, filter on Story Helper)<br>Trigger: Day 4 after prompt, no story submitted<br>Salutation uses StorytellerFirstName for both sends</p>
-    <span class="badge update">Needs update in Make</span>
+    <span class="badge done">Built — send-day4-reminder.js</span>
   </a>
 
   <a href="email-8-regular-prompt.html" class="card">
-    <p class="num">Email 8 — Scenario 4</p>
+    <p class="num">Email 8 — send-weekly-prompts.js</p>
     <p class="title">Regular Prompt (Weeks 2–26)</p>
-    <p class="detail">To: Storyteller + Story Helper (separate sends, filter on Story Helper)<br>Trigger: Daily schedule on NextPromptDueDate<br>Variables: PromptText, OtherAngles, LibraryURL</p>
-    <span class="badge update">Needs update in Make</span>
+    <p class="detail">To: Storyteller + Story Helper (separate sends, filter on Story Helper)<br>Trigger: Scheduled daily on NextPromptDueDate<br>Variables: PromptText, OtherAngles, LibraryURL</p>
+    <span class="badge done">Built — send-weekly-prompts.js</span>
   </a>
 
 </div>
 
 <!-- ===== STORY DELIVERY ===== -->
-<div class="section-label">Story Delivery — Scenario 3 (fires when Tamara edits story in Airtable)</div>
+<div class="section-label">Story Delivery — fires when Tamara ticks SendToFamily in Airtable (send-story-queue.js)</div>
 <div class="grid">
 
   <a href="email-6-storyteller-story-confirmation.html" class="card">
-    <p class="num">Email 6 — Scenario 3</p>
+    <p class="num">Email 6 — send-story-queue.js</p>
     <p class="title">Storyteller Story Confirmation</p>
-    <p class="detail">To: Storyteller only<br>Trigger: Tamara edits story in Airtable → Make sends<br>Shows storyteller what family received. Includes library block.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="detail">To: Storyteller only<br>Trigger: Tamara ticks SendToFamily in Airtable<br>Shows storyteller what family received. Includes library block.</p>
+    <span class="badge done">Built — send-story-queue.js</span>
+  </a>
+
+  <a href="email-6b-storyteller-story-ready.html" class="card">
+    <p class="num">Email 6b — send-story-queue.js</p>
+    <p class="title">Storyteller Story Ready (no family)</p>
+    <p class="detail">To: Storyteller only<br>Trigger: SendToFamily ticked, no FamilyEmails populated<br>Story delivered to storyteller only. Includes library block.</p>
+    <span class="badge done">Built — send-story-queue.js</span>
   </a>
 
   <a href="email-7-family-story-delivery.html" class="card">
-    <p class="num">Email 7 — Scenario 3</p>
+    <p class="num">Email 7 — send-story-queue.js</p>
     <p class="title">Family Story Delivery</p>
-    <p class="detail">To: All FamilyEmails (up to 10) — incl. Gift Giver slot 1, Story Helper slot 2<br>Trigger: fires alongside Email 6<br>No library link — family recipients only.</p>
-    <span class="badge done">Exists in Make — updated</span>
+    <p class="detail">To: All FamilyEmails + StoryHelper (if different from storyteller)<br>Trigger: fires alongside Email 6<br>No library link — family recipients only.</p>
+    <span class="badge done">Built — send-story-queue.js</span>
   </a>
 
 </div>
 
 <!-- ===== BOOK PRODUCTION ===== -->
-<div class="section-label">Book Production — Scenario 8 + 9 (Week 26 onwards)</div>
+<div class="section-label">Book Production — book-onboarding-reminder.js + book-dispatch.js</div>
 <div class="grid">
 
   <a href="email-9-book-onboarding-week26.html" class="card">
-    <p class="num">Email 9 — Scenario 8</p>
-    <p class="title">Book Onboarding — Week 26 Complete</p>
-    <p class="detail">To: Storyteller only<br>Trigger: Prompt 26 sent → Make fires<br>Directs to library book prep. Physical book, up to 8 weeks delivery.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="num">Email 9 — send-weekly-prompts.js</p>
+    <p class="title">Book Onboarding — Week 24</p>
+    <p class="detail">To: Storyteller only<br>Trigger: Prompt 24 sent — fires alongside weekly prompt<br>Directs to library book prep. Physical book, up to four weeks delivery.</p>
+    <span class="badge done">Built — send-weekly-prompts.js</span>
   </a>
 
   <a href="email-10-book-onboarding-reminder.html" class="card">
-    <p class="num">Email 10 — Scenario 9</p>
-    <p class="title">Book Details Reminder (×2)</p>
-    <p class="detail">To: Storyteller only<br>Trigger: Day 3 + Day 7 after Email 9, while BookFormCompleted = empty<br>Stop as soon as BookFormCompleted is set.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="num">Email 10 — book-onboarding-reminder.js</p>
+    <p class="title">Book Details Reminder (×3)</p>
+    <p class="detail">To: Storyteller only<br>Trigger: PromptNumber 24 day 3+6 / PromptNumber 26 day 1<br>Stop condition: PortraitPhotoURL + BookTitle + DedicationText filled OR BookFormCompleted filled.</p>
+    <span class="badge done">Built — book-onboarding-reminder.js</span>
   </a>
 
   <a href="email-11-book-onboarding-overdue.html" class="card">
-    <p class="num">Email 11 — Scenario 9</p>
+    <p class="num">Email 11 — book-onboarding-reminder.js</p>
     <p class="title">Book Details Overdue</p>
-    <p class="detail">To: Storyteller only<br>Trigger: Day 14 after Email 9, BookFormCompleted still empty<br>After this: Scenario 9 stops. Tamara handles manually from hello@.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="detail">To: Storyteller only<br>Trigger: PromptNumber 26 day 4, BookFormCompleted still empty<br>Also sends alert to hello@24stories.co.za. Tamara follows up manually.</p>
+    <span class="badge done">Built — book-onboarding-reminder.js</span>
   </a>
 
   <a href="email-12-book-delivery-confirmation.html" class="card">
-    <p class="num">Email 12 — Scenario 8</p>
+    <p class="num">Email 12 — book-dispatch.js</p>
     <p class="title">Legacy Book Dispatch Confirmation</p>
-    <p class="detail">To: Storyteller (+ Gift Giver separately if gifted)<br>Trigger: Make fires when Tamara sets BookSentToPrintDate in Airtable<br>"Delivered to your door, on us."</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="detail">To: Storyteller (+ Gift Giver separately if gifted)<br>Trigger: Tamara sets BookSentToPrintDate in Airtable — fires book-dispatch.js<br>"Delivered to your door, on us."</p>
+    <span class="badge done">Built — book-dispatch.js</span>
   </a>
 
 </div>
 
 <!-- ===== EXTRA COPIES ===== -->
-<div class="section-label">Extra Copies — Make (PayFast confirmed)</div>
+<div class="section-label">Extra Copies — no Netlify Function built yet</div>
 <div class="grid">
 
   <a href="email-14-extra-copies-confirmation.html" class="card">
-    <p class="num">Email 14 — Make</p>
+    <p class="num">Email 14</p>
     <p class="title">Extra Copies Confirmation</p>
-    <p class="detail">To: Buyer (Storyteller or Gift Giver)<br>Trigger: Extra copies PayFast payment confirmed (R1,200 × Quantity)<br>Flow: library request → Make sends PayFast link → payment → this email.</p>
-    <span class="badge build">Needs building in Make</span>
+    <p class="detail">To: Buyer (Storyteller or Gift Giver)<br>Trigger: Extra copies PayFast payment confirmed (R1,200 × Quantity)<br>Flow: library request → Tamara sends PayFast link → payment → this email.</p>
+    <span class="badge flag">No function built — flagged</span>
   </a>
 
 </div>
@@ -165,7 +171,7 @@
   <a href="email-15-pause-confirmation.html" class="card">
     <p class="num">Email 15 — Manual</p>
     <p class="title">Pause Confirmation</p>
-    <p class="detail">To: Storyteller<br>Trigger: Manual — Tamara sends after receiving pause request<br>Pause up to 6 months. Library stays accessible. Resume by emailing hello@. Set PauseStartDate in Airtable before sending.</p>
+    <p class="detail">To: Storyteller<br>Trigger: Manual — Tamara sends after receiving pause request<br>Pause up to 12 months. Library stays accessible. Resume by emailing hello@. Set PauseStartDate in Airtable before sending.</p>
     <span class="badge manual">Manual template</span>
   </a>
 
@@ -179,7 +185,7 @@
 </div>
 
 <div class="footer">
-  24 Stories — v3.1 — 11 April 2026 &nbsp;|&nbsp; 16 active emails &nbsp;|&nbsp; stories@24stories.co.za (Mailjet, automated) &nbsp;|&nbsp; hello@24stories.co.za (Titan, manual only — never in automation)
+  24 Stories — v3.1 — updated 7 May 2026 &nbsp;|&nbsp; 16 active emails &nbsp;|&nbsp; stories@24stories.co.za (Mailjet, automated) &nbsp;|&nbsp; hello@24stories.co.za (Titan, manual only — never in automation)
 </div>
 
 </body>

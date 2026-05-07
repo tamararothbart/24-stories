@@ -477,7 +477,7 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
 
 **One-time setup — save as a draft in Titan (hello@24stories.co.za):**
 1. Open Titan → click **+ New Email**
-2. Subject: `REFUND — ACTION REQUIRED`
+2. Subject: `Your refund — 24 Stories`
 3. Paste this into the body:
 
 ---
@@ -495,14 +495,13 @@ Tamara
 4. Do not send — close the window. Titan saves it to Drafts automatically.
 
 **Every time you need to send a refund:**
-1. Go to Titan → Drafts → open **REFUND — ACTION REQUIRED**
+1. Go to Titan → Drafts → open **Your refund — 24 Stories**
 2. Select all the body text → copy
 3. Close the draft without sending (this keeps it intact for next time)
 4. Click **+ New Email**
 5. Paste the body → replace [FirstName], [Amount], and [reason] with the correct details
 6. Add the subscriber's email address in the To field
-7. Change the subject to: `Your refund — 24 Stories`
-8. Send from hello@24stories.co.za
+7. Send from hello@24stories.co.za
 
 ---
 

@@ -120,7 +120,7 @@ function confirmationHtml(name) {
         <tr>
           <td align="center" style="padding:20px 48px 32px; background:#F7F5F2; border-top:1px solid #E8E4DF;">
             <p style="font-family:Georgia, serif; font-size:13px; color:#888; margin:0; line-height:1.6;">
-              &copy; 2025 24 Stories &nbsp;&middot;&nbsp; 24stories.co.za &nbsp;&middot;&nbsp; Cape Town, South Africa
+              &copy; 2026 24 Stories &nbsp;&middot;&nbsp; 24stories.co.za &nbsp;&middot;&nbsp; Cape Town, South Africa
             </p>
           </td>
         </tr>

@@ -32,17 +32,20 @@ exports.handler = async function() {
     const libToken     = f.LibraryToken || subscriberId;
     const libUrl       = `https://24stories.co.za/library.html?id=${libToken}`;
 
-    // Check if a story was already submitted for this week
-    const storyFormula = encodeURIComponent(
-      `AND(FIND("${subscriberId}",ARRAYJOIN({SubscriberID})),{PromptNumber}=${promptNumber})`
-    );
-    const storyRes = await fetch(
-      `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${storyFormula}&maxRecords=1`,
-      { headers: { 'Authorization': `Bearer ${PAT}` } }
-    );
-    if (!storyRes.ok) { console.error('Story lookup failed for', subscriberId); continue; }
-    const storyData = await storyRes.json();
-    if (storyData.records && storyData.records.length > 0) continue; // story already submitted — skip
+    // Check if a story was already submitted for this week.
+    // Use linked record IDs from subscriber's Stories field — ARRAYJOIN returns display values not IDs.
+    const linkedStoryIds = f.Stories || [];
+    if (linkedStoryIds.length > 0) {
+      const orParts   = linkedStoryIds.map(id => `RECORD_ID()="${id}"`).join(',');
+      const storyFormula = encodeURIComponent(`AND(OR(${orParts}),{PromptNumber}=${promptNumber})`);
+      const storyRes = await fetch(
+        `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${storyFormula}&maxRecords=1`,
+        { headers: { 'Authorization': `Bearer ${PAT}` } }
+      );
+      if (!storyRes.ok) { console.error('Story lookup failed for', subscriberId); continue; }
+      const storyData = await storyRes.json();
+      if (storyData.records && storyData.records.length > 0) continue; // story already submitted — skip
+    }
 
     // Fetch the prompt for this week
     const pFormula = encodeURIComponent(`{Week}=${promptNumber}`);

@@ -120,6 +120,36 @@ exports.handler = async function() {
     console.log(`Sent story ${storyId} for subscriber ${subscriberId} week ${weekNumber}`);
   }
 
+  // --- DELAY NOTIFICATION CHECK ---
+  // Fires email-13 when Tamara ticks SendDelayNotification on a Subscribers record
+  const delayFormula = encodeURIComponent('{SendDelayNotification}=TRUE()');
+  const delayRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${delayFormula}&maxRecords=10`,
+    { headers: hdrs }
+  );
+  if (delayRes.ok) {
+    const { records: delaySubs } = await delayRes.json();
+    for (const sub of delaySubs) {
+      const f = sub.fields;
+      if (!f.StorytellerEmail) continue;
+
+      // Untick immediately — prevents double-send
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { SendDelayNotification: false } })
+      });
+
+      await sendEmail(mjAuth, {
+        to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject: 'An update on your book delivery — 24 Stories',
+        html:    email13Html(f.StorytellerFirstName)
+      });
+
+      console.log(`Delay notification sent to ${f.StorytellerEmail}`);
+    }
+  }
+
   // --- PAUSE CONFIRMATION CHECK ---
   // Finds subscribers just set to Paused (PauseStartDate still empty) — fires email-15 within 2 minutes
   const pauseFormula = encodeURIComponent('AND({Status}="Paused",{PauseStartDate}="")');
@@ -168,6 +198,25 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     })
   });
   if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());
+}
+
+function email13Html(firstName) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">We owe you an apology.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your book has been delayed by 7 days due to a printing backlog. We are sorry — this is not the experience we want you to have.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you have any questions, please WhatsApp us on <a href="https://wa.me/27823758320" style="color:#B8976A;text-decoration:underline;">082 375 8320</a> — it's the easiest way to reach us directly.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">
+    <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a>
+  </p>
+</div></div></body></html>`;
 }
 
 function pauseConfirmationHtml(firstName, expiryDate) {

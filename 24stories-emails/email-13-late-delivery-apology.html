@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Email 13 — Late delivery apology: manual template</title>
+<title>Email 13 — Late delivery apology: tick SendDelayNotification in Airtable to fire</title>
 <style>
   body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
   .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
@@ -21,14 +21,18 @@
 
 <div class="meta">
   <strong>EMAIL 13 — LATE DELIVERY APOLOGY</strong><br>
-  Trigger: Manual — Tamara sends when a delivery is delayed beyond the expected timeframe &nbsp;|&nbsp; To: Storyteller (or Gift Giver if gifted)<br>
-  Status: <strong style="color:#4CAF50;">✅ PROOFED & LOCKED 2026-04-12. MANUAL TEMPLATE — never automated.</strong><br><br>
-  Instructions for Tamara: Fill in the bracketed fields. Be direct and warm. Give a revised delivery estimate if you have one. One clear apology and a concrete next step is enough — do not over-explain.<br><br>
-  Variables to fill manually:
-  <span class="var">RecipientFirstName</span>
-  <span class="var">StorytellerFirstName</span>
-  <span class="var">DelayReason</span> (brief — e.g. "a production delay", "an issue with the courier")
-  <span class="var">RevisedDeliveryDate</span> (or "as soon as possible" if unknown)
+  Trigger: Tick <strong>SendDelayNotification</strong> checkbox on the Subscribers record in Airtable &nbsp;|&nbsp; To: Storyteller<br>
+  Function: <strong>send-story-queue.js</strong> (fires within 2 minutes of checkbox being ticked)<br>
+  Status: <strong style="color:#4CAF50;">✅ BUILT & LIVE — 2026-05-07. Semi-automated.</strong><br><br>
+  How it works:<br>
+  • Printer advises of delay → Airtable → Subscribers → find subscriber → tick SendDelayNotification<br>
+  • send-story-queue.js detects the tick, sends this email with name from Airtable, unticks the checkbox<br>
+  • No variables to fill manually<br><br>
+  Delivery alerts (automatic — book-onboarding-reminder.js, runs daily):<br>
+  • Day 23 after BookSentToPrintDate: DELIVERY DUE IN 5 DAYS → stories@<br>
+  • Day 28: DELIVERY DUE TODAY → stories@<br>
+  • Day 35, 42, 49...: ACTION REQUIRED overdue alerts → stories@ every 7 days until Status = Complete<br>
+  • Set Status = Complete when delivery confirmed — all alerts stop
 </div>
 
 <div class="wrapper">
@@ -36,25 +40,21 @@
 
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block; border:0; max-width:100%; height:auto; margin-bottom:36px;">
 
-  <p class="gold">Your Legacy Book</p>
+  <p class="gold">Your Collected Stories</p>
 
   <p class="h1">We owe you an apology.</p>
 
-  <p>Hello [RecipientFirstName],</p>
+  <p>Hello [StorytellerFirstName],</p>
 
   <p>
-    Your Legacy Book has been delayed due to [DelayReason].
+    Your book has been delayed by 7 days due to a printing backlog.
     We are sorry — this is not the experience we want you to have.
   </p>
 
   <p>
-    We expect delivery by <strong>[RevisedDeliveryDate]</strong>.
-    We will send you a confirmation as soon as the book is dispatched.
-  </p>
-
-  <p>
-    If you have any questions or concerns in the meantime, please write to us directly.
-    We will respond personally.
+    If you have any questions, please WhatsApp us on
+    <a href="https://wa.me/27823758320" class="gold-link">082 375 8320</a> —
+    it's the easiest way to reach us directly.
   </p>
 
   <hr class="divider">

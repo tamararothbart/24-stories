@@ -88,6 +88,49 @@ exports.handler = async function() {
     }
   }
 
+  // --- DELIVERY TRACKING ALERTS ---
+  const deliveryFormula = encodeURIComponent('AND({Status}="Active",{BookSentToPrintDate}!="")');
+  const deliveryRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${deliveryFormula}&maxRecords=100`,
+    { headers: { 'Authorization': `Bearer ${PAT}` } }
+  );
+  if (deliveryRes.ok) {
+    const { records: deliveryRecords } = await deliveryRes.json();
+
+    for (const sub of deliveryRecords) {
+      const f = sub.fields;
+      if (!f.BookSentToPrintDate) continue;
+
+      const printDate = new Date(f.BookSentToPrintDate);
+      printDate.setHours(0, 0, 0, 0);
+      const daysSincePrint = Math.round((today - printDate) / (1000 * 60 * 60 * 24));
+      const name = `${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`.trim();
+
+      if (daysSincePrint === 23) {
+        await sendEmail(mjAuth, {
+          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          subject: `DELIVERY DUE IN 5 DAYS — ${name}`,
+          html:    deliveryAlertHtml({ f, daysSincePrint, name })
+        });
+      } else if (daysSincePrint === 28) {
+        await sendEmail(mjAuth, {
+          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          subject: `DELIVERY DUE TODAY — ${name}`,
+          html:    deliveryAlertHtml({ f, daysSincePrint, name })
+        });
+      } else if (daysSincePrint > 28 && (daysSincePrint - 28) % 7 === 0) {
+        const daysOverdue = daysSincePrint - 28;
+        await sendEmail(mjAuth, {
+          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          subject: `ACTION REQUIRED — ${name}'s book is ${daysOverdue} days overdue`,
+          html:    deliveryAlertHtml({ f, daysSincePrint, name })
+        });
+      }
+    }
+  } else {
+    console.error('Delivery tracking query failed:', await deliveryRes.text());
+  }
+
   // --- PAUSE EXPIRY CHECK ---
   const pausedRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${encodeURIComponent('AND({Status}="Paused",{PauseStartDate}!="")')}&maxRecords=100`,
@@ -162,6 +205,40 @@ function alertHtml({ f, missing, libUrl, allFieldsFilled }) {
   <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Library</td><td style="padding:8px 12px;border:1px solid #ddd;"><a href="${libUrl}" style="color:#B8976A;">${libUrl}</a></td></tr>
 </table>
 <p style="color:#888;font-size:13px;">No further automated emails will be sent to this subscriber. Please follow up manually from hello@24stories.co.za.</p>
+</body></html>`;
+}
+
+function deliveryAlertHtml({ f, daysSincePrint, name }) {
+  const daysOverdue  = daysSincePrint - 28;
+  const printDateFmt = new Date(f.BookSentToPrintDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  const dueDateObj   = new Date(f.BookSentToPrintDate);
+  dueDateObj.setDate(dueDateObj.getDate() + 28);
+  const dueDateFmt   = dueDateObj.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  let statusLine, actionLine;
+  if (daysOverdue < 0) {
+    statusLine = `<span style="color:#B8976A;font-weight:bold;">Due in ${Math.abs(daysOverdue)} days (${dueDateFmt})</span>`;
+    actionLine = 'Check progress with printer. If delayed, go to Airtable → Subscribers → tick <strong>SendDelayNotification</strong> to send email-13 to the subscriber.';
+  } else if (daysOverdue === 0) {
+    statusLine = `<span style="color:#E65100;font-weight:bold;">Due today (${dueDateFmt})</span>`;
+    actionLine = 'Confirm delivery with subscriber. If delayed, tick <strong>SendDelayNotification</strong> in Airtable to send email-13. Once confirmed delivered, set <strong>Status = Complete</strong>.';
+  } else {
+    statusLine = `<span style="color:#B00020;font-weight:bold;">${daysOverdue} days overdue (was due ${dueDateFmt})</span>`;
+    actionLine = 'Contact subscriber and printer urgently. Tick <strong>SendDelayNotification</strong> in Airtable if not already sent. Once delivered, set <strong>Status = Complete</strong> to stop these alerts.';
+  }
+
+  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;font-size:15px;color:#1A1A1A;padding:24px;max-width:600px;">
+<p style="font-size:20px;font-weight:bold;color:${daysOverdue >= 0 ? '#B00020' : '#B8976A'};text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px;">${daysOverdue >= 7 ? 'Action Required' : daysOverdue >= 0 ? 'Delivery Due' : 'Delivery Check'}</p>
+<p style="font-size:17px;font-weight:bold;margin:0 0 16px;">${esc(name)}'s book</p>
+<table style="border-collapse:collapse;width:100%;margin:0 0 20px;">
+  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;width:35%;">Subscriber</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(name)}</td></tr>
+  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Email</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(f.StorytellerEmail || '')}</td></tr>
+  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Sent to print</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(printDateFmt)}</td></tr>
+  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Expected delivery</td><td style="padding:8px 12px;border:1px solid #ddd;">${statusLine}</td></tr>
+  ${f.DeliveryAddress ? `<tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Delivery address</td><td style="padding:8px 12px;border:1px solid #ddd;white-space:pre-wrap;">${esc(f.DeliveryAddress)}</td></tr>` : ''}
+</table>
+<p style="font-size:14px;color:#333;line-height:1.7;margin:0 0 12px;"><strong>Next step:</strong> ${actionLine}</p>
+${daysOverdue >= 0 ? '<p style="font-size:13px;color:#888;margin:0;">Alerts continue every 7 days until Status = Complete.</p>' : ''}
 </body></html>`;
 }
 

@@ -97,10 +97,10 @@ function email12Html(firstName, deliveryAddress, totalBooks, bookTitle) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Almost there. Your book has been sent to print and is on its way to you — delivered to your door, on us.</p>
   <div style="background:#EFECEA;padding:28px 32px;margin:0 0 22px;">
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 18px 0;">Please email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> as soon as possible if the following details need updating:</p>
     ${addressBlock}
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Books: <strong>${totalBooks} ${totalBooks === 1 ? 'book' : 'books'} total</strong></p>
   </div>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Please email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> as soon as possible if these details need updating.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks for print and delivery.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${titleLine} Hearing from families who have been through this journey means a great deal to us. If you have a moment to share your experience, please write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>

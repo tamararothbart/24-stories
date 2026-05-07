@@ -258,19 +258,130 @@ The alerts stop the moment Status is changed from Paused.
 
 ## PART 4 — WEEK 26 / BOOK PRODUCTION
 
-*(To be added when book production flow is confirmed and tested.)*
+---
+
+### WEEKS 25 AND 26 — AUTOMATIC
+
+At weeks 25 and 26, the system sends the final two prompts automatically alongside special emails. You do nothing. It is automatic.
+
+---
+
+### BOOK ONBOARDING — WHAT THE SUBSCRIBER NEEDS TO DO
+
+From week 24 onwards, the subscriber receives reminders asking them to complete their book details in their Story Library:
+
+- Upload a portrait photograph
+- Confirm their book title
+- Write a dedication
+
+The system sends these reminders automatically (emails 9, 10, and 11). You do not need to chase them manually unless email-11 triggers an overdue alert to hello@24stories.co.za.
+
+---
+
+### PRESSING COMPLETE
+
+When the subscriber has filled in all their book details, they press **Complete** in their Story Library.
+
+**What happens automatically:**
+
+- Email-12 fires to the subscriber — confirms the book is going to print, shows delivery address and number of copies
+- BookSentToPrintDate is set in Airtable to today
+
+**Your job at this point:**
+
+- Send the book files to the printer
+- Confirm the delivery address matches what is shown in email-12
+
+---
+
+### DELIVERY TRACKING — AUTOMATIC ALERTS TO stories@24stories.co.za
+
+From the day the book goes to print, the system tracks delivery automatically.
+
+| When | Alert subject |
+|------|--------------|
+| Day 23 after print | `DELIVERY DUE IN 5 DAYS — [Name]` |
+| Day 28 after print | `DELIVERY DUE TODAY — [Name]` |
+| Day 35, 42, 49... | `ACTION REQUIRED — [Name]'s book is [N] days overdue` |
+
+**What to do when you receive a delivery alert:**
+
+- Check progress with the printer
+- If everything is on schedule: no action needed
+- If there is a delay: go to Airtable → Subscribers → find the subscriber → tick **SendDelayNotification** → email-13 fires to the subscriber automatically within 2 minutes
+- Once delivery is confirmed: set **Status = Complete** in Airtable — all delivery alerts stop immediately
+
+---
+
+### EXTRA COPIES
+
+If a subscriber has ordered extra copies, the total is shown in email-12. The ExtraCopies field on their Subscribers record holds the quantity. Send that total to the printer.
 
 ---
 
 ## PART 5 — PAYMENTS
 
-*(To be added when payment flow is tested and live.)*
+---
+
+### HOW PAYMENT WORKS
+
+Payment is once-off via PayFast (R6,795). The subscriber pays on 24stories.co.za. PayFast sends the payment directly to your account and notifies the system via a webhook.
+
+**You do not need to do anything when a payment comes in.** The system:
+
+1. Verifies the payment is COMPLETE
+2. Activates the subscriber (Status = Active, SubscriptionStartDate = today)
+3. Creates a record in the Payments table in Airtable
+4. Sends welcome emails to the storyteller, gift giver, and story helper automatically
+
+A PayFast payment receipt also goes directly to the buyer — that is handled by PayFast, not by 24 Stories.
+
+---
+
+### EXTRA COPIES PAYMENT
+
+Extra copies (R1,200 each) are a separate PayFast payment. When confirmed:
+
+1. ExtraCopies is updated in Airtable automatically
+2. A Payments record is created
+3. Email-14 fires to the subscriber confirming their extra copies
+
+---
+
+### VIEWING PAYMENT RECORDS
+
+Airtable → base "52stories" → **Payments** table. Every successful payment has a record: subscriber, PayFast transaction ID, amount, date, status.
+
+---
+
+### REFUNDS — see the Refunds section above
 
 ---
 
 ## PART 6 — NEW SUBSCRIBER ACTIVATION
 
-*(To be added when onboarding flow is confirmed.)*
+---
+
+### HOW A SUBSCRIBER IS ACTIVATED
+
+Everything is automatic. When a subscriber pays:
+
+1. PayFast confirms payment to the system
+2. The subscriber record in Airtable is updated: Status = Active, SubscriptionStartDate = today, LibraryToken set
+3. Welcome emails fire (email-1 to storyteller, email-2 to gift giver if applicable, email-3 to story helper if applicable)
+4. The following Wednesday at 7am, their first prompt goes out automatically
+
+**You do not activate subscribers manually.** If a subscriber contacts you to say they paid but received nothing, check the Payments table in Airtable. If no record exists, the PayFast webhook may not have fired — contact PayFast support.
+
+---
+
+### CHECKING FOR NEW SUBSCRIBERS
+
+If you want to confirm a new subscriber has been activated:
+
+1. Airtable → Subscribers table
+2. Look for Status = Active and a SubscriptionStartDate of today
+3. PromptNumber will be 0 until their first prompt fires on Wednesday
 
 ---
 

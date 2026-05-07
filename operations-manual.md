@@ -461,11 +461,39 @@ You can create separate Mailjet lists per segment (Interest, Free Download, Even
 
 The 24 Stories subscription is non-refundable. The pause option (up to 12 months) is the alternative to cancellation.
 
-If you choose to issue a goodwill refund in exceptional circumstances:
+A refund request will arrive as an email to hello@24stories.co.za from the subscriber. You decide whether to grant it.
+
+**If you choose to issue a goodwill refund:**
 
 1. Log in to PayFast merchant dashboard → Transactions → find the transaction → Refund
 2. In Airtable → Subscribers table → set Status = Cancelled
-3. Send email-16 (refund confirmation) manually from hello@24stories.co.za — fill in RecipientFirstName and Amount manually
+3. Open Titan → Compose → click the Templates icon → select **Refund confirmation**
+4. Address it to the subscriber (their email is in the request they sent you)
+5. Replace the three placeholders:
+   - [FirstName] → their first name
+   - [Amount] → the refund amount in figures (e.g. 6795)
+   - [reason] → one short phrase (e.g. "a technical error on our side" or "an exceptional circumstance")
+6. Send from hello@24stories.co.za
+
+**One-time setup — save the template in Titan:**
+1. Open Titan → Compose
+2. Click the Templates icon in the compose toolbar
+3. Click Save as Template → name it: Refund confirmation
+4. Paste this body:
+
+---
+Hello [FirstName],
+
+We have processed a refund of R[Amount] following [reason]. The funds will appear on your original payment method within 5–7 business days.
+
+If the refund does not appear within seven business days, please write to us directly and we will follow up with PayFast on your behalf.
+
+With warmth,
+Tamara
+24 Stories
+---
+
+5. Save. You only do this once.
 
 ---
 

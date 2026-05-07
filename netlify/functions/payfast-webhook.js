@@ -318,7 +318,7 @@ function email14Html(firstName, quantity, totalAmount, libUrl) {
 <body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
-  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Extra Copies</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your extra ${copyWord} are confirmed.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>

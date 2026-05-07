@@ -120,6 +120,42 @@ exports.handler = async function() {
     console.log(`Sent story ${storyId} for subscriber ${subscriberId} week ${weekNumber}`);
   }
 
+  // --- PAUSE CONFIRMATION CHECK ---
+  // Finds subscribers just set to Paused (PauseStartDate still empty) — fires email-15 within 2 minutes
+  const pauseFormula = encodeURIComponent('AND({Status}="Paused",{PauseStartDate}="")');
+  const pauseRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${pauseFormula}&maxRecords=10`,
+    { headers: hdrs }
+  );
+  if (pauseRes.ok) {
+    const { records: pausedSubs } = await pauseRes.json();
+    for (const sub of pausedSubs) {
+      const f = sub.fields;
+      if (!f.StorytellerEmail) continue;
+
+      const today = new Date();
+      const pauseStartStr = today.toISOString().slice(0, 10);
+      const expiry = new Date(today);
+      expiry.setMonth(expiry.getMonth() + 12);
+      const expiryFormatted = expiry.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      // Write PauseStartDate first — prevents double-send on next 2-minute cycle
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { PauseStartDate: pauseStartStr } })
+      });
+
+      await sendEmail(mjAuth, {
+        to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject: 'Your story journey is paused',
+        html:    pauseConfirmationHtml(f.StorytellerFirstName, expiryFormatted)
+      });
+
+      console.log(`Pause confirmation sent to ${f.StorytellerEmail}`);
+    }
+  }
+
   return { statusCode: 200, body: JSON.stringify({ processed }) };
 };
 
@@ -132,6 +168,26 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     })
   });
   if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());
+}
+
+function pauseConfirmationHtml(firstName, expiryDate) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Journey</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story journey is paused.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We have received your request and your weekly prompts have been paused. Your Story Library remains accessible — your stories and photographs are safe.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope that whatever has prompted this pause is soon resolved. When you are ready to continue, simply write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> and we will pick up from where you left off.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your pause is valid until <strong>${esc(expiryDate)}</strong>.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">
+    <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a>
+  </p>
+</div></div></body></html>`;
 }
 
 function esc(s) {

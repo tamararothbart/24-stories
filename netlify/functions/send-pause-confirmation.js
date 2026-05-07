@@ -88,7 +88,7 @@ function pauseConfirmationHtml(firstName, expiryDate) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We have received your request and your weekly prompts have been paused. Your Story Library remains accessible — your stories and photographs are safe.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope that whatever has prompted this pause is soon resolved. When you are ready to continue, simply write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> and we will pick up from where you left off.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your pause is valid until <strong>${esc(expiryDate)}</strong>. When the time is right, just write to us.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your pause is valid until <strong>${esc(expiryDate)}</strong>.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">

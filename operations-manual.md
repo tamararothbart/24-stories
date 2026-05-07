@@ -475,13 +475,14 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
    - [reason] → one short phrase (e.g. "a technical error on our side" or "an exceptional circumstance")
 6. Send from hello@24stories.co.za
 
-**One-time setup — save the template in Titan:**
-1. Open Titan → click **+ New Email**
-2. Click the Templates icon in the compose toolbar
-3. Click Save as Template → name it: Refund confirmation
-4. Paste this body:
+**One-time setup — save the template in Apple Notes:**
+1. Open Notes on your Mac
+2. Create a note called: **24 Stories — Email Templates**
+3. Paste in the body below and save. Notes syncs to your phone automatically.
 
 ---
+REFUND CONFIRMATION
+
 Hello [FirstName],
 
 We have processed a refund of R[Amount] following [reason]. The funds will appear on your original payment method within 5–7 business days.
@@ -493,7 +494,7 @@ Tamara
 24 Stories
 ---
 
-5. Save. You only do this once.
+**To send:** open Notes → copy the body → paste into Titan → fill in [FirstName], [Amount], [reason] → send.
 
 ---
 

@@ -11,7 +11,7 @@
   .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
   .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
   .gold { font-size: 14px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 24px 0; }
-  .h1 { font-size: 30px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
+  .h1 { font-size: 22px; font-weight: normal; margin: 0 0 28px 0; line-height: 1.4; }
   p { font-size: 17px; line-height: 1.9; margin: 0 0 22px 0; }
   .divider { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
   .story-text { font-size: 17px; line-height: 1.9; color: #1A1A1A; margin: 0 0 40px 0; white-space: pre-wrap; }
@@ -29,7 +29,7 @@
 <div class="meta">
   <strong>EMAIL 7 — FAMILY STORY DELIVERY</strong><br>
   Trigger: Tamara ticks "Sent to Family" in Airtable &nbsp;|&nbsp; To: Family recipients only (up to 10 FamilyEmails addresses)<br>
-  Status: <strong style="color:#FF9800;">NEW — needs Netlify Function (no automated trigger built yet)</strong><br><br>
+  Status: <strong style="color:#4CAF50;">BUILT — fires from send-story-queue.js alongside email-6</strong><br><br>
   Variables in this email:
   <span class="var">StorytellerFirstName</span>
   <span class="var">WeekNumber</span>
@@ -46,7 +46,7 @@
 
   <p class="gold">Week [WeekNumber]</p>
 
-  <p class="h1">[StorytellerFirstName] wants to share something with you.</p>
+  <p class="h1">[StorytellerFirstName] has a story to share with you.</p>
 
   <hr class="divider">
 
@@ -65,7 +65,7 @@
 
   <div class="note">
     <p class="note-heading">Have a story you want to hear?</p>
-    <p class="note-body">If there is a story you have always wanted to hear — or one that has been told before and deserves to be kept — ask. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+    <p class="note-body">If there is a story you have always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
   </div>
 
   <p style="font-size: 15px; color: #444; line-height: 1.8; margin: 0;">

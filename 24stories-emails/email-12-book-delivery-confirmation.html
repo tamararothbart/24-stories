@@ -16,10 +16,10 @@
 
 <div class="meta">
   <strong>EMAIL 12 — BOOK SENT TO PRINT</strong><br>
-  Trigger: Tamara sets BookSentToPrintDate via library.html (Mark as Complete flow) &nbsp;|&nbsp; To: Storyteller<br>
-  Function: <strong>book-dispatch.js</strong><br>
+  Trigger: Tamara ticks <strong>BookDispatchEmailSent</strong> checkbox in Airtable &nbsp;|&nbsp; To: Storyteller<br>
+  Function: <strong>send-story-queue.js</strong> (2-min polling — fires within 2 minutes of tick)<br>
   Status: <strong style="color:#4CAF50;">✅ LIVE</strong><br><br>
-  Also saves BookSentToPrintDate to Airtable, which starts the delivery tracking alerts (book-onboarding-reminder.js: day 23, 28, 35+).<br><br>
+  Also unticks BookDispatchEmailSent and saves BookSentToPrintDate (today) to Airtable, which starts the delivery tracking alerts (book-onboarding-reminder.js: day 23, 28, 35+).<br><br>
   Variables:
   <span class="var">StorytellerFirstName</span>
   <span class="var">DeliveryAddress</span> (conditional — shown in grey box if populated)

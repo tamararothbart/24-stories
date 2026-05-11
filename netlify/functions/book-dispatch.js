@@ -1,4 +1,5 @@
-// Triggered from library.html when Tamara sets BookSentToPrintDate — sends email-12 to storyteller
+// RETIRED — email-12 is now triggered by BookDispatchEmailSent checkbox via send-story-queue.js
+// This function is no longer called. Kept for reference only.
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: corsHeaders() };

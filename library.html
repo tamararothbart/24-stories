@@ -1100,29 +1100,54 @@
             sec.style.cssText = 'margin-top:28px;padding-top:22px;border-top:1px solid var(--border);';
 
             var existingValue = story && story.StoryCircaDate ? story.StoryCircaDate : '';
+            var existingYear  = '';
+            var existingMonth = '';
+            if (existingValue) {
+                var parts = existingValue.split('-');
+                existingYear  = parts[0] || '';
+                existingMonth = parts[1] || '';
+            }
+
+            var monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+            var monthOptions = '<option value="">Month (optional)</option>';
+            monthNames.forEach(function(m, i) {
+                var val = String(i + 1).padStart(2, '0');
+                monthOptions += '<option value="' + val + '"' + (existingMonth === val ? ' selected' : '') + '>' + m + '</option>';
+            });
 
             sec.innerHTML =
                 '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:0 0 5px;">Circa Date</p>' +
-                '<p style="font-size:0.82rem;color:#888;line-height:1.6;margin:0 0 12px;">The approximate month, season, or year of this story (as accurate as your memory allows) — helps place your chapters in the right order.</p>' +
-                '<input type="text" class="js-circa" placeholder="e.g. 1987, early 1970s, childhood..." value="' + esc(existingValue) + '" ' +
-                'style="width:100%;max-width:420px;border:1.5px solid var(--border);padding:10px 14px;font-family:var(--font-body);font-size:0.9rem;color:var(--charcoal);outline:none;transition:border-color 0.2s;background:var(--white);">' +
-                '<p class="field-saved-msg js-circa-saved" style="margin-top:4px;"></p>';
+                '<p style="font-size:0.82rem;color:#888;line-height:1.6;margin:0 0 12px;">Year, or month and year — numbers only. Helps place your chapters in the right order in the final book.</p>' +
+                '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">' +
+                    '<select class="js-circa-month" style="border:1.5px solid var(--border);padding:10px 14px;font-family:var(--font-body);font-size:0.88rem;color:var(--charcoal);outline:none;background:var(--white);cursor:pointer;transition:border-color 0.2s;">' +
+                    monthOptions +
+                    '</select>' +
+                    '<input type="number" class="js-circa-year" min="1900" max="2030" placeholder="Year — e.g. 1987" value="' + esc(existingYear) + '" ' +
+                    'style="width:180px;border:1.5px solid var(--border);padding:10px 14px;font-family:var(--font-body);font-size:0.88rem;color:var(--charcoal);outline:none;transition:border-color 0.2s;background:var(--white);">' +
+                '</div>' +
+                '<p class="field-saved-msg js-circa-saved" style="margin-top:6px;"></p>';
 
-            var input    = sec.querySelector('.js-circa');
+            var monthSel = sec.querySelector('.js-circa-month');
+            var yearInp  = sec.querySelector('.js-circa-year');
             var savedMsg = sec.querySelector('.js-circa-saved');
             var timer;
 
-            input.addEventListener('focus', function() { input.style.borderColor = 'var(--gold)'; });
-            input.addEventListener('blur',  function() { input.style.borderColor = 'var(--border)'; });
-            input.addEventListener('input', function() {
-                clearTimeout(timer);
-                savedMsg.textContent = '';
-                timer = setTimeout(function() {
-                    postMake(LIBRARY_UPDATE_URL, { type: 'story-circa-date', subscriberId: subscriberId, week: week, value: input.value });
-                    savedMsg.textContent = 'Saved';
-                    setTimeout(function() { savedMsg.textContent = ''; }, 2000);
-                }, 1800);
+            [monthSel, yearInp].forEach(function(el) {
+                el.addEventListener('focus', function() { el.style.borderColor = 'var(--gold)'; });
+                el.addEventListener('blur',  function() { el.style.borderColor = 'var(--border)'; });
+                el.addEventListener('change', function() { clearTimeout(timer); savedMsg.textContent = ''; timer = setTimeout(save, 600); });
+                el.addEventListener('input',  function() { clearTimeout(timer); savedMsg.textContent = ''; timer = setTimeout(save, 1800); });
             });
+
+            function save() {
+                var year  = (yearInp.value || '').trim();
+                if (!year) return;
+                var month = monthSel.value;
+                var value = month ? year + '-' + month : year;
+                postMake(LIBRARY_UPDATE_URL, { type: 'story-circa-date', subscriberId: subscriberId, week: week, value: value });
+                savedMsg.textContent = 'Saved';
+                setTimeout(function() { savedMsg.textContent = ''; }, 2000);
+            }
 
             return sec;
         }

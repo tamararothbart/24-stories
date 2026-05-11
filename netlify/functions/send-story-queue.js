@@ -182,6 +182,9 @@ exports.handler = async function() {
         html:    email12Html(f.StorytellerFirstName, deliveryAddress, totalBooks, bookTitle)
       });
 
+      // Generate chapter order for book layout — runs after email-12
+      await generateChapterOrder(BASE, PAT, mjAuth, sub.id, f);
+
       console.log(`Book dispatch email sent to ${f.StorytellerEmail}`);
     }
   }
@@ -245,7 +248,7 @@ function email13Html(firstName) {
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">We owe you an apology.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your book has been delayed by 7 days due to a printing backlog. We are sorry — this is not the experience we want you to have.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your book has been delayed by 7 days due to a printing backlog. We're sorry — this is not the experience we want you to have.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you have any questions, please WhatsApp us on <a href="https://wa.me/27823758320" style="color:#B8976A;text-decoration:underline;">082 375 8320</a> — it's the easiest way to reach us directly.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -264,8 +267,8 @@ function pauseConfirmationHtml(firstName, expiryDate) {
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Journey</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story journey is paused.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We have received your request and your weekly prompts have been paused. Your Story Library remains accessible — your stories and photographs are safe.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope that whatever has prompted this pause is soon resolved. When you are ready to continue, simply write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> and we will pick up from where you left off.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We've received your request and your weekly prompts have been paused. Your Story Library remains accessible — your stories and photographs are safe.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope that whatever has prompted this pause is soon resolved. When you're ready to continue, simply write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> and we'll pick up from where you left off.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your pause is valid until <strong>${esc(expiryDate)}</strong>.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -277,6 +280,63 @@ function pauseConfirmationHtml(firstName, expiryDate) {
 
 function esc(s) {
   return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function generateChapterOrder(BASE, PAT, mjAuth, subscriberId, subFields) {
+  const linkedIds = subFields.Stories || [];
+  if (linkedIds.length === 0) return;
+
+  const orParts = linkedIds.map(id => `RECORD_ID()="${id}"`).join(',');
+  const formula = encodeURIComponent(`OR(${orParts})`);
+  const storiesRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=26`,
+    { headers: { 'Authorization': `Bearer ${PAT}` } }
+  );
+  if (!storiesRes.ok) {
+    console.error('generateChapterOrder: stories fetch failed', await storiesRes.text());
+    return;
+  }
+  const storiesData = await storiesRes.json();
+  const stories = storiesData.records || [];
+
+  function sortKey(r) {
+    const d = (r.fields.StoryCircaDate || '').trim();
+    const p = r.fields.PromptNumber || 99;
+    if (!d) return '9999-99-' + String(p).padStart(3, '0');
+    const parts = d.split('-');
+    const year  = parts[0] || '9999';
+    const month = parts[1] || '00';
+    return year + '-' + month + '-' + String(p).padStart(3, '0');
+  }
+
+  const sorted = [...stories].sort((a, b) => sortKey(a).localeCompare(sortKey(b)));
+  const alertLines = [];
+
+  for (let i = 0; i < sorted.length; i++) {
+    const r = sorted[i];
+    const order = i + 1;
+    const circa = r.fields.StoryCircaDate || '—';
+    const week  = r.fields.PromptNumber   || '?';
+    const name  = r.fields.WeekName || r.fields.ChapterTitle || '';
+    alertLines.push(`Chapter ${order}: Week ${week}${name ? ' — ' + name : ''} (circa ${circa})`);
+    await fetch(`https://api.airtable.com/v0/${BASE}/Stories/${r.id}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { ChapterOrder: order } })
+    });
+  }
+
+  const name = ((subFields.StorytellerFirstName || '') + ' ' + (subFields.StorytellerSurname || '')).trim();
+  await fetch('https://api.mailjet.com/v3.1/send', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+      To: [{ Email: 'stories@24stories.co.za', Name: '24 Stories' }],
+      Subject: `CHAPTER ORDER GENERATED — ${name}`,
+      HTMLPart: `<pre style="font-family:Georgia,serif;font-size:15px;line-height:1.8;">${alertLines.join('\n')}</pre>`
+    }] })
+  });
+  console.log(`Chapter order generated for ${name} — ${sorted.length} chapters`);
 }
 
 function email12Html(firstName, deliveryAddress, totalBooks, bookTitle) {
@@ -403,7 +463,7 @@ function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, i
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
-    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there is a story you have always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there's a story you've always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
   </div>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;

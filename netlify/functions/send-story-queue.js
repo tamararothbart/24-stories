@@ -150,8 +150,36 @@ exports.handler = async function() {
     }
   }
 
+  // --- CHAPTER ORDER GENERATION CHECK ---
+  // Fires when Tamara ticks GenerateChapterOrder on a Subscribers record.
+  // Sorts all stories by StoryCircaDate, writes ChapterOrder to each story,
+  // sends an ordered chapter list to stories@ for Tamara's final edit review.
+  // Run this BEFORE BookDispatchEmailSent — it is the pre-dispatch quality gate.
+  const chapterOrderFormula = encodeURIComponent('{GenerateChapterOrder}=TRUE()');
+  const chapterOrderRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${chapterOrderFormula}&maxRecords=10`,
+    { headers: hdrs }
+  );
+  if (chapterOrderRes.ok) {
+    const { records: chapterOrderSubs } = await chapterOrderRes.json();
+    for (const sub of chapterOrderSubs) {
+      const f = sub.fields;
+
+      // Untick immediately — prevents double-run on next 2-minute cycle
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { GenerateChapterOrder: false } })
+      });
+
+      await generateChapterOrder(BASE, PAT, mjAuth, sub.id, f);
+      console.log(`Chapter order generated for subscriber ${sub.id}`);
+    }
+  }
+
   // --- BOOK DISPATCH CHECK ---
-  // Fires email-12 when Tamara ticks BookDispatchEmailSent on a Subscribers record
+  // Fires email-12 when Tamara ticks BookDispatchEmailSent on a Subscribers record.
+  // Tick this AFTER reviewing the chapter order alert and completing your final edit.
   const dispatchFormula = encodeURIComponent('{BookDispatchEmailSent}=TRUE()');
   const dispatchRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${dispatchFormula}&maxRecords=10`,
@@ -181,9 +209,6 @@ exports.handler = async function() {
         subject: 'Your Collected Stories — on their way',
         html:    email12Html(f.StorytellerFirstName, deliveryAddress, totalBooks, bookTitle)
       });
-
-      // Generate chapter order for book layout — runs after email-12
-      await generateChapterOrder(BASE, PAT, mjAuth, sub.id, f);
 
       console.log(`Book dispatch email sent to ${f.StorytellerEmail}`);
     }

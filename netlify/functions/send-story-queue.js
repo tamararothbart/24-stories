@@ -283,13 +283,10 @@ function esc(s) {
 }
 
 async function generateChapterOrder(BASE, PAT, mjAuth, subscriberId, subFields) {
-  const linkedIds = subFields.Stories || [];
-  if (linkedIds.length === 0) return;
-
-  const orParts = linkedIds.map(id => `RECORD_ID()="${id}"`).join(',');
-  const formula = encodeURIComponent(`OR(${orParts})`);
+  // Airtable linked record fields can't be filtered by record ID in formulas,
+  // so fetch all stories and filter client-side by SubscriberID array.
   const storiesRes = await fetch(
-    `https://api.airtable.com/v0/${BASE}/Stories?filterByFormula=${formula}&maxRecords=26`,
+    `https://api.airtable.com/v0/${BASE}/Stories?maxRecords=500`,
     { headers: { 'Authorization': `Bearer ${PAT}` } }
   );
   if (!storiesRes.ok) {
@@ -297,7 +294,13 @@ async function generateChapterOrder(BASE, PAT, mjAuth, subscriberId, subFields) 
     return;
   }
   const storiesData = await storiesRes.json();
-  const stories = storiesData.records || [];
+  const stories = (storiesData.records || []).filter(r =>
+    Array.isArray(r.fields.SubscriberID) && r.fields.SubscriberID.includes(subscriberId)
+  );
+  if (stories.length === 0) {
+    console.log('generateChapterOrder: no stories found for', subscriberId);
+    return;
+  }
 
   function sortKey(r) {
     const d = (r.fields.StoryCircaDate || '').trim();

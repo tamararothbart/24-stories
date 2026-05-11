@@ -2,7 +2,7 @@
 
 Operations Flow Reference
 
-Last updated: 6 May 2026
+Last updated: 11 May 2026
 
 This document tells you where to go and what to do for every operational task in 24 Stories. Keep it open in a browser tab. Add to it as new flows are built.
 
@@ -273,8 +273,9 @@ From week 24 onwards, the subscriber receives reminders asking them to complete 
 - Upload a portrait photograph
 - Confirm their book title
 - Write a dedication
+- Write an epigraph (optional)
 
-The system sends these reminders automatically (emails 9, 10, and 11). You do not need to chase them manually unless email-11 triggers an overdue alert to hello@24stories.co.za.
+The system sends these reminders automatically (emails 9, 10, and 11). You do not need to chase them manually unless email-11 triggers an overdue alert to stories@24stories.co.za.
 
 ---
 
@@ -284,24 +285,71 @@ When the subscriber has filled in all their book details, they press **Complete*
 
 **What happens automatically:**
 
-- Email-12 fires to the subscriber — confirms the book is going to print, shows delivery address and number of copies
-- BookSentToPrintDate is set in Airtable to today
+- BookFormCompleted is set in Airtable — book details are locked in.
+- Nothing else fires at this point. Email-12 does not fire here. That is your trigger to send, when you are ready.
 
-**Your job at this point:**
+---
 
-- Send the book files to the printer
+### STEP 1 — GENERATE CHAPTER ORDER (your trigger)
+
+When all 26 stories are submitted and edited, tick **GenerateChapterOrder** on the subscriber's Airtable record.
+
+**WHERE TO GO:** Airtable → Subscribers table → open the subscriber record → tick the **GenerateChapterOrder** checkbox.
+
+**What happens automatically (within 2 minutes):**
+
+- The system reads all submitted stories for this subscriber
+- Stories are sorted chronologically by the **Circa Date** each subscriber entered in their Story Library
+- If a subscriber entered both a month and year, the system uses both; if year only, it sorts by year (and uses the prompt week number to break ties within the same year)
+- Stories with no Circa Date entered are placed at the end, in prompt order
+- **ChapterOrder** (1, 2, 3... up to 26) is written to each story record in the Airtable Stories table
+- The **GenerateChapterOrder** checkbox unticks itself
+- You receive an alert at **stories@24stories.co.za**:
+
+Subject: `CHAPTER ORDER GENERATED — [FirstName Surname]`
+
+The alert lists every chapter in order: chapter number, prompt week, chapter title, and circa date. It reads like a table of contents.
+
+**What you do after receiving the alert:**
+
+1. Review the chapter order — does the chronological sequence make sense?
+2. If a story is in the wrong place, check the Circa Date the subscriber entered (Stories table → StoryCircaDate field) — you can correct it directly and re-tick GenerateChapterOrder to regenerate
+3. Do your final edit pass — read each story in Airtable with the chapter order in mind, check for continuity, fix anything that needs attention
+4. Check for system glitches: missing EditedText, blank chapter titles, missing images, anything unexpected
+
+Only when you are satisfied with the chapter order and final edits, proceed to Step 2.
+
+---
+
+### STEP 2 — BOOK DISPATCH (your trigger)
+
+Tick **BookDispatchEmailSent** on the subscriber's Airtable record only when you are ready to send the book to print.
+
+**WHERE TO GO:** Airtable → Subscribers table → open the subscriber record → tick the **BookDispatchEmailSent** checkbox.
+
+**What happens automatically (within 2 minutes):**
+
+- Email-12 fires to the subscriber — confirms their book is on its way, shows delivery address and number of copies
+- **BookSentToPrintDate** is set to today in Airtable
+- **BookDispatchEmailSent** unticks itself
+- Delivery tracking alerts begin counting from today
+
+**Your job immediately after:**
+
+- Send the book files to the designer and printer
 - Confirm the delivery address matches what is shown in email-12
+- Note any extra copies (ExtraCopies field on the subscriber record — send that total to the printer)
 
 ---
 
 ### DELIVERY TRACKING — AUTOMATIC ALERTS TO stories@24stories.co.za
 
-From the day the book goes to print, the system tracks delivery automatically.
+From the day you tick BookDispatchEmailSent (i.e. from BookSentToPrintDate), the system tracks delivery automatically.
 
 | When | Alert subject |
 |------|--------------|
-| Day 23 after print | `DELIVERY DUE IN 5 DAYS — [Name]` |
-| Day 28 after print | `DELIVERY DUE TODAY — [Name]` |
+| Day 23 after dispatch | `DELIVERY DUE IN 5 DAYS — [Name]` |
+| Day 28 after dispatch | `DELIVERY DUE TODAY — [Name]` |
 | Day 35, 42, 49... | `ACTION REQUIRED — [Name]'s book is [N] days overdue` |
 
 **What to do when you receive a delivery alert:**

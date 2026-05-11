@@ -1037,6 +1037,201 @@ h1.hero-heading, .hero-content h1 {
 }
 
 /* ===================================
+   TWO-TIER PRICING
+   =================================== */
+.pricing-two-col {
+    display: flex;
+    gap: 0;
+    max-width: 920px;
+    margin: 48px auto 0;
+    align-items: stretch;
+}
+
+.pricing-tier {
+    flex: 1;
+    padding: 52px 44px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-tier--monthly {
+    background: var(--cream);
+    border: 1px solid var(--border-fine);
+    order: 1;
+}
+
+.pricing-tier--bound {
+    background: var(--charcoal);
+    border-top: 3px solid var(--gold);
+    color: var(--cream);
+    order: 2;
+}
+
+.tier-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+    margin: 0 0 12px;
+    font-family: var(--font-body);
+}
+
+.tier-tagline {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    color: var(--text-mid);
+    margin: 0 0 24px;
+    line-height: 1.5;
+}
+
+.pricing-tier--bound .tier-tagline {
+    color: #B0A090;
+}
+
+.pricing-tier--monthly .price-amount { font-size: 3.2rem; }
+
+.pricing-tier--bound .price-currency,
+.pricing-tier--bound .price-period { color: #A89A88; }
+
+.pricing-tier--bound .price-amount { color: var(--cream); }
+
+.price-note-bound {
+    font-size: 13px;
+    font-style: italic;
+    color: #9A8C7A;
+    margin: 6px 0 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.pricing-tier--monthly .price-note {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 28px;
+    margin-bottom: 0;
+}
+
+.pricing-tier--monthly .price-features,
+.pricing-tier--bound .price-features {
+    flex: 1;
+    margin-bottom: 32px;
+}
+
+.pricing-tier--bound .price-features li {
+    color: #D8D0C4;
+    border-bottom-color: rgba(255,255,255,0.08);
+}
+.pricing-tier--bound .price-features li::before { color: var(--gold); }
+.pricing-tier--bound .price-features li:last-child { border-bottom: none; }
+
+.tier-upgrade-note {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--gold);
+    text-align: center;
+    margin: 14px 0 0;
+    line-height: 1.5;
+    font-family: Georgia, serif;
+}
+
+.btn-gold {
+    display: block;
+    width: 100%;
+    background: var(--gold);
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 17px 28px;
+    text-align: center;
+    border: 1px solid var(--gold);
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+    box-sizing: border-box;
+}
+.btn-gold:hover { background: #9d7f59; border-color: #9d7f59; }
+
+@media (max-width: 740px) {
+    .pricing-two-col {
+        flex-direction: column;
+    }
+    .pricing-tier--monthly { order: 2; }
+    .pricing-tier--bound   { order: 1; }
+    .pricing-tier { padding: 40px 28px; }
+}
+
+/* ===================================
+   FORM PLAN SELECTOR
+   =================================== */
+.form-plan-cards {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+
+.form-plan-card {
+    flex: 1;
+    border: 2px solid var(--border);
+    padding: 18px 14px;
+    cursor: pointer;
+    transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+    position: relative;
+}
+
+.form-plan-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.form-plan-card:has(input:checked) {
+    border-color: var(--gold);
+    background: rgba(184,151,106,0.05);
+}
+
+.form-plan-name {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--charcoal);
+    margin: 0 0 6px;
+    font-weight: 500;
+    font-family: var(--font-body);
+}
+
+.form-plan-price {
+    font-family: var(--font-head);
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--charcoal);
+    margin: 0 0 4px;
+    line-height: 1.2;
+}
+
+.form-plan-price span {
+    font-size: 12px;
+    color: var(--text-mid);
+    font-family: Georgia, serif;
+    font-weight: 300;
+}
+
+.form-plan-note {
+    font-size: 12px;
+    color: var(--text-mid);
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+}
+
+@media (max-width: 480px) {
+    .form-plan-cards { flex-direction: column; gap: 8px; }
+}
+
+/* ===================================
    FAQ
    =================================== */
 .faq {

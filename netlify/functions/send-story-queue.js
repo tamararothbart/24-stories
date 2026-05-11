@@ -20,13 +20,10 @@ exports.handler = async function() {
   }
 
   const { records } = await qRes.json();
-  if (!records || records.length === 0) {
-    return { statusCode: 200, body: JSON.stringify({ processed: 0 }) };
-  }
 
   let processed = 0;
 
-  for (const record of records) {
+  for (const record of (records || [])) {
     const storyId     = record.id;
     const storyFields = record.fields;
 

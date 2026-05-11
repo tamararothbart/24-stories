@@ -1054,6 +1054,9 @@
             // State content
             body.appendChild(buildStateContent(week, story, prompt, status));
 
+            // Circa Date
+            body.appendChild(buildCircaDateSection(week, story));
+
             // Photo section
             var photoSec = buildPhotoSection(week, story);
             body.appendChild(photoSec);
@@ -1090,6 +1093,38 @@
             if (prompt.PromptText) p.set('prompt', prompt.PromptText);
             if (prompt.OtherAngles)p.set('angles', prompt.OtherAngles);
             return 'tell.html?' + p.toString();
+        }
+
+        function buildCircaDateSection(week, story) {
+            var sec = document.createElement('div');
+            sec.style.cssText = 'margin-top:28px;padding-top:22px;border-top:1px solid var(--border);';
+
+            var existingValue = story && story.StoryCircaDate ? story.StoryCircaDate : '';
+
+            sec.innerHTML =
+                '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);margin:0 0 5px;">Circa Date</p>' +
+                '<p style="font-size:0.82rem;color:#888;line-height:1.6;margin:0 0 12px;">The approximate year or period of this story — helps place your chapters in the right order in the final book.</p>' +
+                '<input type="text" class="js-circa" placeholder="e.g. 1987, early 1970s, childhood..." value="' + esc(existingValue) + '" ' +
+                'style="width:100%;max-width:420px;border:1.5px solid var(--border);padding:10px 14px;font-family:var(--font-body);font-size:0.9rem;color:var(--charcoal);outline:none;transition:border-color 0.2s;background:var(--white);">' +
+                '<p class="field-saved-msg js-circa-saved" style="margin-top:4px;"></p>';
+
+            var input    = sec.querySelector('.js-circa');
+            var savedMsg = sec.querySelector('.js-circa-saved');
+            var timer;
+
+            input.addEventListener('focus', function() { input.style.borderColor = 'var(--gold)'; });
+            input.addEventListener('blur',  function() { input.style.borderColor = 'var(--border)'; });
+            input.addEventListener('input', function() {
+                clearTimeout(timer);
+                savedMsg.textContent = '';
+                timer = setTimeout(function() {
+                    postMake(LIBRARY_UPDATE_URL, { type: 'story-circa-date', subscriberId: subscriberId, week: week, value: input.value });
+                    savedMsg.textContent = 'Saved';
+                    setTimeout(function() { savedMsg.textContent = ''; }, 2000);
+                }, 1800);
+            });
+
+            return sec;
         }
 
         function buildPhotoSection(week, story) {

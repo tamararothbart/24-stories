@@ -32,6 +32,11 @@ exports.handler = async function(event) {
       const recId = await findStoryRecord(BASE, PAT, subscriberId, week);
       if (recId) await patchRecord(BASE, PAT, 'Stories', recId, { StoryImageCaption: caption });
 
+    } else if (type === 'story-circa-date') {
+      const { week, value } = payload;
+      const recId = await findStoryRecord(BASE, PAT, subscriberId, week);
+      if (recId) await patchRecord(BASE, PAT, 'Stories', recId, { StoryCircaDate: value });
+
     } else if (type === 'book-photo') {
       // subscriberId IS the Airtable record ID — patch directly
       await patchRecord(BASE, PAT, 'Subscribers', subscriberId, { PortraitPhotoURL: payload.photoUrl });

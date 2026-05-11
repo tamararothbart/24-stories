@@ -1,0 +1,27 @@
+PROMPT: Someone Who Shaped You
+STORYTELLER: Nomsa (fictional test case)
+EDGE CASE: Grief and restraint — sensitive material, no redemption arc supplied, must not add closure
+
+---
+
+My grandmother's name was Paulina. She was born in 1931 and she died in 2004. We called her Gogo. I was 23 when she died.
+
+She didn't talk very much. She wasn't, um, she wasn't the kind of grandmother who sat you down and gave you advice. She was quiet. She would just be in the room and that was enough. Her presence was a kind of warmth. That's the only way I can describe it.
+
+The thing I remember is that she used to make tea at exactly the same time every morning. Five o'clock. Every morning of her life as far as I know. The kettle, the teapot, the same cup. And she would sit at the kitchen table before anyone else was awake and she would just sit there. Alone. With her tea.
+
+I only realised what that was when I was much older. I think it was her only time alone. The only twenty minutes she had that were just hers.
+
+I inherited her teapot when she died. I don't use it. I'm afraid I'll break it. It's a brown one with a little chip in the lid that was already there when I was a child.
+
+I don't think I've ever understood someone so well without them having said very much to me.
+
+---
+EXPECTED RESULT NOTES:
+- No dramatic arc — this is a quiet portrait, a fragment of character
+- The teapot is the central image — must be kept
+- "Her presence was a kind of warmth" is the storyteller's own phrasing — keep it
+- "I don't think I've ever understood someone so well without them having said very much to me" — this is the natural ending, keep it
+- Must not: add grief language, add closure, soften or intensify, add anything about what Gogo "meant" to the family
+- Must not: turn this into a eulogy
+- Title should come from the specific content — not "My Grandmother"

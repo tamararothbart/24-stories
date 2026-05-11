@@ -19,3 +19,7 @@
 
 [functions.send-story-queue]
   schedule = "*/2 * * * *"  # every 2 minutes — checks for SendToFamily checkbox
+
+[functions.text-edit-queue]
+  schedule = "*/5 * * * *"  # every 5 minutes — AI structural editing for newly submitted stories
+  timeout = 60

@@ -1,0 +1,28 @@
+PROMPT: A Time Things Went Wrong
+STORYTELLER: Derek (fictional test case)
+EDGE CASE: Comic arc — punchline exists, voice is dry and deadpan, should not be sentimentalised
+
+---
+
+Okay so this is maybe not a very serious story but it's the one that came to mind when I read the prompt.
+
+We had a caravan. It was a 1987 Jurgens and my father bought it second-hand from a man in Benoni and every December we went to Hartenbos or sometimes Mossel Bay. This was our holiday. We didn't do overseas. We did Hartenbos.
+
+So one year, I think it must have been 1991 or 1992, we were on the N2 coming home after New Year and my father noticed the caravan was making a strange noise. Sort of a scraping sound. He pulled over on the side of the road and he looked underneath the caravan and he came back and he said everything looks fine. So we kept driving.
+
+And then about twenty kilometers later the caravan started going sideways. Not fast, quite slowly actually. Very dignified, if a caravan can be dignified. It just kind of drifted off the road into the verge and stopped. And we all got out and we stood there and we looked at it.
+
+It turned out that when my father had checked underneath, he had actually fixed a different problem. There had been a piece of trim that was rubbing, and he'd pushed it in. But the actual problem was that one of the wheel nuts had been working itself loose the whole way from Hartenbos, and when the wheel came off it did so very politely, very slowly, and just rolled a little way into the bush and sat there.
+
+My father looked at the wheel sitting in the bush. He looked at the caravan. He said, not bad for thirty years old. He was talking about the caravan.
+
+We waited three hours for the AA.
+
+---
+EXPECTED RESULT NOTES:
+- Voice is dry, deadpan — must not become warm or sentimental
+- The "very dignified" line is the storyteller's own voice — keep it
+- "Not bad for thirty years old" is the punchline — it should land as the ending or near it
+- "We waited three hours for the AA" is the perfect closing beat — should be kept
+- Title should come from something specific in the story
+- Must not: add a lesson about family, add warmth the story doesn't have, soften the deadpan

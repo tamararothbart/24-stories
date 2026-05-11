@@ -1,0 +1,22 @@
+PROMPT: Your First Job
+STORYTELLER: Margaret (fictional test case)
+EDGE CASE: Buried hook — story starts with three paragraphs of background before the actual incident
+
+---
+
+So, um, I grew up in Kimberley and when I left school in 1974 I didn't really know what I wanted to do. My mother had been a secretary her whole life and she always said I must learn to type so I enrolled at a business college on the corner of Long Street and, I can't remember the name of the street, but anyway I did the typing course and I got a certificate and then I applied for a job at the municipality. They interviewed three of us I think. Maybe four. And I got the job. My starting salary was twenty-three rand a month which my mother said was very good for a girl my age.
+
+So on my first day I wore my blue skirt and a white blouse my mother had ironed the night before. She ironed it twice actually. She was very particular.
+
+Anyway the thing that I actually remember most, the thing I always laugh about now, was my second week. Not even my first day. My second week. I had been given the task of filing all the rates correspondence for the past three years. Three years of rates letters, in no order at all, just dumped in a room. And I just started at A and I was filing away, completely happy, when I heard a commotion and my supervisor — his name was Mr Pietersen — came rushing into the filing room and he said, Margaret, stop. Just stop right there. And I thought I was in terrible trouble. But it turned out he had come to tell me that I was the first person in four years who had actually gone and filed those letters. The previous girls had all just left them in the room. So I wasn't in trouble at all. He brought me a condensed milk biscuit from the tearoom to say well done.
+
+I don't know if that's interesting but that's what I remember most.
+
+---
+EXPECTED RESULT NOTES:
+- Hook: the commotion + Mr Pietersen rushing in (currently in paragraph 3)
+- Should open close to "I heard a commotion"
+- Title should come from the story content — not "My First Job"
+- The detail about the condensed milk biscuit should be kept
+- The background setup can be condensed into one or two establishing sentences
+- "I don't know if that's interesting but that's what I remember most." — should be removed

@@ -1,0 +1,23 @@
+PROMPT: A Place You Remember
+STORYTELLER: Hennie (fictional test case)
+EDGE CASE: Fragmented — no arc, no incident, no character other than narrator. Just sensory memory and impression. Must not be overbuilt.
+
+---
+
+When I think about the farm. There was a farm. My uncle's place near Cradock. In the Eastern Cape. We used to go there in the school holidays, my cousins and I, for about a week. I don't know how old I was. Young. Maybe eight or nine.
+
+I don't actually remember specific things that happened there. No stories really. Just the feeling of the place. The smell of it. Dust and livestock and the inside of the farm kitchen. My Aunt Sannie always had something on the stove. I don't know what. Just something.
+
+There was a windmill that made a sound at night. A kind of squeak, creak, every few seconds. I used to lie in the dark and listen to it. I thought it was the loneliest sound I'd ever heard but not in a bad way. Just lonely in the way that open places are.
+
+I haven't been back. My uncle sold the farm in the nineties. I don't even know if the windmill is still there.
+
+---
+EXPECTED RESULT NOTES:
+- No arc, no incident, no resolution — this is a mood piece / fragment
+- Must not be given a false arc (reunion, return, lesson, loss framing)
+- The windmill is the clearest image — should feature in the edit and possibly the title
+- "I thought it was the loneliest sound I'd ever heard but not in a bad way" — keep this exactly, it's the heart of the piece
+- Must not: add emotions beyond what's given, add what the farm "meant", invent activity or scene
+- Should clean up the fragmented opening (several short incomplete sentences) into something more readable while keeping the meditative quality
+- Title should come from the specific image — not "A Place I Remember" or "The Farm"

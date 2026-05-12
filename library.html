@@ -662,6 +662,17 @@
         <p class="error-body">Please use the link from one of your 24 Stories emails, or <a href="mailto:hello@24stories.co.za">email us</a> and we will send it again.</p>
     </div>
 
+    <!-- PAYWALL — shown to non-subscribers visiting /library.html without an ID -->
+    <div id="statePaywall" class="page-center" style="display:none; flex-direction:column; max-width:560px; margin:0 auto; text-align:center; padding:80px 24px;">
+        <a href="index.html" style="margin-bottom:40px;"><img src="logo.png" alt="24 Stories" style="height:52px;width:auto;display:block;margin:0 auto;"></a>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#B8976A; margin-bottom:14px;">24 Stories</p>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,2.6rem); font-weight:300; color:#1A1A1A; line-height:1.2; margin-bottom:20px;">Your Story Library</h1>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#555; line-height:1.8; margin-bottom:36px;">The Story Library is a private space for 24 Stories subscribers. Each subscriber receives a unique link by email when their subscription begins.</p>
+        <a href="index.html#subscribe" style="display:inline-block; background:#1A1A1A; color:#F7F5F2; font-family:'Inter',sans-serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; padding:18px 40px; border-radius:2px; margin-bottom:20px;">Give This Gift &mdash; R2,795/month</a>
+        <p style="font-size:14px; color:#888; margin-bottom:8px;">Already a subscriber? Use the link in your 24 Stories email, or</p>
+        <p style="font-size:14px; color:#888;"><a href="index.html#resend-link" style="color:#B8976A;">resend your library link</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:#B8976A;">WhatsApp us</a></p>
+    </div>
+
     <!-- LIBRARY -->
     <div id="stateLibrary" style="display:none;">
 
@@ -873,16 +884,32 @@
         // ============================================================
         var PREVIEW_MODE = (subscriberId === 'PREVIEW');
 
+        var READ_ONLY_MODE = false;
+
         function showState(s) {
-            ['stateLoading','stateError','stateLibrary'].forEach(function(id) {
+            ['stateLoading','stateError','stateLibrary','statePaywall'].forEach(function(id) {
                 document.getElementById(id).style.display = (id === 'state' + capitalise(s)) ? '' : 'none';
             });
         }
 
         function capitalise(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
+        function applyReadOnlyMode() {
+            READ_ONLY_MODE = true;
+            // Add a read-only banner
+            var banner = document.createElement('div');
+            banner.style.cssText = 'background:#F0EDE8; border-bottom:1px solid #D0CCC6; padding:12px 40px; font-family:Georgia,serif; font-size:14px; color:#555; text-align:center;';
+            banner.innerHTML = 'Your subscription has ended. Your Story Library is available in read-only mode. To continue your journey, <a href="https://wa.me/27823758320" target="_blank" style="color:#B8976A;">contact us</a>.';
+            var header = document.querySelector('.library-header');
+            if (header) header.insertAdjacentElement('afterend', banner);
+            // Hide all story-tell and submission links
+            document.querySelectorAll('a[href*="tell.html"], .tell-btn, [data-action="tell"]').forEach(function(el) {
+                el.style.display = 'none';
+            });
+        }
+
         if (PREVIEW_MODE)      { loadPreview(); }
-        else if (!subscriberId) { showState('error'); }
+        else if (!subscriberId) { showState('paywall'); }
         else { loadLibrary(); }
 
         function loadPreview() {
@@ -943,6 +970,10 @@
 
                 if (!sub || sub.error || !sub.fields) { showState('error'); return; }
 
+                // Paywall: check access level returned by library-read.js
+                var accessLevel = data.access_level || 'full';
+                if (accessLevel === 'none') { showState('paywall'); return; }
+
                 var f    = sub.fields;
                 var name = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
                 document.getElementById('headerName').textContent = name || '';
@@ -963,6 +994,9 @@
                 renderCards(byWeek, promptsByWeek);
                 renderBookPrep(f);
                 showState('library');
+
+                // Apply read-only mode after library renders
+                if (accessLevel === 'read_only') { applyReadOnlyMode(); }
 
                 for (var w = 1; w <= 26; w++) {
                     if (getStatus(byWeek[w]) === 'empty') {

@@ -47,12 +47,35 @@ exports.handler = async function(event) {
     }
   }
 
+  const accessLevel = computeAccessLevel(sub.fields);
+
   return {
     statusCode: 200,
     headers: corsHeaders(),
-    body: JSON.stringify({ subscriber: sub, stories, prompts })
+    body: JSON.stringify({ subscriber: sub, stories, prompts, access_level: accessLevel })
   };
 };
+
+function computeAccessLevel(fields) {
+  const status = (fields.Status || '').trim();
+  const today  = new Date().toISOString().slice(0, 10);
+
+  if (status === 'Active') {
+    const accessEndDate = fields.AccessEndDate || '';
+    // No AccessEndDate = monthly subscriber with active recurring billing
+    if (!accessEndDate || accessEndDate > today) return 'full';
+    // Past AccessEndDate (lump sum expired or edge case)
+    return 'read_only';
+  }
+
+  if (status === 'Cancelled' || status === 'Complete' || status === 'Paused') {
+    // Library remains accessible indefinitely per T&Cs
+    return 'read_only';
+  }
+
+  // Pending or unknown — no library access yet
+  return 'none';
+}
 
 function corsHeaders() {
   return {

@@ -56,49 +56,60 @@ document.addEventListener('DOMContentLoaded', () => {
     reveals.forEach(el => observer.observe(el));
 
     // ============================
-    // PayFast config (set MERCHANT_ID + MERCHANT_KEY before launch)
+    // PayFast config
+    // Signature is generated server-side in checkout.js using env vars.
+    // Set PAYFAST_USE_SANDBOX = false on launch day.
     // ============================
-    var PAYFAST_MERCHANT_ID  = '34556163';
-    var PAYFAST_MERCHANT_KEY = 'liduaqfvjfeox';
-    var PAYFAST_PASSPHRASE   = '';
-    var PAYFAST_LIVE_URL     = 'https://www.payfast.co.za/eng/process';
-    var PAYFAST_SANDBOX_URL  = 'https://sandbox.payfast.co.za/eng/process';
-    var PAYFAST_USE_SANDBOX  = true; // set false on launch
-    var PAYFAST_URL          = PAYFAST_USE_SANDBOX ? PAYFAST_SANDBOX_URL : PAYFAST_LIVE_URL;
+    var PAYFAST_LIVE_URL    = 'https://www.payfast.co.za/eng/process';
+    var PAYFAST_SANDBOX_URL = 'https://sandbox.payfast.co.za/eng/process';
+    var PAYFAST_USE_SANDBOX = true; // set false on launch
+    var PAYFAST_URL         = PAYFAST_USE_SANDBOX ? PAYFAST_SANDBOX_URL : PAYFAST_LIVE_URL;
 
     // Netlify function endpoints
     var CHECKOUT_URL = '/.netlify/functions/checkout';
-    var NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
 
-    // Build PayFast params and submit programmatic form
-    // Amount, subscription_type, recurring_amount, frequency, cycles set in Session 2
-    function redirectToPayFast(recordId, firstName, email, itemName) {
-        var params = {
-            merchant_id:  PAYFAST_MERCHANT_ID,
-            merchant_key: PAYFAST_MERCHANT_KEY,
-            return_url:   'https://24stories.co.za/thank-you.html',
-            cancel_url:   'https://24stories.co.za/#subscribe',
-            notify_url:   NOTIFY_URL,
-            name_first:   firstName,
-            email_address: email,
-            m_payment_id: recordId,
-            amount:       'TBD',
-            item_name:    itemName,
-            custom_str1:  recordId
-        };
+    // Selected payment type — set by pricing CTAs or payment toggle
+    var selectedPaymentType = 'monthly';
 
-        if (PAYFAST_PASSPHRASE) {
-            params.passphrase = PAYFAST_PASSPHRASE;
-        }
+    // Pre-select payment type when pricing section CTAs are clicked
+    document.querySelectorAll('[data-payment]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            selectedPaymentType = this.dataset.payment;
+            // Sync the payment type toggle in the subscribe form
+            var monthlyBtn  = document.getElementById('payTypeMonthly');
+            var lumpSumBtn  = document.getElementById('payTypeLumpSum');
+            if (monthlyBtn && lumpSumBtn) {
+                if (selectedPaymentType === 'monthly') {
+                    monthlyBtn.classList.add('active');
+                    lumpSumBtn.classList.remove('active');
+                } else {
+                    lumpSumBtn.classList.add('active');
+                    monthlyBtn.classList.remove('active');
+                }
+            }
+        });
+    });
 
+    // Payment type toggle inside subscribe form
+    var payTypeBtns = document.querySelectorAll('#paymentTypeSelect .form-path-btn');
+    payTypeBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            payTypeBtns.forEach(function(b) { b.classList.remove('active'); });
+            this.classList.add('active');
+            selectedPaymentType = this.dataset.paytype || 'monthly';
+        });
+    });
+
+    // Submit a programmatic form to PayFast using server-signed params
+    function redirectToPayFast(payfastParams) {
         var form = document.createElement('form');
         form.method = 'POST';
         form.action = PAYFAST_URL;
-        Object.keys(params).forEach(function(key) {
+        Object.keys(payfastParams).forEach(function(key) {
             var input = document.createElement('input');
             input.type  = 'hidden';
             input.name  = key;
-            input.value = params[key];
+            input.value = payfastParams[key];
             form.appendChild(input);
         });
         document.body.appendChild(form);
@@ -381,13 +392,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     storyHelperEmail     : helperEmail,
                     giftGiverName        : giverName,
                     giftGiverEmail       : giverEmail,
-                    familyEmails         : FamilyEmails
+                    familyEmails         : FamilyEmails,
+                    paymentType          : selectedPaymentType
                 })
             })
             .then(r => r.json())
             .then(data => {
-                if (data.record_id) {
-                    redirectToPayFast(data.record_id, storytellerFirstName, storytellerEmail, '24 Stories');
+                if (data.payfast_params) {
+                    redirectToPayFast(data.payfast_params);
                 } else {
                     btn.textContent = 'Something went wrong. Please try again.';
                     btn.disabled = false;
@@ -471,13 +483,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     storyHelperEmail     : helperEmail,
                     giftGiverName        : storytellerName,
                     giftGiverEmail       : storytellerEmail,
-                    familyEmails         : FamilyEmails
+                    familyEmails         : FamilyEmails,
+                    paymentType          : selectedPaymentType
                 })
             })
             .then(r => r.json())
             .then(data => {
-                if (data.record_id) {
-                    redirectToPayFast(data.record_id, storytellerFirst, storytellerEmail, '24 Stories');
+                if (data.payfast_params) {
+                    redirectToPayFast(data.payfast_params);
                 } else {
                     btn.textContent = 'Something went wrong. Please try again.';
                     btn.disabled = false;

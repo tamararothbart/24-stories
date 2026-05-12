@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 exports.handler = async function(event) {
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers: corsHeaders() };
@@ -17,7 +19,8 @@ exports.handler = async function(event) {
     storytellerFirstName, storytellerSurname, storytellerEmail,
     storyHelperName, storyHelperEmail,
     giftGiverName, giftGiverEmail,
-    familyEmails, phone
+    familyEmails, phone,
+    paymentType   // 'monthly' or 'lump_sum'
   } = body;
 
   if (!storytellerFirstName || !storytellerEmail) {
@@ -27,6 +30,7 @@ exports.handler = async function(event) {
   const BASE = 'apprTOobuxs4Od7XB';
   const PAT  = process.env.AIRTABLE_PAT;
 
+  // Create Pending subscriber record in Airtable
   const fields = {
     StorytellerFirstName: storytellerFirstName.trim(),
     StorytellerSurname:   (storytellerSurname  || '').trim(),
@@ -41,7 +45,6 @@ exports.handler = async function(event) {
     PromptNumber:         0
   };
 
-  // Remove empty strings
   Object.keys(fields).forEach(k => { if (fields[k] === '') delete fields[k]; });
 
   const atRes = await fetch(
@@ -58,15 +61,62 @@ exports.handler = async function(event) {
     return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'Could not save subscriber' }) };
   }
 
-  const record = await atRes.json();
+  const record   = await atRes.json();
+  const recordId = record.id;
 
-  // Return the record ID — PayFast will need it as custom_str1
+  // Build PayFast params
+  const MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID  || '34556163';
+  const MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY || 'liduaqfvjfeox';
+  const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE   || '';
+  const NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
+
+  const isMonthly = (paymentType || 'monthly') === 'monthly';
+
+  const params = {
+    merchant_id:   MERCHANT_ID,
+    merchant_key:  MERCHANT_KEY,
+    return_url:    'https://24stories.co.za/thank-you.html',
+    cancel_url:    'https://24stories.co.za/#subscribe',
+    notify_url:    NOTIFY_URL,
+    name_first:    storytellerFirstName.trim(),
+    email_address: storytellerEmail.trim().toLowerCase(),
+    m_payment_id:  recordId,
+    amount:        isMonthly ? '2795.00' : '16770.00',
+    item_name:     '24 Stories',
+    custom_str1:   recordId,
+    custom_str2:   isMonthly ? 'monthly' : 'lump_sum'
+  };
+
+  // Add subscription fields for monthly recurring
+  if (isMonthly) {
+    const today = new Date().toISOString().slice(0, 10);
+    params.subscription_type   = '1';
+    params.billing_date        = today;
+    params.recurring_amount    = '2795.00';
+    params.frequency           = '3';   // 3 = monthly
+    params.cycles              = '6';   // auto-stop after 6 payments
+  }
+
+  // Generate MD5 signature
+  const signature = generateSignature(params, PASSPHRASE);
+  params.signature = signature;
+
   return {
     statusCode: 200,
     headers: corsHeaders(),
-    body: JSON.stringify({ success: true, record_id: record.id })
+    body: JSON.stringify({ success: true, record_id: recordId, payfast_params: params })
   };
 };
+
+function generateSignature(params, passphrase) {
+  // Build param string in key order, URL-encoded
+  const str = Object.keys(params)
+    .filter(k => k !== 'signature')
+    .map(k => `${k}=${encodeURIComponent(String(params[k])).replace(/%20/g, '+')}`)
+    .join('&');
+  const withPhrase = passphrase ? `${str}&passphrase=${encodeURIComponent(passphrase).replace(/%20/g, '+')}` : str;
+  return crypto.createHash('md5').update(withPhrase).digest('hex');
+}
 
 function corsHeaders() {
   return {

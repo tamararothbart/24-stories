@@ -477,6 +477,16 @@ No immediate action is required. These notifications are for your awareness only
 
 ### COLLECTING EMAIL ADDRESSES FOR A CAMPAIGN
 
+**Why this section exists:**
+All automated 24 Stories emails — weekly prompts, story notifications, reminders, book onboarding — are sent transactionally, directly to individual email addresses pulled from Airtable. None of them use Mailjet contact lists. There is no persistent Mailjet subscriber list and you do not need one for the system to run.
+
+Airtable is your subscriber and leads list.
+
+**When you will refer to this section:**
+Only when you want to send a broadcast campaign — one email to many people at once. The most likely use is the **10 June 2026 launch email** to everyone on your interest list. You may also use it for occasional campaign sends to free download leads, event enquiries, or past subscribers.
+
+**The process — Airtable export → Mailjet import → send campaign:**
+
 When you are ready to run an email campaign to your leads list:
 
 **To export all leads:**

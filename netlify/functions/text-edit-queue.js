@@ -101,6 +101,33 @@ When you find the connective thread, use it to organise the material. Group scen
 
 Example: a story about a childhood farm that mentions red dust, red tractors, red sweets, and a cousin with red hair — and cinnamon as the taste inside the sweets — is not really about the farm. It is about sensation, memory, and the specific feeling of that place. The red thread and the cinnamon taste are the structure. Organise around them.
 
+Once the connective thread is identified, you may build a transitional sentence from story elements to make the thread visible: "When I think of X, I remember Y." Use only elements the storyteller supplied. This is editorial construction, not invention.
+
+When the narrative deliberately brings multiple threads together — a place, a smell, a person, a taste — name that convergence explicitly. "This is where my memories merge." If the storyteller has created that convergence, you may name it.
+
+---
+
+GEOGRAPHIC TOUR AS ESTABLISHING WORLD:
+When a story is set in a richly described place — a farm, a house, a plot of land, a building — and the storyteller has given enough physical detail, move through that place systematically in the edit. The layout of the place IS the "World As It Was." Sequence the physical details so the reader understands the geography before any stories begin. Move through the space like a camera — left, right, behind, in front — so the reader arrives oriented.
+
+---
+
+MAKING IMPLICIT CAUSALITY EXPLICIT:
+When two supplied facts clearly explain each other — and the storyteller has provided both but not connected them — the editor may state the connection. This is clarification, not invention.
+
+Example: the storyteller mentions an encroaching settlement AND mentions burglar bars on the shop AND mentions the grandfather was often away. These facts explain each other. The editor may write: "That, and the fact that my grandfather was often away, was why Bravo was covered in burglar bars and chicken wire."
+
+The test: are both facts in the original? Does one clearly cause or explain the other? If yes, connect them.
+
+---
+
+STATING THE METAPHOR THAT IS ALREADY THERE:
+When the storyteller's physical description implies a clear feeling or metaphor, the editor may name it once — lightly, without over-explaining.
+
+Example: the storyteller says "so much railing it looked like a jail." The feeling already present is: trapped, caged, enclosed. The editor may write: "It was as if we were all kept in a cage." This is not invention. It is the metaphor already inside the description, stated.
+
+Do this sparingly. Once per story is usually enough. Never layer metaphors.
+
 ---
 
 STAKES (internal diagnostic — never output):

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 26 — Legacy Part II: same for both tiers (Week 26 — final prompt)</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 26 — LEGACY PART II PROMPT — FINAL (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-26-legacy-part-2.html</strong><br>
+  Trigger: Wednesday 7am SAST — sent when WeekNumber = 26 &nbsp;|&nbsp; To: Storyteller (and Story Helper if different email)<br>
+  Function: <strong>send-weekly-prompts.js</strong><br>
+  Status: <strong style="color:#1565C0;">🔵 SAME — template identical to BE email-26. Locked decision: both tiers receive same email for weeks 25–26.</strong><br><br>
+  Theme: What I Know Now (life lessons — a list format).<br>
+  No day-4 reminder for weeks 25 or 26.<br>
+  After this fires: email-11 fires on day 1 (Collected Stories notice + upgrade offer). No email-10 equivalent for Monthly Memoir.<br><br>
+  Note: footnote "Your Legacy Book is ready to compile" applies to Bound Edition. For Monthly Memoir, a subscriber who hasn't upgraded will receive email-11 next which explains the PDF path. Review this line if copy should differ by tier.<br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">PromptText</span>
+  <span class="var">TellURL</span>
+  <span class="var">LibraryURL</span>
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This is your final prompt, and probably the most meaningful.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">For this last chapter, we ask something different. Not a story — a list.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The lessons you've learned. The rules you live by. What you know to be true that you'd want your children, and their children, to carry with them long after you're gone.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Write as many or as few as you like. There's no right or wrong way — only your way.</p>
+
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In every conceivable manner, the family is a link to our past, a bridge to our future.&rdquo;</p>
+    <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
+  </div>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:32px 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week 26 &mdash; Legacy (Part II) &nbsp;&middot;&nbsp; Theme: What I Know Now</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0;">[PromptText]</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:8px 0 32px;">Tell Your Story</a>
+
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 8px;">Twenty-six chapters complete. Your Legacy Book is ready to compile.</p>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

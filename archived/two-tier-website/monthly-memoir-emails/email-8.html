@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 8 — Regular weekly prompt: sent Weeks 2–24</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .diff { background: #2e3d00; color: #c5e384; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 8 — REGULAR WEEKLY PROMPT (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-8-regular-prompt.html</strong><br>
+  Trigger: Wednesday 7am SAST — sent for weeks 2–24 &nbsp;|&nbsp; To: Storyteller (and Story Helper if different email)<br>
+  Function: <strong>send-weekly-prompts.js</strong> — needs tier-aware update<br>
+  Status: <strong style="color:#e6a817;">🟡 PENDING — template ready, function not yet tier-aware</strong><br><br>
+  Note: Week 24 also fires email-9 (upgrade prompt) as a separate email on the same day.<br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">WeekNumber</span>
+  <span class="var">WeekName</span>
+  <span class="var">Theme</span>
+  <span class="var">PromptText</span>
+  <span class="var">OtherAngles</span>
+  <span class="var">TellURL</span>
+  <span class="var">LibraryURL</span><br><br>
+  Changes from BE email-8:<br>
+  <span class="diff">CHANGED</span> Progress line: "your Legacy Book is taking shape" → "your memoir is growing"<br>
+  <span class="diff">CHANGED</span> Library block: "prompts unlock each week" replaces "all 26 available to get ahead"<br>
+  <span class="diff">SAME</span> Opening, prompt box, CTA, sign-off
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello [StorytellerFirstName], your story is ready to be told.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Here is this week's prompt.</p>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week [WeekNumber] — [WeekName] &nbsp;&middot;&nbsp; Theme: [Theme]</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">[PromptText]</p>
+    <div style="border-top:1px solid #E0DCD7;padding-top:16px;">
+      <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
+      <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">[OtherAngles]</p>
+    </div>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Tell any story that moves you.</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:28px 0 32px;">Tell Your Story</a>
+
+  <p style="font-size:17px;color:#333;line-height:1.8;margin:0 0 28px;">Each story gives you the option to add a photograph and caption. If you don't have one on hand, you can return to your Story Library at any time to add it. <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;">Open your library &#8594;</a></p>
+
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 32px;">Chapter [WeekNumber] of 26 — your memoir is growing.</p>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

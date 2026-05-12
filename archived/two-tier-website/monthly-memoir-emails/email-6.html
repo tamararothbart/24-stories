@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 6 — Storyteller story confirmation: story sent to family (has recipients)</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .diff { background: #1a3a5c; color: #9eceff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 6 — STORYTELLER STORY CONFIRMATION (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-6-storyteller-story-confirmation.html</strong><br>
+  Trigger: Tamara ticks SendToFamily in Airtable Stories — fires when FamilyEmails list is not empty &nbsp;|&nbsp; To: Storyteller<br>
+  Functions: <strong>send-story-queue.js</strong> (queue, every 2 min) and <strong>approve-story.js</strong> (on-demand from library) — need tier-aware update<br>
+  Status: <strong style="color:#1565C0;">🔵 SAME — template identical to BE email-6</strong><br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">WeekNumber</span>
+  <span class="var">ChapterTitle</span> (conditional — shown if populated)
+  <span class="var">StoryText</span>
+  <span class="var">ImageURL</span> (conditional)
+  <span class="var">Caption</span> (conditional)
+  <span class="var">LibraryURL</span><br><br>
+  <span class="diff">NOTE</span> Monthly Memoir chapter titles: for Monthly Memoir, Tamara assigns a generic title based on the week theme — not a custom literary title as with the Bound Edition. The template handles both: ChapterTitle shows if populated, hidden if empty.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber] — your story</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story has been sent.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story has been delivered to your family.<br>Here's exactly what they received.</p>
+
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    <!-- CONDITIONAL: ChapterTitle only shown if populated -->
+    <p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">[ChapterTitle]</p>
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">[StoryText]</p>
+  </div>
+
+  <!-- CONDITIONAL: Photo block — only shown if ImageURL is populated -->
+  <div style="margin:28px 0;">
+    <img src="[ImageURL]" alt="Photo" style="max-width:100%;height:auto;display:block;">
+    <p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">[Caption]</p>
+  </div>
+  <!-- END CONDITIONAL photo block -->
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;word-break:break-all;">[LibraryURL]</a></p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

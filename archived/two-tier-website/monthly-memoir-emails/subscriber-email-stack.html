@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Monthly Memoir — Complete Subscriber Email Stack</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+
+  /* Build explanation */
+  .explainer { max-width: 700px; margin: 48px auto 0; padding: 0 20px; }
+  .explainer h1 { font-size: 28px; font-weight: normal; color: #1A1A1A; margin: 0 0 8px; }
+  .explainer .intro { font-size: 16px; color: #555; line-height: 1.8; margin: 0 0 32px; font-family: Arial, sans-serif; }
+  .build-box { background: #1A1A1A; color: #fff; padding: 32px 36px; margin-bottom: 12px; }
+  .build-box h2 { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; margin: 0 0 20px; font-family: Arial, sans-serif; }
+  .build-box p { font-size: 15px; line-height: 1.9; margin: 0 0 16px; color: #ccc; font-family: Arial, sans-serif; }
+  .build-box p:last-child { margin: 0; }
+  .build-box strong { color: #fff; }
+  .build-box .field { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 12px; font-family: monospace; }
+
+  /* Email dividers */
+  .email-divider { max-width: 700px; margin: 48px auto 0; padding: 0 20px; }
+  .email-label { background: #1A1A1A; color: #fff; padding: 14px 24px; font-family: Arial, sans-serif; }
+  .email-label .num { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: #B8976A; font-weight: bold; }
+  .email-label .name { font-size: 16px; color: #fff; margin: 4px 0 2px; }
+  .email-label .trigger { font-size: 12px; color: #888; }
+  .email-label .status-live { color: #4CAF50; font-weight: bold; }
+  .email-label .status-pending { color: #e6a817; font-weight: bold; }
+  .email-label .status-same { color: #64b5f6; font-weight: bold; }
+  .email-label .status-new { color: #ce93d8; font-weight: bold; }
+
+  .na-divider { max-width: 700px; margin: 48px auto 0; padding: 0 20px; }
+  .na-box { background: #ccc; color: #666; padding: 18px 24px; font-family: Arial, sans-serif; font-size: 14px; }
+
+  /* Email wrapper */
+  .email-outer { max-width: 700px; margin: 0 auto; padding: 0 20px 0; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════ HOW THE BUILD WORKS -->
+<div class="explainer">
+  <h1>Monthly Memoir — Complete Subscriber Email Stack</h1>
+  <p class="intro">Scroll through from top to bottom. Every email a Monthly Memoir subscriber receives, in the order they receive it. Emails that don't apply are marked clearly so you keep your place in the sequence.</p>
+
+  <div class="build-box">
+    <h2>How the build works</h2>
+
+    <p><strong>One Airtable. One Subscribers table.</strong> There is no separate table or base for Monthly Memoir subscribers. Everyone is in the same Subscribers table — what separates them is a single field: <span class="field">SubscriberTier</span> which is either <span class="field">monthly_memoir</span> or <span class="field">bound_edition</span>.</p>
+
+    <p><strong>Two separate PayFast webhook endpoints.</strong> When a Bound Edition subscriber pays, PayFast sends the IPN to <span class="field">payfast-webhook.js</span>. When a Monthly Memoir subscriber pays, PayFast sends the IPN to <span class="field">payfast-webhook-monthly.js</span>. This is controlled by which <span class="field">notify_url</span> is set at checkout. The two subscriber flows are naturally separated at the payment stage.</p>
+
+    <p><strong>The sending functions check SubscriberTier.</strong> The scheduled functions — <span class="field">send-weekly-prompts.js</span>, <span class="field">send-day4-reminder.js</span>, <span class="field">book-onboarding-reminder.js</span>, <span class="field">send-story-queue.js</span>, <span class="field">approve-story.js</span> — loop through Active subscribers and send emails. Currently they treat everyone the same (all subscribers get Bound Edition emails). The Prompt 7 work is to make each function check SubscriberTier and route to the correct email template for each tier.</p>
+
+    <p><strong>Nothing changes for Bound Edition subscribers.</strong> The existing Bound Edition email flow is completely untouched. Monthly Memoir email variants are added alongside, not replacing anything.</p>
+
+    <p><strong>Status of each email:</strong> ✅ LIVE = already firing. 🟡 PENDING = template written here but function not yet updated. 🔵 SAME = identical to Bound Edition, no changes needed. 🟣 NEW = no Bound Edition equivalent.</p>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 1 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 1 — <span class="status-live">✅ LIVE</span></div>
+    <div class="name">Storyteller Welcome</div>
+    <div class="trigger">To: Storyteller &nbsp;|&nbsp; When: first payment confirmed &nbsp;|&nbsp; Function: payfast-webhook-monthly.js</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <!-- CONDITIONAL GIFT LINE: if gift → "[GiftGiverName] has given you a beautiful gift." / if self → "You've given yourself a beautiful gift." -->
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">[GiftGiverName] has given you a beautiful gift.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Each week, a gentle prompt will arrive to help you recall and record a piece of your life. Share your story as spoken words or written text — whatever feels natural — and we'll send it directly to the people who will treasure it.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You have a week to respond to each prompt. The best stories aren't polished — they're true. Speak as if you're sitting across the table from someone you love.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These weekly gifts will land in your family and friends' inboxes — eagerly awaited, deeply cherished.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">How it works</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Each prompt leads to one chapter.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 14px;"><strong>Each chapter is intended as a self-contained story.</strong></p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">The stories don't need to be told in chronological order from childhood to later years. Tell them as the memories surface.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You can ignore the prompts and tell whatever story you want to record on the day. 24 Stories is designed to give you the space, place, and time to start telling your loved ones who you are.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The finished collection, your Collected Stories, will be more than the sum of its parts.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your First Prompt</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt arrives on Wednesday.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Read the prompt and let a memory surface. The link in each prompt email works all week — you don't need to record the moment it arrives.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're ready, click the button to record your story or type it. Your words are transcribed automatically, then tidied up for you. Read through your story, edit as much as you like, and press Send when you're satisfied.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal archive for this entire journey. Your prompts unlock each week as your journey progresses — return to your library at any time to fill gaps, add photographs, or revisit your stories.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If at any point you choose to <a href="https://24stories.co.za/#subscribe" style="color:#B8976A;text-decoration:underline;">upgrade to the Bound Edition</a>, your library is where that journey continues — with professional editing, unique chapter titles, and a printed Legacy Book produced from your stories.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your library link is in every email from us. If you lose it, visit <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">www.24stories.co.za</a> and request the link.</p>
+
+  <a href="https://24stories.co.za/library.html?id=[LibraryToken]" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
+
+  <!-- CONDITIONAL STORY HELPER SECTION — only if StoryHelperName is populated -->
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px 0;">Your Story Helper</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">[StoryHelperName] is your designated helper.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your helper has been notified and will receive each prompt alongside you — ready to help with recording and uploading when you need it.</p>
+  <!-- END CONDITIONAL STORY HELPER SECTION -->
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 2 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 2 — <span class="status-live">✅ LIVE</span></div>
+    <div class="name">Gift Giver Confirmation</div>
+    <div class="trigger">To: Gift Giver only (if different from Storyteller) &nbsp;|&nbsp; When: first payment confirmed &nbsp;|&nbsp; Function: payfast-webhook-monthly.js</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [GiftGiverName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you for your purchase. You've given an extraordinary gift: the invitation for [StorytellerFirstName] to share life stories, week by week.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">[StorytellerFirstName] has received a welcome. The first prompt arrives on Wednesday, and soon these stories will begin landing in the inboxes of those who will treasure them.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">When the final story is told, the Collected Stories are compiled into a beautiful PDF — a lasting record of a life in their own words. If you'd like those stories to become a beautifully designed, professionally edited Legacy Book, you can upgrade to the Bound Edition at any time, and every monthly payment already made will be credited toward the cost.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 3 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 3 — <span class="status-live">✅ LIVE</span></div>
+    <div class="name">Story Helper Welcome</div>
+    <div class="trigger">To: Story Helper only (if different from Storyteller and Gift Giver) &nbsp;|&nbsp; When: first payment confirmed &nbsp;|&nbsp; Function: payfast-webhook-monthly.js</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">You've been named as <em>[StorytellerFirstName]</em>'s Story Helper.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StoryHelperName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">[StorytellerFirstName] is embarking on the 24 Stories memoir-writing journey, recording and sharing one story a week with friends and family — and has asked you to help make it a success.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your role is simple. You help [StorytellerFirstName] when stuck, remind [StorytellerFirstName] when the week slips by, and add the photographs and captions that bring the stories to life.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">What you'll do</p>
+
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Nudge gently, once a week.</strong> You'll receive the same weekly prompt that [StorytellerFirstName] receives. If five days have passed and no story has arrived in your inbox, a simple "Did you get your prompt this week?" is enough.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Help with recording or typing.</strong> Some storytellers need someone to sit with them the first few times. If that's you, that's a gift too.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add a photograph.</strong> Each story has room for one image. [StorytellerFirstName] can upload it directly — but if not, you can do it instead. Open the Story Library, find the relevant story, and upload from there. Photographs can be added at any time, in any order. Your link is below.</li>
+  </ul>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You'll receive a copy of each story as it's sent to the family. You don't need to do anything to make that happen — it's automatic.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <div style="border-top:3px solid #C0392B;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#C0392B;font-weight:bold;margin:0 0 14px;">The Story Library</p>
+    <p style="font-size:15px;color:#1A1A1A;line-height:1.8;margin:0 0 16px;">This is where you and [StorytellerFirstName] will find all the prompts, stories, and photographs. Open it from any device, at any time.</p>
+    <a href="https://24stories.co.za/library.html?id=[LibraryToken]" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open the library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="https://24stories.co.za/library.html?id=[LibraryToken]" style="color:#C0392B;text-decoration:underline;word-break:break-all;">https://24stories.co.za/library.html?id=[LibraryToken]</a></p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 4 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 4 — <span class="status-pending">🟡 PENDING</span></div>
+    <div class="name">Week 1 Prompt</div>
+    <div class="trigger">To: Storyteller + Story Helper &nbsp;|&nbsp; When: Wednesday week 1 &nbsp;|&nbsp; Function: send-weekly-prompts.js (needs tier-aware update)</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello [StorytellerFirstName].</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 16px;">Your memoir-writing journey begins today. Here's your first prompt.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Each prompt is intended as its own, self-contained story. Take your time and have fun with it. There's no right or wrong way to tell your story.</p>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week 1 — [WeekName] &nbsp;&middot;&nbsp; Theme: [Theme]</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">[PromptText]</p>
+    <div style="border-top:1px solid #E0DCD7;padding-top:16px;">
+      <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
+      <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">[OtherAngles]</p>
+    </div>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you're ready, this button takes you straight to your recording page.</p>
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Tell your story &#8594;</a>
+
+  <div style="background:#EFECEA;padding:32px;margin:0 0 32px;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">How 24 Stories works</p>
+    <ol style="margin:0;padding-left:22px;">
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each week you receive a prompt like this one.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">You have the whole week — take time to plan your story and come back when you're ready. The link is always active.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Click the button above to type your story or record it in your own voice.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">On the recording page, a drop-down guide walks you through the process step by step. Read it before you start — it takes a minute and makes the recording much smoother.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each story gives you the option to add a photograph and caption. If you don't have one on hand, you can return to your Story Library at any time to add it.</li>
+    </ol>
+    <p style="font-size:16px;color:#333;margin:16px 0 0;">You don't need to write well. You just need to tell it the way it happened.</p>
+  </div>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:16px;font-style:italic;color:#444;">Take your time. A story told slowly is a story told well.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return to your library at any time to fill gaps or add photographs.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 5 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 5 — <span class="status-pending">🟡 PENDING</span></div>
+    <div class="name">Day 4 Reminder</div>
+    <div class="trigger">To: Storyteller + Story Helper &nbsp;|&nbsp; When: Saturday if no story in 4 days &nbsp;|&nbsp; Function: send-day4-reminder.js (needs tier-aware update) &nbsp;|&nbsp; Not sent for weeks 25–26</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber] — a gentle nudge</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Still time to tell your story this week.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We haven't yet received your story for this week. No doubt your family would love to read it.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Here is your prompt again, in case you need it:</p>
+
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week [WeekNumber] — [WeekName]</p>
+    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin:20px 0 10px;">Theme</p>
+    <p style="font-size:16px;color:#333;font-style:italic;line-height:1.7;margin:0 0 16px;">[Theme]</p>
+    <p style="font-size:20px;line-height:1.7;font-style:italic;color:#1A1A1A;margin:0 0 20px;">[PromptText]</p>
+    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#666;margin:20px 0 10px;">Other angles</p>
+    <p style="font-size:16px;color:#333;line-height:1.7;margin:0;">[OtherAngles]</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Tell your story &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:16px;font-style:italic;color:#444;">Take your time. A story told slowly is a story told well.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:14px;color:#555;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+    <p style="font-size:14px;color:#555;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 6 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 6 — <span class="status-same">🔵 SAME AS BOUND EDITION</span></div>
+    <div class="name">Storyteller Story Confirmation (has family recipients)</div>
+    <div class="trigger">To: Storyteller &nbsp;|&nbsp; When: Tamara ticks SendToFamily — family emails exist &nbsp;|&nbsp; Functions: send-story-queue.js + approve-story.js &nbsp;|&nbsp; Note: chapter titles are generic for Monthly Memoir, not custom literary titles</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber] — your story</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story has been sent.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your story has been delivered to your family.<br>Here's exactly what they received.</p>
+
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    <p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">[ChapterTitle]</p>
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">[StoryText]</p>
+  </div>
+
+  <div style="margin:28px 0;">
+    <img src="[ImageURL]" alt="Photo" style="max-width:100%;height:auto;display:block;">
+    <p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">[Caption]</p>
+  </div>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;word-break:break-all;">[LibraryURL]</a></p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 6b -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 6b — <span class="status-same">🔵 SAME AS BOUND EDITION</span></div>
+    <div class="name">Storyteller Story Ready (no family recipients on file)</div>
+    <div class="trigger">To: Storyteller &nbsp;|&nbsp; When: Tamara ticks SendToFamily — no family emails &nbsp;|&nbsp; Functions: send-story-queue.js + approve-story.js</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber] — your story</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Great work! Here is your story, edited and ready to read. It will be stored in your Story Library which you can visit at any time.</p>
+
+  <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:24px 0;">
+    <p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 20px 0;line-height:1.4;">[ChapterTitle]</p>
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0;white-space:pre-wrap;">[StoryText]</p>
+  </div>
+
+  <div style="margin:28px 0;">
+    <img src="[ImageURL]" alt="Photo" style="max-width:100%;height:auto;display:block;">
+    <p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">[Caption]</p>
+  </div>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a><br>
+    <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;word-break:break-all;">[LibraryURL]</a></p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 7 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 7 — <span class="status-same">🔵 SAME AS BOUND EDITION</span></div>
+    <div class="name">Family Story Delivery</div>
+    <div class="trigger">To: Family recipients list (up to 5 for Monthly Memoir) + Story Helper &nbsp;|&nbsp; When: same trigger as email 6 &nbsp;|&nbsp; Functions: send-story-queue.js + approve-story.js</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week [WeekNumber]</p>
+  <p style="font-size:22px;font-weight:normal;margin:0 0 28px;line-height:1.4;">[StorytellerFirstName] has a story to share with you.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:22px;font-weight:normal;color:#1A1A1A;margin:0 0 24px;line-height:1.4;">[ChapterTitle]</p>
+  <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 40px;white-space:pre-wrap;">[StoryText]</p>
+
+  <div style="margin:28px 0 44px;">
+    <img src="[ImageURL]" alt="Photo from [StorytellerFirstName]" style="max-width:100%;height:auto;display:block;">
+    <p style="font-size:15px;color:#555;font-style:italic;margin:12px 0 0;line-height:1.7;">[Caption]</p>
+  </div>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there's a story you've always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+  </div>
+
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 8 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 8 — <span class="status-pending">🟡 PENDING</span></div>
+    <div class="name">Regular Weekly Prompt (Weeks 2–24)</div>
+    <div class="trigger">To: Storyteller + Story Helper &nbsp;|&nbsp; When: Wednesday weeks 2–24 &nbsp;|&nbsp; Function: send-weekly-prompts.js (needs tier-aware update) &nbsp;|&nbsp; Week 24 also fires Email 9 on same day</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 6px;">Hello [StorytellerFirstName], your story is ready to be told.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Here is this week's prompt.</p>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Week [WeekNumber] — [WeekName] &nbsp;&middot;&nbsp; Theme: [Theme]</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0 0 24px;">[PromptText]</p>
+    <div style="border-top:1px solid #E0DCD7;padding-top:16px;">
+      <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin:0 0 8px;">Other angles</p>
+      <p style="font-size:18px;color:#222;line-height:1.7;margin:0 0 20px;">[OtherAngles]</p>
+    </div>
+    <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Tell any story that moves you.</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:28px 0 32px;">Tell Your Story</a>
+
+  <p style="font-size:17px;color:#333;line-height:1.8;margin:0 0 28px;">Each story gives you the option to add a photograph and caption. If you don't have one on hand, you can return to your Story Library at any time to add it. <a href="[LibraryURL]" style="color:#B8976A;text-decoration:underline;">Open your library &#8594;</a></p>
+
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 32px;">Chapter [WeekNumber] of 26 — your memoir is growing.</p>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 9 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 9 — <span class="status-new">🟣 NEW — no Bound Edition equivalent</span></div>
+    <div class="name">Upgrade Prompt — "Two chapters to go"</div>
+    <div class="trigger">To: Storyteller only &nbsp;|&nbsp; When: Wednesday week 24 (alongside email 8) &nbsp;|&nbsp; Not sent if already upgraded &nbsp;|&nbsp; Function: send-weekly-prompts.js or book-onboarding-reminder.js (needs building)</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Two chapters to go</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your memoir is nearly complete.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-four weeks of stories. Twenty-four chapters sent to your family. Two more to go.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When your final story is told, your Collected Stories — all 26 chapters — will be compiled into a beautiful PDF. A record of your life in your own words, yours to keep and share.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One more thing to consider</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You've been writing and sharing stories every week. The people in your life have been reading them. What you've created is genuinely precious.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you'd like those stories to become something more — a professionally edited, beautifully designed Legacy Book, printed and delivered to your door — you can upgrade to the Bound Edition now.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Your upgrade credit</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You've made <strong>[PaymentsCount] monthly payments</strong>.</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Every one of those payments counts toward the Bound Edition. Upgrade now and pay only <strong>R[UpgradeAmount]</strong> — the remainder of the R6,795 Bound Edition price.</p>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This credit is only valid while your journey is active.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What you'd receive with the Bound Edition:</p>
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">Professional editing — every story carefully shaped</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">Unique chapter titles written for each of your stories</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">A beautifully designed hardcover Legacy Book, printed and delivered</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;color:#222;">Up to 10 family members receiving your stories each week</li>
+  </ul>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, simply write to us and we'll arrange everything.</p>
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">Upgrade to the Bound Edition &#8594;</a>
+  <p style="font-size:14px;color:#666;margin:0 0 36px;">Or email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> with the subject "Upgrade".</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 10 — N/A -->
+<div class="na-divider">
+  <div class="na-box">
+    <strong>Email 10 — NOT SENT TO MONTHLY MEMOIR SUBSCRIBERS</strong><br>
+    In the Bound Edition flow, email-10 is the book onboarding reminder (day 3 and day 6 after week 24). Monthly Memoir subscribers have no Legacy Book and no book onboarding sequence. This number is unused.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 11 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 11 — <span class="status-new">🟣 NEW — no Bound Edition equivalent</span></div>
+    <div class="name">Collected Stories Notice — "One story to go"</div>
+    <div class="trigger">To: Storyteller only &nbsp;|&nbsp; When: day 1 after week 26 prompt &nbsp;|&nbsp; Not sent if already upgraded &nbsp;|&nbsp; Function: book-onboarding-reminder.js (needs tier-aware update)</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One story to go</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Almost there, [StorytellerFirstName].</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your final prompt arrived yesterday. When you tell this last story, your Collected Stories will be complete — twenty-six chapters of your life, told in your own voice.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We wanted to take a moment to tell you what happens next.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">What comes at the end</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Once your final monthly payment is processed and your six-month journey is complete, your Collected Stories will be compiled into a beautiful PDF. It's yours to save, print, share with family, and keep.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you'd like more than a PDF — if you want your stories to exist as a printed, beautifully designed Legacy Book — there's still time to upgrade.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Your upgrade credit</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You've made <strong>[PaymentsCount] monthly payments</strong>. Every one of those payments is credited toward the Bound Edition price.</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Upgrade now for <strong>R[UpgradeAmount]</strong> — the difference between what you've paid and the R6,795 Bound Edition total.</p>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This credit is only valid while your journey is active. Once your subscription ends, the upgrade offer expires.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, write to us at <a href="mailto:hello@24stories.co.za?subject=Upgrade%20to%20Bound%20Edition" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> or click below.</p>
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Upgrade to the Bound Edition &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 12 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 12 — <span class="status-new">🟣 NEW — no Bound Edition equivalent</span></div>
+    <div class="name">PDF Delivery + Final Upgrade Offer</div>
+    <div class="trigger">To: Storyteller (+ Gift Giver if different) &nbsp;|&nbsp; When: PaymentsCount reaches 6 &nbsp;|&nbsp; Function: send-story-queue.js (needs tier-aware update)</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story journey is complete.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Six months. Twenty-six prompts. Stories your family has been reading all along — and now they're all yours to keep.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Collected Stories are being compiled into a PDF. It will arrive in your inbox shortly — all twenty-six chapters, formatted and ready to save, print, and share.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One last thing</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You've now made all six monthly payments — which means you have R2,370 in credit toward the Bound Edition. That credit doesn't carry over once your subscription ends. This is the last moment to use it.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Upgrade to the Bound Edition — R[UpgradeAmount]</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Your six payments are credited in full. Upgrade now and receive:</p>
+    <ul style="list-style:none;padding:0;margin:0 0 14px;">
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;border-bottom:1px solid #D0CCC6;color:#222;">Professional editing of every story</li>
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;border-bottom:1px solid #D0CCC6;color:#222;">Unique chapter titles written for each piece</li>
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;color:#222;">A beautifully designed hardcover Legacy Book, printed and delivered to your door</li>
+    </ul>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This offer expires once your subscription closes.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, write to us at <a href="mailto:hello@24stories.co.za?subject=Upgrade%20to%20Bound%20Edition" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>. We'll send you a payment link immediately.</p>
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Upgrade to the Bound Edition &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Whatever you choose, thank you. You chose to tell your stories. Your family is richer for it.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Any questions — please get in touch.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAILS 13, 14, 15 — N/A -->
+<div class="na-divider">
+  <div class="na-box">
+    <strong>Email 13 — NOT SENT TO MONTHLY MEMOIR SUBSCRIBERS</strong><br>
+    Late delivery apology. Monthly Memoir subscribers receive no physical book and no physical delivery. Not applicable.
+  </div>
+</div>
+<div class="na-divider" style="margin-top:8px;">
+  <div class="na-box">
+    <strong>Email 14 — NOT SENT TO MONTHLY MEMOIR SUBSCRIBERS</strong><br>
+    Extra copies confirmation. Monthly Memoir subscribers cannot order extra copies of a book. Not applicable.
+  </div>
+</div>
+<div class="na-divider" style="margin-top:8px;">
+  <div class="na-box">
+    <strong>Email 15 — NOT SENT TO MONTHLY MEMOIR SUBSCRIBERS</strong><br>
+    Pause confirmation. Pause is a Bound Edition benefit only — upfront payers who need to stop temporarily. Monthly Memoir subscribers cancel (debit stops automatically). Cancellation is handled by Email D below.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 16 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 16 — <span class="status-same">🔵 SAME AS BOUND EDITION</span></div>
+    <div class="name">Refund Confirmation (manual, exceptional only)</div>
+    <div class="trigger">To: Storyteller or Gift Giver &nbsp;|&nbsp; When: manually sent by Tamara from hello@ in exceptional circumstances &nbsp;|&nbsp; Policy: non-refundable both tiers</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Refund</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your refund has been processed.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [FirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">As discussed, your refund of R[Amount] has been processed. It may take a few business days to reflect in your account, depending on your bank.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We're sorry that this journey didn't unfold as you'd hoped. If there's anything we can do differently in future, we'd genuinely like to hear it.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 25 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 25 — <span class="status-same">🔵 SAME AS BOUND EDITION (locked)</span></div>
+    <div class="name">Legacy Part I — "Who I Am Now"</div>
+    <div class="trigger">To: Storyteller + Story Helper &nbsp;|&nbsp; When: Wednesday week 25 &nbsp;|&nbsp; Function: send-weekly-prompts.js &nbsp;|&nbsp; No day-4 reminder sent for weeks 25–26</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-four weeks of stories told. Twenty-four chapters of your life, preserved.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This week is different.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You've spent this journey looking back. This week, we ask you to look up. Tell your family who you are right now. What fills your days? What still matters? What are you still figuring out? This is your self-portrait. Your family will treasure it more than you know.</p>
+
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In all of us there is a hunger, marrow-deep, to know our heritage — to know who we are and where we have come from. Without this enriching knowledge, there is a hollow yearning.&rdquo;</p>
+    <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
+  </div>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:32px 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week 25 &mdash; Legacy (Part I) &nbsp;&middot;&nbsp; Theme: Who I Am Now</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0;">[PromptText]</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:8px 0 32px;">Tell Your Story</a>
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 8px;">Chapter 25 of 26 — one more to go.</p>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL 26 -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email 26 — <span class="status-same">🔵 SAME AS BOUND EDITION (locked)</span></div>
+    <div class="name">Legacy Part II — "What I Know Now" (final prompt)</div>
+    <div class="trigger">To: Storyteller + Story Helper &nbsp;|&nbsp; When: Wednesday week 26 &nbsp;|&nbsp; Function: send-weekly-prompts.js &nbsp;|&nbsp; After this: Email 11 fires day 1</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This is your final prompt, and probably the most meaningful.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">For this last chapter, we ask something different. Not a story — a list.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The lessons you've learned. The rules you live by. What you know to be true that you'd want your children, and their children, to carry with them long after you're gone.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Write as many or as few as you like. There's no right or wrong way — only your way.</p>
+
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In every conceivable manner, the family is a link to our past, a bridge to our future.&rdquo;</p>
+    <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
+  </div>
+
+  <div style="border:2px solid #B8976A;padding:32px;margin:32px 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week 26 &mdash; Legacy (Part II) &nbsp;&middot;&nbsp; Theme: What I Know Now</p>
+    <p style="font-size:20px;line-height:1.8;font-style:italic;color:#1A1A1A;margin:0;">[PromptText]</p>
+  </div>
+
+  <a href="[TellURL]" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:8px 0 32px;">Tell Your Story</a>
+  <p style="font-size:14px;font-style:italic;color:#999;line-height:1.9;margin:0 0 8px;">Twenty-six chapters complete. Your Legacy Book is ready to compile.</p>
+
+  <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
+    <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
+    <a href="[LibraryURL]" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Your prompts unlock each week as your journey progresses. Return at any time to fill gaps or add photographs.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL D -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email D — <span class="status-live">✅ LIVE</span></div>
+    <div class="name">Cancellation Confirmation (no Bound Edition equivalent)</div>
+    <div class="trigger">To: Storyteller &nbsp;|&nbsp; When: PayFast sends CANCELLED IPN &nbsp;|&nbsp; Function: payfast-webhook-monthly.js &nbsp;|&nbsp; Also writes CancellationDate + Status = Cancelled to Airtable</div>
+  </div>
+</div>
+<div class="email-outer">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your story journey has ended for now</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your subscription has been cancelled. You'll receive no further charges from 24 Stories.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We're sorry to see you go.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library remains active for the next 72 hours, in case you change your mind. After that, you'll no longer have access to it.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">We hope this is a "see you later" and not a final goodbye.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════ EMAIL C -->
+<div class="email-divider">
+  <div class="email-label">
+    <div class="num">Email C — <span class="status-live">✅ LIVE</span></div>
+    <div class="name">Upgrade Confirmed (no Bound Edition equivalent)</div>
+    <div class="trigger">To: Storyteller (+ Gift Giver if different) &nbsp;|&nbsp; When: upgrade payment complete (custom_str2 = 'upgrade') &nbsp;|&nbsp; Function: payfast-webhook-monthly.js &nbsp;|&nbsp; Signed by Tamara personally</div>
+  </div>
+</div>
+<div class="email-outer" style="padding-bottom:80px;">
+<div class="email">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your upgrade is confirmed</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your upgrade to the Bound Edition is confirmed — and I'm so pleased you chose this path.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You originally began with our Monthly Memoir offering, which is a beautiful way to start gathering stories. By upgrading to the Bound Edition, you're turning those stories into something far more lasting: a Legacy Book your family can hold, read, keep, and return to for generations.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">It's the difference between preserving memories and creating an heirloom.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What happens now:</p>
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;border-bottom:1px solid #E0DCD7;color:#222;">All 26 prompts are now unlocked in your Story Library</li>
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;border-bottom:1px solid #E0DCD7;color:#222;">The book onboarding section of your library is now active</li>
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;color:#222;">All stories you've already submitted will receive the full editorial treatment — professional editing, unique chapter titles</li>
+  </ul>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Once your collection and book onboarding are complete, we'll guide the work into its final form: shaped with care, edited with sensitivity, and designed as a keepsake worthy of the life it represents.</p>
+
+  <a href="[LibraryURL]" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">You've made a wonderful choice. Thank you for trusting us with something so personal and important.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">Warmly,<br>Tamara Rothbart<br><em style="font-size:15px;color:#666;">Founder, 24 Stories</em></p>
+
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+
+</body>
+</html>

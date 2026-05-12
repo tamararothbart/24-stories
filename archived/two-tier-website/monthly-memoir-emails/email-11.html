@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 11 — Collected Stories notice: fires day 1 after Week 26 prompt</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .new { background: #3a0060; color: #d4a8ff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 11 — COLLECTED STORIES NOTICE (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-11 is book onboarding overdue — THIS IS A DIFFERENT EMAIL</strong><br>
+  Trigger: Daily 9am SAST — PromptNumber = 26, day 1 after LastPromptSentDate &nbsp;|&nbsp; To: Storyteller only<br>
+  Function: <strong>book-onboarding-reminder.js</strong> — needs tier-aware update<br>
+  Status: <strong style="color:#6a1b9a;">🟣 NEW — no Bound Edition equivalent</strong><br><br>
+  Stop condition: SubscriberTier = bound_edition (already upgraded) — do not send if upgraded.<br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">PaymentsCount</span>
+  <span class="var">UpgradeAmount</span> (= 6795 &minus; PaymentsCount &times; 395)
+  <span class="var">LibraryURL</span><br><br>
+  <span class="new">NEW</span> Replaces BE email-11 (book onboarding overdue). Fires the day after the final prompt arrives — one story left to tell. Explains what happens at end of journey and extends upgrade offer.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One story to go</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Almost there, [StorytellerFirstName].</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your final prompt arrived yesterday. When you tell this last story, your Collected Stories will be complete — twenty-six chapters of your life, told in your own voice.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We wanted to take a moment to tell you what happens next.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">What comes at the end</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Once your final monthly payment is processed and your six-month journey is complete, your Collected Stories will be compiled into a beautiful PDF. It's yours to save, print, share with family, and keep.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you'd like more than a PDF — if you want your stories to exist as a printed, beautifully designed Legacy Book — there's still time to upgrade.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Your upgrade credit</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You've made <strong>[PaymentsCount] monthly payments</strong>. Every one of those payments is credited toward the Bound Edition price.</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Upgrade now for <strong>R[UpgradeAmount]</strong> — the difference between what you've paid and the R6,795 Bound Edition total.</p>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This credit is only valid while your journey is active. Once your subscription ends, the upgrade offer expires.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, write to us at <a href="mailto:hello@24stories.co.za?subject=Upgrade%20to%20Bound%20Edition" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> or click below.</p>
+
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Upgrade to the Bound Edition &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

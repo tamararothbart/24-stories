@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 12 — PDF delivery: fires when PaymentsCount reaches 6</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .new { background: #3a0060; color: #d4a8ff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 12 — PDF DELIVERY (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-12 is book sent to print — THIS IS A DIFFERENT EMAIL</strong><br>
+  Trigger: send-story-queue.js — fires when PaymentsCount reaches 6 &nbsp;|&nbsp; To: Storyteller (and Gift Giver if different)<br>
+  Function: <strong>send-story-queue.js</strong> — needs tier-aware update<br>
+  Status: <strong style="color:#6a1b9a;">🟣 NEW — no Bound Edition equivalent</strong><br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">PaymentsCount</span> (= 6 at this point)
+  <span class="var">UpgradeAmount</span> (= 6795 &minus; 6 &times; 395 = R4,425)
+  <span class="var">LibraryURL</span><br><br>
+  <span class="new">NEW</span> Replaces BE email-12 (book sent to print). This is the end-of-subscription email for Monthly Memoir. Signals journey complete, PDF coming, upgrade offer with final credit.<br><br>
+  Note: PDF generation mechanism is not yet built. For now, copy says PDF is being prepared and will arrive shortly. When PDF mechanism is determined, update the delivery paragraph.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Collected Stories</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your story journey is complete.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Six months. Twenty-six prompts. Stories your family has been reading all along — and now they're all yours to keep.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Collected Stories are being compiled into a PDF. It will arrive in your inbox shortly — all twenty-six chapters, formatted and ready to save, print, and share.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One last thing</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You've now made all six monthly payments — which means you have R2,370 in credit toward the Bound Edition. That credit doesn't carry over once your subscription ends. This is the last moment to use it.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Upgrade to the Bound Edition — R[UpgradeAmount]</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Your six payments are credited in full. Upgrade now and receive:</p>
+    <ul style="list-style:none;padding:0;margin:0 0 14px;">
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;border-bottom:1px solid #D0CCC6;color:#222;">Professional editing of every story</li>
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;border-bottom:1px solid #D0CCC6;color:#222;">Unique chapter titles written for each piece</li>
+      <li style="font-size:16px;line-height:1.9;padding:8px 0;color:#222;">A beautifully designed hardcover Legacy Book, printed and delivered to your door</li>
+    </ul>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This offer expires once your subscription closes.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, write to us at <a href="mailto:hello@24stories.co.za?subject=Upgrade%20to%20Bound%20Edition" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>. We'll send you a payment link immediately.</p>
+
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Upgrade to the Bound Edition &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Whatever you choose, thank you. You chose to tell your stories. Your family is richer for it.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Any questions — please get in touch.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

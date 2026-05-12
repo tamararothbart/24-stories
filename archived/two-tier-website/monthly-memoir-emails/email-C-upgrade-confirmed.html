@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email C — Upgrade confirmed: fires when subscriber upgrades to Bound Edition</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .new { background: #3a0060; color: #d4a8ff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL C — UPGRADE CONFIRMED (MONTHLY MEMOIR → BOUND EDITION)</strong><br>
+  Bound Edition equivalent: <strong>none — new email, no BE equivalent</strong><br>
+  Trigger: PayFast payment_status = COMPLETE with custom_str2 = 'upgrade' &nbsp;|&nbsp; To: Storyteller (and Gift Giver if different)<br>
+  Function: <strong>payfast-webhook-monthly.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE — inline in webhook</strong><br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span> (or GiftGiverName for the gift giver copy)
+  <span class="var">LibraryURL</span><br><br>
+  <span class="new">NEW</span> No Bound Edition equivalent. Fires when upgrade payment completes. Also writes UpgradeDate, sets SubscriberTier = bound_edition, Status = Active in Airtable.<br>
+  Sign-off is personal — "Tamara Rothbart, Founder" not "The 24 Stories Team".
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your upgrade is confirmed</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your upgrade to the Bound Edition is confirmed — and I'm so pleased you chose this path.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You originally began with our Monthly Memoir offering, which is a beautiful way to start gathering stories. By upgrading to the Bound Edition, you're turning those stories into something far more lasting: a Legacy Book your family can hold, read, keep, and return to for generations.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">It's the difference between preserving memories and creating an heirloom.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What happens now:</p>
+
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;border-bottom:1px solid #E0DCD7;color:#222;">All 26 prompts are now unlocked in your Story Library</li>
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;border-bottom:1px solid #E0DCD7;color:#222;">The book onboarding section of your library is now active</li>
+    <li style="font-size:16px;line-height:1.9;padding:10px 0;color:#222;">All stories you've already submitted will receive the full editorial treatment — professional editing, unique chapter titles</li>
+  </ul>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Once your collection and book onboarding are complete, we'll guide the work into its final form: shaped with care, edited with sensitivity, and designed as a keepsake worthy of the life it represents.</p>
+
+  <a href="[LibraryURL]" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">You've made a wonderful choice. Thank you for trusting us with something so personal and important.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">Warmly,<br>Tamara Rothbart<br><em style="font-size:15px;color:#666;">Founder, 24 Stories</em></p>
+
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

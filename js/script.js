@@ -67,70 +67,25 @@ document.addEventListener('DOMContentLoaded', () => {
     var PAYFAST_URL          = PAYFAST_USE_SANDBOX ? PAYFAST_SANDBOX_URL : PAYFAST_LIVE_URL;
 
     // Netlify function endpoints
-    var CHECKOUT_BOUND_URL   = '/.netlify/functions/checkout';
-    var CHECKOUT_MONTHLY_URL = '/.netlify/functions/checkout-monthly';
-    var NOTIFY_BOUND_URL     = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
-    var NOTIFY_MONTHLY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook-monthly';
-
-    // ============================
-    // Plan-aware helpers
-    // ============================
-    function getSelectedPlan(formEl) {
-        var planInput = formEl.querySelector('[name="g-plan"]:checked') || formEl.querySelector('[name="s-plan"]:checked');
-        return planInput ? planInput.value : 'bound_edition';
-    }
-
-    function maxRecipients(plan) {
-        return plan === 'monthly_memoir' ? 5 : 10;
-    }
-
-    function updateSubmitBtn(formEl, plan) {
-        var btn = formEl.querySelector('button[type="submit"]');
-        if (!btn) return;
-        if (plan === 'monthly_memoir') {
-            btn.textContent = 'Start my story — R395/month';
-        } else {
-            btn.textContent = formEl.id === 'giftForm' ? 'Give This Gift — R6,795' : 'Start My Story — R6,795';
-        }
-    }
-
-    // Wire plan card clicks in a form to update recipients + button
-    function wirePlanCards(formEl, refreshFn) {
-        formEl.querySelectorAll('.form-plan-card input[type="radio"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                var plan = getSelectedPlan(formEl);
-                updateSubmitBtn(formEl, plan);
-                refreshFn();
-            });
-        });
-    }
+    var CHECKOUT_URL = '/.netlify/functions/checkout';
+    var NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
 
     // Build PayFast params and submit programmatic form
-    function redirectToPayFast(recordId, plan, firstName, email, itemName) {
-        var isMonthly = plan === 'monthly_memoir';
-        var notifyUrl = isMonthly ? NOTIFY_MONTHLY_URL : NOTIFY_BOUND_URL;
-
+    // Amount, subscription_type, recurring_amount, frequency, cycles set in Session 2
+    function redirectToPayFast(recordId, firstName, email, itemName) {
         var params = {
             merchant_id:  PAYFAST_MERCHANT_ID,
             merchant_key: PAYFAST_MERCHANT_KEY,
             return_url:   'https://24stories.co.za/thank-you.html',
             cancel_url:   'https://24stories.co.za/#subscribe',
-            notify_url:   notifyUrl,
+            notify_url:   NOTIFY_URL,
             name_first:   firstName,
             email_address: email,
             m_payment_id: recordId,
-            amount:       isMonthly ? '395.00' : '6795.00',
+            amount:       'TBD',
             item_name:    itemName,
             custom_str1:  recordId
         };
-
-        if (isMonthly) {
-            params.subscription_type = '1';
-            params.billing_date      = new Date().toISOString().slice(0, 10);
-            params.recurring_amount  = '395.00';
-            params.frequency         = '3';
-            params.cycles            = '6';
-        }
 
         if (PAYFAST_PASSPHRASE) {
             params.passphrase = PAYFAST_PASSPHRASE;
@@ -149,14 +104,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.appendChild(form);
         form.submit();
     }
-
-    // Pre-select plan based on data-plan on the CTA that was clicked
-    window._selectedPlan = 'bound_edition';
-    document.querySelectorAll('[data-plan]').forEach(function(el) {
-        el.addEventListener('click', function() {
-            window._selectedPlan = this.dataset.plan || 'bound_edition';
-        });
-    });
 
     // ============================
     // Form type toggle
@@ -373,8 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function refreshGiftRecipients() {
             const autoEmails = getGiftAutoEmails();
             const helperType = giftForm.querySelector('[name="g-helper-type"]:checked')?.value || 'me';
-            const plan       = getSelectedPlan(giftForm);
-            const max        = maxRecipients(plan);
+            const max        = 10;
             const autoCount  = autoEmails.filter(Boolean).length;
             const remaining  = max - autoCount;
             const instr = document.getElementById('g-recipient-instruction');
@@ -383,8 +329,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     instr.textContent = `Add as many as you like — up to ${max}.`;
                 } else if (autoCount === 2) {
                     instr.textContent = `Your email and your Story Helper's have been added automatically. Add up to ${remaining} more family members below.`;
-                } else if (helperType === 'storyteller') {
-                    instr.textContent = `Your email has been added automatically. Add up to ${remaining} more family members below.`;
                 } else {
                     instr.textContent = `Your email has been added automatically. Add up to ${remaining} more family members below.`;
                 }
@@ -406,16 +350,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial build
         refreshGiftRecipients();
 
-        // Wire plan card changes
-        wirePlanCards(giftForm, refreshGiftRecipients);
-
-        // Pre-select plan if CTA carried a data-plan value
-        (function() {
-            var plan = window._selectedPlan || 'bound_edition';
-            var radio = giftForm.querySelector('[name="g-plan"][value="' + plan + '"]');
-            if (radio) { radio.checked = true; updateSubmitBtn(giftForm, plan); }
-        })();
-
         giftForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const btn = giftForm.querySelector('button[type="submit"]');
@@ -434,11 +368,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const helperEmail          = helperType === 'me'    ? giverEmail
                                        : helperType === 'other' ? (gHelperEmailInput?.value.trim() || '')
                                        : '';
-            const plan         = getSelectedPlan(giftForm);
             const FamilyEmails = buildFamilyEmails(giftForm, 'g-recipient');
-            const checkoutUrl  = plan === 'monthly_memoir' ? CHECKOUT_MONTHLY_URL : CHECKOUT_BOUND_URL;
 
-            fetch(checkoutUrl, {
+            fetch(CHECKOUT_URL, {
                 method  : 'POST',
                 headers : { 'Content-Type': 'application/json' },
                 body    : JSON.stringify({
@@ -455,8 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(r => r.json())
             .then(data => {
                 if (data.record_id) {
-                    redirectToPayFast(data.record_id, plan, storytellerFirstName, storytellerEmail,
-                        plan === 'monthly_memoir' ? '24 Stories — Monthly Memoir' : '24 Stories — Legacy Book Journey');
+                    redirectToPayFast(data.record_id, storytellerFirstName, storytellerEmail, '24 Stories');
                 } else {
                     btn.textContent = 'Something went wrong. Please try again.';
                     btn.disabled = false;
@@ -490,8 +421,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function refreshSelfRecipients() {
             const autoEmails = getSelfAutoEmails();
-            const plan       = getSelectedPlan(selfForm);
-            const max        = maxRecipients(plan);
+            const max        = 10;
             const autoCount  = autoEmails.filter(Boolean).length;
             const remaining  = max - autoCount;
             const instr = document.getElementById('s-recipient-instruction');
@@ -516,16 +446,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Initial build
         refreshSelfRecipients();
 
-        // Wire plan card changes
-        wirePlanCards(selfForm, refreshSelfRecipients);
-
-        // Pre-select plan if CTA carried a data-plan value
-        (function() {
-            var plan = window._selectedPlan || 'bound_edition';
-            var radio = selfForm.querySelector('[name="s-plan"][value="' + plan + '"]');
-            if (radio) { radio.checked = true; updateSubmitBtn(selfForm, plan); }
-        })();
-
         selfForm.addEventListener('submit', function (e) {
             e.preventDefault();
             const btn = selfForm.querySelector('button[type="submit"]');
@@ -538,11 +458,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const addHelper        = sAddHelper.checked;
             const helperName       = addHelper ? (document.getElementById('s-helper-name')?.value.trim()  || '') : '';
             const helperEmail      = addHelper ? (sHelperEmailInput?.value.trim() || '') : '';
-            const plan             = getSelectedPlan(selfForm);
             const FamilyEmails     = buildFamilyEmails(selfForm, 's-recipient');
-            const checkoutUrl      = plan === 'monthly_memoir' ? CHECKOUT_MONTHLY_URL : CHECKOUT_BOUND_URL;
 
-            fetch(checkoutUrl, {
+            fetch(CHECKOUT_URL, {
                 method  : 'POST',
                 headers : { 'Content-Type': 'application/json' },
                 body    : JSON.stringify({
@@ -559,8 +477,7 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(r => r.json())
             .then(data => {
                 if (data.record_id) {
-                    redirectToPayFast(data.record_id, plan, storytellerFirst, storytellerEmail,
-                        plan === 'monthly_memoir' ? '24 Stories — Monthly Memoir' : '24 Stories — Legacy Book Journey');
+                    redirectToPayFast(data.record_id, storytellerFirst, storytellerEmail, '24 Stories');
                 } else {
                     btn.textContent = 'Something went wrong. Please try again.';
                     btn.disabled = false;

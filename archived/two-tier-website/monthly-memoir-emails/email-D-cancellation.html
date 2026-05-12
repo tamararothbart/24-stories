@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email D — Cancellation confirmation: fires on PayFast CANCELLED IPN</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .new { background: #3a0060; color: #d4a8ff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL D — CANCELLATION CONFIRMATION (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>none — new email, no BE equivalent</strong><br>
+  Trigger: PayFast payment_status = CANCELLED &nbsp;|&nbsp; To: Storyteller<br>
+  Function: <strong>payfast-webhook-monthly.js</strong><br>
+  Status: <strong style="color:#4CAF50;">✅ LIVE — inline in webhook</strong><br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span><br><br>
+  <span class="new">NEW</span> No Bound Edition equivalent. Fires automatically when PayFast sends a CANCELLED status IPN. Also writes CancellationDate and Status = Cancelled to Airtable.<br><br>
+  Note: Library remains active for 72 hours after cancellation. After that, library access should be locked (not yet implemented in library.html — future work).
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your story journey has ended for now</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your subscription has been cancelled. You'll receive no further charges from 24 Stories.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We're sorry to see you go.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library remains active for the next 72 hours, in case you change your mind. After that, you'll no longer have access to it.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">We hope this is a "see you later" and not a final goodbye.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MM Email 9 — Upgrade prompt: fires alongside Week 24 prompt</title>
+<style>
+  body { margin: 0; padding: 0; background: #E8E4DF; font-family: Georgia, serif; }
+  .meta { background: #1A1A1A; color: #fff; padding: 16px 24px; font-family: Arial, sans-serif; font-size: 13px; line-height: 1.7; }
+  .meta strong { color: #B8976A; }
+  .meta .var { background: #333; color: #B8976A; padding: 1px 6px; border-radius: 3px; font-size: 11px; font-family: monospace; }
+  .meta .new { background: #3a0060; color: #d4a8ff; padding: 1px 6px; border-radius: 3px; font-size: 11px; }
+  .wrapper { max-width: 640px; margin: 40px auto; padding: 0 20px 60px; }
+  .email { background: #F7F5F2; padding: 48px 40px; color: #1A1A1A; }
+</style>
+</head>
+<body>
+
+<div class="meta">
+  <strong>MM EMAIL 9 — UPGRADE PROMPT (MONTHLY MEMOIR)</strong><br>
+  Bound Edition equivalent: <strong>email-9 is book onboarding — THIS IS A DIFFERENT EMAIL</strong><br>
+  Trigger: Wednesday 7am SAST — fires alongside email-8 when WeekNumber = 24 &nbsp;|&nbsp; To: Storyteller only<br>
+  Function: <strong>send-weekly-prompts.js</strong> OR <strong>book-onboarding-reminder.js</strong> — needs building<br>
+  Status: <strong style="color:#6a1b9a;">🟣 NEW — no Bound Edition equivalent</strong><br><br>
+  Stop condition: SubscriberTier = bound_edition (has already upgraded) — do not send if already upgraded.<br><br>
+  Variables:
+  <span class="var">StorytellerFirstName</span>
+  <span class="var">PaymentsCount</span> (number of payments made so far)
+  <span class="var">UpgradeAmount</span> (= 6795 &minus; PaymentsCount &times; 395, calculated by function)
+  <span class="var">LibraryURL</span><br><br>
+  <span class="new">NEW</span> Replaces BE email-9 (book onboarding). Purpose: invite upgrade while credit is large and upgrade opportunity is still meaningful.<br>
+  Note on upgrade link: checkout-upgrade.js is not yet built. For now, CTA directs to hello@24stories.co.za.
+</div>
+
+<div class="wrapper">
+<div class="email">
+
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Two chapters to go</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your memoir is nearly complete.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello [StorytellerFirstName],</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-four weeks of stories. Twenty-four chapters sent to your family. Two more to go.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When your final story is told, your Collected Stories — all 26 chapters — will be compiled into a beautiful PDF. A record of your life in your own words, yours to keep and share.</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">One more thing to consider</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You've been writing and sharing stories every week. The people in your life have been reading them. What you've created is genuinely precious.</p>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you'd like those stories to become something more — a professionally edited, beautifully designed Legacy Book, printed and delivered to your door — you can upgrade to the Bound Edition now.</p>
+
+  <div style="background:#EFECEA;padding:32px;margin:32px 0;">
+    <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">Your upgrade credit</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">You've made <strong>[PaymentsCount] monthly payments</strong>.</p>
+    <p style="font-size:17px;line-height:1.9;margin:0 0 14px;">Every one of those payments counts toward the Bound Edition. Upgrade now and pay only <strong>R[UpgradeAmount]</strong> — the remainder of the R6,795 Bound Edition price.</p>
+    <p style="font-size:15px;color:#555;line-height:1.8;margin:0;">This credit is only valid while your journey is active.</p>
+  </div>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What you'd receive with the Bound Edition:</p>
+
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">Professional editing — every story carefully shaped</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">Unique chapter titles written for each of your stories</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;border-bottom:1px solid #E0DCD7;color:#222;">A beautifully designed hardcover Legacy Book, printed and delivered</li>
+    <li style="font-size:16px;line-height:1.9;padding:12px 0;color:#222;">Up to 10 family members receiving your stories each week</li>
+  </ul>
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To upgrade, simply write to us and we'll arrange everything.</p>
+
+  <a href="mailto:hello@24stories.co.za?subject=I'd%20like%20to%20upgrade%20to%20the%20Bound%20Edition" style="display:inline-block;background:#B8976A;color:#ffffff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">Upgrade to the Bound Edition &#8594;</a>
+  <p style="font-size:14px;color:#666;margin:0 0 36px;">Or email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> with the subject "Upgrade".</p>
+
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+</div>
+</div>
+
+</body>
+</html>

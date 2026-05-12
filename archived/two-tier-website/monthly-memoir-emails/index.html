@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Monthly Memoir — Email Reference Index</title>
+<style>
+  body { margin: 0; padding: 40px 24px; background: #E8E4DF; font-family: Arial, sans-serif; font-size: 14px; color: #1A1A1A; }
+  h1 { font-family: Georgia, serif; font-size: 28px; font-weight: normal; margin: 0 0 8px; }
+  .sub { font-size: 15px; color: #555; margin: 0 0 40px; }
+  table { width: 100%; max-width: 900px; border-collapse: collapse; background: #F7F5F2; }
+  th { background: #1A1A1A; color: #B8976A; padding: 12px 16px; text-align: left; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; }
+  td { padding: 12px 16px; border-bottom: 1px solid #D0CCC6; vertical-align: top; line-height: 1.6; }
+  tr:last-child td { border-bottom: none; }
+  .num { font-weight: bold; white-space: nowrap; }
+  .live   { color: #2e7d32; font-weight: bold; }
+  .pending { color: #b86a00; font-weight: bold; }
+  .same   { color: #1565C0; font-weight: bold; }
+  .na     { color: #999; font-weight: bold; }
+  a { color: #B8976A; text-decoration: underline; }
+  .new    { color: #6a1b9a; font-weight: bold; }
+  .section { background: #1A1A1A; color: #fff; padding: 8px 16px; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; }
+  .section td { background: #1A1A1A; color: #ccc; border-bottom: none; font-size: 12px; }
+  .note { font-size: 12px; color: #777; margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<h1>Monthly Memoir — Email Reference</h1>
+<p class="sub">Numbers match the Bound Edition (upfront) email flow. Use this for side-by-side comparison.<br>
+Open each file to read the full email. Status shown at top of each file.</p>
+
+<table>
+<tr>
+  <th>#</th>
+  <th>Description</th>
+  <th>Trigger</th>
+  <th>Status vs BE</th>
+  <th>Key difference</th>
+</tr>
+
+<!-- SIGNUP -->
+<tr><td colspan="5" class="section">Signup (fires on first PayFast payment)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-1.html">1</a></td>
+  <td>Storyteller welcome</td>
+  <td>First payment complete</td>
+  <td class="live">✅ LIVE</td>
+  <td>Story Library: prompts unlock weekly (not all 26). No Legacy Book. Upgrade mention added.<div class="note">Function: payfast-webhook-monthly.js</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-2.html">2</a></td>
+  <td>Gift giver confirmation</td>
+  <td>First payment — gift only</td>
+  <td class="live">✅ LIVE</td>
+  <td>End product is PDF. Legacy Book replaced with upgrade offer.<div class="note">Function: payfast-webhook-monthly.js</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-3.html">3</a></td>
+  <td>Story Helper welcome</td>
+  <td>First payment — helper only</td>
+  <td class="live">✅ LIVE</td>
+  <td>"Legacy Book" removed throughout. Journey described as memoir-writing, not book production.<div class="note">Function: payfast-webhook-monthly.js</div></td>
+</tr>
+
+<!-- WEEK 1 -->
+<tr><td colspan="5" class="section">Week 1</td></tr>
+
+<tr>
+  <td class="num"><a href="email-4.html">4</a></td>
+  <td>Week 1 prompt</td>
+  <td>Wednesday, PromptNumber = 0</td>
+  <td class="pending">🟡 PENDING</td>
+  <td>Library note: prompts unlock weekly. Remove "all 26 available to race ahead".<div class="note">Function: send-weekly-prompts.js — needs tier-aware update</div></td>
+</tr>
+
+<!-- DAY 4 REMINDER -->
+<tr><td colspan="5" class="section">Day 4 reminder (repeats each week)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-5.html">5</a></td>
+  <td>Day 4 reminder</td>
+  <td>Saturday — no story in 4 days</td>
+  <td class="pending">🟡 PENDING</td>
+  <td>Library note: same change as email-4.<div class="note">Function: send-day4-reminder.js — needs tier-aware update</div></td>
+</tr>
+
+<!-- STORY SUBMITTED -->
+<tr><td colspan="5" class="section">Story submitted → edited → sent</td></tr>
+
+<tr>
+  <td class="num"><a href="email-6.html">6</a></td>
+  <td>Storyteller story confirmation (has recipients)</td>
+  <td>Tamara ticks SendToFamily — has family emails</td>
+  <td class="same">🔵 SAME</td>
+  <td>Template identical. Note: Monthly Memoir chapter titles are generic (week theme), not custom literary titles.<div class="note">Functions: send-story-queue.js, approve-story.js — need tier-aware update</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-6b.html">6b</a></td>
+  <td>Storyteller story ready (no recipients)</td>
+  <td>Tamara ticks SendToFamily — no family emails</td>
+  <td class="same">🔵 SAME</td>
+  <td>Template identical. No changes needed.<div class="note">Functions: send-story-queue.js, approve-story.js</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-7.html">7</a></td>
+  <td>Family story delivery</td>
+  <td>Same as 6 — to family list</td>
+  <td class="same">🔵 SAME</td>
+  <td>Template identical. Family experience is same for both tiers.<div class="note">Functions: send-story-queue.js, approve-story.js</div></td>
+</tr>
+
+<!-- WEEKLY PROMPTS -->
+<tr><td colspan="5" class="section">Weeks 2–24 (regular weekly prompt)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-8.html">8</a></td>
+  <td>Regular weekly prompt</td>
+  <td>Wednesday — weeks 2–24</td>
+  <td class="pending">🟡 PENDING</td>
+  <td>"Legacy Book is taking shape" → "your memoir is growing." Library note updated.<div class="note">Function: send-weekly-prompts.js — needs tier-aware update</div></td>
+</tr>
+
+<!-- WEEK 24 — UPGRADE PROMPT -->
+<tr><td colspan="5" class="section">Week 24 — upgrade prompt (replaces book onboarding)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-9.html">9</a></td>
+  <td>Upgrade prompt — "Two chapters to go"</td>
+  <td>Wednesday week 24, alongside email-8</td>
+  <td class="new">🟣 NEW</td>
+  <td>REPLACES BE email-9 (book onboarding). Upgrade offer with payment credit calculation.<div class="note">Function: send-weekly-prompts.js OR book-onboarding-reminder.js — needs building</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-10.html">10</a></td>
+  <td>Book onboarding reminder</td>
+  <td>Day 3 + day 6 after prompt 24</td>
+  <td class="na">⛔ N/A</td>
+  <td>Does not apply. No book to onboard. Email number preserved — no reordering.</td>
+</tr>
+<tr>
+  <td class="num"><a href="email-11.html">11</a></td>
+  <td>Collected Stories — week 26 notice</td>
+  <td>Day 1 after week 26 prompt</td>
+  <td class="new">🟣 NEW</td>
+  <td>REPLACES BE email-11 (book onboarding overdue). "One story to go. Here's what happens next." Upgrade offer included.<div class="note">Function: book-onboarding-reminder.js — needs tier-aware update</div></td>
+</tr>
+
+<!-- END OF JOURNEY -->
+<tr><td colspan="5" class="section">End of subscription (PaymentsCount = 6)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-12.html">12</a></td>
+  <td>PDF delivery</td>
+  <td>PaymentsCount reaches 6</td>
+  <td class="new">🟣 NEW</td>
+  <td>REPLACES BE email-12 (book sent to print). Delivers PDF of Collected Stories. Upgrade offer included.<div class="note">Function: send-story-queue.js — needs tier-aware update</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-13.html">13</a></td>
+  <td>Late delivery apology</td>
+  <td>Manual</td>
+  <td class="na">⛔ N/A</td>
+  <td>Does not apply. No physical delivery for Monthly Memoir.</td>
+</tr>
+<tr>
+  <td class="num"><a href="email-14.html">14</a></td>
+  <td>Extra copies confirmation</td>
+  <td>Extra copies payment</td>
+  <td class="na">⛔ N/A</td>
+  <td>Does not apply. No physical book, no extra copies for Monthly Memoir.</td>
+</tr>
+
+<!-- EXCEPTION HANDLING -->
+<tr><td colspan="5" class="section">Exception handling</td></tr>
+
+<tr>
+  <td class="num"><a href="email-15.html">15</a></td>
+  <td>Pause confirmation</td>
+  <td>Manual</td>
+  <td class="na">⛔ N/A</td>
+  <td>PAUSE IS BOUND EDITION ONLY. Monthly Memoir subscribers cancel. See Email D.</td>
+</tr>
+<tr>
+  <td class="num"><a href="email-16.html">16</a></td>
+  <td>Refund confirmation</td>
+  <td>Manual — exceptional</td>
+  <td class="same">🔵 SAME</td>
+  <td>Policy identical — non-refundable both tiers. Manual, exceptional. Template same.</td>
+</tr>
+
+<!-- LEGACY PROMPTS -->
+<tr><td colspan="5" class="section">Weeks 25–26 (same for both tiers — locked)</td></tr>
+
+<tr>
+  <td class="num"><a href="email-25.html">25</a></td>
+  <td>Legacy Part I — "Who I Am Now"</td>
+  <td>Wednesday week 25</td>
+  <td class="same">🔵 SAME</td>
+  <td>Identical to BE email-25. Locked decision: both tiers receive same email for weeks 25–26.<div class="note">Function: send-weekly-prompts.js</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-26.html">26</a></td>
+  <td>Legacy Part II — "What I Know Now"</td>
+  <td>Wednesday week 26</td>
+  <td class="same">🔵 SAME</td>
+  <td>Identical to BE email-26. Note: footnote references "Legacy Book" — review if needed.<div class="note">Function: send-weekly-prompts.js</div></td>
+</tr>
+
+<!-- NEW EMAILS (no BE equivalent) -->
+<tr><td colspan="5" class="section">New emails — no Bound Edition equivalent</td></tr>
+
+<tr>
+  <td class="num"><a href="email-D-cancellation.html">D</a></td>
+  <td>Cancellation confirmation</td>
+  <td>PayFast CANCELLED IPN</td>
+  <td class="live">✅ LIVE</td>
+  <td>Fires when PayFast sends cancellation. Library active 72h after cancellation.<div class="note">Function: payfast-webhook-monthly.js</div></td>
+</tr>
+<tr>
+  <td class="num"><a href="email-C-upgrade-confirmed.html">C</a></td>
+  <td>Upgrade confirmed</td>
+  <td>Upgrade payment complete</td>
+  <td class="live">✅ LIVE</td>
+  <td>Fires when subscriber upgrades to Bound Edition. Signed by Tamara Rothbart, Founder.<div class="note">Function: payfast-webhook-monthly.js</div></td>
+</tr>
+
+</table>
+
+<p style="margin-top: 40px; font-size: 13px; color: #888;">
+  Legend: ✅ LIVE — built and firing &nbsp;|&nbsp; 🟡 PENDING — template ready, function not yet tier-aware &nbsp;|&nbsp; 🔵 SAME — identical to BE email &nbsp;|&nbsp; 🟣 NEW — no BE equivalent &nbsp;|&nbsp; ⛔ N/A — does not apply to Monthly Memoir
+</p>
+
+</body>
+</html>

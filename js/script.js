@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================
     // PayFast config (set MERCHANT_ID + MERCHANT_KEY before launch)
     // ============================
-    var PAYFAST_MERCHANT_ID  = 'YOUR_PAYFAST_MERCHANT_ID';
-    var PAYFAST_MERCHANT_KEY = 'YOUR_PAYFAST_MERCHANT_KEY';
+    var PAYFAST_MERCHANT_ID  = '34556163';
+    var PAYFAST_MERCHANT_KEY = 'liduaqfvjfeox';
     var PAYFAST_PASSPHRASE   = '';
     var PAYFAST_LIVE_URL     = 'https://www.payfast.co.za/eng/process';
     var PAYFAST_SANDBOX_URL  = 'https://sandbox.payfast.co.za/eng/process';

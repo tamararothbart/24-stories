@@ -1,7 +1,52 @@
 # Coaching Upsell Email Sequence
 
-Four emails from Tamara personally to existing subscribers.
+Five emails from Tamara personally to existing subscribers.
 All sent from hello@24stories.co.za. Trigger logic via Netlify Function — not yet built.
+
+---
+
+## EMAIL 0 — Immediately after sign-up (pre-prompt 1)
+
+**Trigger:** Fires after welcome email, before first Wednesday prompt
+- If 5+ days remain until first prompt → fire 24 hours after welcome email
+- If fewer than 48 hours remain until first prompt → fire 2–3 hours after welcome email
+- If between 48 hours and 5 days remain → fire same evening as welcome email (6–8 hours after)
+- In all cases: must fire before first Wednesday prompt is dispatched
+**To:** Storyteller
+**From:** hello@24stories.co.za
+**Exclude:** InCoaching = true
+**Purpose:** Welcome coaching upsell. First-session discount. Single session as low-commitment entry point.
+
+---
+
+Subject A: Before you write your first story
+
+Subject B: The question most people have right now
+
+Preview text: Most people sign up knowing they have the stories. The trickier question is where to begin.
+
+---
+
+Hello [StorytellerFirstName],
+
+Welcome. Your prompts start soon — but before they do, I wanted to send you this.
+
+The most common concerns I hear at the beginning stage are "I don't have enough stories," "I don't know where to start," and "I'm not sure I know how to tell them."
+
+Trust me, you do have the stories, and I can help you start and give you all the tools and tricks to tell them.
+
+The prompts will guide you — that's what they're designed to do. But if you'd like to come into your first story with more clarity, I offer a single coaching session before you begin. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.
+
+As a welcome gift, I'm offering this first session at 25% off — R900 instead of R1,200.
+
+It's not something everyone needs. But for those who want it, it makes the whole journey easier.
+
+If that sounds useful, WhatsApp me now and we'll arrange the session.
+
+WhatsApp Tamara: wa.me/27823758320
+
+With warmth,
+Tamara Rothbart
 
 ---
 

@@ -131,45 +131,6 @@ exports.handler = async function() {
     console.error('Delivery tracking query failed:', await deliveryRes.text());
   }
 
-  // --- PAUSE EXPIRY CHECK ---
-  const pausedRes = await fetch(
-    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${encodeURIComponent('AND({Status}="Paused",{PauseStartDate}!="")')}&maxRecords=100`,
-    { headers: { 'Authorization': `Bearer ${PAT}` } }
-  );
-  if (pausedRes.ok) {
-    const { records: pausedRecords } = await pausedRes.json();
-
-    for (const sub of pausedRecords) {
-      const f = sub.fields;
-      if (!f.PauseStartDate || !f.StorytellerEmail) continue;
-
-      const pauseStart = new Date(f.PauseStartDate);
-      pauseStart.setHours(0, 0, 0, 0);
-      const expiry = new Date(pauseStart);
-      expiry.setMonth(expiry.getMonth() + 12);
-
-      if (today < expiry) continue;
-      const daysOverdue = Math.round((today - expiry) / (1000 * 60 * 60 * 24));
-      if (daysOverdue % 7 !== 0) continue;
-
-      const reminderNum         = Math.floor(daysOverdue / 7) + 1;
-      const expiryFormatted     = expiry.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-      const pauseStartFormatted = pauseStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-
-      const subject = reminderNum === 1
-        ? `PAUSE EXPIRED — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`
-        : `PAUSE EXPIRED REMINDER ${reminderNum} — ${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`;
-
-      await sendEmail(mjAuth, {
-        to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
-        subject,
-        html:    pauseExpiryAlertHtml({ f, pauseStartFormatted, expiryFormatted, daysOverdue, reminderNum })
-      });
-    }
-  } else {
-    console.error('Paused subscriber query failed:', await pausedRes.text());
-  }
-
   // --- COACHING EMAILS 1–4 CHECK ---
   // Daily 9am SAST. Skips Wednesday (prompt day) and Saturday (reminder day).
   // Emails 1–3 exclude InCoaching subscribers. Email 4 (referral) has no exclusion.
@@ -289,28 +250,6 @@ function deliveryAlertHtml({ f, daysSincePrint, name }) {
 </table>
 <p style="font-size:14px;color:#333;line-height:1.7;margin:0 0 12px;"><strong>Next step:</strong> ${actionLine}</p>
 ${daysOverdue >= 0 ? '<p style="font-size:13px;color:#888;margin:0;">Alerts continue every 7 days until Status = Complete.</p>' : ''}
-</body></html>`;
-}
-
-function pauseExpiryAlertHtml({ f, pauseStartFormatted, expiryFormatted, daysOverdue, reminderNum }) {
-  const headline = reminderNum === 1
-    ? `${esc(f.StorytellerFirstName)} ${esc(f.StorytellerSurname)}'s pause has expired.`
-    : `REMINDER ${reminderNum} — ${esc(f.StorytellerFirstName)} ${esc(f.StorytellerSurname)}'s pause expired ${daysOverdue} days ago.`;
-  const expiryDisplay = daysOverdue === 0 ? `${esc(expiryFormatted)} (today)` : `${esc(expiryFormatted)} (${daysOverdue} days ago)`;
-
-  return `<!DOCTYPE html><html><body style="font-family:Arial,sans-serif;font-size:15px;color:#1A1A1A;padding:24px;max-width:600px;">
-<p style="font-size:20px;font-weight:bold;color:#B00020;text-transform:uppercase;letter-spacing:0.05em;margin:0 0 8px;">Action Required</p>
-<p style="font-size:17px;font-weight:bold;color:#1A1A1A;margin:0 0 16px;">${headline}</p>
-<p style="font-size:15px;color:#333;line-height:1.7;margin:0 0 20px;">Their pause period has ended. Contact them to find out whether they wish to resume or cancel.</p>
-<table style="border-collapse:collapse;width:100%;margin:0 0 20px;">
-  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;width:35%;">Subscriber</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(f.StorytellerFirstName)} ${esc(f.StorytellerSurname)}</td></tr>
-  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Email</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(f.StorytellerEmail)}</td></tr>
-  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Prompt number</td><td style="padding:8px 12px;border:1px solid #ddd;">${f.PromptNumber || '—'}</td></tr>
-  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Pause started</td><td style="padding:8px 12px;border:1px solid #ddd;">${esc(pauseStartFormatted)}</td></tr>
-  <tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:bold;">Pause expired</td><td style="padding:8px 12px;border:1px solid #ddd;color:#B00020;font-weight:bold;">${expiryDisplay}</td></tr>
-</table>
-<p style="font-size:14px;color:#333;line-height:1.7;margin:0 0 12px;"><strong>To resume:</strong> set Status = Active in Airtable — prompt delivery restarts from their current PromptNumber.<br><strong>To cancel:</strong> set Status = Cancelled in Airtable.</p>
-<p style="font-size:13px;color:#888;margin:0;">This alert repeats every 7 days until Status is changed from Paused.</p>
 </body></html>`;
 }
 

@@ -23,8 +23,8 @@ exports.handler = async function(event) {
   const MJ_KEY        = process.env.MAILJET_API_KEY;
   const MJ_SECRET     = process.env.MAILJET_API_SECRET;
 
-  // Look up subscriber by email — Active or Paused (both retain library access)
-  const formula = encodeURIComponent(`AND({StorytellerEmail}="${email}",OR({Status}="Active",{Status}="Paused"))`);
+  // Look up subscriber by email — Active subscribers only
+  const formula = encodeURIComponent(`AND({StorytellerEmail}="${email}",{Status}="Active")`);
   const atRes = await fetch(
     `https://api.airtable.com/v0/${AIRTABLE_BASE}/Subscribers?filterByFormula=${formula}&maxRecords=1`,
     { headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}` } }

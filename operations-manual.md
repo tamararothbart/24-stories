@@ -208,51 +208,63 @@ You do nothing. It is automatic.
 
 ---
 
-## PART 3B — SUBSCRIBER PAUSE
+## PART 3B — SUBSCRIBER CANCELLATION
 
 ---
 
-### RECEIVING A PAUSE REQUEST
+### RECEIVING A CANCELLATION REQUEST
 
-A subscriber will email hello@24stories.co.za to request a pause.
+A subscriber will email hello@24stories.co.za to cancel.
 
-**What you do:**
+**What you do — three steps, in this order:**
 
-1. In Airtable → Subscribers table → find the subscriber → set **Status = Paused**
+**Step 1 — Cancel in PayFast (stops future billing)**
 
-That is all. The system does the rest automatically:
+1. Log in to the PayFast merchant dashboard at [payfast.co.za](https://www.payfast.co.za/merchants/)
+2. Go to **Transactions → Subscriptions**
+3. Search for the subscriber by name or email
+4. Open their subscription record → click **Cancel subscription** → confirm
 
-- PauseStartDate is set to today
-- The subscriber receives an email confirming their pause is active and the date it expires (12 months from today)
+This stops all future payments immediately. The subscriber keeps access for the rest of their current billing cycle.
 
-You do not need to set PauseStartDate manually. You do not need to send an email.
+**Step 2 — Update Airtable**
 
----
+1. In Airtable → Subscribers table → find the subscriber → set **Status = Cancelled**
 
-### WHEN THE PAUSE EXPIRES
+Do this after cancelling in PayFast, not before.
 
-When a subscriber's pause reaches 12 months, you will receive an alert at **stories@24stories.co.za**:
+**Step 3 — Send a cancellation confirmation from hello@24stories.co.za**
 
-Subject: **ACTION REQUIRED — [FirstName Surname]'s pause has expired**
-
-This alert repeats every 7 days until you act. You do not need to look for it — it will find you.
-
-**What you do:**
-
-1. Contact the subscriber from hello@24stories.co.za
-2. If they want to resume: set **Status = Active** in Airtable — prompt delivery restarts automatically from their current PromptNumber. No further action needed.
-3. If they wish to cancel: set **Status = Cancelled** in Airtable.
-
-The alerts stop the moment Status is changed from Paused.
+Write a short, warm email. Use this copy — paste it, fill in the first name, and send:
 
 ---
 
-### PAUSE POLICY
+Subject: `Your cancellation — 24 Stories`
 
-- Pause is available for up to 12 months from the day of pausing
-- The Story Library remains accessible during the pause — all stories and photographs are safe
-- No weekly prompts are sent while Status = Paused
-- The subscription is non-refundable — pause is the alternative to cancellation
+Hello [FirstName],
+
+We've received your cancellation and have ended your subscription. No further payments will be taken.
+
+You have access to your Story Library and will continue to receive your weekly prompts until the end of your current billing period.
+
+It's been a privilege to be part of your story journey.
+
+With warmth,
+Tamara
+24 Stories
+
+---
+
+You do not need to save this as a template unless it becomes frequent. It is short enough to write or paste each time.
+
+---
+
+### CANCELLATION POLICY
+
+- Subscribers may cancel at any time by writing to hello@24stories.co.za or WhatsApp 082 375 8320
+- Subscription ends at the close of the current billing cycle — no further payments are taken
+- Story Library access and weekly prompts continue until the billing cycle ends
+- No refund is issued for the current billing period (see Refunds section for exceptional cases)
 
 ---
 
@@ -517,7 +529,7 @@ You can create separate Mailjet lists per segment (Interest, Free Download, Even
 
 ### Main subscription refund
 
-The 24 Stories subscription is non-refundable. The pause option (up to 12 months) is the alternative to cancellation.
+The 24 Stories subscription is non-refundable. Subscribers may cancel at any time — their subscription ends at the close of the current billing cycle.
 
 A refund request will arrive as an email to hello@24stories.co.za from the subscriber. You decide whether to grant it.
 

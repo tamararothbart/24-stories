@@ -68,8 +68,7 @@ function computeAccessLevel(fields) {
     return 'read_only';
   }
 
-  if (status === 'Cancelled' || status === 'Complete' || status === 'Paused') {
-    // Library remains accessible indefinitely per T&Cs
+  if (status === 'Cancelled' || status === 'Complete') {
     return 'read_only';
   }
 

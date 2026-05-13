@@ -408,6 +408,33 @@ Extra copies (R1,200 each) are a separate PayFast payment. When confirmed:
 
 ---
 
+### ACCELERATED SUBSCRIPTION PAYMENT
+
+If a subscriber emails asking to pay upfront and get all 26 prompts immediately:
+
+**The URL to send them:**
+
+```
+https://24stories.co.za/.netlify/functions/accelerated-checkout?id=RECORD_ID
+```
+
+Replace `RECORD_ID` with their Airtable record ID (open their record in Airtable — the ID is in the browser URL, starting with `rec`).
+
+If the amount differs from the default R16,770 (e.g. they have already paid some months), add `&amount=NNNN`:
+
+```
+https://24stories.co.za/.netlify/functions/accelerated-checkout?id=RECORD_ID&amount=8385
+```
+
+**What happens:**
+1. Subscriber clicks the link → sees a payment page → pays via PayFast
+2. Payment confirmed → all 26 prompts unlock in their Story Library automatically
+3. A Payments record is created in Airtable automatically
+
+You do not need to flip any flags or touch Airtable. Everything is automatic once they pay.
+
+---
+
 ### VIEWING PAYMENT RECORDS
 
 Airtable → base "52stories" → **Payments** table. Every successful payment has a record: subscriber, PayFast transaction ID, amount, date, status.

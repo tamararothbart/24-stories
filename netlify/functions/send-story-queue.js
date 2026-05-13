@@ -271,10 +271,17 @@ exports.handler = async function() {
       const hoursSinceWelcome = (Date.now() - new Date(f.WelcomeEmailSentAt)) / 3600000;
       const hoursUntilPrompt  = hoursUntilNextWednesdayPrompt(Date.now());
 
-      let shouldSend = false;
-      if      (hoursUntilPrompt >= 120 && hoursSinceWelcome >= 24) shouldSend = true;
-      else if (hoursUntilPrompt >=  48 && hoursSinceWelcome >=  6) shouldSend = true;
-      else if (hoursUntilPrompt <   48 && hoursSinceWelcome >=  2) shouldSend = true;
+      // Standard delay based on time remaining until first prompt
+      let requiredDelay;
+      if      (hoursUntilPrompt >= 120) requiredDelay = 24;
+      else if (hoursUntilPrompt >= 48)  requiredDelay = 6;
+      else                              requiredDelay = 2;
+
+      // Override: if the standard delay would push Email 0 past the first prompt,
+      // fire as soon as 1 hour has passed — never miss the pre-prompt window
+      if (hoursUntilPrompt <= requiredDelay) requiredDelay = 1;
+
+      const shouldSend = hoursSinceWelcome >= requiredDelay;
 
       if (!shouldSend) continue;
 

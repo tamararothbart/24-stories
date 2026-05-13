@@ -133,6 +133,14 @@ exports.handler = async function(event) {
         Status:               'COMPLETE'
       }})
     });
+    const mjAuth_acc = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+    const accSurname = (fields.StorytellerSurname || '').trim();
+    const accName    = accSurname ? `${storytellerFirstName} ${accSurname}` : storytellerFirstName;
+    await sendEmail(mjAuth_acc, {
+      to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
+      subject: `ACCELERATED UPGRADE — ${accName}`,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(accName)}</strong> has paid to unlock all 26 prompts immediately.<br>Amount: R${parseFloat(amountGross).toFixed(2)}</p>`
+    });
     console.log(`Accelerated subscription activated for subscriber ${recordId}`);
     return { statusCode: 200, body: 'OK' };
   }
@@ -163,6 +171,17 @@ exports.handler = async function(event) {
       }})
     });
 
+    const mjAuth_rec = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString(‘base64’);
+    const recSurname = (fields.StorytellerSurname || ‘’).trim();
+    const recName    = recSurname ? `${storytellerFirstName} ${recSurname}` : storytellerFirstName;
+    const recSubject = newCount >= 6
+      ? `PAYMENT 6/6 COMPLETE — ${recName} — book onboarding unlocked`
+      : `PAYMENT ${newCount}/6 — ${recName}`;
+    await sendEmail(mjAuth_rec, {
+      to:      { Email: ‘hello@24stories.co.za’, Name: ‘Tamara’ },
+      subject: recSubject,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(recName)}</strong> — payment ${newCount} of 6 received.<br>Amount: R${parseFloat(amountGross).toFixed(2)}${newCount >= 6 ? ‘<br><strong>All 6 payments complete. Book onboarding now unlocked.</strong>’ : ‘’}</p>`
+    });
     console.log(`Payment ${newCount}/6 recorded for subscriber ${recordId}${newCount >= 6 ? ‘ — BookOnboardingUnlocked set’ : ‘’}`);
     return { statusCode: 200, body: ‘OK’ };
   }

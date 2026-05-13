@@ -145,11 +145,13 @@ Fifteen stories. You are well past the halfway point.
 
 Some of what you've written has surprised you, I imagine. A story you thought would be easy that wasn't. One that turned out to hold more than you expected when you sat down to tell it.
 
-As the prompts continue, some storytellers find the later ones ask for something different. The stories about regret. About people who are no longer here. About things that have never quite been said out loud. These aren't the stories that stop you because they're too small. They stop you because they matter too much.
+Some storytellers find that the later prompts ask more of you. The stories about regret. About people who are no longer here. About things that have never quite been said out loud. These stories don't stop you because they're too small. They stop you because they matter too much.
 
-Coaching at this stage isn't about fixing what's wrong. It's about having someone with you for the stories you've been putting off.
+Coaching at this stage is about having someone with you for the stories you've been putting off.
 
-Coaching sessions give you a thinking partner and a real-time editor for whatever is still ahead — the stories you know are coming, and the ones you haven't written yet. If this is where you are, WhatsApp me.
+They give you a thinking partner, a feedback loop, extra tools and a real-time editor for what's ahead.
+
+If this is where you are, WhatsApp me.
 
 WhatsApp Tamara: wa.me/27823758320
 

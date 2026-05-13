@@ -11,23 +11,29 @@ exports.handler = async function(event) {
   const BASE = 'apprTOobuxs4Od7XB';
   const PAT  = process.env.AIRTABLE_PAT;
   const hdrs = { 'Authorization': `Bearer ${PAT}` };
-  const promptsSort = 'sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc';
 
-  // Fetch subscriber and prompts in parallel
-  const [subRes, promptsRes] = await Promise.all([
-    fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`, { headers: hdrs }),
-    fetch(`https://api.airtable.com/v0/${BASE}/Prompts?${promptsSort}&maxRecords=26`, { headers: hdrs })
-  ]);
+  // Fetch subscriber first so we know PromptNumber before querying prompts
+  const subRes = await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`, { headers: hdrs });
 
   if (!subRes.ok) {
     return { statusCode: 404, headers: corsHeaders(), body: JSON.stringify({ error: 'Subscriber not found' }) };
   }
 
-  const [sub, prompts] = await Promise.all([subRes.json(), promptsRes.json()]);
+  const sub = await subRes.json();
 
   if (sub.error) {
     return { statusCode: 404, headers: corsHeaders(), body: JSON.stringify({ error: 'Subscriber not found' }) };
   }
+
+  // Only return prompts that have already been sent (Week <= PromptNumber)
+  const promptNumber = sub.fields.PromptNumber || 0;
+  const promptsFormula = encodeURIComponent(`{Week}<=${promptNumber}`);
+  const promptsSort = 'sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc';
+  const promptsRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Prompts?filterByFormula=${promptsFormula}&${promptsSort}&maxRecords=26`,
+    { headers: hdrs }
+  );
+  const prompts = promptsRes.ok ? await promptsRes.json() : { records: [] };
 
   // Use the linked story record IDs already present on the subscriber record.
   // ARRAYJOIN({SubscriberID}) in Airtable formulas returns display values, not record IDs,

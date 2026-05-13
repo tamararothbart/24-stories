@@ -163,7 +163,7 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
-    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt? Return to your Story Library at any time to record it.</p>
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
@@ -194,7 +194,7 @@ function email8Html(firstName, weekNumber, weekName, theme, promptText, otherAng
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
-    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt? Return to your Story Library at any time to record it.</p>
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -225,7 +225,7 @@ function email25Html(firstName, promptText, tellUrl, libUrl) {
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
-    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt? Return to your Story Library at any time to record it.</p>
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -257,7 +257,7 @@ function email26Html(firstName, promptText, tellUrl, libUrl) {
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
     <a href="${libUrl}" style="display:inline-block;background:#B8976A;color:#fff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open your library &#8594;</a>
-    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt or want to get ahead? Your library has all 26 — record any story at any time.</p>
+    <p style="font-size:16px;color:#444;line-height:1.7;margin:12px 0 0;">Missed a prompt? Return to your Story Library at any time to record it.</p>
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
@@ -278,7 +278,7 @@ function email9Html(firstName, libUrl) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <ul style="list-style:none;padding:0;margin:0 0 28px;">
-    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Tell any missing stories.</strong> Your library holds all 26 prompts. If there are weeks you have not yet recorded, use your library to do so at any time.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Tell any missing stories.</strong> Your library holds all the prompts you have received. If there are weeks you have not yet recorded, return to your library at any time.</li>
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add photographs and captions.</strong> Each chapter has room for one image. If you have not yet added them, you can do so now — or any time before you press Complete.</li>
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to four weeks from print to delivery. No further changes can be made after pressing Complete.</li>

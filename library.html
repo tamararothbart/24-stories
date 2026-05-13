@@ -685,8 +685,7 @@
 
             <h1 class="page-title">Your Story Library</h1>
             <div class="page-intro">
-                <p>All twenty-six of your story prompts are here.</p>
-                <p>You can record a story for any week you have missed, skip ahead and respond to a future prompt early, or return at any time to add a photograph or caption.</p>
+                <p>You can return to any prompt you have already received to record your story, add a photograph, or update a caption.</p>
                 <p>Once a story has been edited it cannot be re-recorded.</p>
             </div>
 
@@ -847,6 +846,17 @@
 
 
 
+                <!-- MARK AS COMPLETE -->
+                <div class="book-field" style="margin-top:52px;padding-top:44px;border-top:1px solid var(--border);">
+                    <p class="book-field-label">Mark as Complete</p>
+                    <p class="book-field-sub">When all your stories are told, your photographs and captions are in place, and your book details are filled in — press this button. Your book goes straight to production. No further changes can be made after pressing Complete.</p>
+                    <button id="btnMarkComplete" type="button"
+                        style="background:var(--charcoal);color:var(--white);border:none;padding:14px 32px;font-family:var(--font-body);font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:not-allowed;opacity:0.45;transition:background 0.2s;"
+                        disabled>Mark as Complete</button>
+                    <p id="markCompleteCaption" style="font-size:0.82rem;color:#aaa;margin-top:10px;line-height:1.6;">Available once your final story prompt has been sent.</p>
+                    <p id="markCompleteMsg" style="font-size:0.78rem;color:var(--green);margin-top:10px;display:none;"></p>
+                </div>
+
             </div><!-- /book-prep -->
 
         </div><!-- /library-body -->
@@ -954,8 +964,8 @@
                 if (wk) promptsByWeek[wk] = r.fields;
             });
 
-            renderProgress(byWeek);
-            renderCards(byWeek, promptsByWeek);
+            renderProgress(byWeek, mockPrompts.records.length);
+            renderCards(byWeek, promptsByWeek, mockPrompts.records.length);
             renderBookPrep(f);
             showState('library');
         }
@@ -978,6 +988,8 @@
                 var name = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
                 document.getElementById('headerName').textContent = name || '';
 
+                var promptsSent = f.PromptNumber || 0;
+
                 var byWeek = {};
                 (stories.records || []).forEach(function(r) {
                     var wk = r.fields.PromptNumber;
@@ -990,15 +1002,15 @@
                     if (wk) promptsByWeek[wk] = r.fields;
                 });
 
-                renderProgress(byWeek);
-                renderCards(byWeek, promptsByWeek);
+                renderProgress(byWeek, promptsSent);
+                renderCards(byWeek, promptsByWeek, promptsSent);
                 renderBookPrep(f);
                 showState('library');
 
                 // Apply read-only mode after library renders
                 if (accessLevel === 'read_only') { applyReadOnlyMode(); }
 
-                for (var w = 1; w <= 26; w++) {
+                for (var w = 1; w <= promptsSent; w++) {
                     if (getStatus(byWeek[w]) === 'empty') {
                         var card = document.getElementById('week-' + w);
                         if (card) { card.classList.add('open'); break; }
@@ -1016,10 +1028,10 @@
         }
 
         // ---- PROGRESS ----
-        function renderProgress(byWeek) {
+        function renderProgress(byWeek, promptsSent) {
             var track = document.getElementById('progressTrack');
             var told = 0, withPhoto = 0;
-            for (var w = 1; w <= 26; w++) {
+            for (var w = 1; w <= promptsSent; w++) {
                 var st = getStatus(byWeek[w]);
                 if (st === 'awaiting' || st === 'story' || st === 'full') told++;
                 if (st === 'full') withPhoto++;
@@ -1031,15 +1043,15 @@
                 track.appendChild(a);
             }
             var missingPhoto = told - withPhoto;
-            var txt = told + ' of 26 stories told';
+            var txt = told + ' of ' + promptsSent + ' stories told';
             if (missingPhoto > 0) txt += ' \u00B7 ' + missingPhoto + ' image' + (missingPhoto === 1 ? '' : 's') + ' missing';
             document.getElementById('progressSummary').textContent = txt;
         }
 
         // ---- STORY CARDS ----
-        function renderCards(byWeek, promptsByWeek) {
+        function renderCards(byWeek, promptsByWeek, promptsSent) {
             var container = document.getElementById('storyCards');
-            for (var w = 1; w <= 26; w++) {
+            for (var w = 1; w <= promptsSent; w++) {
                 container.appendChild(buildCard(w, byWeek[w] || null, promptsByWeek[w] || {}));
             }
         }
@@ -1276,6 +1288,7 @@
 
         // ---- BOOK PREP ----
         function renderBookPrep(f) {
+            setupMarkAsComplete(f.BookOnboardingUnlocked || false);
             setupBookPhoto('btnPortrait', 'portraitInput', 'portraitFilename', 'portraitUploading', 'portraitOk', 'portraitExisting', 'portrait', f.PortraitPhotoURL || '');
 
             // Book title: two-input design — default prefix + name, OR custom title
@@ -1554,6 +1567,46 @@
                 btn.textContent = 'Redirecting to PayFast\u2026';
                 form.submit();
             });
+        }
+
+        // ---- MARK AS COMPLETE ----
+        function setupMarkAsComplete(unlocked) {
+            var btn     = document.getElementById('btnMarkComplete');
+            var caption = document.getElementById('markCompleteCaption');
+            var msg     = document.getElementById('markCompleteMsg');
+            if (!btn) return;
+
+            if (unlocked) {
+                btn.disabled             = false;
+                btn.style.cursor         = 'pointer';
+                btn.style.opacity        = '1';
+                if (caption) caption.style.display = 'none';
+                btn.addEventListener('click', function() {
+                    if (!confirm('Mark your book as Complete? This cannot be undone — no further changes can be made after pressing OK.')) return;
+                    btn.disabled      = true;
+                    btn.textContent   = 'Sending to production…';
+                    btn.style.opacity = '0.6';
+                    fetch(BOOK_DISPATCH_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ subscriberId: subscriberId })
+                    })
+                    .then(function(r) { return r.json(); })
+                    .then(function() {
+                        btn.textContent         = 'Complete';
+                        msg.textContent         = 'Your book is on its way to production. You will receive a confirmation email shortly.';
+                        msg.style.display       = 'block';
+                    })
+                    .catch(function() {
+                        btn.disabled      = false;
+                        btn.style.opacity = '1';
+                        btn.textContent   = 'Mark as Complete';
+                        msg.textContent   = 'Something went wrong. Please try again or email hello@24stories.co.za.';
+                        msg.style.color   = 'var(--red)';
+                        msg.style.display = 'block';
+                    });
+                });
+            }
         }
 
         // ---- BOOK DISPATCH ----

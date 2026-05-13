@@ -878,11 +878,7 @@
         var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
         var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
 
-        // PayFast — extra copies order (replace placeholders before go-live)
-        var PAYFAST_MERCHANT_ID  = 'YOUR_PAYFAST_MERCHANT_ID';
-        var PAYFAST_MERCHANT_KEY = 'YOUR_PAYFAST_MERCHANT_KEY';
-        var PAYFAST_PASSPHRASE   = '';   // leave empty if no passphrase set in PayFast dashboard
-        var PAYFAST_NOTIFY_URL   = 'YOUR_SCENARIO_12_WEBHOOK_URL';   // Make Scenario 12 webhook
+        var EXTRA_COPIES_CHECKOUT_URL = '/.netlify/functions/extra-copies-checkout';
 
         // ============================================================
 
@@ -1537,35 +1533,40 @@
             btn.addEventListener('click', function() {
                 var n = parseInt(input.value, 10) || 0;
                 if (n <= 0) return;
-                var total   = calcTotal(n);
-                var amount  = total.toFixed(2);
-                var itemName = n === 1 ? '24 Stories \u2014 1 Extra Copy' : '24 Stories \u2014 ' + n + ' Extra Copies';
-                var libUrl  = 'https://24stories.co.za/library.html?id=' + subscriberId;
-                var data = {
-                    merchant_id:  PAYFAST_MERCHANT_ID,
-                    merchant_key: PAYFAST_MERCHANT_KEY,
-                    return_url:   libUrl,
-                    cancel_url:   libUrl,
-                    notify_url:   PAYFAST_NOTIFY_URL,
-                    amount:       amount,
-                    item_name:    itemName,
-                    custom_str1:  subscriberId,
-                    custom_str2:  String(n)
-                };
-                data.signature = _pfSign(data);
-                var form = document.createElement('form');
-                form.action = 'https://www.payfast.co.za/eng/process';
-                form.method = 'POST';
-                form.style.display = 'none';
-                Object.keys(data).forEach(function(k) {
-                    var inp = document.createElement('input');
-                    inp.type = 'hidden'; inp.name = k; inp.value = data[k];
-                    form.appendChild(inp);
-                });
-                document.body.appendChild(form);
                 btn.disabled = true;
-                btn.textContent = 'Redirecting to PayFast\u2026';
-                form.submit();
+                btn.textContent = 'Preparing payment\u2026';
+
+                fetch(EXTRA_COPIES_CHECKOUT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ subscriberId: subscriberId, quantity: n })
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data.payfast_params) {
+                        btn.disabled = false;
+                        btn.textContent = 'Request a payment link';
+                        if (msgEl) { msgEl.textContent = 'Something went wrong. Please try again.'; msgEl.style.display = 'block'; }
+                        return;
+                    }
+                    var form = document.createElement('form');
+                    form.action = 'https://www.payfast.co.za/eng/process';
+                    form.method = 'POST';
+                    form.style.display = 'none';
+                    Object.keys(data.payfast_params).forEach(function(k) {
+                        var inp = document.createElement('input');
+                        inp.type = 'hidden'; inp.name = k; inp.value = data.payfast_params[k];
+                        form.appendChild(inp);
+                    });
+                    document.body.appendChild(form);
+                    btn.textContent = 'Redirecting to PayFast\u2026';
+                    form.submit();
+                })
+                .catch(function() {
+                    btn.disabled = false;
+                    btn.textContent = 'Request a payment link';
+                    if (msgEl) { msgEl.textContent = 'Something went wrong. Please try again.'; msgEl.style.display = 'block'; }
+                });
             });
         }
 

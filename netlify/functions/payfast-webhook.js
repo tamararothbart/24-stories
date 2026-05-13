@@ -79,6 +79,16 @@ exports.handler = async function(event) {
       });
     }
 
+    // Notify Tamara
+    const ecSurname  = (ecFields.StorytellerSurname || '').trim();
+    const ecFullName = ecSurname ? `${firstName_ec} ${ecSurname}` : firstName_ec;
+    const copyWord   = extraCopiesQty === 1 ? 'copy' : 'copies';
+    await sendEmail(mjAuth_ec, {
+      to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
+      subject: `EXTRA COPIES — ${ecFullName}: ${extraCopiesQty} ${copyWord}`,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(ecFullName)}</strong> has ordered <strong>${extraCopiesQty}</strong> extra ${copyWord}.<br>Amount paid: R${parseFloat(amountGross).toFixed(2)}</p>`
+    });
+
     return { statusCode: 200, body: 'OK' };
   }
 
@@ -247,6 +257,16 @@ exports.handler = async function(event) {
       html:    email3Html(storyHelperName, storytellerFirstName, libUrl)
     });
   }
+
+  // Notify Tamara
+  const surnamePart = (fields.StorytellerSurname || ‘’).trim();
+  const fullName    = surnamePart ? `${storytellerFirstName} ${surnamePart}` : storytellerFirstName;
+  const typeLabel   = paymentType === ‘lump_sum’ ? ‘Lump sum (R16,770)’ : ‘Monthly (R2,795 × 6)’;
+  await sendEmail(mjAuth, {
+    to:      { Email: ‘hello@24stories.co.za’, Name: ‘Tamara’ },
+    subject: `NEW SUBSCRIBER — ${fullName}`,
+    html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(fullName)}</strong> has subscribed to 24 Stories.<br>Email: ${esc(storytellerEmail)}<br>Payment: ${typeLabel}<br>Amount: R${parseFloat(amountGross).toFixed(2)}</p>`
+  });
 
   return { statusCode: 200, body: ‘OK’ };
 };

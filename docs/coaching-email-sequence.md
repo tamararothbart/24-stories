@@ -1,7 +1,7 @@
 # Coaching Upsell Email Sequence
 
 Four emails from Tamara personally to existing subscribers.
-All sent from hello@24stories.co.za. Trigger logic via Mailjet automation using story count from Airtable.
+All sent from hello@24stories.co.za. Trigger logic via Netlify Function — not yet built.
 
 ---
 

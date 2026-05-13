@@ -26,13 +26,11 @@ Hello [StorytellerFirstName],
 
 Three stories. That's a real beginning.
 
-The early weeks are often the most uncertain. You're deciding what to include and what to leave out. You're figuring out whose eyes you're writing for. Some people find the first prompts come more easily than they expected. Others discover they've opened a drawer they weren't quite ready for.
+The early weeks are often the most uncertain. You're deciding what to include and what to leave out. You're figuring out whose eyes you're writing for. You know you have the life experiences, but moulding them into stories can be harder than you anticipated. That's normal.
 
-Either is normal. Neither means anything is wrong.
+I read everything that comes through. And I notice how much potential each story has — even when the storyteller can't quite see it themselves.
 
-I read everything that comes through. And I notice how much of a person is already visible in the first three stories — even when the storyteller can't quite see it themselves.
-
-If you're finding it harder than you expected, or if you're writing and not sure whether you're capturing what you mean, there's another option. A single coaching session is one hour with me. Your story read in advance, a focused conversation, and a clear path forward.
+If you feel like you're writing blind, recording in the dark, there's another option. A single coaching session is one hour with me. Your rough draft read in advance, a focused conversation, actionable feedback, tools and tips, and a clear, easy path forward to an unforgettable story.
 
 If that's where you are, WhatsApp me.
 
@@ -62,15 +60,13 @@ Preview text: Eight stories in. You're past the uncertain part. There's more ava
 
 Hello [StorytellerFirstName],
 
-Eight stories is not nothing. Most people don't make it this far — not because they stop caring, but because life gets in the way, or the stories start to feel harder rather than easier.
+Eight stories is not nothing. Most people don't make it this far — not because they stop caring, but because the stories start to feel harder rather than easier.
 
-You're past that. You have a rhythm now.
-
-What I notice at this stage is that the stories start to shift. The early prompts are often about events — what happened, who was there, what was said. But by story eight or nine, the more complicated ones start surfacing. The stories that require more from you.
+What I notice at this stage is that the stories start to shift. By story eight or nine, the more complicated ones start surfacing. The stories that require more from you.
 
 That's where coaching makes a difference. Not because something is wrong, but because you're ready to go further than you might on your own.
 
-A three-session bundle (R3,200) gives you support for the stories that are asking the most of you right now. A six-session bundle (R5,500) takes you through the rest of the journey with a thinking partner beside you. Both can be used across any stories — the ones you've been circling, or the ones still to come.
+A three-session bundle (R3,200) gives you support for the stories that are asking the most of you right now. A six-session bundle (R5,500) takes you through the rest of the journey with a thinking partner by your side. Both can be used across any stories — the ones you've been circling, or the ones still to come.
 
 If you're curious about what this could look like, WhatsApp me. We can start with a conversation about what's ahead.
 
@@ -108,9 +104,7 @@ As the prompts continue, some storytellers find the later ones ask for something
 
 Coaching at this stage isn't about fixing what's wrong. It's about having someone with you for the stories you've been putting off.
 
-A six-session bundle is R5,500. It gives you a thinking partner for whatever is still ahead — the stories you know are coming, and the ones you haven't written yet.
-
-If any of this is where you are, WhatsApp me.
+Coaching sessions give you a thinking partner and a real-time editor for whatever is still ahead — the stories you know are coming, and the ones you haven't written yet. If this is where you are, WhatsApp me.
 
 WhatsApp Tamara: wa.me/27823758320
 
@@ -138,13 +132,11 @@ Preview text: Twenty-four stories written. That's more than most people manage i
 
 Hello [StorytellerFirstName],
 
-Twenty-four stories. You've told twenty-four stories.
-
-Most people carry theirs unspoken. They mean to write them down, or tell them to their children, or record them one day when there's more time. You've done it. Over the past months, you've sat down twenty-four times and put something real on the page.
+Most people carry their stories unspoken. They mean to write them down, or tell them to their children, or record them one day when there's more time. You've done it. Over the past months, you've sat down twenty-four times and put something real on the page.
 
 Two stories remain. Finish well.
 
-When you're done — and when you've had a moment to let it land — I'd like to ask you something. Is there someone in your life whose stories you wish you had? A parent, a grandparent, someone older than they used to be? You are now the person who knows exactly what this process takes, and what it's worth. You're the best possible person to offer it to someone else.
+When you're done — and when you've had a moment to let it land — I'd like to ask you something. Is there someone in your life whose stories should be recorded? A friend? A sibling? A spouse? You are now the person who knows exactly what this process takes, and what it's worth. You're the best possible person to pay it forward.
 
 If there's someone who comes to mind, WhatsApp me. I'll make sure they're looked after from the very beginning.
 

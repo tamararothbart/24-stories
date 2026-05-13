@@ -68,38 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Netlify function endpoints
     var CHECKOUT_URL = '/.netlify/functions/checkout';
 
-    // Selected payment type — set by pricing CTAs or payment toggle
-    var selectedPaymentType = 'monthly';
-
-    // Pre-select payment type when pricing section CTAs are clicked
-    document.querySelectorAll('[data-payment]').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            selectedPaymentType = this.dataset.payment;
-            // Sync the payment type toggle in the subscribe form
-            var monthlyBtn  = document.getElementById('payTypeMonthly');
-            var lumpSumBtn  = document.getElementById('payTypeLumpSum');
-            if (monthlyBtn && lumpSumBtn) {
-                if (selectedPaymentType === 'monthly') {
-                    monthlyBtn.classList.add('active');
-                    lumpSumBtn.classList.remove('active');
-                } else {
-                    lumpSumBtn.classList.add('active');
-                    monthlyBtn.classList.remove('active');
-                }
-            }
-        });
-    });
-
-    // Payment type toggle inside subscribe form
-    var payTypeBtns = document.querySelectorAll('#paymentTypeSelect .form-path-btn');
-    payTypeBtns.forEach(function(btn) {
-        btn.addEventListener('click', function() {
-            payTypeBtns.forEach(function(b) { b.classList.remove('active'); });
-            this.classList.add('active');
-            selectedPaymentType = this.dataset.paytype || 'monthly';
-        });
-    });
-
     // Submit a programmatic form to PayFast using server-signed params
     function redirectToPayFast(payfastParams) {
         var form = document.createElement('form');
@@ -393,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : giverName,
                     giftGiverEmail       : giverEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : selectedPaymentType
+                    paymentType          : 'monthly'
                 })
             })
             .then(r => r.json())
@@ -484,7 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : storytellerName,
                     giftGiverEmail       : storytellerEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : selectedPaymentType
+                    paymentType          : 'monthly'
                 })
             })
             .then(r => r.json())

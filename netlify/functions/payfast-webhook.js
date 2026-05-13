@@ -134,7 +134,8 @@ exports.handler = async function(event) {
   const activationFields = {
     Status:                ‘Active’,
     SubscriptionStartDate: today,
-    LibraryToken:          recordId
+    LibraryToken:          recordId,
+    WelcomeEmailSentAt:    new Date().toISOString()
   };
   if (accessEndDate) activationFields.AccessEndDate = accessEndDate;
 

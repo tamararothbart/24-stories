@@ -170,6 +170,56 @@ exports.handler = async function() {
     console.error('Paused subscriber query failed:', await pausedRes.text());
   }
 
+  // --- COACHING EMAILS 1–4 CHECK ---
+  // Daily 9am SAST. Skips Wednesday (prompt day) and Saturday (reminder day).
+  // Emails 1–3 exclude InCoaching subscribers. Email 4 (referral) has no exclusion.
+  // CoachingEmailsSent gates the sequence: 1→fires email1→increments to 2, etc.
+
+  const nowSAST   = new Date(today.getTime() + 2 * 60 * 60 * 1000);
+  const dayOfWeek = nowSAST.getUTCDay(); // 0=Sun, 3=Wed, 6=Sat
+
+  if (dayOfWeek !== 3 && dayOfWeek !== 6) {
+    const coachingFormula = encodeURIComponent(
+      'AND({Status}="Active",{CoachingEmailsSent}>=1,{CoachingEmailsSent}<=4)'
+    );
+    const coachingRes = await fetch(
+      `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${coachingFormula}&maxRecords=100`,
+      { headers: { 'Authorization': `Bearer ${PAT}` } }
+    );
+    if (coachingRes.ok) {
+      const { records: coachingSubs } = await coachingRes.json();
+      for (const sub of coachingSubs) {
+        const f          = sub.fields;
+        const emailsSent = f.CoachingEmailsSent || 0;
+        const promptNum  = f.PromptNumber       || 0;
+        const inCoaching = f.InCoaching         || false;
+        if (!f.StorytellerEmail) continue;
+
+        let emailNum = null;
+        if      (emailsSent === 1 && promptNum >= 3  && !inCoaching) emailNum = 1;
+        else if (emailsSent === 2 && promptNum >= 8  && !inCoaching) emailNum = 2;
+        else if (emailsSent === 3 && promptNum >= 15 && !inCoaching) emailNum = 3;
+        else if (emailsSent === 4 && promptNum >= 24)                emailNum = 4;
+        if (!emailNum) continue;
+
+        // Increment first — prevents double-send
+        await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: { CoachingEmailsSent: emailsSent + 1 } })
+        });
+
+        const { subject, html } = buildCoachingEmail(emailNum, f.StorytellerFirstName);
+        await sendCoachingEmail(mjAuth, {
+          to: { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+          subject, html
+        });
+
+        console.log(`Coaching email ${emailNum} sent to ${f.StorytellerEmail}`);
+      }
+    }
+  }
+
   return { statusCode: 200, body: JSON.stringify({ checked: records.length }) };
 };
 
@@ -304,4 +354,108 @@ function email11Html(firstName, libUrl) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
+}
+
+async function sendCoachingEmail(mjAuth, { to, subject, html }) {
+  const res = await fetch('https://api.mailjet.com/v3.1/send', {
+    method: 'POST',
+    headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      Messages: [{
+        From:    { Email: 'stories@24stories.co.za', Name: 'Tamara Rothbart' },
+        To:      [to],
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: 'Tamara Rothbart' },
+        Subject: subject,
+        HTMLPart: html
+      }]
+    })
+  });
+  if (!res.ok) console.error('Mailjet coaching error to', to.Email, ':', await res.text());
+}
+
+function buildCoachingEmail(emailNum, firstName) {
+  const map = {
+    1: { subject: 'How are the first three stories feeling?',              html: coachingEmail1Html(firstName) },
+    2: { subject: 'Eight stories. Something has changed.',                 html: coachingEmail2Html(firstName) },
+    3: { subject: 'Some of the most important ones may still be ahead',    html: coachingEmail3Html(firstName) },
+    4: { subject: 'Twenty-four stories — a quiet note from me',       html: coachingEmail4Html(firstName) }
+  };
+  return map[emailNum];
+}
+
+function coachingSignOff() {
+  return `
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">With warmth,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0;">Tamara Rothbart</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:12px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>`;
+}
+
+function coachingLogo() {
+  return `<img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">`;
+}
+
+function coachingWhatsApp() {
+  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">WhatsApp Tamara &#8594;</a>`;
+}
+
+function coachingWrap(body) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  ${body}
+</div></div></body></html>`;
+}
+
+function coachingEmail1Html(firstName) {
+  return coachingWrap(`
+  ${coachingLogo()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Three stories. That's a real beginning.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The early weeks are often the most uncertain. You're deciding what to include and what to leave out. You're figuring out whose eyes you're writing for. You know you have the life experiences, but moulding them into stories can be harder than you anticipated. That's normal.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">I read everything that comes through. And I notice how much potential each story has — even when the storyteller can't quite see it themselves.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you feel like you're writing blind, recording in the dark, there's another option. A single coaching session is one hour with me. Your rough draft read in advance, a focused conversation, actionable feedback, tools and tips, and a clear, easy path forward to an unforgettable story.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that's where you are, WhatsApp me.</p>
+  ${coachingWhatsApp()}
+  ${coachingSignOff()}`);
+}
+
+function coachingEmail2Html(firstName) {
+  return coachingWrap(`
+  ${coachingLogo()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Eight stories is not nothing. Most people don't make it this far — not because they stop caring, but because the stories start to feel harder rather than easier.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What I notice at this stage is that the stories start to shift. By story eight or nine, the more complicated ones start surfacing. The stories that require more from you.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">That's where coaching makes a difference. Not because something is wrong, but because you're ready to go further than you might on your own.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">A three-session bundle (R3,200) gives you support for the stories that are asking the most of you right now. A six-session bundle (R5,500) takes you through the rest of the journey with a thinking partner by your side. Both can be used across any stories — the ones you've been circling, or the ones still to come.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If you're curious about what this could look like, WhatsApp me. We can start with a conversation about what's ahead.</p>
+  ${coachingWhatsApp()}
+  ${coachingSignOff()}`);
+}
+
+function coachingEmail3Html(firstName) {
+  return coachingWrap(`
+  ${coachingLogo()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Fifteen stories. You are well past the halfway point.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Some of what you've written has surprised you, I imagine. A story you thought would be easy that wasn't. One that turned out to hold more than you expected when you sat down to tell it.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Some storytellers find that the later prompts ask more of you. The stories about regret. About people who are no longer here. About things that have never quite been said out loud. These stories don't stop you because they're too small. They stop you because they matter too much.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Coaching at this stage is about having someone with you for the stories you've been putting off.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">They give you a thinking partner, a feedback loop, extra tools and a real-time editor for what's ahead.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If this is where you are, WhatsApp me.</p>
+  ${coachingWhatsApp()}
+  ${coachingSignOff()}`);
+}
+
+function coachingEmail4Html(firstName) {
+  return coachingWrap(`
+  ${coachingLogo()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Most people carry their stories unspoken. They mean to write them down, or tell them to their children, or record them one day when there's more time. You've done it. Over the past months, you've sat down twenty-four times and put something real on the page.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Two stories remain. Finish well.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're done — and when you've had a moment to let it land — I'd like to ask you something. Is there someone in your life whose stories should be recorded? A friend? A sibling? A spouse? You are now the person who knows exactly what this process takes, and what it's worth. You're the best possible person to pay it forward.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If there's someone who comes to mind, WhatsApp me. I'll make sure they're looked after from the very beginning.</p>
+  ${coachingWhatsApp()}
+  ${coachingSignOff()}`);
 }

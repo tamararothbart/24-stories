@@ -105,6 +105,28 @@ exports.handler = async function(event) {
   const today                = new Date().toISOString().slice(0, 10);
   const isAlreadyActive      = fields.Status === ‘Active’;
 
+  // Accelerated upfront payment for an existing Active subscriber — flip flag, log payment, done.
+  if (isAlreadyActive && paymentType === 'accelerated') {
+    await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { AcceleratedSubscription: true } })
+    });
+    await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: {
+        SubscriberID:         [recordId],
+        PayFastTransactionID: pfTransactionId,
+        Amount:               parseFloat(amountGross) || 0,
+        Date:                 paymentDate.slice(0, 10),
+        Status:               'COMPLETE'
+      }})
+    });
+    console.log(`Accelerated subscription activated for subscriber ${recordId}`);
+    return { statusCode: 200, body: 'OK' };
+  }
+
   // For monthly recurring: subsequent payment IPNs arrive when subscriber is already Active.
   // Increment PaymentsCount; if it reaches 6, unlock book onboarding.
   if (isAlreadyActive) {
@@ -136,9 +158,9 @@ exports.handler = async function(event) {
   }
 
   // First payment — activate subscriber
-  // Calculate AccessEndDate for lump sum (6 months from today)
+  // Calculate AccessEndDate for lump sum or accelerated (6 months from today)
   let accessEndDate = null;
-  if (paymentType === ‘lump_sum’) {
+  if (paymentType === ‘lump_sum’ || paymentType === ‘accelerated’) {
     const end = new Date(today);
     end.setMonth(end.getMonth() + 6);
     accessEndDate = end.toISOString().slice(0, 10);
@@ -152,6 +174,7 @@ exports.handler = async function(event) {
     PaymentsCount:         1
   };
   if (accessEndDate) activationFields.AccessEndDate = accessEndDate;
+  if (paymentType === ‘accelerated’) activationFields.AcceleratedSubscription = true;
 
   const patchRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`,

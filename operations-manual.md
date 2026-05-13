@@ -412,26 +412,23 @@ Extra copies (R1,200 each) are a separate PayFast payment. When confirmed:
 
 If a subscriber emails asking to pay upfront and get all 26 prompts immediately:
 
-**The URL to send them:**
+**Bookmark this page:**
+`https://24stories.co.za/accelerated-admin.html`
 
-```
-https://24stories.co.za/.netlify/functions/accelerated-checkout?id=RECORD_ID
-```
+**Your workflow:**
+1. Open the bookmarked page
+2. Type the subscriber's email address (it's right there in the email they sent you)
+3. Click Send
+4. Done
 
-Replace `RECORD_ID` with their Airtable record ID (open their record in Airtable — the ID is in the browser URL, starting with `rec`).
+The system looks up the subscriber, calculates the remaining amount (R16,770 minus whatever they've already paid), and emails them a payment link automatically. You don't touch Airtable or build any URLs.
 
-If the amount differs from the default R16,770 (e.g. they have already paid some months), add `&amount=NNNN`:
+If you've agreed on a different amount, type it in the Amount Override field before clicking Send.
 
-```
-https://24stories.co.za/.netlify/functions/accelerated-checkout?id=RECORD_ID&amount=8385
-```
-
-**What happens:**
-1. Subscriber clicks the link → sees a payment page → pays via PayFast
-2. Payment confirmed → all 26 prompts unlock in their Story Library automatically
-3. A Payments record is created in Airtable automatically
-
-You do not need to flip any flags or touch Airtable. Everything is automatic once they pay.
+**What happens after they pay:**
+- All 26 prompts unlock in their Story Library automatically
+- A Payments record is created in Airtable automatically
+- Nothing else for you to do
 
 ---
 

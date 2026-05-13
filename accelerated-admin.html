@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Send Accelerated Payment Link — 24 Stories</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #E8E4DF; font-family: Georgia, serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+    .card { background: #F7F5F2; padding: 48px 40px; max-width: 520px; width: 100%; color: #1A1A1A; }
+    img { display: block; margin: 0 0 32px auto; }
+    h1 { font-size: 20px; font-weight: normal; margin: 0 0 8px; }
+    .sub { font-size: 14px; color: #777; margin: 0 0 32px; line-height: 1.6; }
+    label { display: block; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 8px; }
+    input[type=email], input[type=number] { width: 100%; border: 1px solid #D0CCC6; background: #fff; padding: 12px 14px; font-size: 16px; font-family: Georgia, serif; color: #1A1A1A; margin-bottom: 20px; outline: none; }
+    input:focus { border-color: #B8976A; }
+    .amount-note { font-size: 13px; color: #999; margin: -14px 0 20px; line-height: 1.6; }
+    button { background: #1A1A1A; color: #fff; border: none; padding: 15px 32px; font-size: 16px; font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.03em; width: 100%; }
+    button:hover { background: #333; }
+    button:disabled { background: #999; cursor: not-allowed; }
+    .result { margin-top: 24px; padding: 20px 24px; font-size: 15px; line-height: 1.7; display: none; }
+    .result.success { background: #EAF4EA; color: #2A6B2A; border-left: 4px solid #2A6B2A; }
+    .result.error   { background: #FDECEA; color: #7A2020; border-left: 4px solid #C0392B; }
+    hr { border: none; border-top: 1px solid #D0CCC6; margin: 32px 0; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="160" height="36">
+    <h1>Send accelerated payment link</h1>
+    <p class="sub">Enter the subscriber's email address. The system will calculate the remaining amount and email them a payment link automatically.</p>
+    <hr>
+    <label for="email">Subscriber email address</label>
+    <input type="email" id="email" placeholder="name@example.com" autocomplete="off">
+
+    <label for="amount">Amount override (optional)</label>
+    <input type="number" id="amount" placeholder="Leave blank to calculate automatically">
+    <p class="amount-note">Default: R16,770 minus any payments already made. Only override if you have agreed on a different amount.</p>
+
+    <button id="sendBtn" onclick="send()">Send payment link &#8594;</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    async function send() {
+      var email  = document.getElementById('email').value.trim();
+      var amount = document.getElementById('amount').value.trim();
+      var btn    = document.getElementById('sendBtn');
+      var result = document.getElementById('result');
+
+      if (!email) {
+        showResult('error', 'Please enter an email address.');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      result.style.display = 'none';
+
+      var url = '/.netlify/functions/accelerated-send?email=' + encodeURIComponent(email);
+      if (amount) url += '&amount=' + encodeURIComponent(amount);
+
+      try {
+        var res  = await fetch(url);
+        var data = await res.json();
+
+        if (data.success) {
+          showResult('success',
+            'Payment link sent to ' + email + '.<br>' +
+            'Amount: <strong>' + data.amount + '</strong> &nbsp;|&nbsp; ' +
+            'Payments already made: <strong>' + data.payments_made + '</strong><br><br>' +
+            'The subscriber will receive an email with a Pay Now button. Once they pay, their library unlocks automatically.'
+          );
+          document.getElementById('email').value = '';
+          document.getElementById('amount').value = '';
+        } else {
+          showResult('error', data.error || 'Something went wrong.');
+        }
+      } catch (e) {
+        showResult('error', 'Network error — check your connection and try again.');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Send payment link →';
+    }
+
+    function showResult(type, msg) {
+      var el = document.getElementById('result');
+      el.className = 'result ' + type;
+      el.innerHTML = msg;
+      el.style.display = 'block';
+    }
+
+    document.getElementById('email').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') send();
+    });
+  </script>
+</body>
+</html>

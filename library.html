@@ -1550,7 +1550,7 @@
                         return;
                     }
                     var form = document.createElement('form');
-                    form.action = 'https://www.payfast.co.za/eng/process';
+                    form.action = data.payfast_url || 'https://www.payfast.co.za/eng/process';
                     form.method = 'POST';
                     form.style.display = 'none';
                     Object.keys(data.payfast_params).forEach(function(k) {

@@ -22,6 +22,9 @@ exports.handler = async function(event) {
   const MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID;
   const MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY;
   const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE || '';
+  const PAYFAST_URL  = process.env.PAYFAST_SANDBOX === 'true'
+    ? 'https://sandbox.payfast.co.za/eng/process'
+    : 'https://www.payfast.co.za/eng/process';
 
   const subRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`,
@@ -100,7 +103,7 @@ exports.handler = async function(event) {
     <p>Hello ${esc(firstName)}, your accelerated subscription gives you access to every story prompt right now — no waiting for the weekly schedule.</p>
     <hr>
     <div class="amount">${displayAmount}</div>
-    <form method="POST" action="https://www.payfast.co.za/eng/process">
+    <form method="POST" action="${PAYFAST_URL}">
       ${formInputs}
       <button type="submit">Pay securely &#8594;</button>
     </form>

@@ -26,6 +26,9 @@ exports.handler = async function(event) {
   const MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY;
   const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE || '';
   const NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
+  const PAYFAST_URL  = process.env.PAYFAST_SANDBOX === 'true'
+    ? 'https://sandbox.payfast.co.za/eng/process'
+    : 'https://www.payfast.co.za/eng/process';
 
   const rate     = qty < 10 ? 1200 : 1000;
   const amount   = (qty * rate).toFixed(2);
@@ -49,7 +52,7 @@ exports.handler = async function(event) {
   return {
     statusCode: 200,
     headers: corsHeaders(),
-    body: JSON.stringify({ success: true, payfast_params: params })
+    body: JSON.stringify({ success: true, payfast_params: params, payfast_url: PAYFAST_URL })
   };
 };
 

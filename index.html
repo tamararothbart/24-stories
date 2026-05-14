@@ -11,16 +11,21 @@
         .steps-swiper{margin-top:28px!important;}
 
         /* ---- Pricing card updates ---- */
+        .pricing-single { max-width: 520px; margin: 0 auto; }
+        .pricing-single .pricing-tier { background: #fff; border: 1px solid #DDD8D2; padding: 48px 44px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
         .pricing-tier-header { margin-bottom: 28px; }
-        .pricing-card-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.5vw, 1.8rem); font-weight: 400; color: #1A1A1A; margin: 0 0 20px; line-height: 1.3; }
         .pricing-amount-row { display: flex; align-items: baseline; gap: 4px; margin-bottom: 6px; }
         .pricing-main-num { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 3.6rem); font-weight: 400; color: #1A1A1A; line-height: 1; }
         .pricing-freq-label { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: #888; font-weight: 300; }
-        .pricing-total-line { font-size: 14px; color: #B8976A; letter-spacing: 0.04em; margin-bottom: 28px; }
+        .pricing-total-line { font-size: 14px; color: #B8976A; letter-spacing: 0.04em; margin-bottom: 0; }
         .pricing-ctas { margin-top: 28px; display: flex; flex-direction: column; gap: 12px; }
         .btn-outline-dark { display: block; text-align: center; padding: 14px 24px; border: 1px solid #1A1A1A; color: #1A1A1A; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; border-radius: 2px; transition: background 0.15s, color 0.15s; }
         .btn-outline-dark:hover { background: #1A1A1A; color: #F7F5F2; }
         .pricing-footnote { font-size: 13px; color: #888; line-height: 1.7; margin-top: 16px; text-align: center; }
+        @media (max-width: 600px) {
+            .pricing-single .pricing-tier { padding: 36px 24px; }
+            .pricing-ctas .btn, .pricing-ctas .btn-outline-dark { min-height: 52px; display: flex; align-items: center; justify-content: center; }
+        }
 
         /* ---- Coaching band (main page) ---- */
         .coaching-band { background: #F7F5F2; padding: 80px 0; }

@@ -841,8 +841,8 @@ h1.hero-heading, .hero-content h1 {
 }
 .pricing-disclaimer {
     text-align: center;
-    font-size: 12px;
-    color: #aaa;
+    font-size: 15px;
+    color: #1A1A1A;
     margin-top: 20px;
     font-style: italic;
 }
@@ -1263,7 +1263,7 @@ h1.hero-heading, .hero-content h1 {
    FAQ
    =================================== */
 .faq {
-    padding: var(--sec) 0;
+    padding: clamp(48px, 6vw, 80px) 0;
     background: var(--cream);
 }
 
@@ -1272,7 +1272,7 @@ h1.hero-heading, .hero-content h1 {
 
 .faq-list {
     max-width: 760px;
-    margin: 56px auto 0;
+    margin: 32px auto 0;
 }
 
 .faq-item {
@@ -1282,10 +1282,10 @@ h1.hero-heading, .hero-content h1 {
 
 .faq-item summary {
     font-family: var(--font-head);
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 400;
     color: var(--charcoal);
-    padding: 28px 40px 28px 0;
+    padding: 18px 40px 18px 0;
     cursor: pointer;
     list-style: none;
     position: relative;
@@ -1300,7 +1300,7 @@ h1.hero-heading, .hero-content h1 {
     content: '+';
     position: absolute;
     right: 0;
-    top: 28px;
+    top: 18px;
     font-size: 20px;
     color: var(--gold);
     font-weight: 300;
@@ -1313,9 +1313,9 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .faq-item p {
-    padding: 0 40px 28px 0;
-    font-size: 16px;
-    line-height: 1.85;
+    padding: 0 40px 20px 0;
+    font-size: 15px;
+    line-height: 1.75;
     color: var(--text-mid);
 }
 

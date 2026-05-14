@@ -109,29 +109,21 @@
         list-style: none;
         padding: 0;
         margin: 32px 0 0;
-        counter-reset: step;
     }
     .session-steps li {
-        counter-increment: step;
         display: flex;
         gap: 28px;
         margin-bottom: 36px;
         align-items: flex-start;
     }
     .session-steps li::before {
-        content: counter(step);
+        content: '—';
         flex-shrink: 0;
-        width: 40px;
-        height: 40px;
-        border: 1px solid var(--gold);
         color: var(--gold);
         font-family: var(--font-accent);
-        font-size: 1rem;
-        font-weight: 400;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 2px;
+        font-size: 1.1rem;
+        font-weight: 300;
+        margin-top: 4px;
     }
     .session-steps li .step-text {
         font-family: var(--font-accent);
@@ -370,11 +362,10 @@
                 <div>
                     <span class="section-eyebrow">Meet Your Coach</span>
                     <div class="gold-rule"></div>
-                    <p class="c-body-text">The most common concerns I hear at the beginning stage are "I don't have enough stories," "I don't know where to start," and "I'm not sure I know how to tell them." Trust me — you do.</p>
+                    <p class="c-body-text">The most common concern I hear is: "I don't have enough stories." Trust me — you do.</p>
                     <p class="c-body-text">In twenty-five years as a journalist, columnist, editor, and ghostwriter — interviewing celebrities, politicians, titans of industry, sages, mothers, and truck drivers — I've never met a story that did not deserve to be told.</p>
                     <p class="c-body-text">As your coach, I'm not just asking questions and giving feedback. I'm helping you find the angle, the hook, the moment on which a story pivots — and how to bring it home.</p>
                     <p class="c-body-text">Every joy, every heartbreak, every win, every loss has contributed to the one-of-a-kind person you are. And in knowing you, your children, their children, and all the generations to follow will know themselves a little better, too.</p>
-                    <p class="coach-byline">Tamara Rothbart<span>Your Writing Coach at 24 Stories</span></p>
                 </div>
             </div>
         </div>
@@ -391,7 +382,7 @@
 
             <div class="coaching-moment">
                 <h3 class="coaching-moment-title">Before You Begin</h3>
-                <p class="c-body-text">The prompts will guide you — that's what they're designed to do. But if you'd like to come into your first story with more clarity, I offer a single coaching session before you even start. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.</p>
+                <p class="c-body-text">If you'd like to come into your first story with more clarity, I offer a single coaching session before you even start. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.</p>
             </div>
 
             <div class="coaching-moment">
@@ -417,7 +408,7 @@
             <span class="section-eyebrow">How a session works</span>
             <div class="gold-rule"></div>
             <p class="c-body-text">Each session is a focused personal conversation that gives you a clear path forward — so you can sit down and record with confidence.</p>
-            <ol class="session-steps">
+            <ul class="session-steps">
                 <li>
                     <div class="step-text">
                         You schedule a time directly with Tamara via WhatsApp.
@@ -438,7 +429,7 @@
                         To maximise your coaching time, you can submit a rough draft of a story 24 hours in advance. This is neither mandatory nor essential for the success of a session. But if you do, Tamara will read it in full and make notes, so that she has a clear idea of where you're at before you even meet.
                     </div>
                 </li>
-            </ol>
+            </ul>
         </div>
     </section>
 

@@ -297,7 +297,7 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     body: JSON.stringify({
       Messages: [{
         From:     { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        ReplyTo:  { Email: 'hello@24stories.co.za', Name: 'Tamara Rothbart' },
+        ReplyTo:  { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:       [to],
         Subject:  subject,
         HTMLPart: html

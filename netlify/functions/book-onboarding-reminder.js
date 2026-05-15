@@ -189,7 +189,7 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, ReplyTo: { Email: 'hello@24stories.co.za', Name: 'Tamara Rothbart' }, To: [to], Subject: subject, HTMLPart: html }]
+      Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' }, To: [to], Subject: subject, HTMLPart: html }]
     })
   });
   if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());
@@ -303,7 +303,7 @@ async function sendCoachingEmail(mjAuth, { to, subject, html }) {
       Messages: [{
         From:    { Email: 'stories@24stories.co.za', Name: 'Tamara Rothbart' },
         To:      [to],
-        ReplyTo: { Email: 'hello@24stories.co.za', Name: 'Tamara Rothbart' },
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         Subject: subject,
         HTMLPart: html
       }]

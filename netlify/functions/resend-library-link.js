@@ -55,8 +55,9 @@ exports.handler = async function(event) {
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{
-        From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        To:   [{ Email: email, Name: name }],
+        From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: 'Tamara Rothbart' },
+        To:      [{ Email: email, Name: name }],
         Subject: 'Your 24 Stories Library Link',
         HTMLPart: libraryLinkEmailHtml(name, libUrl)
       }]

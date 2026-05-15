@@ -77,7 +77,7 @@ exports.handler = async function(event) {
       await fetch('https://api.mailjet.com/v3.1/send', {
         method:  'POST',
         headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, To: [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }], Subject: `SIGN-UP NOTES — ${notifyName}`, HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${notifyName}</strong> has started sign-up and left the following notes:</p><pre style="font-family:Georgia,serif;font-size:15px;line-height:1.8;color:#333;white-space:pre-wrap;">${notes.trim()}</pre><p style="font-family:Georgia,serif;font-size:14px;color:#888;margin-top:16px;">Storyteller email: ${storytellerEmail || '(not provided yet)'}</p>` }] })
+        body: JSON.stringify({ Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, To: [{ Email: 'hello@24stories.co.za', Name: '24 Stories' }], Subject: `SIGN-UP NOTES — ${notifyName}`, HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${notifyName}</strong> has started sign-up and left the following notes:</p><pre style="font-family:Georgia,serif;font-size:15px;line-height:1.8;color:#333;white-space:pre-wrap;">${notes.trim()}</pre><p style="font-family:Georgia,serif;font-size:14px;color:#888;margin-top:16px;">Storyteller email: ${storytellerEmail || '(not provided yet)'}</p>` }] })
       }).catch(err => console.error('Notes notification error:', err));
     }
   }

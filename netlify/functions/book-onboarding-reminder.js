@@ -301,7 +301,7 @@ async function sendCoachingEmail(mjAuth, { to, subject, html }) {
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{
-        From:    { Email: 'stories@24stories.co.za', Name: 'Tamara Rothbart' },
+        From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
         To:      [to],
         ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         Subject: subject,
@@ -326,7 +326,7 @@ function coachingSignOff() {
   return `
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">With warmth,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0;">Tamara Rothbart</p>
+  <p style="font-size:17px;line-height:1.9;margin:0;">The 24 Stories Team</p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:12px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>`;
 }
 
@@ -335,7 +335,7 @@ function coachingLogo() {
 }
 
 function coachingWhatsApp() {
-  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">WhatsApp Tamara &#8594;</a>`;
+  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">WhatsApp us &#8594;</a>`;
 }
 
 function coachingWrap(body) {

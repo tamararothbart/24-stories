@@ -84,7 +84,7 @@ exports.handler = async function(event) {
     const ecFullName = ecSurname ? `${firstName_ec} ${ecSurname}` : firstName_ec;
     const copyWord   = extraCopiesQty === 1 ? 'copy' : 'copies';
     await sendEmail(mjAuth_ec, {
-      to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
+      to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
       subject: `EXTRA COPIES — ${ecFullName}: ${extraCopiesQty} ${copyWord}`,
       html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(ecFullName)}</strong> has ordered <strong>${extraCopiesQty}</strong> extra ${copyWord}.<br>Amount paid: R${parseFloat(amountGross).toFixed(2)}</p>`
     });
@@ -137,7 +137,7 @@ exports.handler = async function(event) {
     const accSurname = (fields.StorytellerSurname || '').trim();
     const accName    = accSurname ? `${storytellerFirstName} ${accSurname}` : storytellerFirstName;
     await sendEmail(mjAuth_acc, {
-      to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
+      to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
       subject: `ACCELERATED UPGRADE — ${accName}`,
       html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(accName)}</strong> has paid to unlock all 26 prompts immediately.<br>Amount: R${parseFloat(amountGross).toFixed(2)}</p>`
     });

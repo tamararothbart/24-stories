@@ -49,7 +49,7 @@ exports.handler = async function(event) {
     body: JSON.stringify({
       Messages: [{
         From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        To:   [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }],
+        To:   [{ Email: 'hello@24stories.co.za', Name: '24 Stories' }],
         Subject: `Free download request — ${name}`,
         HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;line-height:1.8;">Someone requested the free download.<br><br><strong>Name:</strong> ${name}<br><strong>Email:</strong> <a href="mailto:${email}">${email}</a><br><strong>Source:</strong> Free Download</p>`
       }]
@@ -171,7 +171,7 @@ function emailHtml(name) {
                          style="width:72px; height:72px; border-radius:50%; display:block; border:2px solid #B8976A;">
                   </td>
                   <td style="vertical-align:middle;">
-                    <span style="display:block; font-family:Georgia, serif; font-size:16px; font-weight:normal; color:#1A1A1A; margin-bottom:4px;">Tamara Rothbart</span>
+                    <span style="display:block; font-family:Georgia, serif; font-size:16px; font-weight:normal; color:#1A1A1A; margin-bottom:4px;">The 24 Stories Team</span>
                     <span style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; margin-bottom:8px;">Founder, 24 Stories</span>
                     <a href="https://24stories.co.za" style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; text-decoration:none; margin-bottom:3px;">24stories.co.za</a>
                     <a href="mailto:hello@24stories.co.za" style="display:block; font-family:Georgia, serif; font-size:13px; color:#1A1A1A; text-decoration:none; margin-bottom:3px;">hello@24stories.co.za</a>

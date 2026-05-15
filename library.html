@@ -9,6 +9,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        .wa-mobile { display: inline; }
+        .wa-desktop { display: none; }
+        .wa-desktop-block { display: none; }
+        @media (min-width: 769px) {
+            .wa-mobile { display: none; }
+            .wa-desktop { display: inline; }
+            .wa-desktop-block { display: block; }
+        }
 
         :root {
             --charcoal: #1A1A1A;
@@ -670,7 +678,7 @@
         <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#555; line-height:1.8; margin-bottom:36px;">The Story Library is a private space for 24 Stories subscribers. Each subscriber receives a unique link by email when their subscription begins.</p>
         <a href="index.html#subscribe" style="display:inline-block; background:#1A1A1A; color:#F7F5F2; font-family:'Inter',sans-serif; font-size:13px; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; padding:18px 40px; border-radius:2px; margin-bottom:20px;">Give This Gift &mdash; R2,795/month</a>
         <p style="font-size:14px; color:#888; margin-bottom:8px;">Already a subscriber? Use the link in your 24 Stories email, or</p>
-        <p style="font-size:14px; color:#888;"><a href="index.html#resend-link" style="color:#B8976A;">resend your library link</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:#B8976A;">WhatsApp us</a></p>
+        <p style="font-size:14px; color:#888;"><a href="index.html#resend-link" style="color:#B8976A;">resend your library link</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:#B8976A;"><span class="wa-mobile">WhatsApp us</span><span class="wa-desktop">WhatsApp: +27 82 375 8320</span></a></p>
     </div>
 
     <!-- LIBRARY -->

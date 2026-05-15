@@ -2950,6 +2950,18 @@ h1.hero-heading, .hero-content h1 {
 }
 
 /* ===================================
+   WHATSAPP NUMBER — DESKTOP DISPLAY
+   =================================== */
+.wa-mobile { display: inline; }
+.wa-desktop { display: none; }
+.wa-desktop-block { display: none; }
+@media (min-width: 769px) {
+    .wa-mobile { display: none; }
+    .wa-desktop { display: inline; }
+    .wa-desktop-block { display: block; }
+}
+
+/* ===================================
    WHATSAPP FLOATING BUTTON
    =================================== */
 .social-float-stack {

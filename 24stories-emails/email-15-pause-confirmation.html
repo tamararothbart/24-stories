@@ -22,7 +22,7 @@
   How it works:<br>
   • Subscriber emails hello@ requesting a pause → Tamara sets Status = Paused in Airtable<br>
   • send-story-queue.js detects Status=Paused + PauseStartDate empty → sets PauseStartDate = today, calculates 12-month expiry, sends this email<br>
-  • Pause expiry alerts go to stories@24stories.co.za (book-onboarding-reminder.js, daily check)<br><br>
+  • Pause expiry alerts go to hello@24stories.co.za (book-onboarding-reminder.js, daily check)<br><br>
   Variables:
   <span class="var">StorytellerFirstName</span>
   <span class="var">ExpiryDate</span> (12 months from today, e.g. "7 May 2027")

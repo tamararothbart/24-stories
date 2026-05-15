@@ -108,20 +108,20 @@ exports.handler = async function() {
 
       if (daysSincePrint === 23) {
         await sendEmail(mjAuth, {
-          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          to:      { Email: 'hello@24stories.co.za', Name: '24 Stories Ops' },
           subject: `DELIVERY DUE IN 5 DAYS — ${name}`,
           html:    deliveryAlertHtml({ f, daysSincePrint, name })
         });
       } else if (daysSincePrint === 28) {
         await sendEmail(mjAuth, {
-          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          to:      { Email: 'hello@24stories.co.za', Name: '24 Stories Ops' },
           subject: `DELIVERY DUE TODAY — ${name}`,
           html:    deliveryAlertHtml({ f, daysSincePrint, name })
         });
       } else if (daysSincePrint > 28 && (daysSincePrint - 28) % 7 === 0) {
         const daysOverdue = daysSincePrint - 28;
         await sendEmail(mjAuth, {
-          to:      { Email: 'stories@24stories.co.za', Name: '24 Stories Ops' },
+          to:      { Email: 'hello@24stories.co.za', Name: '24 Stories Ops' },
           subject: `DELIVERY OVERDUE — ${name} (${daysOverdue} days)`,
           html:    deliveryAlertHtml({ f, daysSincePrint, name })
         });

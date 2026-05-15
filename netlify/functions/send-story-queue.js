@@ -355,7 +355,7 @@ async function generateChapterOrder(BASE, PAT, mjAuth, subscriberId, subFields) 
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({ Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-      To: [{ Email: 'stories@24stories.co.za', Name: '24 Stories' }],
+      To: [{ Email: 'hello@24stories.co.za', Name: '24 Stories' }],
       Subject: `CHAPTER ORDER GENERATED — ${name}`,
       HTMLPart: `<pre style="font-family:Georgia,serif;font-size:15px;line-height:1.8;">${alertLines.join('\n')}</pre>`
     }] })

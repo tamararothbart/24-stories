@@ -287,7 +287,7 @@ From week 24 onwards, the subscriber receives reminders asking them to complete 
 - Write a dedication
 - Write an epigraph (optional)
 
-The system sends these reminders automatically (emails 9, 10, and 11). You do not need to chase them manually unless email-11 triggers an overdue alert to stories@24stories.co.za.
+The system sends these reminders automatically (emails 9, 10, and 11). You do not need to chase them manually unless email-11 triggers an overdue alert to hello@24stories.co.za.
 
 ---
 
@@ -316,7 +316,7 @@ When all 26 stories are submitted and edited, tick **GenerateChapterOrder** on t
 - Stories with no Circa Date entered are placed at the end, in prompt order
 - **ChapterOrder** (1, 2, 3... up to 26) is written to each story record in the Airtable Stories table
 - The **GenerateChapterOrder** checkbox unticks itself
-- You receive an alert at **stories@24stories.co.za**:
+- You receive an alert at **hello@24stories.co.za**:
 
 Subject: `CHAPTER ORDER GENERATED — [FirstName Surname]`
 
@@ -354,7 +354,7 @@ Tick **BookDispatchEmailSent** on the subscriber's Airtable record only when you
 
 ---
 
-### DELIVERY TRACKING — AUTOMATIC ALERTS TO stories@24stories.co.za
+### DELIVERY TRACKING — AUTOMATIC ALERTS TO hello@24stories.co.za
 
 From the day you tick BookDispatchEmailSent (i.e. from BookSentToPrintDate), the system tracks delivery automatically.
 

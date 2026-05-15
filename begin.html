@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Begin 24 Stories</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* =============================
+           BEGIN PAGE — PAGE-SPECIFIC
+           ============================= */
+
+        body { background: var(--cream); }
+
+        /* Header */
+        .begin-header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 18px var(--pad);
+            text-align: center;
+        }
+        .begin-header a { display: inline-block; }
+        .begin-header img { height: 52px; width: auto; display: block; }
+
+        /* Hero */
+        .begin-hero {
+            background: var(--white);
+            padding: clamp(44px, 7vw, 72px) var(--pad);
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+        .begin-hero h1 {
+            font-family: var(--font-head);
+            font-size: clamp(2.4rem, 5vw, 3.6rem);
+            font-weight: 300;
+            color: var(--charcoal);
+            margin-bottom: 18px;
+            letter-spacing: -0.025em;
+        }
+        .begin-subhead {
+            font-family: var(--font-head);
+            font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+            color: var(--text-mid);
+            max-width: 580px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* Main content wrapper */
+        .begin-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: clamp(40px, 6vw, 68px) var(--pad) clamp(60px, 8vw, 100px);
+        }
+
+        /* Intro text */
+        .begin-intro { margin-bottom: 40px; }
+        .begin-intro p {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-mid);
+            margin-bottom: 18px;
+        }
+        .begin-intro p:last-child { margin-bottom: 0; }
+
+        /* Offer card */
+        .begin-offer {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: clamp(28px, 4vw, 48px);
+            margin-bottom: 48px;
+        }
+        .begin-offer .section-eyebrow { margin-bottom: 14px; }
+        .begin-price-main {
+            font-family: var(--font-head);
+            font-size: clamp(1.4rem, 3vw, 1.85rem);
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 6px;
+        }
+        .begin-offer-body {
+            font-size: 15px;
+            color: var(--text-mid);
+            line-height: 1.8;
+            margin-bottom: 28px;
+        }
+        .begin-includes-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 14px;
+        }
+        .begin-includes {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+        }
+        .begin-includes li {
+            font-size: 15px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            padding: 9px 0 9px 18px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .begin-includes li:first-child { border-top: 1px solid var(--border); }
+        .begin-includes li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 11px;
+        }
+        .begin-extra-copies {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.75;
+            font-style: italic;
+            margin-bottom: 18px;
+        }
+        .begin-reassurance {
+            font-size: 14px;
+            color: var(--charcoal);
+            line-height: 1.7;
+            padding: 14px 18px;
+            background: var(--cream);
+            border-left: 3px solid var(--gold);
+        }
+
+        /* Path selection */
+        .begin-choice-heading {
+            font-family: var(--font-head);
+            font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+            font-weight: 300;
+            color: var(--charcoal);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .begin-path-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+        @media (max-width: 560px) {
+            .begin-path-cards { grid-template-columns: 1fr; }
+        }
+        .begin-path-card {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 26px 22px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            text-align: left;
+            width: 100%;
+        }
+        .begin-path-card:hover { border-color: var(--gold); }
+        .begin-path-card.active {
+            background: var(--charcoal);
+            border-color: var(--charcoal);
+        }
+        .begin-path-card-title {
+            display: block;
+            font-family: var(--font-head);
+            font-size: 1.15rem;
+            color: var(--charcoal);
+            line-height: 1.3;
+        }
+        .begin-path-card.active .begin-path-card-title { color: #fff; }
+        .begin-path-card-desc {
+            display: block;
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.65;
+            font-style: italic;
+        }
+        .begin-path-card.active .begin-path-card-desc { color: rgba(255,255,255,0.55); }
+        .begin-path-card-cta {
+            display: block;
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-top: 4px;
+        }
+        .begin-path-card.active .begin-path-card-cta { color: var(--gold-light); }
+
+        /* Form outer wrapper */
+        .begin-form-outer { margin-top: 44px; }
+
+        /* Form card */
+        .begin-form-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: clamp(28px, 5vw, 52px);
+        }
+        .begin-form-heading {
+            font-family: var(--font-head);
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 300;
+            color: var(--charcoal);
+            margin-bottom: 32px;
+        }
+
+        /* Helper field inputs (outside .field wrapper) */
+        .helper-sub-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--charcoal);
+            background: var(--white);
+            outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
+            margin-bottom: 8px;
+            transition: border-color var(--dur) var(--ease);
+        }
+        .helper-sub-input:focus { border-color: var(--charcoal); }
+        .helper-sub-input:last-child { margin-bottom: 0; }
+
+        /* Payment summary */
+        .begin-payment-summary {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            padding: 22px 26px;
+            margin: 32px 0 26px;
+        }
+        .begin-ps-title {
+            font-family: var(--font-head);
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            margin-bottom: 3px;
+        }
+        .begin-ps-price {
+            font-size: 14px;
+            color: var(--gold);
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            margin-bottom: 14px;
+        }
+        .begin-ps-includes {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 12px;
+        }
+        .begin-ps-includes li {
+            font-size: 14px;
+            color: var(--text-mid);
+            line-height: 1.7;
+            padding-left: 14px;
+            position: relative;
+        }
+        .begin-ps-includes li::before {
+            content: '\2014';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 11px;
+        }
+        .begin-ps-billing {
+            font-size: 13px;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* Submit button */
+        .begin-submit {
+            display: block;
+            width: 100%;
+            padding: 16px 24px;
+            background: var(--charcoal);
+            color: #fff;
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            border: none;
+            border-radius: 0;
+            cursor: pointer;
+            transition: background 0.15s;
+            margin-bottom: 18px;
+        }
+        .begin-submit:hover { background: #333; }
+        .begin-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+        /* Fine print below submit */
+        .begin-fine {
+            font-size: 12px;
+            color: #aaa;
+            line-height: 1.65;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        .begin-fine a { color: #aaa; text-decoration: underline; }
+        .begin-cancel {
+            font-size: 13px;
+            color: #888;
+            line-height: 1.7;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .begin-cancel a { color: #888; }
+        .begin-qs {
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+            margin-top: 12px;
+            line-height: 1.7;
+        }
+        .begin-qs a { color: #888; }
+
+        /* Coaching note */
+        .begin-coaching {
+            margin-top: 60px;
+            padding-top: 36px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+        .begin-coaching-head {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 12px;
+        }
+        .begin-coaching p {
+            font-size: 14px;
+            color: var(--text-light);
+            line-height: 1.75;
+            max-width: 440px;
+            margin: 0 auto 14px;
+        }
+        .begin-coaching a {
+            font-size: 14px;
+            color: var(--text-mid);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .begin-footer {
+            background: var(--charcoal);
+            padding: 28px var(--pad);
+            text-align: center;
+            margin-top: 0;
+        }
+        .begin-footer p {
+            font-size: 13px;
+            color: rgba(247,245,242,0.45);
+            line-height: 1.7;
+        }
+        .begin-footer a { color: rgba(247,245,242,0.55); text-decoration: none; }
+        .begin-footer a:hover { color: rgba(247,245,242,0.85); }
+    </style>
+</head>
+<body>
+
+    <!-- Minimal header — logo only -->
+    <header class="begin-header">
+        <a href="https://24stories.co.za">
+            <img src="logo.png" alt="24 Stories">
+        </a>
+    </header>
+
+    <!-- Hero -->
+    <section class="begin-hero">
+        <p class="section-eyebrow">Begin</p>
+        <h1>Begin 24 Stories</h1>
+        <p class="begin-subhead">You're ready to begin. Complete the details below and we'll set up the 24 Stories journey for you or someone you love.</p>
+    </section>
+
+    <!-- Main content -->
+    <div class="begin-wrap">
+
+        <!-- Intro -->
+        <div class="begin-intro">
+            <p>This page is for people who are ready to begin, or who have already spoken to us and would like to take the next step.</p>
+            <p>Your Collected Stories is a six-month guided story journey. Each week, one thoughtful prompt helps capture a memory, a turning point, a person, a place, or a moment that deserves to be kept.</p>
+            <p>At the end of the journey, your completed collection becomes a beautiful printed book — included as a gift from 24 Stories.</p>
+        </div>
+
+        <!-- Offer card -->
+        <div class="begin-offer">
+            <p class="section-eyebrow">Your Collected Stories</p>
+            <p class="begin-price-main">R2,795 per month for six months.</p>
+            <p class="begin-offer-body">Your payment is deducted monthly and ends automatically after six payments.</p>
+
+            <span class="begin-includes-label">Included</span>
+            <ul class="begin-includes">
+                <li>Weekly story prompts</li>
+                <li>A private Story Library</li>
+                <li>The option to write or speak each story</li>
+                <li>Stories shared with selected family members, where relevant</li>
+                <li>Photograph uploads</li>
+                <li>Professional preparation of the completed collection</li>
+                <li>One premium printed book included</li>
+                <li>Delivery of your included book</li>
+            </ul>
+
+            <p class="begin-extra-copies">Additional books can be ordered from your Story Library at any time before the end of the six-month journey for R1,200 each.</p>
+            <p class="begin-reassurance">There is no separate book package to choose. Complete the journey and your printed book is included.</p>
+        </div>
+
+        <!-- Path choice -->
+        <h2 class="begin-choice-heading">Who is this for?</h2>
+        <div class="begin-path-cards">
+            <button class="begin-path-card" id="btn-self" type="button">
+                <span class="begin-path-card-title">I'm telling my own story</span>
+                <span class="begin-path-card-desc">For people who want to capture their own life stories for their family, children, grandchildren, or future generations.</span>
+                <span class="begin-path-card-cta">Begin my own story &rarr;</span>
+            </button>
+            <button class="begin-path-card" id="btn-gift" type="button">
+                <span class="begin-path-card-title">I'm giving 24 Stories as a gift</span>
+                <span class="begin-path-card-desc">For a parent, grandparent, partner, friend, or someone whose stories you want to preserve.</span>
+                <span class="begin-path-card-cta">Give 24 Stories as a gift &rarr;</span>
+            </button>
+        </div>
+
+        <!-- =====================
+             SELF FORM
+             ===================== -->
+        <div class="begin-form-outer" id="section-self" style="display:none;">
+            <div class="begin-form-card">
+                <h2 class="begin-form-heading">Your details</h2>
+                <form id="beginSelfForm" novalidate>
+
+                    <div class="field">
+                        <label for="s-fullname">Your full name</label>
+                        <input type="text" id="s-fullname" name="s-fullname" placeholder="Your full name" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-firstname">What should we call you in emails? <span class="field-note">(how we address you in every email)</span></label>
+                        <input type="text" id="s-firstname" name="s-firstname" placeholder="e.g. Margaret, Bill, Gran" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-email">Your email address <span class="field-note">(where your weekly prompts will arrive)</span></label>
+                        <input type="email" id="s-email" name="s-email" placeholder="Your email" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-phone">Your WhatsApp number</label>
+                        <input type="tel" id="s-phone" name="s-phone" placeholder="e.g. 082 375 8320">
+                    </div>
+
+                    <p class="form-section-label">Story Helper <span class="form-optional">(optional)</span></p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside you and can help with recording, uploading photographs, or giving you a gentle nudge if a week slips by.</p>
+                    <div class="field">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="s-addHelper"> Add a Story Helper
+                        </label>
+                        <div id="s-helperFields" style="display:none; margin-top:12px;">
+                            <input type="text" id="s-helper-name" name="s-helper-name" class="helper-sub-input" placeholder="Their full name">
+                            <input type="email" id="s-helper-email" name="s-helper-email" class="helper-sub-input" placeholder="Their email address">
+                            <input type="tel" id="s-helper-phone" name="s-helper-phone" class="helper-sub-input" placeholder="Their WhatsApp number (optional)">
+                        </div>
+                    </div>
+
+                    <p class="form-section-label">Who should receive your weekly stories?</p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;" id="s-recipient-hint">Add as many as you like — up to 10.</p>
+                    <div class="field">
+                        <div class="recipient-fields" id="s-recipientFields"></div>
+                    </div>
+
+                    <p class="form-section-label">One last thing <span class="form-optional">(optional)</span></p>
+                    <div class="field">
+                        <label for="s-notes">Is there anything you would like us to know before we begin?</label>
+                        <textarea id="s-notes" name="s-notes" rows="4" placeholder="Any context that might help us support you on your journey..."></textarea>
+                    </div>
+
+                    <!-- Payment summary -->
+                    <div class="begin-payment-summary">
+                        <p class="begin-ps-title">Your Collected Stories</p>
+                        <p class="begin-ps-price">R2,795/month &middot; 6 months</p>
+                        <ul class="begin-ps-includes">
+                            <li>Weekly story prompts</li>
+                            <li>Private Story Library</li>
+                            <li>One printed book included at the end of the journey</li>
+                        </ul>
+                        <p class="begin-ps-billing">Billing ends automatically after six payments.</p>
+                    </div>
+
+                    <button type="submit" class="begin-submit" id="s-submitBtn">Start My Story</button>
+                    <p class="begin-fine">This is a 6-month subscription. You authorise R2,795 to be deducted automatically each month for six months, after which billing stops automatically.</p>
+                    <p class="begin-cancel">You may cancel at any time by writing to <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> or WhatsApp +27 82 375 8320. Your subscription ends at the close of your current billing cycle — no further payments will be taken. You retain full Story Library access and continue to receive your weekly prompts until that date.</p>
+                    <p class="begin-fine" style="margin-top:12px;">By completing your purchase, you agree to our <a href="terms.html">Terms &amp; Conditions</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+                    <p class="begin-qs">Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener">WhatsApp +27 82 375 8320</a></p>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- =====================
+             GIFT FORM
+             ===================== -->
+        <div class="begin-form-outer" id="section-gift" style="display:none;">
+            <div class="begin-form-card">
+                <h2 class="begin-form-heading">Gift giver details</h2>
+                <form id="beginGiftForm" novalidate>
+
+                    <div class="field">
+                        <label for="g-giver-name">Your full name</label>
+                        <input type="text" id="g-giver-name" name="g-giver-name" placeholder="Your full name" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-giver-email">Your email address <span class="field-note">(your confirmation will be sent here)</span></label>
+                        <input type="email" id="g-giver-email" name="g-giver-email" placeholder="Your email" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-giver-phone">Your WhatsApp number</label>
+                        <input type="tel" id="g-giver-phone" name="g-giver-phone" placeholder="e.g. 082 375 8320">
+                    </div>
+
+                    <p class="form-section-label">Storyteller details</p>
+
+                    <div class="field">
+                        <label for="g-storyteller-name">Storyteller's name</label>
+                        <input type="text" id="g-storyteller-name" name="g-storyteller-name" placeholder="Their full name" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-firstname">What should we call them in emails? <span class="field-note">(how we address them in every email)</span></label>
+                        <input type="text" id="g-storyteller-firstname" name="g-storyteller-firstname" placeholder="e.g. Gran, Bill, Margaret" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-email">Their email address <span class="field-note">(where prompts will be sent)</span></label>
+                        <input type="email" id="g-storyteller-email" name="g-storyteller-email" placeholder="Their email" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-phone">Their WhatsApp number <span class="field-note">(if available)</span></label>
+                        <input type="tel" id="g-storyteller-phone" name="g-storyteller-phone" placeholder="Their WhatsApp (optional)">
+                    </div>
+                    <div class="field">
+                        <label for="g-relationship">Your relationship to the storyteller</label>
+                        <input type="text" id="g-relationship" name="g-relationship" placeholder="e.g. Daughter, Son, Partner, Friend">
+                    </div>
+
+                    <p class="form-section-label">Story Helper</p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside the storyteller and can help with recording and uploading photographs. Will you be helping, or would you like someone else to assist?</p>
+                    <div class="field">
+                        <div class="helper-options">
+                            <label class="helper-option">
+                                <input type="radio" name="g-helper-type" value="me" checked> Yes, I will be the Story Helper
+                            </label>
+                            <label class="helper-option">
+                                <input type="radio" name="g-helper-type" value="none"> No, they will manage it themselves
+                            </label>
+                            <label class="helper-option">
+                                <input type="radio" name="g-helper-type" value="other"> Someone else will help
+                            </label>
+                        </div>
+                        <div id="g-helperFields" style="display:none; margin-top:12px;">
+                            <input type="text" id="g-helper-name" name="g-helper-name" class="helper-sub-input" placeholder="Their full name">
+                            <input type="email" id="g-helper-email" name="g-helper-email" class="helper-sub-input" placeholder="Their email address">
+                            <input type="tel" id="g-helper-phone" name="g-helper-phone" class="helper-sub-input" placeholder="Their WhatsApp number (optional)">
+                        </div>
+                    </div>
+
+                    <p class="form-section-label">Who should receive the weekly stories?</p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;" id="g-recipient-hint">Add as many as you like — up to 10.</p>
+                    <div class="field">
+                        <div class="recipient-fields" id="g-recipientFields"></div>
+                    </div>
+
+                    <p class="form-section-label">One last thing <span class="form-optional">(optional)</span></p>
+                    <div class="field">
+                        <label for="g-notes">Is there anything you would like us to know before we begin?</label>
+                        <textarea id="g-notes" name="g-notes" rows="4" placeholder="Any context that might help us support the storyteller on their journey..."></textarea>
+                    </div>
+
+                    <!-- Payment summary -->
+                    <div class="begin-payment-summary">
+                        <p class="begin-ps-title">Your Collected Stories</p>
+                        <p class="begin-ps-price">R2,795/month &middot; 6 months</p>
+                        <ul class="begin-ps-includes">
+                            <li>Weekly story prompts</li>
+                            <li>Private Story Library</li>
+                            <li>One printed book included at the end of the journey</li>
+                        </ul>
+                        <p class="begin-ps-billing">Billing ends automatically after six payments.</p>
+                    </div>
+
+                    <button type="submit" class="begin-submit" id="g-submitBtn">Give 24 Stories</button>
+                    <p class="begin-fine">This is a 6-month subscription. You authorise R2,795 to be deducted automatically each month for six months, after which billing stops automatically.</p>
+                    <p class="begin-cancel">You may cancel at any time by writing to <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> or WhatsApp +27 82 375 8320. Your subscription ends at the close of your current billing cycle — no further payments will be taken. You retain full Story Library access and continue to receive your weekly prompts until that date.</p>
+                    <p class="begin-fine" style="margin-top:12px;">By completing your purchase, you agree to our <a href="terms.html">Terms &amp; Conditions</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+                    <p class="begin-qs">Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener">WhatsApp +27 82 375 8320</a></p>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Coaching note -->
+        <div class="begin-coaching">
+            <p class="begin-coaching-head">Story-writing coaching</p>
+            <p>New subscribers can receive 20% off their first story-writing coaching session when booked with sign-up.</p>
+            <a href="coaching.html">View story-writing coaching &rarr;</a>
+        </div>
+
+    </div><!-- /begin-wrap -->
+
+    <!-- Footer -->
+    <footer class="begin-footer">
+        <p>
+            <a href="https://24stories.co.za">24stories.co.za</a> &nbsp;&middot;&nbsp;
+            <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp;
+            <a href="terms.html">Terms &amp; Conditions</a> &nbsp;&middot;&nbsp;
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <script>
+    // ========================
+    // PayFast config
+    // IMPORTANT: Set PAYFAST_USE_SANDBOX = false on launch day.
+    // Must also update the same flag in js/script.js.
+    // ========================
+    var PAYFAST_LIVE_URL    = 'https://www.payfast.co.za/eng/process';
+    var PAYFAST_SANDBOX_URL = 'https://sandbox.payfast.co.za/eng/process';
+    var PAYFAST_USE_SANDBOX = true;
+    var PAYFAST_URL         = PAYFAST_USE_SANDBOX ? PAYFAST_SANDBOX_URL : PAYFAST_LIVE_URL;
+    var CHECKOUT_URL        = '/.netlify/functions/checkout';
+
+    function redirectToPayFast(params) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = PAYFAST_URL;
+        Object.keys(params).forEach(function(k) {
+            var inp = document.createElement('input');
+            inp.type  = 'hidden';
+            inp.name  = k;
+            inp.value = params[k];
+            form.appendChild(inp);
+        });
+        document.body.appendChild(form);
+        form.submit();
+    }
+
+    // ========================
+    // URL param: ?type=self / ?type=gift
+    // ========================
+    var urlType = new URLSearchParams(window.location.search).get('type');
+
+    function showPath(type, scroll) {
+        var secSelf = document.getElementById('section-self');
+        var secGift = document.getElementById('section-gift');
+        var btnSelf = document.getElementById('btn-self');
+        var btnGift = document.getElementById('btn-gift');
+
+        if (type === 'self') {
+            secSelf.style.display = 'block';
+            secGift.style.display = 'none';
+            btnSelf.classList.add('active');
+            btnGift.classList.remove('active');
+            if (scroll) secSelf.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            secGift.style.display = 'block';
+            secSelf.style.display = 'none';
+            btnGift.classList.add('active');
+            btnSelf.classList.remove('active');
+            if (scroll) secGift.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    document.getElementById('btn-self').addEventListener('click', function() { showPath('self', true); });
+    document.getElementById('btn-gift').addEventListener('click', function() { showPath('gift', true); });
+
+    if (urlType === 'self' || urlType === 'gift') {
+        showPath(urlType, false);
+    }
+
+    // ========================
+    // Recipient section builder
+    // ========================
+    var recipientControllers = {};
+
+    function buildRecipientSection(containerId, namePrefix, autoEmails, max) {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+
+        if (recipientControllers[containerId]) {
+            recipientControllers[containerId].abort();
+        }
+        var controller = new AbortController();
+        recipientControllers[containerId] = controller;
+
+        var saved = [];
+        container.querySelectorAll('input:not([data-autofill])').forEach(function(inp) {
+            var v = inp.value.trim();
+            if (v) saved.push(v);
+        });
+
+        container.innerHTML = '';
+        var validAuto  = autoEmails.filter(Boolean);
+        var dynamicCount = validAuto.length;
+
+        validAuto.forEach(function(email, i) {
+            var slotNum = i + 1;
+            var wrapper = document.createElement('div');
+            if (i > 0) wrapper.style.marginTop = '10px';
+            wrapper.dataset.autofill = 'true';
+
+            var labelRow = document.createElement('div');
+            labelRow.style.cssText = 'display:flex; align-items:baseline; gap:8px; margin-bottom:5px;';
+
+            var lbl = document.createElement('label');
+            lbl.htmlFor = namePrefix + '-' + slotNum;
+            lbl.textContent = 'Recipient ' + slotNum;
+            lbl.style.cssText = 'font-size:12px; color:#888; text-transform:uppercase; letter-spacing:0.08em;';
+
+            var tag = document.createElement('span');
+            tag.textContent = 'auto-added';
+            tag.style.cssText = 'font-size:11px; color:var(--gold); font-style:italic;';
+
+            labelRow.appendChild(lbl);
+            labelRow.appendChild(tag);
+
+            var inp = document.createElement('input');
+            inp.type        = 'email';
+            inp.name        = namePrefix + '-' + slotNum;
+            inp.id          = namePrefix + '-' + slotNum;
+            inp.value       = email;
+            inp.readOnly    = true;
+            inp.dataset.autofill = 'true';
+            inp.style.cssText = 'width:100%; padding:14px 16px; border:1px solid #DDD; background:#F0EDE8; color:#666; cursor:default; font-family:var(--font-body); font-size:16px; font-weight:300; border-radius:0; -webkit-appearance:none;';
+
+            wrapper.appendChild(labelRow);
+            wrapper.appendChild(inp);
+            container.appendChild(wrapper);
+        });
+
+        var remaining = max - validAuto.length;
+        var hint = document.createElement('p');
+        hint.style.cssText = 'font-size:13px; color:#888; font-style:italic; margin:10px 0 0;';
+
+        if (remaining <= 0) {
+            hint.textContent = 'Maximum 10 recipients reached.';
+            container.appendChild(hint);
+            return;
+        }
+
+        hint.textContent = validAuto.length > 0
+            ? 'Add up to ' + remaining + ' more family member' + (remaining !== 1 ? 's' : '') + '.'
+            : 'Add as many as you like — up to 10.';
+        container.appendChild(hint);
+
+        dynamicCount++;
+        appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+
+        saved.forEach(function(email, i) {
+            var slotNum = validAuto.length + 1 + i;
+            if (slotNum > max) return;
+            var inp2 = container.querySelector('[name="' + namePrefix + '-' + slotNum + '"]');
+            if (!inp2 && dynamicCount < max) {
+                dynamicCount++;
+                appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+                inp2 = container.querySelector('[name="' + namePrefix + '-' + dynamicCount + '"]');
+            }
+            if (inp2) inp2.value = email;
+        });
+
+        if (saved.length > 0 && dynamicCount < max) {
+            dynamicCount++;
+            appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+        }
+
+        container.addEventListener('input', function(e) {
+            if (e.target.dataset.autofill) return;
+            if (e.target.name === namePrefix + '-' + dynamicCount && dynamicCount < max) {
+                dynamicCount++;
+                appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+                if (dynamicCount === max) hint.textContent = 'Maximum 10 recipients reached.';
+            }
+        }, { signal: controller.signal });
+    }
+
+    function appendDynamicSlot(container, namePrefix, slotNum, hint) {
+        var wrapper = document.createElement('div');
+        wrapper.style.marginTop = '10px';
+
+        var lbl = document.createElement('label');
+        lbl.htmlFor = namePrefix + '-' + slotNum;
+        lbl.textContent = 'Recipient ' + slotNum;
+        lbl.style.cssText = 'font-size:12px; color:#888; text-transform:uppercase; letter-spacing:0.08em; display:block; margin-bottom:5px;';
+
+        var inp = document.createElement('input');
+        inp.type        = 'email';
+        inp.name        = namePrefix + '-' + slotNum;
+        inp.id          = namePrefix + '-' + slotNum;
+        inp.placeholder = 'Their email address';
+        inp.style.cssText = 'width:100%; padding:14px 16px; border:1px solid var(--border); font-family:var(--font-body); font-size:16px; font-weight:300; color:var(--charcoal); background:var(--white); outline:none; border-radius:0; -webkit-appearance:none; transition:border-color 0.3s;';
+        inp.addEventListener('focus', function() { this.style.borderColor = 'var(--charcoal)'; });
+        inp.addEventListener('blur',  function() { this.style.borderColor = 'var(--border)'; });
+
+        wrapper.appendChild(lbl);
+        wrapper.appendChild(inp);
+        container.insertBefore(wrapper, hint);
+    }
+
+    function buildFamilyEmails(formEl, namePrefix) {
+        var arr = [];
+        for (var i = 1; i <= 10; i++) {
+            var f = formEl.querySelector('[name="' + namePrefix + '-' + i + '"]');
+            if (f && f.value.trim()) arr.push(f.value.trim());
+        }
+        return arr.join('\n');
+    }
+
+    function extractSurname(fullName) {
+        var parts = (fullName || '').trim().split(/\s+/);
+        return parts.length > 1 ? parts.slice(1).join(' ') : '';
+    }
+
+    // ========================
+    // Self form
+    // ========================
+    var sAddHelper     = document.getElementById('s-addHelper');
+    var sHelperFields  = document.getElementById('s-helperFields');
+    var sHelperEmail   = document.getElementById('s-helper-email');
+    var sStorytEmail   = document.getElementById('s-email');
+
+    function getSelfAuto() {
+        var storyteller = sStorytEmail ? sStorytEmail.value.trim() : '';
+        var helper = (sAddHelper && sAddHelper.checked && sHelperEmail) ? sHelperEmail.value.trim() : '';
+        var auto = [];
+        if (helper && helper !== storyteller) auto.push(helper);
+        return auto;
+    }
+
+    function refreshSelfRecipients() {
+        buildRecipientSection('s-recipientFields', 's-rec', getSelfAuto(), 10);
+    }
+
+    sAddHelper.addEventListener('change', function() {
+        sHelperFields.style.display = this.checked ? 'block' : 'none';
+        refreshSelfRecipients();
+    });
+    if (sHelperEmail)  sHelperEmail.addEventListener('input', refreshSelfRecipients);
+    if (sStorytEmail)  sStorytEmail.addEventListener('input', refreshSelfRecipients);
+
+    refreshSelfRecipients();
+
+    document.getElementById('beginSelfForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('s-submitBtn');
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+
+        var fullName    = document.getElementById('s-fullname').value.trim();
+        var nickname    = document.getElementById('s-firstname').value.trim();
+        var email       = sStorytEmail.value.trim();
+        var phone       = document.getElementById('s-phone').value.trim();
+        var addHelper   = sAddHelper.checked;
+        var helperName  = addHelper ? (document.getElementById('s-helper-name').value.trim() || '') : '';
+        var helperEmail = addHelper ? (sHelperEmail ? sHelperEmail.value.trim() : '') : '';
+        var helperPhone = addHelper ? (document.getElementById('s-helper-phone').value.trim() || '') : '';
+        var notesText   = document.getElementById('s-notes').value.trim();
+        var familyEmails = buildFamilyEmails(document.getElementById('beginSelfForm'), 's-rec');
+
+        var notesParts = [];
+        if (notesText)   notesParts.push('Notes from subscriber: ' + notesText);
+        if (helperPhone) notesParts.push('Story Helper WhatsApp: ' + helperPhone);
+        var notes = notesParts.join('\n');
+
+        fetch(CHECKOUT_URL, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                storytellerFirstName: nickname,
+                storytellerSurname:   extractSurname(fullName),
+                storytellerEmail:     email,
+                storyHelperName:      helperName,
+                storyHelperEmail:     helperEmail,
+                giftGiverName:        fullName,
+                giftGiverEmail:       email,
+                familyEmails:         familyEmails,
+                phone:                phone,
+                paymentType:          'monthly',
+                cancelUrl:            'https://24stories.co.za/begin?type=self',
+                notes:                notes
+            })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.payfast_params) {
+                redirectToPayFast(data.payfast_params);
+            } else {
+                btn.textContent = 'Something went wrong. Please try again.';
+                btn.disabled = false;
+            }
+        })
+        .catch(function() {
+            btn.textContent = 'Something went wrong. Please try again.';
+            btn.disabled = false;
+        });
+    });
+
+    // ========================
+    // Gift form
+    // ========================
+    var gHelperRadios  = document.querySelectorAll('[name="g-helper-type"]');
+    var gHelperFieldsEl = document.getElementById('g-helperFields');
+    var gHelperEmailInp = document.getElementById('g-helper-email');
+    var gGiverEmail    = document.getElementById('g-giver-email');
+    var gStorytEmail   = document.getElementById('g-storyteller-email');
+
+    function getGiftAuto() {
+        var storyteller = gStorytEmail ? gStorytEmail.value.trim() : '';
+        var giver       = gGiverEmail  ? gGiverEmail.value.trim()  : '';
+        var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
+        var helperVal   = helperChecked ? helperChecked.value : 'me';
+        var helper = '';
+        if (helperVal === 'me')    helper = giver;
+        if (helperVal === 'other') helper = gHelperEmailInp ? gHelperEmailInp.value.trim() : '';
+        var auto = [];
+        if (giver  && giver  !== storyteller) auto.push(giver);
+        if (helper && helper !== giver && helper !== storyteller) auto.push(helper);
+        return auto;
+    }
+
+    function refreshGiftRecipients() {
+        buildRecipientSection('g-recipientFields', 'g-rec', getGiftAuto(), 10);
+    }
+
+    gHelperRadios.forEach(function(r) {
+        r.addEventListener('change', function() {
+            gHelperFieldsEl.style.display = this.value === 'other' ? 'block' : 'none';
+            refreshGiftRecipients();
+        });
+    });
+    if (gHelperEmailInp) gHelperEmailInp.addEventListener('input', refreshGiftRecipients);
+    if (gGiverEmail)     gGiverEmail.addEventListener('input', refreshGiftRecipients);
+    if (gStorytEmail)    gStorytEmail.addEventListener('input', refreshGiftRecipients);
+
+    refreshGiftRecipients();
+
+    document.getElementById('beginGiftForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('g-submitBtn');
+        btn.textContent = 'Sending…';
+        btn.disabled = true;
+
+        var giverName    = document.getElementById('g-giver-name').value.trim();
+        var giverEmail   = gGiverEmail.value.trim();
+        var giverPhone   = document.getElementById('g-giver-phone').value.trim();
+        var stName       = document.getElementById('g-storyteller-name').value.trim();
+        var stNickname   = document.getElementById('g-storyteller-firstname').value.trim();
+        var stEmail      = gStorytEmail.value.trim();
+        var stPhone      = document.getElementById('g-storyteller-phone').value.trim();
+        var relationship = document.getElementById('g-relationship').value.trim();
+        var notesText    = document.getElementById('g-notes').value.trim();
+
+        var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
+        var helperVal    = helperChecked ? helperChecked.value : 'me';
+        var helperName   = helperVal === 'me'    ? giverName
+                         : helperVal === 'other' ? (document.getElementById('g-helper-name') ? document.getElementById('g-helper-name').value.trim() : '')
+                         : '';
+        var helperEmail  = helperVal === 'me'    ? giverEmail
+                         : helperVal === 'other' ? (gHelperEmailInp ? gHelperEmailInp.value.trim() : '')
+                         : '';
+        var helperPhone  = helperVal === 'other' ? (document.getElementById('g-helper-phone') ? document.getElementById('g-helper-phone').value.trim() : '') : '';
+
+        var familyEmails = buildFamilyEmails(document.getElementById('beginGiftForm'), 'g-rec');
+
+        var notesParts = [];
+        if (relationship) notesParts.push('Relationship: ' + relationship);
+        if (giverPhone)   notesParts.push('Gift giver WhatsApp: ' + giverPhone);
+        if (stName)       notesParts.push('Storyteller full name: ' + stName);
+        if (helperPhone)  notesParts.push('Story Helper WhatsApp: ' + helperPhone);
+        if (notesText)    notesParts.push('Notes from gift giver: ' + notesText);
+        var notes = notesParts.join('\n');
+
+        fetch(CHECKOUT_URL, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                storytellerFirstName: stNickname,
+                storytellerSurname:   extractSurname(stName),
+                storytellerEmail:     stEmail,
+                storyHelperName:      helperName,
+                storyHelperEmail:     helperEmail,
+                giftGiverName:        giverName,
+                giftGiverEmail:       giverEmail,
+                familyEmails:         familyEmails,
+                phone:                stPhone,
+                paymentType:          'monthly',
+                cancelUrl:            'https://24stories.co.za/begin?type=gift',
+                notes:                notes
+            })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+            if (data.payfast_params) {
+                redirectToPayFast(data.payfast_params);
+            } else {
+                btn.textContent = 'Something went wrong. Please try again.';
+                btn.disabled = false;
+            }
+        })
+        .catch(function() {
+            btn.textContent = 'Something went wrong. Please try again.';
+            btn.disabled = false;
+        });
+    });
+    </script>
+
+</body>
+</html>

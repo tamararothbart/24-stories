@@ -20,7 +20,9 @@ exports.handler = async function(event) {
     storyHelperName, storyHelperEmail,
     giftGiverName, giftGiverEmail,
     familyEmails, phone,
-    paymentType   // 'monthly' or 'lump_sum'
+    paymentType,  // 'monthly' or 'lump_sum'
+    cancelUrl,    // optional: override the PayFast cancel destination
+    notes         // optional: free-text context from the sign-up form
   } = body;
 
   if (!storytellerFirstName || !storytellerEmail) {
@@ -65,10 +67,26 @@ exports.handler = async function(event) {
   const recordId = record.id;
 
   // Build PayFast params
+  // Send notes notification to Tamara if the sign-up form included context
+  if (notes && notes.trim()) {
+    const MJ_KEY    = process.env.MAILJET_API_KEY;
+    const MJ_SECRET = process.env.MAILJET_API_SECRET;
+    if (MJ_KEY && MJ_SECRET) {
+      const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+      const notifyName = giftGiverName || storytellerFirstName || 'New sign-up';
+      await fetch('https://api.mailjet.com/v3.1/send', {
+        method:  'POST',
+        headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, To: [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }], Subject: `SIGN-UP NOTES — ${notifyName}`, HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${notifyName}</strong> has started sign-up and left the following notes:</p><pre style="font-family:Georgia,serif;font-size:15px;line-height:1.8;color:#333;white-space:pre-wrap;">${notes.trim()}</pre><p style="font-family:Georgia,serif;font-size:14px;color:#888;margin-top:16px;">Storyteller email: ${storytellerEmail || '(not provided yet)'}</p>` }] })
+      }).catch(err => console.error('Notes notification error:', err));
+    }
+  }
+
   const MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID  || '34556163';
   const MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY || 'liduaqfvjfeox';
   const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE   || '';
   const NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
+  const CANCEL_URL   = (cancelUrl && cancelUrl.trim()) ? cancelUrl.trim() : 'https://24stories.co.za/#subscribe';
 
   const isMonthly = (paymentType || 'monthly') === 'monthly';
 
@@ -76,7 +94,7 @@ exports.handler = async function(event) {
     merchant_id:   MERCHANT_ID,
     merchant_key:  MERCHANT_KEY,
     return_url:    'https://24stories.co.za/thank-you.html',
-    cancel_url:    'https://24stories.co.za/#subscribe',
+    cancel_url:    CANCEL_URL,
     notify_url:    NOTIFY_URL,
     name_first:    storytellerFirstName.trim(),
     email_address: storytellerEmail.trim().toLowerCase(),

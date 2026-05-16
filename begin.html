@@ -29,7 +29,7 @@
         /* Hero */
         .begin-hero {
             background: var(--white);
-            padding: clamp(44px, 7vw, 72px) var(--pad);
+            padding: clamp(44px, 7vw, 72px) var(--pad) clamp(22px, 3.5vw, 36px);
             text-align: center;
             border-bottom: 1px solid var(--border);
         }
@@ -54,7 +54,7 @@
         .begin-wrap {
             max-width: 720px;
             margin: 0 auto;
-            padding: clamp(40px, 6vw, 68px) var(--pad) clamp(60px, 8vw, 100px);
+            padding: clamp(20px, 3vw, 34px) var(--pad) clamp(60px, 8vw, 100px);
         }
 
         /* Intro text */
@@ -158,23 +158,24 @@
             align-items: flex-start;
             gap: 10px;
             padding: 26px 22px;
-            background: var(--white);
-            border: 1px solid var(--border);
+            background: var(--charcoal);
+            border: 1px solid var(--charcoal);
             cursor: pointer;
             transition: border-color 0.2s, background 0.2s;
             text-align: left;
             width: 100%;
         }
-        .begin-path-card:hover { border-color: var(--gold); }
+        .begin-path-card:hover { background: #333; border-color: #333; }
         .begin-path-card.active {
             background: var(--charcoal);
-            border-color: var(--charcoal);
+            border-color: var(--gold);
         }
         .begin-path-card-title {
             display: block;
             font-family: var(--font-head);
             font-size: 1.15rem;
-            color: var(--charcoal);
+            font-weight: 600;
+            color: #fff;
             line-height: 1.3;
         }
         .begin-path-card.active .begin-path-card-title { color: #fff; }
@@ -394,11 +395,11 @@
         <div class="begin-path-cards">
             <button class="begin-path-card" id="btn-self" type="button">
                 <span class="begin-path-card-title">I'm telling my own story</span>
-                <span class="begin-path-card-cta">Sign up and begin &rarr;</span>
+                <span class="begin-path-card-cta">Click here and begin &rarr;</span>
             </button>
             <button class="begin-path-card" id="btn-gift" type="button">
                 <span class="begin-path-card-title">I'm giving 24 Stories as a gift</span>
-                <span class="begin-path-card-cta">Sign up and give &rarr;</span>
+                <span class="begin-path-card-cta">Click here and give &rarr;</span>
             </button>
         </div>
 

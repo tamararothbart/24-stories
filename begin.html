@@ -233,6 +233,13 @@
 
         /* Form outer wrapper */
         .begin-form-outer { margin-top: 44px; }
+        .form-mode .begin-form-outer { margin-top: 0; }
+        .form-mode { padding-top: 16px !important; }
+
+        /* Back link */
+        .begin-back { margin: 0 0 20px 0; }
+        .begin-back a { font-size: 13px; color: var(--text-mid); text-decoration: none; letter-spacing: 0.04em; }
+        .begin-back a:hover { color: var(--charcoal); }
 
         /* Form card */
         .begin-form-card {
@@ -446,6 +453,7 @@
              ===================== -->
         <div class="begin-form-outer" id="section-self" style="display:none;">
             <div class="begin-form-card">
+                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
                 <h2 class="begin-form-heading">Your details</h2>
                 <form id="beginSelfForm">
 
@@ -518,6 +526,7 @@
              ===================== -->
         <div class="begin-form-outer" id="section-gift" style="display:none;">
             <div class="begin-form-card">
+                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
                 <h2 class="begin-form-heading">Gift giver details</h2>
                 <form id="beginGiftForm">
 
@@ -663,32 +672,57 @@
     // ========================
     var urlType = new URLSearchParams(window.location.search).get('type');
 
-    function showPath(type, scroll) {
-        var secSelf = document.getElementById('section-self');
-        var secGift = document.getElementById('section-gift');
-        var btnSelf = document.getElementById('btn-self');
-        var btnGift = document.getElementById('btn-gift');
+    function showPath(type) {
+        var secSelf  = document.getElementById('section-self');
+        var secGift  = document.getElementById('section-gift');
+        var hero     = document.querySelector('.begin-hero');
+        var cards    = document.querySelector('.begin-path-cards');
+        var intro    = document.querySelector('.begin-intro');
+        var coaching = document.querySelector('.begin-coaching');
+        var wrap     = document.querySelector('.begin-wrap');
+
+        if (hero)     hero.style.display     = 'none';
+        if (cards)    cards.style.display    = 'none';
+        if (intro)    intro.style.display    = 'none';
+        if (coaching) coaching.style.display = 'none';
+        if (wrap)     wrap.classList.add('form-mode');
 
         if (type === 'self') {
             secSelf.style.display = 'block';
             secGift.style.display = 'none';
-            btnSelf.classList.add('active');
-            btnGift.classList.remove('active');
-            if (scroll) secSelf.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
             secGift.style.display = 'block';
             secSelf.style.display = 'none';
-            btnGift.classList.add('active');
-            btnSelf.classList.remove('active');
-            if (scroll) secGift.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
+
+        window.scrollTo({ top: 0, behavior: 'auto' });
     }
 
-    document.getElementById('btn-self').addEventListener('click', function() { showPath('self', true); });
-    document.getElementById('btn-gift').addEventListener('click', function() { showPath('gift', true); });
+    function showLanding() {
+        var secSelf  = document.getElementById('section-self');
+        var secGift  = document.getElementById('section-gift');
+        var hero     = document.querySelector('.begin-hero');
+        var cards    = document.querySelector('.begin-path-cards');
+        var intro    = document.querySelector('.begin-intro');
+        var coaching = document.querySelector('.begin-coaching');
+        var wrap     = document.querySelector('.begin-wrap');
+
+        secSelf.style.display = 'none';
+        secGift.style.display = 'none';
+        if (hero)     hero.style.display     = '';
+        if (cards)    cards.style.display    = '';
+        if (intro)    intro.style.display    = '';
+        if (coaching) coaching.style.display = '';
+        if (wrap)     wrap.classList.remove('form-mode');
+
+        window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    document.getElementById('btn-self').addEventListener('click', function() { showPath('self'); });
+    document.getElementById('btn-gift').addEventListener('click', function() { showPath('gift'); });
 
     if (urlType === 'self' || urlType === 'gift') {
-        showPath(urlType, false);
+        showPath(urlType);
     }
 
     // ========================

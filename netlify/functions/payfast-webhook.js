@@ -57,7 +57,7 @@ exports.handler = async function(event) {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
-        SubscriberID:         [recordId],
+        Subscribers:          [recordId],
         PayFastTransactionID: pfTransactionId,
         Amount:               parseFloat(amountGross) || 0,
         Date:                 paymentDate.slice(0, 10),
@@ -126,7 +126,7 @@ exports.handler = async function(event) {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
-        SubscriberID:         [recordId],
+        Subscribers:          [recordId],
         PayFastTransactionID: pfTransactionId,
         Amount:               parseFloat(amountGross) || 0,
         Date:                 paymentDate.slice(0, 10),
@@ -163,7 +163,7 @@ exports.handler = async function(event) {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
-        SubscriberID:         [recordId],
+        Subscribers:          [recordId],
         PayFastTransactionID: pfToken || pfTransactionId,
         Amount:               parseFloat(amountGross) || 0,
         Date:                 paymentDate.slice(0, 10),
@@ -223,7 +223,7 @@ exports.handler = async function(event) {
   // For monthly subscriptions, pfToken is the subscription token — store it
   // in PayFastTransactionID so cancellations can retrieve it later.
   const paymentFields = {
-    SubscriberID:         [recordId],
+    Subscribers:          [recordId],
     PayFastTransactionID: pfToken || pfTransactionId,
     Amount:               parseFloat(amountGross) || 0,
     Date:                 paymentDate.slice(0, 10),

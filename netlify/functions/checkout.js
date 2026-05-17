@@ -21,7 +21,8 @@ exports.handler = async function(event) {
     giftGiverName, giftGiverEmail,
     familyEmails, phone,
     paymentType,  // 'monthly' or 'lump_sum'
-    cancelUrl     // optional: override the PayFast cancel destination
+    cancelUrl,    // optional: override the PayFast cancel destination
+    returnUrl     // optional: override the PayFast return destination
   } = body;
 
   if (!storytellerFirstName || !storytellerEmail) {
@@ -70,13 +71,14 @@ exports.handler = async function(event) {
   const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE   || '';
   const NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
   const CANCEL_URL   = (cancelUrl && cancelUrl.trim()) ? cancelUrl.trim() : 'https://24stories.co.za/#subscribe';
+  const RETURN_URL   = (returnUrl && returnUrl.trim()) ? returnUrl.trim() : 'https://24stories.co.za/thank-you.html';
 
   const isMonthly = (paymentType || 'monthly') === 'monthly';
 
   const params = {
     merchant_id:   MERCHANT_ID,
     merchant_key:  MERCHANT_KEY,
-    return_url:    'https://24stories.co.za/thank-you.html',
+    return_url:    RETURN_URL,
     cancel_url:    CANCEL_URL,
     notify_url:    NOTIFY_URL,
     name_first:    storytellerFirstName.trim(),

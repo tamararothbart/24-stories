@@ -361,7 +361,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : giverName,
                     giftGiverEmail       : giverEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : 'monthly'
+                    paymentType          : 'monthly',
+                    returnUrl            : 'https://24stories.co.za/?subscribed=1'
                 })
             })
             .then(r => r.json())
@@ -452,7 +453,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : storytellerName,
                     giftGiverEmail       : storytellerEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : 'monthly'
+                    paymentType          : 'monthly',
+                    returnUrl            : 'https://24stories.co.za/?subscribed=1'
                 })
             })
             .then(r => r.json())

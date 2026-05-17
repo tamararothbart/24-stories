@@ -609,6 +609,17 @@
             </div>
         </div>
 
+        <!-- SUBSCRIBED state — shown after PayFast return with ?subscribed=1 -->
+        <div class="begin-form-outer" id="section-subscribed" style="display:none;">
+            <div class="begin-form-card" style="text-align:center;padding:60px 40px;">
+                <p style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#B8976A;font-weight:600;margin:0 0 20px;">Payment confirmed</p>
+                <h2 style="font-family:var(--font-head);font-size:clamp(2.2rem,5vw,3.2rem);font-weight:300;color:var(--charcoal);margin:0 0 28px;letter-spacing:-0.02em;">You are subscribed.</h2>
+                <div style="width:40px;height:1px;background:#B8976A;margin:0 auto 28px;"></div>
+                <p style="font-size:1.05rem;color:var(--text-mid);line-height:1.85;max-width:420px;margin:0 auto 24px;">An email from 24 Stories is on its way to your inbox.</p>
+                <p style="font-size:0.9rem;color:#999;line-height:1.7;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;">hello@24stories.co.za</a></p>
+            </div>
+        </div>
+
         <!-- Coaching note -->
         <div class="begin-coaching">
             <p class="begin-coaching-head">Story coaching</p>
@@ -704,6 +715,19 @@
         if (wrap)     wrap.classList.remove('form-mode');
 
         window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+
+    // Show subscribed state if returning from PayFast with ?subscribed=1
+    if (new URLSearchParams(window.location.search).get('subscribed') === '1') {
+        document.querySelectorAll('.begin-hero, .begin-path-cards, .begin-intro, .begin-coaching, #section-self, #section-gift').forEach(function(el) {
+            if (el) el.style.display = 'none';
+        });
+        var secSub = document.getElementById('section-subscribed');
+        if (secSub) secSub.style.display = 'block';
+        var wrap = document.querySelector('.begin-wrap');
+        if (wrap) wrap.classList.add('form-mode');
+    } else if (urlType === 'self' || urlType === 'gift') {
+        showPath(urlType);
     }
 
     document.getElementById('btn-self').addEventListener('click', function() { showPath('self'); });
@@ -910,7 +934,8 @@
                 familyEmails:         familyEmails,
                 phone:                phone,
                 paymentType:          'monthly',
-                cancelUrl:            'https://24stories.co.za/begin?type=self'
+                cancelUrl:            'https://24stories.co.za/begin.html?type=self',
+                returnUrl:            'https://24stories.co.za/begin.html?subscribed=1'
             })
         })
         .then(function(r) { return r.json(); })
@@ -1007,7 +1032,8 @@
                 familyEmails:         familyEmails,
                 phone:                stPhone,
                 paymentType:          'monthly',
-                cancelUrl:            'https://24stories.co.za/begin?type=gift'
+                cancelUrl:            'https://24stories.co.za/begin.html?type=gift',
+                returnUrl:            'https://24stories.co.za/begin.html?subscribed=1'
             })
         })
         .then(function(r) { return r.json(); })

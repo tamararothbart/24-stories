@@ -133,6 +133,44 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 ### Other functions checked for smart-quote issue
 - `payfast-webhook.js` was the only function with this problem — others were written without curly quotes.
 
+## Session 18 continued — Form & UX fixes (2026-05-17)
+
+### Story Helper buttons — both forms
+All helper selection converted from checkboxes/radio to pill-button UI (charcoal background when selected, cream text). Radio input hidden; `:has(input:checked)` CSS drives visual state.
+
+**Gift form (begin.html + index.html):**
+- Three options: **None** (default, value="none") | **Me** (value="me") | **Someone else** (value="other")
+- None: gift giver auto-fills slot 1 only. No Email 3.
+- Me: gift giver auto-fills slot 1. Email 2 AND Email 3 both sent to gift giver. (payfast-webhook.js: removed giftGiverEmail exclusion from Email 3 guard — gift giver who is also helper now receives both.)
+- Someone else: gift giver slot 1, third-party helper slot 2. Email 2 to giver, Email 3 to helper.
+
+**Self form (begin.html + index.html):**
+- Two options: **None** (default, value="none") | **Story Helper** (value="other")
+- None: no auto-fill in recipient section. No Email 3.
+- Story Helper: helper name + email fields appear. Helper auto-fills slot 1. Email 3 sent to helper.
+- "Someone else" label was used briefly then renamed to "Story Helper" — correct final label.
+
+### payfast-webhook.js — Email 3 guard
+Removed condition `storyHelperEmail !== giftGiverEmail`. Email 3 now fires whenever storyHelperEmail is set and different from storytellerEmail. This correctly sends Email 3 to gift givers who select "Me" as story helper.
+
+### JS/script defaults
+All helper-type fallback defaults changed from `'me'` to `'none'` in js/script.js (2 places) and begin.html (2 places).
+
+### SUBSCRIBED return state (from earlier in session)
+- After PayFast payment, return_url redirects back to sign-up page with `?subscribed=1`
+- begin.html: shows `#section-subscribed` — "You are subscribed." heading + bold black email notice
+- index.html: shows `#subscribe-subscribed` inside subscribe section, hides `#signup-forms`
+- checkout.js: accepts `returnUrl` param from client (falls back to thank-you.html)
+- js/script.js + begin.html: both pass `returnUrl` in fetch body
+
+### Form copy
+- Removed form-reassurance line from both payment forms on index.html (was "An email from 24 Stories will be sent to you…")
+- PayFast item_description added: "6 monthly payments of R2,795. Stops automatically after 6 months."
+- Admin notification now shows "Payment 1 of 6" and Airtable Record ID
+
+### cancelUrl corrected
+begin.html cancelUrl was `begin?type=self/gift` (missing .html) — corrected to `begin.html?type=self` and `begin.html?type=gift`. urlType param now also wires up auto-show of correct form on cancel return.
+
 ## Launch Dates
 - 8 June 2026: Live storytelling event
 - 10 June 2026: Paid site goes live, interest list emailed

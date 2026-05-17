@@ -322,12 +322,15 @@ async function cancelPayFastSubscription(token) {
   const queryStr = Object.entries(sorted).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
   const signature = crypto.createHash('md5').update(queryStr).digest('hex');
 
-  const baseUrl = useSandbox ? 'https://sandbox.payfast.co.za' : 'https://api.payfast.co.za';
+  // Always use api.payfast.co.za — sandbox.payfast.co.za is for the payment page only.
+  // Pass testing: true header when in sandbox mode.
+  const reqHeaders = { 'merchant-id': MERCHANT_ID, 'version': 'v1', 'timestamp': ts, 'signature': signature };
+  if (useSandbox) reqHeaders['testing'] = 'true';
 
   try {
-    const res = await fetch(`${baseUrl}/subscriptions/${token}/cancel`, {
+    const res = await fetch(`https://api.payfast.co.za/subscriptions/${token}/cancel`, {
       method: 'PUT',
-      headers: { 'merchant-id': MERCHANT_ID, 'version': 'v1', 'timestamp': ts, 'signature': signature }
+      headers: reqHeaders
     });
     if (!res.ok) console.error('PayFast cancel response:', res.status, await res.text());
     return res.ok;

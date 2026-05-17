@@ -181,6 +181,54 @@ exports.handler = async function() {
     }
   }
 
+  // --- ACCESS END DATE CHECKS ---
+  // Seals libraries when AccessEndDate reached. Alerts Tamara the day before.
+  const accessEndFormula = encodeURIComponent('AND({Status}="Active",{AccessEndDate}!="")');
+  const accessEndRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${accessEndFormula}&maxRecords=100`,
+    { headers: { 'Authorization': `Bearer ${PAT}` } }
+  );
+  if (accessEndRes.ok) {
+    const { records: accessEndSubs } = await accessEndRes.json();
+    const todayStr    = today.toISOString().slice(0, 10);
+    const tomorrowDt  = new Date(today);
+    tomorrowDt.setDate(tomorrowDt.getDate() + 1);
+    const tomorrowStr = tomorrowDt.toISOString().slice(0, 10);
+
+    for (const sub of accessEndSubs) {
+      const f             = sub.fields;
+      const accessEndDate = f.AccessEndDate || '';
+      if (!accessEndDate) continue;
+
+      const name          = `${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`.trim();
+      const accessEndFmt  = new Date(accessEndDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      if (accessEndDate <= todayStr) {
+        // Seal — set Status to Cancelled
+        await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+          method: 'PATCH',
+          headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fields: { Status: 'Cancelled' } })
+        });
+        await sendEmail(mjAuth, {
+          to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+          subject: `SEALED — ${name}`,
+          html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(name)}</strong> — library sealed today.<br>Email: ${esc(f.StorytellerEmail || '')}<br>Record: ${esc(sub.id)}</p>`
+        });
+        console.log(`Library sealed for ${sub.id} — ${name}`);
+
+      } else if (accessEndDate === tomorrowStr) {
+        // Alert Tamara — seals tomorrow
+        await sendEmail(mjAuth, {
+          to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+          subject: `SEALS TOMORROW — ${name}`,
+          html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(name)}</strong> — library seals tomorrow (${esc(accessEndFmt)}).<br>Email: ${esc(f.StorytellerEmail || '')}<br>Record: ${esc(sub.id)}<br><br>No action needed unless you have agreed to extend access. If so, update AccessEndDate in Airtable.</p>`
+        });
+        console.log(`Seal tomorrow alert for ${sub.id} — ${name}`);
+      }
+    }
+  }
+
   return { statusCode: 200, body: JSON.stringify({ checked: records.length }) };
 };
 

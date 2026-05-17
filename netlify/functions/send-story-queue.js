@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 // Runs every 2 minutes — checks for stories where Tamara has ticked SendToFamily
 // and SentToFamilyDate is empty. Sends emails 6+7, then marks the story as sent.
 exports.handler = async function() {
@@ -211,8 +212,140 @@ exports.handler = async function() {
     }
   }
 
+  // --- CANCELLATION REQUESTED CHECK ---
+  // Fires when Tamara ticks CancellationRequested on a Subscriber record.
+  // Calls PayFast API to stop future debits, sets AccessEndDate to end of
+  // current billing period, sends confirmation email to subscriber, alerts Tamara.
+  const cancelFormula = encodeURIComponent('{CancellationRequested}=TRUE()');
+  const cancelRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${cancelFormula}&maxRecords=10`,
+    { headers: hdrs }
+  );
+  if (cancelRes.ok) {
+    const { records: cancelSubs } = await cancelRes.json();
+    for (const sub of cancelSubs) {
+      const f = sub.fields;
+
+      // Untick immediately — prevents double-processing on next 2-minute cycle
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { CancellationRequested: false } })
+      });
+
+      // Look up PayFast subscription token from Payments table
+      const token = await getSubscriptionToken(BASE, PAT, sub.id);
+
+      // Cancel with PayFast
+      let payfastCancelled = false;
+      if (token) {
+        payfastCancelled = await cancelPayFastSubscription(token);
+      }
+
+      // Calculate AccessEndDate = end of current billing period
+      const startDate     = new Date(f.SubscriptionStartDate || new Date().toISOString().slice(0, 10));
+      const paymentsCount = f.PaymentsCount || 1;
+      const accessEnd     = new Date(startDate);
+      accessEnd.setMonth(accessEnd.getMonth() + paymentsCount);
+      const accessEndDate = accessEnd.toISOString().slice(0, 10);
+      const accessEndFmt  = accessEnd.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+      // Write AccessEndDate to Airtable
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${sub.id}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { AccessEndDate: accessEndDate } })
+      });
+
+      // Send confirmation email to subscriber
+      if (f.StorytellerEmail) {
+        await sendEmail(mjAuth, {
+          to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+          subject: 'Your 24 Stories subscription — cancellation confirmed',
+          html:    email17Html(f.StorytellerFirstName, accessEndFmt)
+        });
+      }
+
+      // Alert Tamara
+      const name      = `${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`.trim();
+      const pfStatus  = payfastCancelled
+        ? 'PayFast subscription cancelled ✓'
+        : token
+          ? 'WARNING: PayFast cancel call failed — cancel manually in PayFast dashboard'
+          : 'WARNING: No subscription token found — cancel manually in PayFast dashboard';
+      await sendEmail(mjAuth, {
+        to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+        subject: `CANCELLATION PROCESSED — ${name}`,
+        html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(name)}</strong> has cancelled their subscription.<br>Email: ${esc(f.StorytellerEmail || '')}<br>Access until: <strong>${esc(accessEndDate)}</strong><br>${esc(pfStatus)}<br>Record: ${esc(sub.id)}</p>`
+      });
+
+      console.log(`Cancellation processed for ${sub.id} — access until ${accessEndDate} — PayFast: ${payfastCancelled}`);
+    }
+  }
+
   return { statusCode: 200, body: JSON.stringify({ processed }) };
 };
+
+async function getSubscriptionToken(BASE, PAT, subscriberId) {
+  const formula = encodeURIComponent(`FIND("${subscriberId}", ARRAYJOIN({Subscribers}, ",")) > 0`);
+  const res = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Payments?filterByFormula=${formula}&maxRecords=1`,
+    { headers: { 'Authorization': `Bearer ${PAT}` } }
+  );
+  if (!res.ok) return null;
+  const { records } = await res.json();
+  return (records && records.length > 0) ? (records[0].fields.PayFastTransactionID || null) : null;
+}
+
+async function cancelPayFastSubscription(token) {
+  const MERCHANT_ID = process.env.PAYFAST_MERCHANT_ID;
+  const PASSPHRASE  = process.env.PAYFAST_PASSPHRASE || '';
+  const useSandbox  = process.env.PAYFAST_SANDBOX === 'true';
+
+  const now = new Date();
+  // SAST offset +02:00
+  const ts  = new Date(now.getTime() + 2 * 60 * 60 * 1000)
+    .toISOString().replace('Z', '+02:00').replace(/\.\d{3}/, '');
+
+  const headerParams = { 'merchant-id': MERCHANT_ID, 'timestamp': ts, 'version': 'v1' };
+  if (PASSPHRASE) headerParams.passphrase = PASSPHRASE;
+
+  const sorted   = Object.keys(headerParams).sort().reduce((acc, k) => { acc[k] = headerParams[k]; return acc; }, {});
+  const queryStr = Object.entries(sorted).map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`).join('&');
+  const signature = crypto.createHash('md5').update(queryStr).digest('hex');
+
+  const baseUrl = useSandbox ? 'https://sandbox.payfast.co.za' : 'https://api.payfast.co.za';
+
+  try {
+    const res = await fetch(`${baseUrl}/subscriptions/${token}/cancel`, {
+      method: 'PUT',
+      headers: { 'merchant-id': MERCHANT_ID, 'version': 'v1', 'timestamp': ts, 'signature': signature }
+    });
+    if (!res.ok) console.error('PayFast cancel response:', res.status, await res.text());
+    return res.ok;
+  } catch (err) {
+    console.error('PayFast cancel error:', err.message);
+    return false;
+  }
+}
+
+function email17Html(firstName, accessEndFmt) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We've received your cancellation request. Your subscription has been cancelled and no further payments will be taken.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You'll continue to receive your weekly prompts and full access to your Story Library until ${esc(accessEndFmt)}.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">After that date, your library will be sealed. Your stories will remain safe — if you'd like to return, email us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> and we'll pick up where you left off.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
 
 async function sendEmail(mjAuth, { to, subject, html }) {
   const res = await fetch('https://api.mailjet.com/v3.1/send', {

@@ -681,6 +681,15 @@
         <p style="font-size:14px; color:#888;"><a href="index.html#resend-link" style="color:#B8976A;">resend your library link</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:#B8976A;"><span class="wa-mobile">WhatsApp us</span><span class="wa-desktop">WhatsApp: +27 82 375 8320</span></a></p>
     </div>
 
+    <!-- SEALED — subscription ended -->
+    <div id="stateSealed" class="page-center" style="display:none; flex-direction:column; max-width:560px; margin:0 auto; text-align:center; padding:80px 24px;">
+        <a href="index.html" style="margin-bottom:40px;"><img src="logo.png" alt="24 Stories" style="height:52px;width:auto;display:block;margin:0 auto;"></a>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#B8976A; margin-bottom:14px;">24 Stories</p>
+        <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,2.6rem); font-weight:300; color:#1A1A1A; line-height:1.2; margin-bottom:20px;">Your Story Library has been sealed.</h1>
+        <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#555; line-height:1.8; margin-bottom:36px;">Your subscription has ended and your library is no longer accessible. Your stories are safe.</p>
+        <p style="font-size:14px; color:#888;">To restart your subscription, email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;">hello@24stories.co.za</a> and we'll pick up where you left off.</p>
+    </div>
+
     <!-- LIBRARY -->
     <div id="stateLibrary" style="display:none;">
 
@@ -901,7 +910,7 @@
         var READ_ONLY_MODE = false;
 
         function showState(s) {
-            ['stateLoading','stateError','stateLibrary','statePaywall'].forEach(function(id) {
+            ['stateLoading','stateError','stateLibrary','statePaywall','stateSealed'].forEach(function(id) {
                 document.getElementById(id).style.display = (id === 'state' + capitalise(s)) ? '' : 'none';
             });
         }
@@ -986,7 +995,8 @@
 
                 // Paywall: check access level returned by library-read.js
                 var accessLevel = data.access_level || 'full';
-                if (accessLevel === 'none') { showState('paywall'); return; }
+                if (accessLevel === 'none')   { showState('paywall'); return; }
+                if (accessLevel === 'locked') { showState('sealed');  return; }
 
                 var f    = sub.fields;
                 var name = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');

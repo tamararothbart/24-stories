@@ -75,7 +75,11 @@ function computeAccessLevel(fields) {
     return 'read_only';
   }
 
-  if (status === 'Cancelled' || status === 'Complete') {
+  if (status === 'Cancelled') {
+    return 'locked';
+  }
+
+  if (status === 'Complete') {
     return 'read_only';
   }
 

@@ -560,11 +560,6 @@
                         <label for="g-storyteller-phone">Their WhatsApp number <span class="field-note">(if available)</span></label>
                         <input type="tel" id="g-storyteller-phone" name="g-storyteller-phone" placeholder="Their WhatsApp (optional)">
                     </div>
-                    <div class="field">
-                        <label for="g-relationship">Your relationship to the storyteller</label>
-                        <input type="text" id="g-relationship" name="g-relationship" placeholder="e.g. Daughter, Son, Partner, Friend">
-                    </div>
-
                     <p class="form-section-label">Story Helper</p>
                     <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside the storyteller and can help with recording and uploading photographs. Will you be helping, or would you like someone else to assist?</p>
                     <div class="field">
@@ -1017,7 +1012,7 @@
         var stNickname   = document.getElementById('g-storyteller-firstname').value.trim();
         var stEmail      = gStorytEmail.value.trim();
         var stPhone      = document.getElementById('g-storyteller-phone').value.trim();
-        var relationship = document.getElementById('g-relationship').value.trim();
+
         var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
         var helperVal    = helperChecked ? helperChecked.value : 'none';
         var helperName   = helperVal === 'me'    ? giverName

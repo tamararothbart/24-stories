@@ -40,4 +40,11 @@ schedule = "0 6 * * 6"
 [functions.book-onboarding-reminder]
 schedule = "0 7 * * *"
 
+[functions.send-story-queue]
+schedule = "*/2 * * * *"
+
+[functions.text-edit-queue]
+schedule = "*/5 * * * *"
+timeout = 60.0
+
 [functions."*"]

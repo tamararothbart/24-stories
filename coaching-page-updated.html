@@ -1,0 +1,588 @@
+<!--
+SETUP CHECKLIST — complete before going live:
+1. Sign up at calendly.com (Standard plan ~$10/mo)
+2. Create 5 event types:
+   - "Free Intro Call" (20 min, no payment)
+   - "Single Session" (60 min, R1,200)
+   - "Three Sessions" (60 min, R3,200)
+   - "Six Sessions" (60 min, R5,500)
+   - "Full Programme" (60 min, R18,000)
+3. For payment: either
+   a) Connect Stripe (Calendly > Integrations > Stripe) — card payments, works in SA
+   b) OR sign up at checkoutjoy.com, connect your PayFast account, then connect Calendly — enables EFT, Instant EFT, Mobicred
+4. Enable "Collect payment" on the 4 paid event types with ZAR amounts
+5. Add this intake question to all paid event types: "Please share a brief description of the story or prompt you're working on."
+6. Replace all placeholder Calendly URLs in this file with your real event URLs
+7. Search this file for "REPLACE" to find every placeholder
+8. Upload this file to replace the existing /coaching page
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Story coaching with Tamara Rothbart, founder of 24 Stories. One session, three sessions, six sessions, or one per story across your full journey. Available to active subscribers only.">
+    <title>Story Coaching — 24 Stories</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ─── PAGE-SPECIFIC STYLES ──────────────────────────────────────── */
+
+    .coaching-hero {
+        background: var(--charcoal);
+        padding: calc(var(--sec) + 48px) var(--pad) calc(var(--sec) * 0.75);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .coaching-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(184,151,106,0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .coaching-hero .eyebrow { color: var(--gold); margin-bottom: 14px; }
+    .coaching-hero h1 {
+        font-family: var(--font-head);
+        font-size: clamp(2.4rem, 5vw, 4rem);
+        font-weight: 300;
+        color: var(--cream);
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 20px;
+    }
+    .coaching-hero .hero-sub {
+        font-family: var(--font-accent);
+        font-size: 1.15rem;
+        font-weight: 300;
+        color: rgba(247,245,242,0.65);
+        max-width: 540px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+
+    /* ─── Sections ────────────────────────────────────────────────── */
+    .c-section { padding: 72px var(--pad); }
+    .c-section-cream { background: var(--cream); }
+    .c-section-white { background: #ffffff; }
+    .c-section-dark  { background: var(--charcoal); }
+    .c-narrow { max-width: 680px; margin-left: auto; margin-right: auto; }
+    .c-body-text {
+        font-family: var(--font-accent);
+        font-size: clamp(1.05rem, 1.8vw, 1.15rem);
+        line-height: 1.85;
+        color: #444;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
+    .gold-rule { width: 40px; height: 1px; background: var(--gold); margin: 24px 0; }
+
+    /* ─── Tamara bio / photo ──────────────────────────────────────── */
+    .tamara-grid {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 56px;
+        align-items: start;
+    }
+    .tamara-photo-wrap {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        background: #E8E4DF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .tamara-photo-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .photo-placeholder {
+        font-size: 11px;
+        color: #999;
+        text-align: center;
+        padding: 16px;
+        line-height: 1.6;
+        letter-spacing: 0.04em;
+    }
+    .bio-placeholder {
+        background: #F0EDE8;
+        border-left: 3px solid var(--gold);
+        padding: 20px 24px;
+        margin-top: 20px;
+        font-size: 13px;
+        color: #888;
+        line-height: 1.7;
+    }
+
+    /* ─── How a session works ─────────────────────────────────────── */
+    .session-steps {
+        list-style: none;
+        padding: 0;
+        margin: 32px 0 0;
+    }
+    .session-steps li {
+        display: flex;
+        gap: 28px;
+        margin-bottom: 36px;
+        align-items: flex-start;
+    }
+    .session-steps li::before {
+        content: '—';
+        flex-shrink: 0;
+        color: var(--gold);
+        font-family: var(--font-accent);
+        font-size: 1.1rem;
+        font-weight: 300;
+        margin-top: 4px;
+    }
+    .session-steps li .step-text {
+        font-family: var(--font-accent);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--charcoal);
+    }
+    .session-steps li .step-text strong {
+        display: block;
+        font-family: var(--font-head);
+        font-size: 1.25rem;
+        font-weight: 400;
+        margin-bottom: 4px;
+    }
+
+    /* ─── Coaching cards ──────────────────────────────────────────── */
+    .coaching-options-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+        margin-top: 36px;
+    }
+    .coaching-option-card {
+        border: 1px solid #D8D4CF;
+        padding: 32px 28px;
+        background: #ffffff;
+        display: flex;
+        flex-direction: column;
+    }
+    .coaching-option-title {
+        font-family: var(--font-head);
+        font-size: 1.45rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        margin-bottom: 6px;
+    }
+    .coaching-option-price {
+        font-family: var(--font-accent);
+        font-size: 1.5rem;
+        color: var(--charcoal);
+        margin-bottom: 14px;
+    }
+    .coaching-option-desc {
+        font-size: 15px;
+        color: #555;
+        line-height: 1.7;
+        flex: 1;
+        margin-bottom: 24px;
+    }
+    .coaching-option-btn {
+        display: block;
+        text-align: center;
+        background: var(--charcoal);
+        color: var(--cream);
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 14px 20px;
+        border-radius: 2px;
+        min-height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .coaching-option-btn:hover { background: #333; }
+    .c-cards-note {
+        font-size: 15px;
+        color: #555;
+        line-height: 1.8;
+        margin-top: 28px;
+    }
+    .c-cards-note-small {
+        font-size: 13px;
+        color: #888;
+        margin-top: 10px;
+    }
+    .card-contact-alt {
+        font-size: 15px;
+        color: #555;
+        text-align: center;
+        margin-top: 10px;
+        line-height: 1.7;
+    }
+    .card-contact-alt a { color: #555; text-decoration: underline; }
+
+    /* ─── Coach byline ───────────────────────────────────────────── */
+    .coach-byline {
+        font-family: var(--font-head);
+        font-size: 1.15rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        margin-top: 28px;
+        line-height: 1.6;
+    }
+    .coach-byline span {
+        display: block;
+        font-family: var(--font-accent);
+        font-size: 0.9rem;
+        font-weight: 300;
+        color: var(--gold);
+        letter-spacing: 0.04em;
+    }
+
+    /* ─── Coaching moments ───────────────────────────────────────── */
+    .coaching-moment {
+        margin-bottom: 40px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid #E0DDD8;
+    }
+    .coaching-moment:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+    .coaching-moment-title {
+        font-family: var(--font-head);
+        font-size: 1.4rem;
+        font-weight: 400;
+        color: var(--charcoal);
+        margin-bottom: 16px;
+        line-height: 1.3;
+    }
+
+    /* ─── Ghostwriting ────────────────────────────────────────────── */
+    .ghostwriting-section {
+        text-align: center;
+        padding: 56px var(--pad);
+        background: var(--charcoal);
+    }
+    .ghostwriting-section p {
+        font-family: var(--font-accent);
+        font-size: 1.05rem;
+        color: #888;
+        line-height: 1.9;
+        max-width: 520px;
+        margin: 0 auto 20px;
+    }
+    .ghostwriting-section a { color: var(--gold); text-decoration: underline; }
+
+    /* ─── Contact ─────────────────────────────────────────────────── */
+    .contact-section {
+        background: var(--gold);
+        padding: 60px var(--pad);
+        text-align: center;
+    }
+    .contact-section h2 {
+        font-family: var(--font-head);
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 300;
+        color: #ffffff;
+        margin-bottom: 16px;
+    }
+    .contact-section p {
+        font-family: var(--font-accent);
+        font-size: 1.05rem;
+        color: rgba(255,255,255,0.85);
+        margin-bottom: 32px;
+        line-height: 1.8;
+    }
+    .contact-btn {
+        display: inline-block;
+        background: var(--charcoal);
+        color: var(--cream);
+        font-family: var(--font-body);
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 20px 52px;
+        border-radius: 2px;
+        margin-bottom: 16px;
+    }
+    .contact-secondary {
+        font-size: 14px;
+        color: rgba(255,255,255,0.75);
+        margin: 0;
+    }
+    .contact-secondary a { color: #ffffff; text-decoration: underline; }
+
+    /* ─── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+        .tamara-grid { grid-template-columns: 1fr; gap: 32px; }
+        .tamara-photo-wrap { max-width: 220px; aspect-ratio: 3 / 4; }
+        .coaching-options-grid { grid-template-columns: 1fr; }
+        .coaching-hero { padding-top: calc(var(--sec) + 64px); }
+    }
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════════
+         NAVIGATION
+    ════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a class='nav-brand' href='/'>
+                <img src="logo.png" alt="24 Stories" style="height:64px; width:auto; display:block;" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href='/#how-it-works'>How It Works</a>
+                <a href='/#pricing'>Pricing</a>
+                <a class='btn btn-nav-cta' href='/#subscribe'>Get Started</a>
+                <a href='/coaching' style='color: var(--gold);'>Coaching</a>
+                <a href='/events'>Live Events</a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 1 — HERO
+    ════════════════════════════════════════════ -->
+    <section class="coaching-hero">
+        <div class="container">
+            <span class="eyebrow">24 Stories &nbsp;&middot;&nbsp; Story Coaching</span>
+            <h1>Story Coaching<br>with Tamara Rothbart</h1>
+            <p class="hero-sub">A thinking partner for the stories only you can tell.</p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 2 — MEET YOUR COACH
+    ════════════════════════════════════════════ -->
+    <section class="c-section c-section-white">
+        <div class="container">
+            <div class="tamara-grid">
+                <div>
+                    <div class="tamara-photo-wrap">
+                        <img src="images/tamara-coaching.jpg" alt="Tamara Rothbart, story coach"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="photo-placeholder" style="display:none; position:absolute; inset:0; align-items:center; justify-content:center; flex-direction:column; background:#E8E4DF;">
+                            <p style="margin:0; font-size:11px; color:#999; letter-spacing:0.06em; text-transform:uppercase; line-height:1.6; text-align:center; padding:16px;">PHOTO<br>tamara-coaching.jpg<br>Replace when file is ready</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="section-eyebrow">Meet Your Coach</span>
+                    <div class="gold-rule"></div>
+                    <p class="c-body-text">The most common concern I hear is: "I don't have enough stories." Trust me — you do.</p>
+                    <p class="c-body-text">In twenty-five years as a journalist, columnist, editor, and ghostwriter — interviewing celebrities, politicians, titans of industry, sages, mothers, and truck drivers — I've never met a story that did not deserve to be told.</p>
+                    <p class="c-body-text">As your coach, I'm not just asking questions and giving feedback. I'm helping you find the angle, the hook, the moment on which a story pivots — and how to bring it home.</p>
+                    <p class="c-body-text">Every joy, every heartbreak, every win, every loss has contributed to the one-of-a-kind person you are. And in knowing you, your children, their children, and all the generations to follow will know themselves a little better, too.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 3 — WHEN DO I USE A WRITING COACH?
+    ════════════════════════════════════════════ -->
+    <section class="c-section c-section-cream">
+        <div class="container c-narrow">
+            <span class="section-eyebrow">When Do I Use a Writing Coach?</span>
+            <div class="gold-rule"></div>
+
+            <div class="coaching-moment">
+                <h3 class="coaching-moment-title">Before You Begin</h3>
+                <p class="c-body-text">If you'd like to come into your first story with more clarity, I offer a single coaching session before you even start. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.</p>
+            </div>
+
+            <div class="coaching-moment">
+                <h3 class="coaching-moment-title">A Few Stories In</h3>
+                <p class="c-body-text">Some of what you've written has surprised you. A story you thought would be easy that wasn't. One that turned out to hold more than you expected when you sat down to tell it. You feel as if you're writing blind, recording in the dark.</p>
+                <p class="c-body-text">This is what coaching at this stage offers: your rough draft read in advance, a focused conversation, actionable feedback, tools and tips, and a clear, easy path forward to an unforgettable story.</p>
+            </div>
+
+            <div class="coaching-moment">
+                <h3 class="coaching-moment-title">When You're Running out of Steam</h3>
+                <p class="c-body-text">Some storytellers find that the later prompts ask more of you. The stories about regret. About people who are no longer here. About things that have never been said out loud. These stories don't stop you because they're too small. They stop you because they matter too much.</p>
+                <p class="c-body-text">Coaching at this stage is about having someone with you for the stories you've been putting off. A thinking partner, a feedback loop, extra tools, and a real-time editor to get you across the finishing line.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 4 — HOW A SESSION WORKS
+    ════════════════════════════════════════════ -->
+    <section class="c-section c-section-white">
+        <div class="container c-narrow">
+            <span class="section-eyebrow">How a session works</span>
+            <div class="gold-rule"></div>
+            <p class="c-body-text">Each session is a focused personal conversation that gives you a clear path forward — so you can sit down and record with confidence.</p>
+            <ul class="session-steps">
+                <li>
+                    <div class="step-text">
+                        You schedule a time directly with Tamara via WhatsApp (082 375 8320).
+                    </div>
+                </li>
+                <li>
+                    <div class="step-text">
+                        You spend one hour together — by video or phone.
+                    </div>
+                </li>
+                <li>
+                    <div class="step-text">
+                        You bring your writing, ideas, questions, and concerns to each session.
+                    </div>
+                </li>
+                <li>
+                    <div class="step-text">
+                        To maximise your coaching time, you can submit a rough draft of a story 24 hours in advance. This is neither mandatory nor essential for the success of a session. But if you do, Tamara will read it in full and make notes, so that she has a clear idea of where you're at before you even meet.
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 5 — COACHING OPTIONS
+    ════════════════════════════════════════════ -->
+    <section class="c-section c-section-cream">
+        <div class="container">
+            <span class="section-eyebrow" style="display:block; text-align:center; margin-bottom:8px;">Coaching options</span>
+            <h2 class="section-title" style="text-align:center; margin-bottom:4px;">Choose what works for your journey</h2>
+
+            <div class="coaching-options-grid">
+
+                <div class="coaching-option-card">
+                    <p class="coaching-option-title">Single Session</p>
+                    <p class="coaching-option-price">R1,200</p>
+                    <p class="coaching-option-desc">One hour with Tamara. Your story read in advance.</p>
+                    <!-- REPLACE with your Calendly event URL for Single Session. Enable Stripe or CheckoutJoy+PayFast payment collection on this event type before going live. -->
+                    <a href="https://calendly.com/24stories/single-session" target="_blank" rel="noopener" class="coaching-option-btn">Book &amp; Pay Now</a>
+                    <p class="card-contact-alt">082 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                </div>
+
+                <div class="coaching-option-card">
+                    <p class="coaching-option-title">Three Sessions</p>
+                    <p class="coaching-option-price">R3,200</p>
+                    <p class="coaching-option-desc">Use across any three stories in your journey. Save R400.</p>
+                    <!-- REPLACE with your Calendly event URL for Three Sessions. Enable Stripe or CheckoutJoy+PayFast payment collection on this event type before going live. -->
+                    <a href="https://calendly.com/24stories/three-sessions" target="_blank" rel="noopener" class="coaching-option-btn">Book &amp; Pay Now</a>
+                    <p class="card-contact-alt">082 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                </div>
+
+                <div class="coaching-option-card">
+                    <p class="coaching-option-title">Six Sessions</p>
+                    <p class="coaching-option-price">R5,500</p>
+                    <p class="coaching-option-desc">A coaching companion for your most important chapters. Save R1,700.</p>
+                    <!-- REPLACE with your Calendly event URL for Six Sessions. Enable Stripe or CheckoutJoy+PayFast payment collection on this event type before going live. -->
+                    <a href="https://calendly.com/24stories/six-sessions" target="_blank" rel="noopener" class="coaching-option-btn">Book &amp; Pay Now</a>
+                    <p class="card-contact-alt">082 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                </div>
+
+                <div class="coaching-option-card">
+                    <p class="coaching-option-title">Full 24-Session Programme</p>
+                    <p class="coaching-option-price">R18,000</p>
+                    <p class="coaching-option-desc">One session per story. The complete guided journey.</p>
+                    <!-- REPLACE with your Calendly event URL for Full Programme. Enable Stripe or CheckoutJoy+PayFast payment collection on this event type before going live. -->
+                    <a href="https://calendly.com/24stories/full-programme" target="_blank" rel="noopener" class="coaching-option-btn">Book &amp; Pay Now</a>
+                    <p class="card-contact-alt">082 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                </div>
+
+            </div>
+
+            <p class="c-cards-note">Submit your story 24 hours before your session and Tamara will read it in preparation. Coaching is available to active subscribers only.</p>
+            <p class="c-cards-note">Buying coaching at the same time as your subscription? <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">email us</a> and we'll arrange both together.</p>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 6 — GHOSTWRITING NOTE
+    ════════════════════════════════════════════ -->
+    <section class="ghostwriting-section">
+        <div class="container" style="max-width:560px;">
+            <p class="section-eyebrow" style="color:var(--gold); margin-bottom:20px;">Working on something larger?</p>
+            <p>For subscribers with a more complex story — or who would prefer to hand the writing entirely to a professional — a private ghostwriting service is available by arrangement.</p>
+            <a href="mailto:hello@24stories.co.za">Enquire by email &rarr;</a>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         SECTION 7 — INTRO CALL CTA
+    ════════════════════════════════════════════ -->
+    <section class="contact-section">
+        <div class="container">
+            <h2>Not sure which option is right for you?</h2>
+            <p>Book a free 20-minute introductory call with Tamara.<br>No commitment — just a conversation.</p>
+            <!-- REPLACE with your free Calendly discovery call URL. Set this event type as free/no payment required. -->
+            <a href="https://calendly.com/24stories/intro-call" target="_blank" rel="noopener noreferrer" class="contact-btn">Book a Free Intro Call</a>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">24 Stories</p>
+                <p class="footer-tagline">The stories only they can tell.</p>
+            </div>
+            <div class="footer-links">
+                <div>
+                    <p class="footer-col-title">The Service</p>
+                    <a href='/#how-it-works'>How It Works</a>
+                    <a href='/#pricing'>Pricing</a>
+                    <a href='/coaching'>Coaching</a>
+                    <a href='/events'>Live Events</a>
+                </div>
+                <div>
+                    <p class="footer-col-title">Contact</p>
+                    <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>
+                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+                    <a href="https://www.facebook.com/profile.php?id=61588941804554" target="_blank" rel="noopener noreferrer">Facebook</a>
+                </div>
+                <div>
+                    <p class="footer-col-title">Legal</p>
+                    <a href='/terms'>Terms &amp; Conditions</a>
+                    <a href='/privacy'>Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 24 Stories &mdash; 24stories.co.za. All rights reserved. &nbsp;&middot;&nbsp; <a href='/terms' style='color:inherit; opacity:0.6;'>Terms</a></p>
+        </div>
+    </footer>
+
+    <div class="social-float-stack">
+        <a href="https://www.facebook.com/profile.php?id=61588941804554" target="_blank" rel="noopener" class="social-float social-float--fb" aria-label="Follow us on Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+        </a>
+        <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="social-float social-float--wa" aria-label="Chat on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

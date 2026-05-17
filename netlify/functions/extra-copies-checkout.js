@@ -43,8 +43,9 @@ exports.handler = async function(event) {
     notify_url:   NOTIFY_URL,
     amount:       amount,
     item_name:    itemName,
-    custom_str1:  subscriberId,
-    custom_str2:  String(qty)
+    custom_str1:     subscriberId,
+    custom_str2:     String(qty),
+    payment_method:  'cc'
   };
 
   params.signature = generateSignature(params, PASSPHRASE);

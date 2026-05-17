@@ -101,8 +101,9 @@ exports.handler = async function(event) {
     m_payment_id:  recordId,
     amount:        isMonthly ? '2795.00' : '16770.00',
     item_name:     '24 Stories',
-    custom_str1:   recordId,
-    custom_str2:   isMonthly ? 'monthly' : 'lump_sum'
+    custom_str1:      recordId,
+    custom_str2:      isMonthly ? 'monthly' : 'lump_sum',
+    payment_method:   'cc'
   };
 
   // Add subscription fields for monthly recurring

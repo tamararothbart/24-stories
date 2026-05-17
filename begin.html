@@ -565,7 +565,10 @@
                     <div class="field">
                         <div class="helper-options">
                             <label class="helper-option">
-                                <input type="radio" name="g-helper-type" value="me" checked> Me
+                                <input type="radio" name="g-helper-type" value="none" checked> None
+                            </label>
+                            <label class="helper-option">
+                                <input type="radio" name="g-helper-type" value="me"> Me
                             </label>
                             <label class="helper-option">
                                 <input type="radio" name="g-helper-type" value="other"> Someone else
@@ -963,7 +966,7 @@
         var storyteller = gStorytEmail ? gStorytEmail.value.trim() : '';
         var giver       = gGiverEmail  ? gGiverEmail.value.trim()  : '';
         var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
-        var helperVal   = helperChecked ? helperChecked.value : 'me';
+        var helperVal   = helperChecked ? helperChecked.value : 'none';
         var helper = '';
         if (helperVal === 'me')    helper = giver;
         if (helperVal === 'other') helper = gHelperEmailInp ? gHelperEmailInp.value.trim() : '';
@@ -1004,7 +1007,7 @@
         var stPhone      = document.getElementById('g-storyteller-phone').value.trim();
         var relationship = document.getElementById('g-relationship').value.trim();
         var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
-        var helperVal    = helperChecked ? helperChecked.value : 'me';
+        var helperVal    = helperChecked ? helperChecked.value : 'none';
         var helperName   = helperVal === 'me'    ? giverName
                          : helperVal === 'other' ? (document.getElementById('g-helper-name') ? document.getElementById('g-helper-name').value.trim() : '')
                          : '';

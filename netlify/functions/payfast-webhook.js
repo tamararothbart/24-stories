@@ -264,11 +264,10 @@ exports.handler = async function(event) {
     });
   }
 
-  // Email 3 — Story Helper (only if different from storyteller and gift giver)
+  // Email 3 — Story Helper (different from storyteller; gift giver who selected Me also receives this)
   if (
     storyHelperEmail &&
-    storyHelperEmail.toLowerCase() !== storytellerEmail.toLowerCase() &&
-    storyHelperEmail.toLowerCase() !== giftGiverEmail.toLowerCase()
+    storyHelperEmail.toLowerCase() !== storytellerEmail.toLowerCase()
   ) {
     await sendEmail(mjAuth, {
       to:      { Email: storyHelperEmail, Name: storyHelperName },

@@ -283,7 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function getGiftAutoEmails() {
             const storyteller = gStorytellerEmail?.value.trim() || '';
             const giver       = gGiverEmail?.value.trim() || '';
-            const helperType  = giftForm.querySelector('[name="g-helper-type"]:checked')?.value || 'me';
+            const helperType  = giftForm.querySelector('[name="g-helper-type"]:checked')?.value || 'none';
 
             let helper = '';
             if (helperType === 'me')    helper = giver;

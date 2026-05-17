@@ -245,8 +245,43 @@ After all tests: delete test Airtable records. Resolve PayFast live credential i
 - Stories submitted during grace window stored but not edited or sent to family.
 - See MEMORY.md for full flow spec.
 
+### Commits
+- Scenario B: 968d6fd (cancellation flow), 560d335 (token fix), 4de87bd (PayFast URL fix)
+
+## Session 18 continued — Scenario A: Payment failure freeze (2026-05-17)
+
+### Airtable
+- Status field: "Paused" confirmed removed (Tamara deleted it). "Frozen" added as new option (red).
+- Status options now: Active, Pending, Complete, Cancelled, Frozen.
+
+### payfast-webhook.js
+- CANCELLED IPN: sets Status=Frozen immediately, sends PAYMENT FAILED — SUBSCRIPTION FROZEN alert to hello@ with name, email, phone, and restart link.
+- COMPLETE IPN on Frozen subscriber: reactivates (Status=Active, SubscriptionStartDate=today, PaymentsCount=1), creates new Payment record, sends email-18 to subscriber, sends SUBSCRIPTION RESTARTED alert to hello@.
+
+### restart-checkout.js (new function)
+- GET `?id=SUBSCRIBER_RECORD_ID`
+- Verifies Status=Frozen. Builds signed PayFast recurring payment URL (R2,795 × 6 months, same params as checkout.js).
+- Redirects subscriber directly to PayFast. One-click.
+- return_url and cancel_url both go back to library.html?id=RECORD_ID.
+
+### library-read.js
+- Status=Frozen → access_level='frozen' (separate from 'locked' used by Cancelled).
+
+### library.html
+- stateFrozen screen: "Your Story Library is temporarily unavailable." + "Restart my subscription →" button (href built from subscriberId in URL, points to restart-checkout function).
+
+### email-18-welcome-back.html
+- New reference file. Subject: "Welcome back — 24 Stories". Fires on restart COMPLETE IPN.
+
+### Operations manual
+- Part 3C added: WHAT TO DO WHEN A PAYMENT FAILS — full workflow, how to save/send restart link via email or WhatsApp.
+
+### ⚠ UNTESTED IN PRODUCTION (same caveat as Scenario B PayFast cancel)
+- CANCELLED IPN trigger cannot be sandbox-tested. First live payment failure will verify the freeze works.
+- Restart flow: restart-checkout.js redirect to PayFast + COMPLETE IPN reactivation logic is correct but untested end-to-end.
+
 ### Commit
-- Scenario B: 968d6fd
+- Scenario A: 88fe99b
 
 ## Launch Dates
 - 8 June 2026: Live storytelling event

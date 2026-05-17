@@ -264,6 +264,80 @@ Do not change Status back to Active unless they have paid and you want prompts t
 
 ---
 
+## PART 3C — WHAT TO DO WHEN A PAYMENT FAILS
+
+---
+
+### WHAT HAPPENS AUTOMATICALLY (YOU DO NOTHING)
+
+When PayFast cannot collect a payment after all retries are exhausted, it sends a cancellation signal to the system. Within seconds:
+
+- The subscriber's account is **frozen** — no more prompts, Story Library locked immediately
+- You receive a **PAYMENT FAILED — SUBSCRIPTION FROZEN** alert at hello@24stories.co.za
+
+This is different from a voluntary cancellation. There is no end-of-billing-cycle grace period. The freeze is instant.
+
+---
+
+### THE ALERT EMAIL CONTAINS EVERYTHING YOU NEED
+
+The PAYMENT FAILED alert at hello@ contains:
+
+- Subscriber's full name
+- Email address
+- WhatsApp / phone number (if provided at signup)
+- **A one-click restart link** — ready to send
+
+The restart link looks like this:
+```
+https://24stories.co.za/.netlify/functions/restart-checkout?id=RECORD_ID
+```
+Each link is unique to that subscriber. It expires only when you delete the subscriber record.
+
+---
+
+### YOUR ONE ACTION — SEND THE RESTART LINK
+
+Decide whether to contact the subscriber by **email** or **WhatsApp**, then send them the restart link.
+
+**By email:**
+1. Open the PAYMENT FAILED alert in hello@24stories.co.za
+2. Copy the restart link from the alert
+3. Paste it into a new email to the subscriber
+4. Send
+
+**By WhatsApp:**
+1. Open the PAYMENT FAILED alert on your phone or desktop (hello@ is Google Workspace — accessible anywhere)
+2. Long-press the restart link to copy it
+3. Open the subscriber's WhatsApp conversation (their number is in the alert)
+4. Paste and send
+
+**To save it for later (e.g. you want to call first, send the link after):**
+- Forward the PAYMENT FAILED alert to yourself at hello@ with subject "HOLD — [Name] restart link" so it stays at the top of your inbox
+- Or copy the link into a WhatsApp message to yourself (WhatsApp → your own number, or "Saved Messages" if using Telegram)
+
+---
+
+### WHAT HAPPENS WHEN THEY PAY (FULLY AUTOMATIC)
+
+Once the subscriber clicks the link and completes payment:
+
+- Their account unfreezes immediately — Status → Active
+- Their Story Library reopens
+- They receive an automated email: "Welcome back — your subscription is active. Story Library open. Next prompt arrives Wednesday."
+- You receive a **SUBSCRIPTION RESTARTED** alert at hello@ confirming payment and amount
+- Prompts resume automatically the following Wednesday
+
+You do not touch Airtable. You do not do anything else.
+
+---
+
+### IF THEY DO NOT RESTART
+
+If the subscriber does not respond and does not pay, the account stays frozen indefinitely. No further prompts are sent. Their stories remain safe in Airtable. If they eventually return, email hello@24stories.co.za and you can send them a fresh restart link at any time.
+
+---
+
 ## PART 4 — WEEK 26 / BOOK PRODUCTION
 
 ---

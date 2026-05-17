@@ -346,15 +346,12 @@ function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, 
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're ready, click the button to record your story or type it. Your words are transcribed automatically, then tidied up for you. Read through your story, edit as much as you like, and press Send when you're satisfied.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Story Library</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is your personal home for this entire journey. Your prompts arrive there each week. Return at any time to record a story, add a photograph, or update a caption.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your library is also where you complete the details for your Legacy Book before the end of week 26.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your library link is in every email from us. If you lose it, visit <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">www.24stories.co.za</a> and request the link.</p>
-      <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Open your library &#8594;</a>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your Story Library is where all your prompts, stories, and photographs will live. You'll find it in every email from us, starting Wednesday.</p>
       ${helperSection}
       <p style="font-size:16px;font-style:italic;color:#5C4A30;line-height:1.9;margin:36px 0 22px;">When your final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — yours to hold, share, and keep for generations.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
-      <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+      <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>
   </div>
 </body>

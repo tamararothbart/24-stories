@@ -74,6 +74,20 @@ exports.handler = async function() {
       await sendEmail(mjAuth, { to: { Email: f.StoryHelperEmail, Name: f.StoryHelperName || '' }, subject, html });
     }
 
+    // Week 1: coaching email 0 fires alongside the first prompt (non-coaching subscribers only)
+    if (isWeek1 && f.StorytellerEmail && !f.InCoaching) {
+      await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`, {
+        method: 'PATCH',
+        headers: { 'Authorization': `Bearer ${PAT}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fields: { CoachingEmailsSent: 1 } })
+      });
+      await sendEmail(mjAuth, {
+        to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject: 'Before you write your first story — 24 Stories',
+        html:    coachingEmail0Html(f.StorytellerFirstName)
+      });
+    }
+
     // Week 24: book onboarding intro fires alongside the prompt
     if (isWeek24 && f.StorytellerEmail) {
       await sendEmail(mjAuth, {
@@ -262,6 +276,29 @@ function email26Html(firstName, promptText, tellUrl, libUrl) {
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function coachingEmail0Html(firstName) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your first prompt has just landed in your inbox. Many storytellers find the first one the hardest, so before you sit down to record it, I want to reach out.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The most common concerns I hear at the beginning stage are "I don't have enough stories," "I don't know where to start," and "I'm not sure I know how to tell them."</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Trust me, you do have the stories, and I can help you start and give you all the tools and tricks to tell them.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The prompts will guide you — that's what they're designed to do. But if you'd like to come into your first story with more clarity, I offer a single coaching session before you begin. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">As a welcome gift, I'm offering this first session at 25% off — R900 instead of R1,200.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">It's not something everyone needs. But for those who want it, it makes the whole journey easier.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that sounds useful, WhatsApp me now and we'll arrange the session.</p>
+  <a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">WhatsApp us &#8594;</a>
+  <p style="font-size:15px;color:#555;line-height:1.7;margin:0 0 40px;">Or WhatsApp: <strong>082 375 8320</strong></p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">With warmth,</p>
+  <p style="font-size:17px;line-height:1.9;margin:0;">The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:12px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 

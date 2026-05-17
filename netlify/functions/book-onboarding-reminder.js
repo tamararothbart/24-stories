@@ -335,7 +335,8 @@ function coachingLogo() {
 }
 
 function coachingWhatsApp() {
-  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">WhatsApp us &#8594;</a>`;
+  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">WhatsApp us &#8594;</a>
+<p style="font-size:15px;color:#555;line-height:1.7;margin:0 0 40px;">Or WhatsApp: <strong>082 375 8320</strong></p>`;
 }
 
 function coachingWrap(body) {

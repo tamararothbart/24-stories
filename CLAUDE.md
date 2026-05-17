@@ -65,9 +65,9 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 ## Netlify Functions (20 total)
 
 **Scheduled (cron):**
-- `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26) and fires email-9 at week 24
+- `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-9 at week 24
 - `send-day4-reminder.js` — Saturday 8am SAST: sends reminder (email-5) to subscribers who haven't submitted since Wednesday
-- `book-onboarding-reminder.js` — daily 9am SAST: book onboarding reminders (emails 10, 11), delivery tracking alerts, pause expiry alerts
+- `book-onboarding-reminder.js` — daily 9am SAST: book onboarding reminders (emails 10, 11), coaching emails 1–4, delivery tracking alerts, pause expiry alerts
 - `send-story-queue.js` — every 2 minutes: processes SendToFamily checkbox (emails 6+7), SendDelayNotification checkbox (email-13), pause confirmations (email-15)
 
 **Payment:**

@@ -537,11 +537,6 @@
                         <label for="g-giver-email">Your email address <span class="field-note">(your confirmation will be sent here)</span></label>
                         <input type="email" id="g-giver-email" name="g-giver-email" placeholder="Your email" required>
                     </div>
-                    <div class="field">
-                        <label for="g-giver-phone">Your WhatsApp number</label>
-                        <input type="tel" id="g-giver-phone" name="g-giver-phone" placeholder="e.g. 082 375 8320">
-                    </div>
-
                     <p class="form-section-label">Storyteller details</p>
 
                     <div class="field">
@@ -1007,7 +1002,7 @@
 
         var giverName    = document.getElementById('g-giver-name').value.trim();
         var giverEmail   = gGiverEmail.value.trim();
-        var giverPhone   = document.getElementById('g-giver-phone').value.trim();
+
         var stName       = document.getElementById('g-storyteller-name').value.trim();
         var stNickname   = document.getElementById('g-storyteller-firstname').value.trim();
         var stEmail      = gStorytEmail.value.trim();
@@ -1055,6 +1050,16 @@
         .catch(function() {
             btn.textContent = 'Something went wrong. Please try again.';
             btn.disabled = false;
+        });
+    });
+
+    // Red border on invalid required fields when submit is attempted
+    document.querySelectorAll('#beginSelfForm input[required], #beginGiftForm input[required]').forEach(function(inp) {
+        inp.addEventListener('invalid', function() {
+            this.style.borderColor = '#C0392B';
+        });
+        inp.addEventListener('input', function() {
+            if (this.checkValidity()) this.style.borderColor = '';
         });
     });
     </script>

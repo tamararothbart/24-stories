@@ -33,6 +33,9 @@ All automation is built on Netlify Functions (serverless). There are no Make sce
 - PAYFAST_SANDBOX: ✅ set to "true" in Netlify env — extra-copies-checkout.js uses this to select sandbox URL.
 - PAYFAST_USE_SANDBOX: hardcoded true in begin.html AND js/script.js — controls which PayFast URL index.html and begin.html post to.
 
+## ⚠ UNTESTED IN PRODUCTION — VERIFY ON FIRST LIVE CANCELLATION
+The PayFast subscription cancel API call (in send-story-queue.js `cancelPayFastSubscription()`) has NEVER run against a live subscription. Sandbox PayFast does not support this API call. When the first real subscriber cancels after launch, check the CANCELLATION PROCESSED alert at hello@24stories.co.za immediately. If it says "PayFast subscription cancelled ✓" — all good. If it says WARNING — cancel manually in the PayFast dashboard and flag for investigation.
+
 ## ⚠ LAUNCH DAY PAYFAST CREDENTIAL TASK — UNRESOLVED
 Tamara has two sets of PayFast credentials and does not know which belongs to the live account:
 - Set A: 10048842 / do7cmfwoagwjs (was in Netlify before 2026-05-17 — origin unknown)

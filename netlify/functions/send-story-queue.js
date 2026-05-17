@@ -287,14 +287,22 @@ exports.handler = async function() {
 };
 
 async function getSubscriptionToken(BASE, PAT, subscriberId) {
-  const formula = encodeURIComponent(`FIND("${subscriberId}", ARRAYJOIN({Subscribers}, ",")) > 0`);
-  const res = await fetch(
-    `https://api.airtable.com/v0/${BASE}/Payments?filterByFormula=${formula}&maxRecords=1`,
+  // Read linked payment IDs from the subscriber record — ARRAYJOIN returns display names not IDs
+  const subRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Subscribers/${subscriberId}`,
     { headers: { 'Authorization': `Bearer ${PAT}` } }
   );
-  if (!res.ok) return null;
-  const { records } = await res.json();
-  return (records && records.length > 0) ? (records[0].fields.PayFastTransactionID || null) : null;
+  if (!subRes.ok) return null;
+  const sub = await subRes.json();
+  const paymentIds = sub.fields['Payments 2'] || [];
+  if (paymentIds.length === 0) return null;
+  const payRes = await fetch(
+    `https://api.airtable.com/v0/${BASE}/Payments/${paymentIds[0]}`,
+    { headers: { 'Authorization': `Bearer ${PAT}` } }
+  );
+  if (!payRes.ok) return null;
+  const payment = await payRes.json();
+  return payment.fields.PayFastTransactionID || null;
 }
 
 async function cancelPayFastSubscription(token) {

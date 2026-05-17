@@ -386,14 +386,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (selfForm) {
 
         const sStorytellerEmail = selfForm.querySelector('[name="storyteller-email"]');
-        const sAddHelper        = document.getElementById('s-addHelper');
         const sHelperFields     = document.getElementById('s-helperFields');
         const sHelperEmailInput = document.getElementById('s-helper-email');
+        const sHelperRadios     = selfForm.querySelectorAll('[name="s-helper-type"]');
 
-        // Story Helper takes slot 1 when self-signup.
+        function getSelfHelperType() {
+            return selfForm.querySelector('[name="s-helper-type"]:checked')?.value || 'none';
+        }
+
         function getSelfAutoEmails() {
             const storyteller = sStorytellerEmail?.value.trim() || '';
-            const helper = sAddHelper?.checked ? (sHelperEmailInput?.value.trim() || '') : '';
+            const helper = getSelfHelperType() === 'other' ? (sHelperEmailInput?.value.trim() || '') : '';
             const auto = [];
             if (helper && helper !== storyteller) auto.push(helper);
             return auto;
@@ -415,10 +418,11 @@ document.addEventListener('DOMContentLoaded', () => {
             buildRecipientSection('s-recipientFields', 's-recipient', autoEmails, max);
         }
 
-        // Story Helper toggle
-        sAddHelper.addEventListener('change', function () {
-            sHelperFields.style.display = this.checked ? 'block' : 'none';
-            refreshSelfRecipients();
+        sHelperRadios.forEach(radio => {
+            radio.addEventListener('change', function () {
+                sHelperFields.style.display = this.value === 'other' ? 'block' : 'none';
+                refreshSelfRecipients();
+            });
         });
         sHelperEmailInput?.addEventListener('input', refreshSelfRecipients);
         sStorytellerEmail?.addEventListener('input', refreshSelfRecipients);
@@ -435,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const storytellerName  = selfForm.querySelector('[name="storyteller-name"]').value.trim();
             const storytellerFirst = selfForm.querySelector('[name="storyteller-first-name"]').value.trim();
             const storytellerEmail = sStorytellerEmail.value.trim();
-            const addHelper        = sAddHelper.checked;
+            const addHelper        = getSelfHelperType() === 'other';
             const helperName       = addHelper ? (document.getElementById('s-helper-name')?.value.trim()  || '') : '';
             const helperEmail      = addHelper ? (sHelperEmailInput?.value.trim() || '') : '';
             const FamilyEmails     = buildFamilyEmails(selfForm, 's-recipient');

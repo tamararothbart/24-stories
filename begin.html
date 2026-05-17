@@ -477,9 +477,14 @@
                     <p class="form-section-label">Story Helper <span class="form-optional">(optional)</span></p>
                     <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside you and can help with recording, uploading photographs, or giving you a gentle nudge if a week slips by.</p>
                     <div class="field">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="s-addHelper"> Add a Story Helper
-                        </label>
+                        <div class="helper-options">
+                            <label class="helper-option">
+                                <input type="radio" name="s-helper-type" value="none" checked> None
+                            </label>
+                            <label class="helper-option">
+                                <input type="radio" name="s-helper-type" value="other"> Someone else
+                            </label>
+                        </div>
                         <div id="s-helperFields" style="display:none; margin-top:12px;">
                             <input type="text" id="s-helper-name" name="s-helper-name" class="helper-sub-input" placeholder="Their full name">
                             <input type="email" id="s-helper-email" name="s-helper-email" class="helper-sub-input" placeholder="Their email address">
@@ -878,14 +883,19 @@
     // ========================
     // Self form
     // ========================
-    var sAddHelper     = document.getElementById('s-addHelper');
+    var sHelperRadios  = document.querySelectorAll('[name="s-helper-type"]');
     var sHelperFields  = document.getElementById('s-helperFields');
     var sHelperEmail   = document.getElementById('s-helper-email');
     var sStorytEmail   = document.getElementById('s-email');
 
+    function getSelfHelperType() {
+        var checked = document.querySelector('[name="s-helper-type"]:checked');
+        return checked ? checked.value : 'none';
+    }
+
     function getSelfAuto() {
         var storyteller = sStorytEmail ? sStorytEmail.value.trim() : '';
-        var helper = (sAddHelper && sAddHelper.checked && sHelperEmail) ? sHelperEmail.value.trim() : '';
+        var helper = getSelfHelperType() === 'other' && sHelperEmail ? sHelperEmail.value.trim() : '';
         var auto = [];
         if (helper && helper !== storyteller) auto.push(helper);
         return auto;
@@ -895,9 +905,11 @@
         buildRecipientSection('s-recipientFields', 's-rec', getSelfAuto(), 10);
     }
 
-    sAddHelper.addEventListener('change', function() {
-        sHelperFields.style.display = this.checked ? 'block' : 'none';
-        refreshSelfRecipients();
+    sHelperRadios.forEach(function(r) {
+        r.addEventListener('change', function() {
+            sHelperFields.style.display = this.value === 'other' ? 'block' : 'none';
+            refreshSelfRecipients();
+        });
     });
     if (sHelperEmail)  sHelperEmail.addEventListener('input', refreshSelfRecipients);
     if (sStorytEmail)  sStorytEmail.addEventListener('input', refreshSelfRecipients);
@@ -914,7 +926,7 @@
         var nickname    = document.getElementById('s-firstname').value.trim();
         var email       = sStorytEmail.value.trim();
         var phone       = document.getElementById('s-phone').value.trim();
-        var addHelper   = sAddHelper.checked;
+        var addHelper   = getSelfHelperType() === 'other';
         var helperName  = addHelper ? (document.getElementById('s-helper-name').value.trim() || '') : '';
         var helperEmail = addHelper ? (sHelperEmail ? sHelperEmail.value.trim() : '') : '';
         var helperPhone = addHelper ? (document.getElementById('s-helper-phone').value.trim() || '') : '';

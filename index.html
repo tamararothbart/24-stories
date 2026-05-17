@@ -1084,9 +1084,14 @@
                             <p style="font-size:15px; color:#1A1A1A; line-height:1.7; margin:0 0 14px 0;">A Story Helper receives each prompt alongside you. They can help you record, upload photographs, and give you a gentle nudge if a week slips by.</p>
 
                             <div class="field">
-                                <label class="checkbox-label">
-                                    <input type="checkbox" id="s-addHelper"> Add a Story Helper
-                                </label>
+                                <div class="helper-options">
+                                    <label class="helper-option">
+                                        <input type="radio" name="s-helper-type" value="none" checked> None
+                                    </label>
+                                    <label class="helper-option">
+                                        <input type="radio" name="s-helper-type" value="other"> Someone else
+                                    </label>
+                                </div>
                                 <div id="s-helperFields" style="display:none; margin-top:10px;">
                                     <input type="text" id="s-helper-name" name="helper-name" placeholder="Their full name" style="width:100%; margin-bottom:8px;">
                                     <input type="email" id="s-helper-email" name="helper-email" placeholder="Their email" style="width:100%;">

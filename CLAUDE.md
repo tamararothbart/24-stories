@@ -171,6 +171,36 @@ All helper-type fallback defaults changed from `'me'` to `'none'` in js/script.j
 ### cancelUrl corrected
 begin.html cancelUrl was `begin?type=self/gift` (missing .html) — corrected to `begin.html?type=self` and `begin.html?type=gift`. urlType param now also wires up auto-show of correct form on cancel return.
 
+### PayFast item_name
+Changed from `'24 Stories'` to `'24 Stories — 6 monthly payments, stops automatically'`. item_description is NOT displayed on PayFast payment page (only in backend records) — item_name is the visible field.
+
+### Story Helper buttons — final state
+**Gift form:** None (default) | Me | Someone else
+**Self form:** None (default) | Story Helper
+All pill buttons. Radio input hidden. `:has(input:checked)` drives charcoal/cream selected state.
+Self form converted from checkbox to radio buttons. `getSelfHelperType()` function reads radio value in both begin.html and js/script.js. Submit handlers use `getSelfHelperType() === 'other'` instead of `sAddHelper.checked`.
+
+### Payment flow test — Scenario 1 COMPLETE (begin.html, self, no helper)
+- Auto-fill works reactively on typed/pasted input (not browser autocomplete)
+- PayFast sandbox payment completes, IPN fires, record activates (Status→Active, PaymentsCount=1)
+- SUBSCRIBED page appears on return ✓
+- Email 1 arrived at storyteller ✓
+- Admin NEW SUBSCRIBER alert arrived at hello@ ✓
+
+### Payment flow test — Scenario 2 IN PROGRESS (gift, no helper)
+- Payment went through ✓
+- SUBSCRIBED page appeared ✓
+- Pending: confirm Email 1 (storyteller), Email 2 (gift giver), admin alert all arrived
+
+### Remaining test scenarios
+3. begin.html — self + Story Helper
+4. begin.html — gift + Me (gift giver is helper) → confirm Email 2 + Email 3 both to giver
+5. begin.html — gift + Someone else → confirm Email 2 to giver, Email 3 to helper
+6. index.html — same gift/self scenarios
+7. Mobile (begin.html on phone)
+8. Extra copies from Story Library
+After all tests: delete test Airtable records. Resolve PayFast live credential identity before launch.
+
 ## Launch Dates
 - 8 June 2026: Live storytelling event
 - 10 June 2026: Paid site goes live, interest list emailed

@@ -280,11 +280,11 @@ exports.handler = async function(event) {
   // Notify Tamara
   const surnamePart = (fields.StorytellerSurname || '').trim();
   const fullName    = surnamePart ? `${storytellerFirstName} ${surnamePart}` : storytellerFirstName;
-  const typeLabel   = paymentType === 'lump_sum' ? 'Lump sum (R16,770)' : 'Monthly (R2,795 × 6)';
+  const typeLabel   = paymentType === 'lump_sum' ? 'Lump sum (R16,770)' : 'Monthly — Payment 1 of 6 (R2,795 × 6)';
   await sendEmail(mjAuth, {
     to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
     subject: `NEW SUBSCRIBER — ${fullName}`,
-    html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(fullName)}</strong> has subscribed to 24 Stories.<br>Email: ${esc(storytellerEmail)}<br>Payment: ${typeLabel}<br>Amount: R${parseFloat(amountGross).toFixed(2)}</p>`
+    html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(fullName)}</strong> has subscribed to 24 Stories.<br>Email: ${esc(storytellerEmail)}<br>Payment: ${typeLabel}<br>Amount: R${parseFloat(amountGross).toFixed(2)}<br>Record ID: ${esc(recordId)}</p>`
   });
 
   return { statusCode: 200, body: 'OK' };

@@ -201,6 +201,50 @@ Self form converted from checkbox to radio buttons. `getSelfHelperType()` functi
 8. Extra copies from Story Library
 After all tests: delete test Airtable records. Resolve PayFast live credential identity before launch.
 
+## Session 18 continued — Scenario B: Voluntary cancellation flow (2026-05-17)
+
+### Airtable
+- `CancellationRequested` checkbox field added to Subscribers (field ID: fld2FnadLAxvHRdsm). Tamara ticks this when subscriber emails to cancel.
+
+### send-story-queue.js (2-min poll)
+- Detects `CancellationRequested=TRUE()`. Unticks immediately to prevent double-processing.
+- Fetches subscription token from Payments table (PayFastTransactionID on first payment record for that subscriber).
+- Calls PayFast cancel API (`PUT /subscriptions/{token}/cancel`) with MD5 signature.
+- Calculates AccessEndDate = SubscriptionStartDate + PaymentsCount months (end of current paid period).
+- Writes AccessEndDate to Airtable.
+- Sends email-17 to storyteller (cancellation confirmed, access until date, library seals after, restart by email).
+- Sends CANCELLATION PROCESSED alert to hello@24stories.co.za with PayFast cancel status.
+- Helper functions added: `getSubscriptionToken()`, `cancelPayFastSubscription()`, `email17Html()`.
+
+### book-onboarding-reminder.js (daily 9am)
+- New section queries Active subscribers with AccessEndDate set.
+- If AccessEndDate = today or past: sets Status→Cancelled, sends SEALED alert to hello@.
+- If AccessEndDate = tomorrow: sends SEALS TOMORROW alert to hello@ (with note: "No action needed unless you agreed to extend access. If so, update AccessEndDate in Airtable.")
+- Note: AccessEndDate override for grace periods is manual — update in Airtable only after payment confirmed.
+
+### library-read.js
+- `computeAccessLevel()`: Status=Cancelled now returns `'locked'` (was `'read_only'`).
+- Status=Complete remains `'read_only'`.
+
+### library.html
+- Added `stateSealed` screen (shown when access_level=locked): "Your Story Library has been sealed." with restart-by-email instruction.
+- Added `'stateSealed'` to showState array.
+- Added `if (accessLevel === 'locked') { showState('sealed'); return; }` handler.
+
+### email-17-cancellation-confirmed.html
+- New reference file. Subject: "Your 24 Stories subscription — cancellation confirmed".
+- Placeholders: [FirstName], [AccessEndDate].
+
+### Scenario A (payment failure) — DEFERRED to next session
+- IPN with payment_status=CANCELLED triggers different flow (no active cancel by subscriber).
+- "Subscription ended" email (email-18) to be written and wired.
+- Library seals 3 days after third failed PayFast attempt.
+- Stories submitted during grace window stored but not edited or sent to family.
+- See MEMORY.md for full flow spec.
+
+### Commit
+- Scenario B: 968d6fd
+
 ## Launch Dates
 - 8 June 2026: Live storytelling event
 - 10 June 2026: Paid site goes live, interest list emailed

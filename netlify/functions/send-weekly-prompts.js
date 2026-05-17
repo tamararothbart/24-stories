@@ -144,18 +144,18 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
     </div>
     <p style="font-size:16px;color:#555;line-height:1.7;margin:0;border-top:1px solid #E0DCD7;padding-top:14px;">The prompt is just a starting point. Feel free to tell any story that moves you.</p>
   </div>
-  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you are ready, this button takes you straight to your recording page.</p>
+  <p style="font-size:17px;line-height:1.9;color:#333;margin:0 0 20px;">When you're ready, this button takes you straight to your recording page.</p>
   <a href="${tellUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 36px;">Tell your story &#8594;</a>
   <div style="background:#EFECEA;padding:32px;margin:0 0 32px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 20px;">How 24 Stories works</p>
     <ol style="margin:0;padding-left:22px;">
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Each week you receive a prompt like this one.</li>
-      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">You have the whole week — take time to plan your story and come back when you are ready. The link is always active.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">You have the whole week — take time to plan your story and come back when you're ready. The link is always active.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">Click the button above to type your story or record it in your own voice.</li>
       <li style="font-size:16px;color:#333;line-height:1.8;margin:0 0 10px;">On the recording page, a drop-down guide walks you through the process step by step. Read it before you start — it takes a minute and makes the recording much smoother.</li>
-      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each story gives you the option to add a photograph and caption. If you do not have one on hand, you can return to your Story Library at any time to add it.</li>
+      <li style="font-size:16px;color:#333;line-height:1.8;margin:0;">Each story gives you the option to add a photograph and caption. If you don't have one on hand, you can return to your Story Library at any time to add it.</li>
     </ol>
-    <p style="font-size:16px;color:#333;margin:16px 0 0;">You do not need to write well. You just need to tell it the way it happened.</p>
+    <p style="font-size:16px;color:#333;margin:16px 0 0;">You don't need to write well. You just need to tell it the way it happened.</p>
   </div>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:16px;font-style:italic;color:#444;">Take your time. A story told slowly is a story told well.</p>
@@ -167,7 +167,7 @@ function email4Html(firstName, weekName, theme, promptText, otherAngles, tellUrl
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="color:#1A1A1A;font-size:17px;">The 24 Stories Team</strong></p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 
@@ -198,7 +198,7 @@ function email8Html(firstName, weekNumber, weekName, theme, promptText, otherAng
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 
@@ -229,7 +229,7 @@ function email25Html(firstName, promptText, tellUrl, libUrl) {
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 
@@ -243,7 +243,7 @@ function email26Html(firstName, promptText, tellUrl, libUrl) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">This is your final prompt, and probably the most meaningful.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">For this last chapter, we ask something different. Not a story — a list.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The lessons you have learned. The rules you live by. What you know to be true that you would want your children, and their children, to carry with them long after you are gone.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Write as many or as few as you like. There is no right or wrong way — only your way.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Write as many or as few as you like. There's no right or wrong way — only your way.</p>
   <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
     <p style="font-size:16px;font-style:italic;color:#555;line-height:1.9;margin:0 0 10px;">&ldquo;In every conceivable manner, the family is a link to our past, a bridge to our future.&rdquo;</p>
     <p style="font-size:14px;color:#888;letter-spacing:0.05em;margin:0;">&#8212; Alex Haley</p>
@@ -261,7 +261,7 @@ function email26Html(firstName, promptText, tellUrl, libUrl) {
     <p style="font-size:16px;color:#444;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 
@@ -274,7 +274,7 @@ function email9Html(firstName, libUrl) {
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Two chapters to go. Time to prepare your book.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You are nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You're nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <ul style="list-style:none;padding:0;margin:0 0 28px;">
@@ -283,7 +283,7 @@ function email9Html(firstName, libUrl) {
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to four weeks from print to delivery. No further changes can be made after pressing Complete.</li>
   </ul>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There is no deadline — but the sooner you press Complete, the sooner your book arrives.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no deadline — but the sooner you press Complete, the sooner your book arrives.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>

@@ -271,7 +271,7 @@ function email10Html(firstName, libUrl) {
   </ul>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">These details are your book's signature. Remember, your Collected Stories will be printed exactly as it stands when you press Complete — so it's really worth taking a moment to make sure everything is in place.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Questions? We are here to help. <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a></p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Questions? We're here to help. <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a></p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
@@ -287,8 +287,8 @@ function email11Html(firstName, libUrl) {
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book is waiting.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Twenty-six weeks of stories. Your Legacy Book is ready to be compiled — and we want to make sure it reaches you.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you are ready and just need to press Complete, your library is one click away.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If anything is holding you back — missing photographs, uncertainty about your title, doubt about a story, anything — write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>. We will help you across the finishing line.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you're ready and just need to press Complete, your library is one click away.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If anything is holding you back — missing photographs, uncertainty about your title, doubt about a story, anything — write to us at <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>. We'll help you across the finishing line.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>

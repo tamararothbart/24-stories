@@ -235,7 +235,7 @@ function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, i
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
-    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there is a story you have always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there's a story you've always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
   </div>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;

@@ -107,7 +107,7 @@ function email5Html(firstName, weekNumber, weekName, theme, promptText, otherAng
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Week ${weekNumber} — a gentle nudge</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Still time to tell your story this week.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We have not yet received your story for this week. No doubt your family would love to read it.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We haven't received your story yet this week. No doubt your family would love to read it.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Here is your prompt again, in case you need it:</p>
   <div style="background:#fff;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
     <p style="font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Week ${weekNumber} — ${esc(weekName)}</p>
@@ -129,6 +129,6 @@ function email5Html(firstName, weekNumber, weekName, theme, promptText, otherAng
     <p style="font-size:14px;color:#555;line-height:1.7;margin:8px 0 0;">Lost your library link? Scroll to the bottom of <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a> to request it.</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }

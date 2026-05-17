@@ -370,7 +370,7 @@ function email2Html(giftGiverName, storytellerFirstName) {
     <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
       <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(giftGiverName)},</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you for your purchase. You have given an extraordinary gift: the invitation for ${esc(storytellerFirstName)} to share life stories, week by week.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you for your purchase. You've given an extraordinary gift: the invitation for ${esc(storytellerFirstName)} to share life stories, week by week.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(storytellerFirstName)} has received a welcome. The first prompt arrives on Wednesday, and soon these stories will begin landing in the inboxes of those who will treasure them.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">When the final story is told, all 26 chapters are compiled into a beautifully designed Legacy Book — a lasting record of a life, shaped by the gift you have given.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
@@ -398,10 +398,10 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
       <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">What you will do</p>
       <ul style="list-style:none;padding:0;margin:0 0 28px;">
         <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Nudge gently, once a week.</strong> You will receive the same weekly prompt that ${esc(storytellerFirstName)} receives. If five days have passed and no story has arrived in your inbox, a simple "Did you get your prompt this week?" is enough.</li>
-        <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Help with recording or typing.</strong> Some storytellers need someone to sit with them the first few times. If that is you, that is a gift too.</li>
+        <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Help with recording or typing.</strong> Some storytellers need someone to sit with them the first few times. If that's you, that's a gift too.</li>
         <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add a photograph.</strong> Each story has room for one image. ${esc(storytellerFirstName)} can upload it directly — but if not, you can do it instead. Open the Story Library, find the relevant story, and upload from there. Photographs can be added at any time, in any order. Your link is <span style="color:#C0392B;font-weight:bold;">below</span>.</li>
       </ul>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You will receive a copy of each story as it is sent to the family. You do not need to do anything to make that happen — it is automatic.</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You'll receive a copy of each story as it's sent to the family. You don't need to do anything to make that happen — it's automatic.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
       <div style="border-top:3px solid #C0392B;padding:28px 0 24px;margin:40px 0 32px;">
         <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#C0392B;font-weight:bold;margin:0 0 14px;">The Story Library</p>

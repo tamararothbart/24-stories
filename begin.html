@@ -493,12 +493,6 @@
                         <div class="recipient-fields" id="s-recipientFields"></div>
                     </div>
 
-                    <p class="form-section-label">One last thing <span class="form-optional">(optional)</span></p>
-                    <div class="field">
-                        <label for="s-notes">Is there anything you would like us to know before we begin?</label>
-                        <textarea id="s-notes" name="s-notes" rows="4" placeholder="Any context that might help us support you on your journey..."></textarea>
-                    </div>
-
                     <!-- Payment summary -->
                     <div class="begin-payment-summary">
                         <p class="begin-ps-title">Your Collected Stories</p>
@@ -591,12 +585,6 @@
                     <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;" id="g-recipient-hint">Add as many as you like — up to 10.</p>
                     <div class="field">
                         <div class="recipient-fields" id="g-recipientFields"></div>
-                    </div>
-
-                    <p class="form-section-label">One last thing <span class="form-optional">(optional)</span></p>
-                    <div class="field">
-                        <label for="g-notes">Is there anything you would like us to know before we begin?</label>
-                        <textarea id="g-notes" name="g-notes" rows="4" placeholder="Any context that might help us support the storyteller on their journey..."></textarea>
                     </div>
 
                     <!-- Payment summary -->
@@ -906,13 +894,7 @@
         var helperName  = addHelper ? (document.getElementById('s-helper-name').value.trim() || '') : '';
         var helperEmail = addHelper ? (sHelperEmail ? sHelperEmail.value.trim() : '') : '';
         var helperPhone = addHelper ? (document.getElementById('s-helper-phone').value.trim() || '') : '';
-        var notesText   = document.getElementById('s-notes').value.trim();
         var familyEmails = buildFamilyEmails(document.getElementById('beginSelfForm'), 's-rec');
-
-        var notesParts = [];
-        if (notesText)   notesParts.push('Notes from subscriber: ' + notesText);
-        if (helperPhone) notesParts.push('Story Helper WhatsApp: ' + helperPhone);
-        var notes = notesParts.join('\n');
 
         fetch(CHECKOUT_URL, {
             method:  'POST',
@@ -928,8 +910,7 @@
                 familyEmails:         familyEmails,
                 phone:                phone,
                 paymentType:          'monthly',
-                cancelUrl:            'https://24stories.co.za/begin?type=self',
-                notes:                notes
+                cancelUrl:            'https://24stories.co.za/begin?type=self'
             })
         })
         .then(function(r) { return r.json(); })
@@ -1000,8 +981,6 @@
         var stEmail      = gStorytEmail.value.trim();
         var stPhone      = document.getElementById('g-storyteller-phone').value.trim();
         var relationship = document.getElementById('g-relationship').value.trim();
-        var notesText    = document.getElementById('g-notes').value.trim();
-
         var helperChecked = document.querySelector('[name="g-helper-type"]:checked');
         var helperVal    = helperChecked ? helperChecked.value : 'me';
         var helperName   = helperVal === 'me'    ? giverName
@@ -1013,14 +992,6 @@
         var helperPhone  = helperVal === 'other' ? (document.getElementById('g-helper-phone') ? document.getElementById('g-helper-phone').value.trim() : '') : '';
 
         var familyEmails = buildFamilyEmails(document.getElementById('beginGiftForm'), 'g-rec');
-
-        var notesParts = [];
-        if (relationship) notesParts.push('Relationship: ' + relationship);
-        if (giverPhone)   notesParts.push('Gift giver WhatsApp: ' + giverPhone);
-        if (stName)       notesParts.push('Storyteller full name: ' + stName);
-        if (helperPhone)  notesParts.push('Story Helper WhatsApp: ' + helperPhone);
-        if (notesText)    notesParts.push('Notes from gift giver: ' + notesText);
-        var notes = notesParts.join('\n');
 
         fetch(CHECKOUT_URL, {
             method:  'POST',
@@ -1036,8 +1007,7 @@
                 familyEmails:         familyEmails,
                 phone:                stPhone,
                 paymentType:          'monthly',
-                cancelUrl:            'https://24stories.co.za/begin?type=gift',
-                notes:                notes
+                cancelUrl:            'https://24stories.co.za/begin?type=gift'
             })
         })
         .then(function(r) { return r.json(); })

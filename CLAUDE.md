@@ -1,0 +1,139 @@
+# 24 Stories — Website & Developer Context
+
+## ⚠ ARCHITECTURE — READ FIRST, EVERY SESSION
+
+**MAKE IS PERMANENTLY CANCELLED. IT DOES NOT EXIST IN THIS PROJECT.**
+All automation is built on Netlify Functions (serverless). There are no Make scenarios, no Make webhooks, no Make modules — ever. Any reference to Make in older documents (developer-handover.html, make-build-reference.html etc.) is obsolete. Ignore it.
+
+**The stack:**
+- Hosting + serverless functions: Netlify (resilient-eclair-c46b34.netlify.app → 24stories.co.za)
+- Database: Airtable base "52stories" (ID: apprTOobuxs4Od7XB)
+- Emails: Netlify Functions calling Mailjet API
+- Payments: PayFast → Netlify Function webhook
+- Deploy: push to GitHub → auto-deploys to Netlify. Fallback: `netlify deploy --prod` from /Users/tamararothbart/24stories-website
+
+---
+
+## The Product
+24 Stories guides a storyteller through 26 weekly prompts, edits each story professionally, delivers them to family by email, and produces a printed linen-bound hardcover book. Pricing: R2,795/month × 6 months (auto-stops), or R16,770 once-off lump sum.
+
+## Credentials
+- Airtable base: 52stories | Base ID: apprTOobuxs4Od7XB
+- Hosting: Netlify — resilient-eclair-c46b34.netlify.app | Domain: 24stories.co.za
+- Cloudinary: cloud dorv3glde, preset 24stories
+- stories@24stories.co.za — Mailjet only (automated sender, no inbox). DNS: SPF + DKIM authorised.
+- hello@24stories.co.za — Google Workspace (migrated from Titan 2026-05-15). Tamara's inbox + all subscriber replies route here via ReplyTo.
+- Mailjet keys: in Netlify env (MAILJET_API_KEY, MAILJET_API_SECRET)
+- Airtable PAT: in memory file
+
+## PayFast — Netlify env status
+- PAYFAST_MERCHANT_ID: ✅ set (10048976) — SANDBOX credential. Updated 2026-05-17.
+- PAYFAST_MERCHANT_KEY: ✅ set (ipt18teru1agg) — SANDBOX credential. Updated 2026-05-17.
+- PAYFAST_PASSPHRASE: ✅ set (Twenty4Storie3) — set in both Netlify env and PayFast sandbox dashboard 2026-05-17.
+- PAYFAST_SANDBOX: ✅ set to "true" in Netlify env — extra-copies-checkout.js uses this to select sandbox URL.
+- PAYFAST_USE_SANDBOX: hardcoded true in begin.html AND js/script.js — controls which PayFast URL index.html and begin.html post to.
+
+## ⚠ LAUNCH DAY PAYFAST CREDENTIAL TASK — UNRESOLVED
+Tamara has two sets of PayFast credentials and does not know which belongs to the live account:
+- Set A: 10048842 / do7cmfwoagwjs (was in Netlify before 2026-05-17 — origin unknown)
+- Set B: 10048976 / ipt18teru1agg (from sandbox.payfast.co.za dashboard 2026-05-17)
+ACTION REQUIRED before launch: log in to payfast.co.za (LIVE, not sandbox) and confirm which Merchant ID and Key appear there. That set becomes the launch credentials.
+On launch day — swap ALL of the following simultaneously:
+1. PAYFAST_MERCHANT_ID → live value (netlify env:set)
+2. PAYFAST_MERCHANT_KEY → live value (netlify env:set)
+3. PAYFAST_PASSPHRASE → confirm live passphrase matches payfast.co.za dashboard (netlify env:set)
+4. PAYFAST_SANDBOX env var → remove or set to "false" (netlify env:set)
+5. begin.html line 651: PAYFAST_USE_SANDBOX = false
+6. js/script.js line 65: PAYFAST_USE_SANDBOX = false
+7. Redeploy to Netlify
+
+## Airtable Schema — Subscribers Table (locked field names)
+StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, StoryHelperEmail, GiftGiverName, GiftGiverEmail, FamilyEmails, DeliveryAddress, DeliveryPhone, Phone, SubscriptionStartDate, Status, PromptNumber, LibraryToken, LastPromptSentDate, BookFormCompleted, BookTitle, PortraitPhotoURL, PortraitCaption, DedicationText, EpigraphText, CoverColour, BookCompiledDate, BookSentToPrintDate, BookProductionStatus (formula — read only), PauseStartDate, ExtraCopies (number), SendDelayNotification (checkbox), GenerateChapterOrder (checkbox), BookDispatchEmailSent (checkbox)
+
+## Critical Rules
+- Never add fields to Airtable without explicit discussion — schema changes affect library.html, tell.html, and all Netlify Functions simultaneously.
+- Never reference Make. Never suggest Make. It does not exist in this project.
+
+## File Map
+- `index.html` — main site (pricing, FAQ, signup form, resend library link)
+- `library.html` — subscriber story library + book prep (reads/writes via Netlify Functions)
+- `tell.html` — story submission (voice + typed, Claude cleanup, Cloudinary upload)
+- `events.html` — live storytelling events (separate product)
+- `24stories-emails/` — 16 email HTML files (email-1 through email-16)
+- `netlify/functions/` — all serverless automation
+
+## Netlify Functions (20 total)
+
+**Scheduled (cron):**
+- `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26) and fires email-9 at week 24
+- `send-day4-reminder.js` — Saturday 8am SAST: sends reminder (email-5) to subscribers who haven't submitted since Wednesday
+- `book-onboarding-reminder.js` — daily 9am SAST: book onboarding reminders (emails 10, 11), delivery tracking alerts, pause expiry alerts
+- `send-story-queue.js` — every 2 minutes: processes SendToFamily checkbox (emails 6+7), SendDelayNotification checkbox (email-13), pause confirmations (email-15)
+
+**Payment:**
+- `payfast-webhook.js` — PayFast IPN receiver: activates subscriber, creates Payments record, sends emails 1/2/3 on subscription; handles extra copies payment (email-14)
+- `checkout.js` — creates Pending subscriber record and returns record ID for PayFast custom_str1
+
+**Library (subscriber-facing):**
+- `library-read.js` — reads subscriber + all stories + prompts for library.html
+- `library-update.js` — writes book prep fields (photo, title, dedication, epigraph, etc.) from library.html
+- `book-dispatch.js` — called when subscriber presses Complete: saves BookSentToPrintDate, sends email-12
+- `approve-story.js` — called from library.html: sends emails 6+7 on demand (alternative to queue-based flow)
+
+**Story submission:**
+- `story-submission.js` — saves story to Airtable (Stories table), alerts Tamara at hello@
+- `story-load.js` — loads story + subscriber + prompt for edit.html (Tamara's editing page)
+- `story-save.js` — saves EditedText from edit.html back to Airtable
+- `transcribe.js` — calls OpenAI Whisper to transcribe audio recording
+- `cleanup.js` — calls Claude API (streaming) to copy-edit raw story text
+
+**Leads / marketing:**
+- `early-interest.js` — saves interest form lead, notifies Tamara, sends confirmation email
+- `free-download.js` — saves free download lead, sends free download email
+- `events-inquiry.js` — saves events lead, notifies Tamara, sends storyteller application link if applicable
+- `story-application.js` — saves full storyteller application, notifies Tamara, sends applicant confirmation
+- `resend-library-link.js` — looks up subscriber by email (Active or Paused), resends library link
+
+## Payment Model
+- Monthly: R2,795/month × 6 cycles (auto-stops). PayFast recurring subscription (subscription_type=1, frequency=3, cycles=6).
+- Lump sum: R16,770 once-off. PayFast single payment. AccessEndDate set to +6 months on activation.
+- Extra copies: R1,200 each (ordered via Story Library).
+- Airtable record created on payment_status = COMPLETE only.
+- Book: physical printed hardcover. SA printer + Courier Guy. Up to 4 weeks delivery.
+- Library: URL-based access (library.html?id=[LibraryToken]). All 26 prompts unlocked day one.
+- No client proof — library IS the proof.
+- CoverColour: Black / Blue / Red (linen cloth, no cover image).
+
+## Session 18 Changes (2026-05-17) — Payment Flow Test
+
+### Critical bug fixed
+- `payfast-webhook.js` had smart/curly quotes (`'` `'`) used as JS string delimiters throughout — JS cannot parse these. The function crashed on every invocation since it was written. No IPN had ever processed. Fixed 2026-05-17 by replacing all curly quotes with straight quotes. Syntax-checked and confirmed working.
+
+### checkout.js
+- Added `item_description`: "6 monthly payments of R2,795. Stops automatically after 6 months." — shows on PayFast payment page below item name.
+- Added dynamic `returnUrl` param (accepted from client, like `cancelUrl`). Falls back to `thank-you.html` if not provided.
+- Removed hardcoded fallback credentials (were removed in a prior session — confirmed clean).
+
+### PayFast return flow — SUBSCRIBED state
+- After payment, PayFast redirects back to the sign-up page with `?subscribed=1`.
+- `begin.html`: return_url = `begin.html?subscribed=1`. On load detects param → hides all forms → shows `#section-subscribed` with "You are subscribed." heading and bold black "An email from 24 Stories is on its way to your inbox."
+- `index.html`: return_url = `/?subscribed=1`. On load detects param → hides `#signup-forms` → shows `#subscribe-subscribed` with same message. Scrolls to subscribe section.
+- `js/script.js`: both fetch calls pass `returnUrl: 'https://24stories.co.za/?subscribed=1'`.
+- `cancelUrl` in begin.html corrected to `begin.html?type=self` / `begin.html?type=gift` (was missing .html).
+- `urlType` param (`?type=self/gift`) now auto-shows the correct form on begin.html — previously declared but not wired.
+
+### Admin notification email
+- First-payment alert now reads "Payment: Monthly — Payment 1 of 6 (R2,795 × 6)" — consistent with payments 2–6 which already showed X/6.
+- Airtable Record ID added to admin notification body as one-line backup reference.
+
+### Form copy
+- Removed form-reassurance line ("An email from 24 Stories will be sent to you…") from both payment forms on index.html — now only appears (bold) on the SUBSCRIBED landing page.
+- PayFast sandbox: confirmed recurring payment params correct (subscription_type=1, frequency=3/monthly, cycles=6). IPN fires and activates subscriber. Emails 1 + admin alert confirmed delivered.
+
+### Other functions checked for smart-quote issue
+- `payfast-webhook.js` was the only function with this problem — others were written without curly quotes.
+
+## Launch Dates
+- 8 June 2026: Live storytelling event
+- 10 June 2026: Paid site goes live, interest list emailed
+- Free testers: 5–6 people, accelerated trial, before paid launch

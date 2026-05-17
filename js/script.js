@@ -288,7 +288,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let helper = '';
             if (helperType === 'me')    helper = giver;
             if (helperType === 'other') helper = gHelperEmailInput?.value.trim() || '';
-            // helperType === 'storyteller': no additional email slot needed
 
             const auto = [];
             if (giver && giver !== storyteller) auto.push(giver);

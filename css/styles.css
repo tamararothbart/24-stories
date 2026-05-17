@@ -1558,24 +1558,29 @@ h1.hero-heading, .hero-content h1 {
 
 .helper-options {
     display: flex;
-    gap: 24px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 .helper-option {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 0;
     font-size: 15px;
     color: var(--charcoal);
     cursor: pointer;
     font-family: Georgia, serif;
+    padding: 9px 20px;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, background 0.2s, color 0.2s;
+    user-select: none;
 }
 .helper-option input[type="radio"] {
-    width: auto;
-    padding: 0;
-    border: none;
-    cursor: pointer;
-    accent-color: var(--charcoal);
+    display: none;
+}
+.helper-option:has(input:checked) {
+    border-color: var(--charcoal);
+    background: var(--charcoal);
+    color: var(--cream);
 }
 
 .checkbox-label {

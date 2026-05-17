@@ -27,7 +27,7 @@ exports.handler = async function(event) {
 
   // Accelerated subscribers get all 26 prompts at once
   const promptNumber = sub.fields.PromptNumber || 0;
-  const promptLimit  = sub.fields.AcceleratedSubscription ? 26 : promptNumber;
+  const promptLimit  = sub.fields.AcceleratedSubscription ? 26 : Math.max(promptNumber, 1);
   const promptsFormula = encodeURIComponent(`{Week}<=${promptLimit}`);
   const promptsSort = 'sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc';
   const promptsRes = await fetch(

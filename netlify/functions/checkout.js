@@ -83,7 +83,8 @@ exports.handler = async function(event) {
     email_address: storytellerEmail.trim().toLowerCase(),
     m_payment_id:  recordId,
     amount:        isMonthly ? '2795.00' : '16770.00',
-    item_name:     '24 Stories',
+    item_name:        '24 Stories',
+    item_description: '6 monthly payments of R2,795. Stops automatically after 6 months.',
     custom_str1:      recordId,
     custom_str2:      isMonthly ? 'monthly' : 'lump_sum',
     payment_method:   'cc'

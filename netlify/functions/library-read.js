@@ -79,6 +79,10 @@ function computeAccessLevel(fields) {
     return 'locked';
   }
 
+  if (status === 'Frozen') {
+    return 'frozen';
+  }
+
   if (status === 'Complete') {
     return 'read_only';
   }

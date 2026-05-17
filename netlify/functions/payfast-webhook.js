@@ -16,6 +16,35 @@ exports.handler = async function(event) {
   // extra copies flow uses custom_str2 = numeric string
   const extraCopiesQty   = /^\d+$/.test(paymentType) ? parseInt(paymentType, 10) : 0;
 
+  // CANCELLED IPN — subscription ended due to payment failure
+  if (paymentStatus === 'CANCELLED') {
+    if (!recordId) { return { statusCode: 200, body: 'OK' }; }
+    const BASE_c = 'apprTOobuxs4Od7XB';
+    const PAT_c  = process.env.AIRTABLE_PAT;
+    const subC   = await fetch(`https://api.airtable.com/v0/${BASE_c}/Subscribers/${recordId}`, { headers: { 'Authorization': `Bearer ${PAT_c}` } });
+    if (!subC.ok) { console.error('CANCELLED IPN: subscriber fetch failed'); return { statusCode: 200, body: 'OK' }; }
+    const subCData = await subC.json();
+    const fC       = subCData.fields;
+    await fetch(`https://api.airtable.com/v0/${BASE_c}/Subscribers/${recordId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${PAT_c}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { Status: 'Frozen' } })
+    });
+    const restartLink = `https://24stories.co.za/.netlify/functions/restart-checkout?id=${recordId}`;
+    const cFirstName  = fC.StorytellerFirstName || '';
+    const cSurname    = (fC.StorytellerSurname  || '').trim();
+    const cFullName   = cSurname ? `${cFirstName} ${cSurname}` : cFirstName;
+    const cPhone      = fC.Phone || '';
+    const mjAuth_c    = Buffer.from(`${process.env.MAILJET_API_KEY}:${process.env.MAILJET_API_SECRET}`).toString('base64');
+    await sendEmail(mjAuth_c, {
+      to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+      subject: `PAYMENT FAILED — SUBSCRIPTION FROZEN — ${cFullName}`,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(cFullName)}</strong> — payment failed. Subscription frozen immediately.<br>Email: ${esc(fC.StorytellerEmail || '')}${cPhone ? `<br>WhatsApp/Phone: ${esc(cPhone)}` : ''}<br>Record: ${esc(recordId)}<br><br><strong>Restart link (send to subscriber):</strong><br><a href="${restartLink}" style="color:#B8976A;word-break:break-all;">${restartLink}</a></p>`
+    });
+    console.log(`Subscription frozen for ${recordId} — CANCELLED IPN`);
+    return { statusCode: 200, body: 'OK' };
+  }
+
   // Only activate on COMPLETE
   if (paymentStatus !== 'COMPLETE') {
     console.log('PayFast IPN status:', paymentStatus, '— ignoring');
@@ -114,6 +143,38 @@ exports.handler = async function(event) {
   const storyHelperEmail     = fields.StoryHelperEmail || '';
   const today                = new Date().toISOString().slice(0, 10);
   const isAlreadyActive      = fields.Status === 'Active';
+  const isFrozen             = fields.Status === 'Frozen';
+
+  // Restart payment from a frozen subscription
+  if (isFrozen) {
+    await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { Status: 'Active', SubscriptionStartDate: today, PaymentsCount: 1 } })
+    });
+    await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fields: { Subscribers: [recordId], PayFastTransactionID: pfToken || pfTransactionId, Amount: parseFloat(amountGross) || 0, Date: paymentDate.slice(0, 10), Status: 'COMPLETE' } })
+    });
+    const mjAuth_r    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+    const rSurname    = (fields.StorytellerSurname || '').trim();
+    const rFullName   = rSurname ? `${storytellerFirstName} ${rSurname}` : storytellerFirstName;
+    if (storytellerEmail) {
+      await sendEmail(mjAuth_r, {
+        to:      { Email: storytellerEmail, Name: storytellerFirstName },
+        subject: 'Welcome back — 24 Stories',
+        html:    email18Html(storytellerFirstName)
+      });
+    }
+    await sendEmail(mjAuth_r, {
+      to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+      subject: `SUBSCRIPTION RESTARTED — ${rFullName}`,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(rFullName)}</strong> has restarted their subscription.<br>Email: ${esc(storytellerEmail)}<br>Amount: R${parseFloat(amountGross).toFixed(2)}<br>Record: ${esc(recordId)}</p>`
+    });
+    console.log(`Subscription restarted for ${recordId}`);
+    return { statusCode: 200, body: 'OK' };
+  }
 
   // Accelerated upfront payment for an existing Active subscriber — flip flag, log payment, done.
   if (isAlreadyActive && paymentType === 'accelerated') {
@@ -416,6 +477,27 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
 
 function esc(str) {
   return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function email18Html(firstName) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your payment has been received and your subscription is active again.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is open. Your next prompt arrives this Wednesday.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We're glad you're back.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div>
+</div>
+</body>
+</html>`;
 }
 
 function email14Html(firstName, quantity, totalAmount, libUrl) {

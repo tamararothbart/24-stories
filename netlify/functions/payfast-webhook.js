@@ -106,14 +106,14 @@ exports.handler = async function(event) {
   const sub    = await getRes.json();
   const fields = sub.fields;
 
-  const storytellerFirstName = fields.StorytellerFirstName || ‘’;
-  const storytellerEmail     = fields.StorytellerEmail || ‘’;
-  const giftGiverName        = fields.GiftGiverName    || ‘’;
-  const giftGiverEmail       = fields.GiftGiverEmail   || ‘’;
-  const storyHelperName      = fields.StoryHelperName  || ‘’;
-  const storyHelperEmail     = fields.StoryHelperEmail || ‘’;
+  const storytellerFirstName = fields.StorytellerFirstName || '';
+  const storytellerEmail     = fields.StorytellerEmail || '';
+  const giftGiverName        = fields.GiftGiverName    || '';
+  const giftGiverEmail       = fields.GiftGiverEmail   || '';
+  const storyHelperName      = fields.StoryHelperName  || '';
+  const storyHelperEmail     = fields.StoryHelperEmail || '';
   const today                = new Date().toISOString().slice(0, 10);
-  const isAlreadyActive      = fields.Status === ‘Active’;
+  const isAlreadyActive      = fields.Status === 'Active';
 
   // Accelerated upfront payment for an existing Active subscriber — flip flag, log payment, done.
   if (isAlreadyActive && paymentType === 'accelerated') {
@@ -154,69 +154,69 @@ exports.handler = async function(event) {
     if (newCount >= 6) unlockFields.BookOnboardingUnlocked = true;
 
     await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
-      method: ‘PATCH’,
-      headers: { ‘Authorization’: `Bearer ${AIRTABLE_PAT}`, ‘Content-Type’: ‘application/json’ },
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: unlockFields })
     });
 
     await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
-      method: ‘POST’,
-      headers: { ‘Authorization’: `Bearer ${AIRTABLE_PAT}`, ‘Content-Type’: ‘application/json’ },
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: {
         SubscriberID:         [recordId],
         PayFastTransactionID: pfToken || pfTransactionId,
         Amount:               parseFloat(amountGross) || 0,
         Date:                 paymentDate.slice(0, 10),
-        Status:               ‘COMPLETE’
+        Status:               'COMPLETE'
       }})
     });
 
-    const mjAuth_rec = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString(‘base64’);
-    const recSurname = (fields.StorytellerSurname || ‘’).trim();
+    const mjAuth_rec = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
+    const recSurname = (fields.StorytellerSurname || '').trim();
     const recName    = recSurname ? `${storytellerFirstName} ${recSurname}` : storytellerFirstName;
     const recSubject = newCount >= 6
       ? `PAYMENT 6/6 COMPLETE — ${recName} — book onboarding unlocked`
       : `PAYMENT ${newCount}/6 — ${recName}`;
     await sendEmail(mjAuth_rec, {
-      to:      { Email: ‘hello@24stories.co.za’, Name: ‘Tamara’ },
+      to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
       subject: recSubject,
-      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(recName)}</strong> — payment ${newCount} of 6 received.<br>Amount: R${parseFloat(amountGross).toFixed(2)}${newCount >= 6 ? ‘<br><strong>All 6 payments complete. Book onboarding now unlocked.</strong>’ : ‘’}</p>`
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(recName)}</strong> — payment ${newCount} of 6 received.<br>Amount: R${parseFloat(amountGross).toFixed(2)}${newCount >= 6 ? '<br><strong>All 6 payments complete. Book onboarding now unlocked.</strong>' : ''}</p>`
     });
-    console.log(`Payment ${newCount}/6 recorded for subscriber ${recordId}${newCount >= 6 ? ‘ — BookOnboardingUnlocked set’ : ‘’}`);
-    return { statusCode: 200, body: ‘OK’ };
+    console.log(`Payment ${newCount}/6 recorded for subscriber ${recordId}${newCount >= 6 ? ' — BookOnboardingUnlocked set' : ''}`);
+    return { statusCode: 200, body: 'OK' };
   }
 
   // First payment — activate subscriber
   // Calculate AccessEndDate for lump sum or accelerated (6 months from today)
   let accessEndDate = null;
-  if (paymentType === ‘lump_sum’ || paymentType === ‘accelerated’) {
+  if (paymentType === 'lump_sum' || paymentType === 'accelerated') {
     const end = new Date(today);
     end.setMonth(end.getMonth() + 6);
     accessEndDate = end.toISOString().slice(0, 10);
   }
 
   const activationFields = {
-    Status:                ‘Active’,
+    Status:                'Active',
     SubscriptionStartDate: today,
     LibraryToken:          recordId,
     WelcomeEmailSentAt:    new Date().toISOString(),
     PaymentsCount:         1
   };
   if (accessEndDate) activationFields.AccessEndDate = accessEndDate;
-  if (paymentType === ‘accelerated’) activationFields.AcceleratedSubscription = true;
+  if (paymentType === 'accelerated') activationFields.AcceleratedSubscription = true;
 
   const patchRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`,
     {
-      method: ‘PATCH’,
-      headers: { ‘Authorization’: `Bearer ${AIRTABLE_PAT}`, ‘Content-Type’: ‘application/json’ },
+      method: 'PATCH',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: activationFields })
     }
   );
 
   if (!patchRes.ok) {
-    console.error(‘Airtable PATCH error:’, await patchRes.text());
-    return { statusCode: 500, body: ‘Subscriber activation failed’ };
+    console.error('Airtable PATCH error:', await patchRes.text());
+    return { statusCode: 500, body: 'Subscriber activation failed' };
   }
 
   // Create Payments record
@@ -227,30 +227,30 @@ exports.handler = async function(event) {
     PayFastTransactionID: pfToken || pfTransactionId,
     Amount:               parseFloat(amountGross) || 0,
     Date:                 paymentDate.slice(0, 10),
-    Status:               ‘COMPLETE’
+    Status:               'COMPLETE'
   };
   const payRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Payments`,
     {
-      method: ‘POST’,
-      headers: { ‘Authorization’: `Bearer ${AIRTABLE_PAT}`, ‘Content-Type’: ‘application/json’ },
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ fields: paymentFields })
     }
   );
 
   if (!payRes.ok) {
-    console.error(‘Payments record error:’, await payRes.text());
+    console.error('Payments record error:', await payRes.text());
     // Non-fatal — subscriber is already activated
   }
 
   const libUrl = `https://24stories.co.za/library.html?id=${recordId}`;
-  const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString(‘base64’);
+  const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
 
   // Email 1 — Storyteller (always)
   if (storytellerEmail) {
     await sendEmail(mjAuth, {
       to:      { Email: storytellerEmail, Name: storytellerFirstName },
-      subject: ‘Welcome to 24 Stories — Your Journey Begins Today’,
+      subject: 'Welcome to 24 Stories — Your Journey Begins Today',
       html:    email1Html(storytellerFirstName, giftGiverName, giftGiverEmail, storytellerEmail, storyHelperName, libUrl)
     });
   }
@@ -259,7 +259,7 @@ exports.handler = async function(event) {
   if (giftGiverEmail && giftGiverEmail.toLowerCase() !== storytellerEmail.toLowerCase()) {
     await sendEmail(mjAuth, {
       to:      { Email: giftGiverEmail, Name: giftGiverName },
-      subject: ‘Your gift to ‘ + storytellerFirstName + ‘ — 24 Stories’,
+      subject: 'Your gift to ' + storytellerFirstName + ' — 24 Stories',
       html:    email2Html(giftGiverName, storytellerFirstName)
     });
   }
@@ -272,22 +272,22 @@ exports.handler = async function(event) {
   ) {
     await sendEmail(mjAuth, {
       to:      { Email: storyHelperEmail, Name: storyHelperName },
-      subject: ‘You have been named as ‘ + storytellerFirstName + ‘’s Story Helper — 24 Stories’,
+      subject: 'You have been named as ' + storytellerFirstName + "'s Story Helper — 24 Stories",
       html:    email3Html(storyHelperName, storytellerFirstName, libUrl)
     });
   }
 
   // Notify Tamara
-  const surnamePart = (fields.StorytellerSurname || ‘’).trim();
+  const surnamePart = (fields.StorytellerSurname || '').trim();
   const fullName    = surnamePart ? `${storytellerFirstName} ${surnamePart}` : storytellerFirstName;
-  const typeLabel   = paymentType === ‘lump_sum’ ? ‘Lump sum (R16,770)’ : ‘Monthly (R2,795 × 6)’;
+  const typeLabel   = paymentType === 'lump_sum' ? 'Lump sum (R16,770)' : 'Monthly (R2,795 × 6)';
   await sendEmail(mjAuth, {
-    to:      { Email: ‘hello@24stories.co.za’, Name: ‘Tamara’ },
+    to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
     subject: `NEW SUBSCRIBER — ${fullName}`,
     html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(fullName)}</strong> has subscribed to 24 Stories.<br>Email: ${esc(storytellerEmail)}<br>Payment: ${typeLabel}<br>Amount: R${parseFloat(amountGross).toFixed(2)}</p>`
   });
 
-  return { statusCode: 200, body: ‘OK’ };
+  return { statusCode: 200, body: 'OK' };
 };
 
 async function sendEmail(mjAuth, { to, subject, html }) {

@@ -208,62 +208,58 @@ You do nothing. It is automatic.
 
 ---
 
-## PART 3B — SUBSCRIBER CANCELLATION
+## PART 3B — WHAT TO DO IN THE EVENT OF A CANCELLATION
 
 ---
 
-### RECEIVING A CANCELLATION REQUEST
+### STEP 1 — TICK ONE CHECKBOX. THAT IS ALL.
 
-A subscriber will email hello@24stories.co.za to cancel.
+When a subscriber emails hello@24stories.co.za to cancel:
 
-**What you do — three steps, in this order:**
+1. Open **Airtable → Subscribers table**
+2. Find the subscriber's record
+3. Tick the **CancellationRequested** checkbox
+4. Close Airtable
 
-**Step 1 — Cancel in PayFast (stops future billing)**
-
-1. Log in to the PayFast merchant dashboard at [payfast.co.za](https://www.payfast.co.za/merchants/)
-2. Go to **Transactions → Subscriptions**
-3. Search for the subscriber by name or email
-4. Open their subscription record → click **Cancel subscription** → confirm
-
-This stops all future payments immediately. The subscriber keeps access for the rest of their current billing cycle.
-
-**Step 2 — Update Airtable**
-
-1. In Airtable → Subscribers table → find the subscriber → set **Status = Cancelled**
-
-Do this after cancelling in PayFast, not before.
-
-**Step 3 — Send a cancellation confirmation from hello@24stories.co.za**
-
-Write a short, warm email. Use this copy — paste it, fill in the first name, and send:
+That is the only action you take. Everything else is automatic.
 
 ---
 
-Subject: `Your cancellation — 24 Stories`
+### WHAT HAPPENS AUTOMATICALLY (YOU DO NOT DO ANY OF THIS)
 
-Hello [FirstName],
+Within 2 minutes of you ticking the box:
 
-We've received your cancellation and have ended your subscription. No further payments will be taken.
+- The system cancels the subscription with PayFast — no further payments will be taken
+- **AccessEndDate** is calculated automatically: SubscriptionStartDate + number of payments already made = the last day of their current paid billing period
+- AccessEndDate is written to Airtable
+- The subscriber receives **email-17** ("Your 24 Stories subscription — cancellation confirmed") telling them their access end date and that their stories are safe
+- You receive a **CANCELLATION PROCESSED** alert at hello@24stories.co.za confirming the above, including the AccessEndDate and PayFast cancel status
 
-You have access to your Story Library and will continue to receive your weekly prompts until the end of your current billing period.
+The day before AccessEndDate:
 
-It's been a privilege to be part of your story journey.
+- You receive a **SEALS TOMORROW** alert at hello@. No action is needed. This is for your awareness only.
 
-With warmth,
-Tamara
-24 Stories
+On AccessEndDate (daily at 9am SAST):
+
+- Status is automatically set to Cancelled in Airtable
+- The subscriber's Story Library is sealed — they see "Your Story Library has been sealed"
+- You receive a **SEALED** alert at hello@
 
 ---
 
-You do not need to save this as a template unless it becomes frequent. It is short enough to write or paste each time.
+### THE ONLY TIME YOU TAKE FURTHER ACTION
+
+If a subscriber emails after cancelling to say they've resolved a payment issue and want to continue — and you have agreed to extend their access — update **AccessEndDate** in Airtable manually to the new date. Do this only after payment is confirmed. The system will then reseal on that new date.
+
+Do not change Status back to Active unless they have paid and you want prompts to resume.
 
 ---
 
 ### CANCELLATION POLICY
 
 - Subscribers may cancel at any time by writing to hello@24stories.co.za or WhatsApp 082 375 8320
-- Subscription ends at the close of the current billing cycle — no further payments are taken
-- Story Library access and weekly prompts continue until the billing cycle ends
+- Subscription ends at the close of the current paid billing cycle — no further payments are taken
+- Story Library access and weekly prompts continue until AccessEndDate
 - No refund is issued for the current billing period (see Refunds section for exceptional cases)
 
 ---

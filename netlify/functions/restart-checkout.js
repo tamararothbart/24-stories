@@ -22,9 +22,13 @@ exports.handler = async function(event) {
   const sub    = await subRes.json();
   const fields = sub.fields;
 
-  if (fields.Status !== 'Frozen') {
-    return { statusCode: 400, body: 'Subscription is not frozen' };
+  if (fields.Status !== 'Frozen' && fields.Status !== 'Cancelled') {
+    return { statusCode: 400, body: 'Subscription is not frozen or cancelled' };
   }
+
+  const paymentsCount   = fields.PaymentsCount || 0;
+  const remainingCycles = Math.max(6 - paymentsCount, 1);
+  const cycleWord       = remainingCycles === 1 ? 'payment' : 'payments';
 
   const MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID;
   const MERCHANT_KEY = process.env.PAYFAST_MERCHANT_KEY;
@@ -46,16 +50,16 @@ exports.handler = async function(event) {
     email_address:    fields.StorytellerEmail     || '',
     m_payment_id:     subscriberId,
     amount:           '2795.00',
-    item_name:        '24 Stories — restart subscription',
-    item_description: '6 monthly payments of R2,795. Stops automatically after 6 months.',
+    item_name:        `24 Stories — ${remainingCycles} ${cycleWord} remaining`,
+    item_description: `Resuming subscription. ${remainingCycles} monthly ${cycleWord} of R2,795. Stops automatically.`,
     custom_str1:      subscriberId,
-    custom_str2:      'monthly',
+    custom_str2:      'restart',
     payment_method:   'cc',
     subscription_type: '1',
     billing_date:      today,
     recurring_amount:  '2795.00',
     frequency:         '3',
-    cycles:            '6'
+    cycles:            String(remainingCycles)
   };
 
   const signature = generateSignature(params, PASSPHRASE);

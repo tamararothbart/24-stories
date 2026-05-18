@@ -144,13 +144,15 @@ exports.handler = async function(event) {
   const today                = new Date().toISOString().slice(0, 10);
   const isAlreadyActive      = fields.Status === 'Active';
   const isFrozen             = fields.Status === 'Frozen';
+  const isCancelled          = fields.Status === 'Cancelled';
 
-  // Restart payment from a frozen subscription
-  if (isFrozen) {
+  // Restart payment from a frozen or cancelled subscription
+  if (isFrozen || isCancelled) {
+    const newPaymentsCount = (fields.PaymentsCount || 0) + 1;
     await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
       method: 'PATCH',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: { Status: 'Active', SubscriptionStartDate: today, PaymentsCount: 1 } })
+      body: JSON.stringify({ fields: { Status: 'Active', PaymentsCount: newPaymentsCount, AccessEndDate: null } })
     });
     await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
       method: 'POST',
@@ -160,6 +162,7 @@ exports.handler = async function(event) {
     const mjAuth_r    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
     const rSurname    = (fields.StorytellerSurname || '').trim();
     const rFullName   = rSurname ? `${storytellerFirstName} ${rSurname}` : storytellerFirstName;
+    const remaining   = Math.max(6 - newPaymentsCount, 0);
     if (storytellerEmail) {
       await sendEmail(mjAuth_r, {
         to:      { Email: storytellerEmail, Name: storytellerFirstName },
@@ -170,9 +173,9 @@ exports.handler = async function(event) {
     await sendEmail(mjAuth_r, {
       to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
       subject: `SUBSCRIPTION RESTARTED — ${rFullName}`,
-      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(rFullName)}</strong> has restarted their subscription.<br>Email: ${esc(storytellerEmail)}<br>Amount: R${parseFloat(amountGross).toFixed(2)}<br>Record: ${esc(recordId)}</p>`
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(rFullName)}</strong> has restarted their subscription.<br>Email: ${esc(storytellerEmail)}<br>Amount: R${parseFloat(amountGross).toFixed(2)}<br>Payment ${newPaymentsCount} of 6 — ${remaining} remaining.<br>Record: ${esc(recordId)}</p>`
     });
-    console.log(`Subscription restarted for ${recordId}`);
+    console.log(`Subscription restarted for ${recordId} — payment ${newPaymentsCount}/6`);
     return { statusCode: 200, body: 'OK' };
   }
 

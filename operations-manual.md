@@ -249,6 +249,8 @@ Within 2 minutes of you ticking the box:
 - The subscriber receives **email-17** ("We're Sorry To See You Go!") — their access end date, stories are safe, contact us to return
 - You receive a **CANCELLATION PROCESSED** alert at hello@24stories.co.za confirming the above, including the AccessEndDate, PayFast cancel status, and **the subscriber's restart link** (see below)
 
+> ⚠ **When this alert arrives — do nothing in Airtable.** Status stays Active until AccessEndDate. The daily cron changes it to Cancelled automatically on that date. The alert is for your awareness only.
+
 The day before AccessEndDate:
 
 - You receive a **SEALS TOMORROW** alert at hello@. No action is needed. This is for your awareness only.

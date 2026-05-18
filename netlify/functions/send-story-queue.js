@@ -267,16 +267,17 @@ exports.handler = async function() {
       }
 
       // Alert Tamara
-      const name      = `${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`.trim();
-      const pfStatus  = payfastCancelled
+      const name        = `${f.StorytellerFirstName || ''} ${f.StorytellerSurname || ''}`.trim();
+      const pfStatus    = payfastCancelled
         ? 'PayFast subscription cancelled ✓'
         : token
           ? 'WARNING: PayFast cancel call failed — cancel manually in PayFast dashboard'
           : 'WARNING: No subscription token found — cancel manually in PayFast dashboard';
+      const restartLink = `https://24stories.co.za/.netlify/functions/restart-checkout?id=${sub.id}`;
       await sendEmail(mjAuth, {
         to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         subject: `CANCELLATION PROCESSED — ${name}`,
-        html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(name)}</strong> has cancelled their subscription.<br>Email: ${esc(f.StorytellerEmail || '')}<br>Access until: <strong>${esc(accessEndDate)}</strong><br>${esc(pfStatus)}<br>Record: ${esc(sub.id)}</p>`
+        html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(name)}</strong> has cancelled their subscription.<br>Email: ${esc(f.StorytellerEmail || '')}<br>Access until: <strong>${esc(accessEndDate)}</strong><br>${esc(pfStatus)}<br>Record: ${esc(sub.id)}<br><br><strong>Restart link (send if they ask to return):</strong><br><a href="${restartLink}" style="color:#B8976A;word-break:break-all;">${restartLink}</a></p>`
       });
 
       console.log(`Cancellation processed for ${sub.id} — access until ${accessEndDate} — PayFast: ${payfastCancelled}`);

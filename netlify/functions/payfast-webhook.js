@@ -36,10 +36,19 @@ exports.handler = async function(event) {
     const cFullName   = cSurname ? `${cFirstName} ${cSurname}` : cFirstName;
     const cPhone      = fC.Phone || '';
     const mjAuth_c    = Buffer.from(`${process.env.MAILJET_API_KEY}:${process.env.MAILJET_API_SECRET}`).toString('base64');
+    // Email to subscriber — frozen account + restart link
+    if (fC.StorytellerEmail) {
+      await sendEmail(mjAuth_c, {
+        to:      { Email: fC.StorytellerEmail, Name: cFirstName },
+        subject: 'Your 24 Stories subscription — payment failed',
+        html:    emailFrozenHtml(cFirstName, restartLink)
+      });
+    }
+    // Alert Tamara
     await sendEmail(mjAuth_c, {
       to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
       subject: `PAYMENT FAILED — SUBSCRIPTION FROZEN — ${cFullName}`,
-      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(cFullName)}</strong> — payment failed. Subscription frozen immediately.<br>Email: ${esc(fC.StorytellerEmail || '')}${cPhone ? `<br>WhatsApp/Phone: ${esc(cPhone)}` : ''}<br>Record: ${esc(recordId)}<br><br><strong>Restart link (send to subscriber):</strong><br><a href="${restartLink}" style="color:#B8976A;word-break:break-all;">${restartLink}</a></p>`
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(cFullName)}</strong> — payment failed. Subscription frozen immediately.<br>Email: ${esc(fC.StorytellerEmail || '')}${cPhone ? `<br>WhatsApp/Phone: ${esc(cPhone)}` : ''}<br>Record: ${esc(recordId)}<br><br><strong>Restart link (also sent to subscriber):</strong><br><a href="${restartLink}" style="color:#B8976A;word-break:break-all;">${restartLink}</a></p>`
     });
     console.log(`Subscription frozen for ${recordId} — CANCELLED IPN`);
     return { statusCode: 200, body: 'OK' };
@@ -476,6 +485,26 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
   </div>
 </body>
 </html>`;
+}
+
+function emailFrozenHtml(firstName, restartLink) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">A payment to your 24 Stories subscription has failed and your account has been frozen.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is temporarily unavailable. Your stories are safe and will remain exactly as you left them.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">To restart your subscription and regain full access, use the payment link below. You'll continue from exactly where you left off.</p>
+  <a href="${restartLink}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">Restart my subscription &#8594;</a>
+  <p style="font-size:15px;color:#555;line-height:1.7;margin:0 0 40px;">Or paste this link into your browser:<br><a href="${restartLink}" style="color:#B8976A;text-decoration:underline;word-break:break-all;">${restartLink}</a></p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; WhatsApp: <a href="https://wa.me/27823758320" style="color:#B8976A;text-decoration:underline;">082 375 8320</a></p>
+</div></div></body></html>`;
 }
 
 function esc(str) {

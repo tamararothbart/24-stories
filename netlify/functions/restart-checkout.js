@@ -46,7 +46,7 @@ exports.handler = async function(event) {
     return_url:       RETURN_URL,
     cancel_url:       CANCEL_URL,
     notify_url:       NOTIFY_URL,
-    m_payment_id:     subscriberId,
+    m_payment_id:     subscriberId + '-r' + Date.now(),
     amount:           '2795.00',
     item_name:        `24 Stories — ${remainingCycles} ${cycleWord} remaining`,
     item_description: `Resuming subscription. ${remainingCycles} monthly ${cycleWord} of R2,795. Stops automatically.`,

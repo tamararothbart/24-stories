@@ -332,6 +332,11 @@ After all tests: delete test Airtable records. Resolve PayFast live credential i
 - **Pricing**: flat R1,200 per copy everywhere. Bulk discount removed across all functions, library.html, book-order.html, email-14 reference.
 - **Tamara test subscriber** (recj2fKFXLRmGNLn5): Status set to Active for testing. ExtraCopies reflects test orders.
 
+### Promotional touchpoints — three built
+- **email-7 weeks 25+26** (`send-story-queue.js` + `approve-story.js`): the "Have a story you want to hear?" suggestions box in email-7 is replaced with an extra copies promo box when `weekNumber >= 25`. Shows "[Name]'s story collection is nearly complete. If you'd like your own copy of the finished book, you can order here, now. Each book ships alongside the main order." + "Order a copy →" button linking to `book-order.html?id=[subscriberId]`. Both send-story-queue.js and approve-story.js have the same email7Html function — both updated identically.
+- **Gift giver extra copies email** (`book-onboarding-reminder.js`): when `promptNumber === 24 && daysSince === 2` (Friday after prompt 24 sends on Wednesday), fires gift giver email if GiftGiverEmail exists and differs from StorytellerEmail. Subject: "A note about [Name]'s book — 24 Stories". Copy: story collection nearly complete, enjoyed reading instalments, order extra copies for family. `Order extra copies →` button to `book-order.html?id=`. Implemented as `giftGiverBookOrderHtml()` function appended to book-onboarding-reminder.js.
+- **book-order.html**: shareable standalone link (`book-order.html?id=[RecordID]`). Tamara or storyteller can share this with any family member at any time.
+
 ### All tests passed
 Library flow (button, PayFast, return confirmation, Tamara alert with delivery address, email-14) ✓
 External flow (book-order.html, PayFast, confirmed screen, external email-14, EXTERNAL BOOK ORDER alert) ✓

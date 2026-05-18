@@ -46,8 +46,6 @@ exports.handler = async function(event) {
     return_url:       RETURN_URL,
     cancel_url:       CANCEL_URL,
     notify_url:       NOTIFY_URL,
-    name_first:       fields.StorytellerFirstName || '',
-    email_address:    fields.StorytellerEmail     || '',
     m_payment_id:     subscriberId,
     amount:           '2795.00',
     item_name:        `24 Stories — ${remainingCycles} ${cycleWord} remaining`,

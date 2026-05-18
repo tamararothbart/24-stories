@@ -360,7 +360,11 @@ The subscriber has the restart link in their email. You can choose to also reach
 
 ### WHAT THE SUBSCRIBER SEES WHEN THEY CLICK THE RESTART LINK
 
-The restart link does **not** take them to the subscription form. It goes directly to a PayFast payment page showing exactly how many payments remain on their original contract. After payment:
+The restart link does **not** take them to the subscription form. It goes directly to a PayFast payment page showing exactly how many payments remain on their original contract. In live mode, PayFast shows a full card entry form — this is where a subscriber with a new or replacement card enters their updated details. No separate card-update step is needed.
+
+> ⚠ **Verify on first live payment failure after launch:** confirm that the PayFast payment page shows a card entry form and that the subscriber can complete payment successfully. Sandbox testing auto-completes without showing the form. If the restart link fails in live mode for any reason, contact hello@24stories.co.za and cancel the old subscription manually in the PayFast dashboard.
+
+After payment:
 
 - They land on their Story Library with a "payment received, reinstating shortly" message
 - Within minutes their account unfreezes (Status → Active, Library opens)

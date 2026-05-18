@@ -36,6 +36,13 @@ All automation is built on Netlify Functions (serverless). There are no Make sce
 ## ⚠ UNTESTED IN PRODUCTION — VERIFY ON FIRST LIVE CANCELLATION
 The PayFast subscription cancel API call (in send-story-queue.js `cancelPayFastSubscription()`) has NEVER run against a live subscription. Sandbox PayFast does not support this API call. When the first real subscriber cancels after launch, check the CANCELLATION PROCESSED alert at hello@24stories.co.za immediately. If it says "PayFast subscription cancelled ✓" — all good. If it says WARNING — cancel manually in the PayFast dashboard and flag for investigation.
 
+## ⚠ UNTESTED IN PRODUCTION — VERIFY ON FIRST LIVE PAYMENT FAILURE + RESTART
+PayFast sandbox auto-completes payments without showing a card entry form. In live mode, the restart-checkout.js redirect must show a full PayFast card entry form (card number, expiry, CVV) so subscribers can enter new card details. Verify on the first real payment failure after launch:
+1. Check that the restart link opens a PayFast page with a card entry form (not an error)
+2. Confirm the subscriber can complete payment with new card details
+3. Confirm SUBSCRIPTION RESTARTED alert arrives at hello@ with correct payment count
+If the restart link fails in live mode for any reason, the fallback is: cancel the subscription in the PayFast dashboard and have the subscriber sign up fresh via begin.html (Tamara manually sets PromptNumber to resume where they left off).
+
 ## ⚠ LAUNCH DAY PAYFAST CREDENTIAL TASK — UNRESOLVED
 Tamara has two sets of PayFast credentials and does not know which belongs to the live account:
 - Set A: 10048842 / do7cmfwoagwjs (was in Netlify before 2026-05-17 — origin unknown)

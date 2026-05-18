@@ -319,8 +319,26 @@ After all tests: delete test Airtable records. Resolve PayFast live credential i
 - PayFast CANCELLED IPN triggering automatic freeze
 - Restart card entry form showing in live PayFast (sandbox auto-completes)
 
-### Next session — Extra Copies / Book Orders from Story Library
-UI and JS wiring exist in library.html. extra-copies-checkout.js exists. email-14 wired. Needs full review, testing, and any missing logic built.
+## Session 20 — Book Orders: Library + External Order Form — COMPLETE (2026-05-18)
+
+### Built & tested
+- **library.html**: button renamed "Order extra copies"; `?ordered=1` return param shows confirmation message; PayFast redirect overlay added.
+- **extra-copies-checkout.js**: return_url now includes `&ordered=1`; flat R1,200 rate (bulk discount removed).
+- **book-order.html**: new standalone external order form (`book-order.html?id=[RecordID]`). Fetches storyteller name via subscriber-lookup.js. Fields: name, email, phone, qty. No delivery address — copies ship to storyteller. Delivery note with red border below Pay button. PayFast redirect overlay.
+- **book-order-checkout.js**: new function for external PayFast one-off payments. custom_str3='external', custom_str4=email|phone, custom_str5=name.
+- **subscriber-lookup.js**: new minimal function — returns storyteller firstName + fullName by record ID.
+- **payfast-webhook.js**: delivery address + phone added to library Tamara alert; external order detection (custom_str3='external') — routes to email14ExternalHtml, EXTERNAL BOOK ORDER alert to hello@ with orderer details; flat R1,200 rate.
+- **email14ExternalHtml()**: new function — no library link, delivery to storyteller's address, orderer arranges onward collection, 4-week timing note.
+- **Pricing**: flat R1,200 per copy everywhere. Bulk discount removed across all functions, library.html, book-order.html, email-14 reference.
+- **Tamara test subscriber** (recj2fKFXLRmGNLn5): Status set to Active for testing. ExtraCopies reflects test orders.
+
+### All tests passed
+Library flow (button, PayFast, return confirmation, Tamara alert with delivery address, email-14) ✓
+External flow (book-order.html, PayFast, confirmed screen, external email-14, EXTERNAL BOOK ORDER alert) ✓
+Invalid link state ✓
+
+### Open item — future session
+External orderers (book-order.html) receive no dispatch notification. Email-12/13 only go to the storyteller. To fix: need a way to store orderer email against the subscriber record. Requires schema discussion — no field exists in Payments or Subscribers for this. Flag when first live external orders arrive.
 
 ## Launch Dates
 - 8 June 2026: Live storytelling event

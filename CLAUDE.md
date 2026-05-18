@@ -290,6 +290,38 @@ After all tests: delete test Airtable records. Resolve PayFast live credential i
 ### Commit
 - Scenario A: 88fe99b
 
+## Session 19 — Cancellation / Freeze / Restart — TESTED & COMPLETE (2026-05-18)
+
+### Bugs fixed
+- `restart-checkout.js`: hardcoded `cycles:6` → `6 - PaymentsCount` (remaining cycles only)
+- `restart-checkout.js`: only accepted Frozen — now accepts Cancelled too
+- `restart-checkout.js`: m_payment_id was reused from original checkout → PayFast rejected as duplicate. Now appends `-r` + timestamp.
+- `restart-checkout.js`: included `email_address` + `name_first` → PayFast sandbox rejected as self-payment. Removed (original checkout never included them).
+- `payfast-webhook.js` Frozen/Cancelled restart handler: was resetting `PaymentsCount:1` and `SubscriptionStartDate:today` → now increments PaymentsCount, preserves SubscriptionStartDate, clears AccessEndDate.
+
+### New
+- `payfast-webhook.js`: CANCELLED IPN now emails subscriber ("We're Sorry To See You Go!" + restart link) before alerting Tamara.
+- `send-story-queue.js`: CANCELLATION PROCESSED alert now includes permanent restart link at bottom.
+- `library.html`: stateFrozen screen detects `?restarted=1` return param — shows "payment received, reinstating shortly" instead of restart button.
+- `restart-checkout.js`: return_url now includes `&restarted=1`.
+- Both exit emails (email-17 and emailFrozenHtml) now open with "We're Sorry To See You Go!" heading.
+- Operations manual Part 3B: loud ⚠ warning about CancellationRequested checkbox; restart link retrieval guide. Part 3C: updated for subscriber auto-receiving restart link; what subscriber sees on PayFast page; card change guidance. New section: lost/changed card → do nothing, wait for payment failure, system handles it.
+- Gmail template drafted: "Card change — wait for payment link" (Tamara to save manually).
+
+### Tested end-to-end (sandbox)
+- Frozen library screen ✓
+- Restart from Frozen → PaymentsCount increments correctly, email-18 + RESTARTED alert ✓
+- Voluntary cancellation → email-17, CANCELLATION PROCESSED with restart link, AccessEndDate set ✓
+- Restart from Cancelled → PaymentsCount increments, email-18 + RESTARTED alert ✓
+
+### Still untested in production (flagged in ⚠ sections above)
+- PayFast subscription cancel API (voluntary cancellation)
+- PayFast CANCELLED IPN triggering automatic freeze
+- Restart card entry form showing in live PayFast (sandbox auto-completes)
+
+### Next session — Extra Copies / Book Orders from Story Library
+UI and JS wiring exist in library.html. extra-copies-checkout.js exists. email-14 wired. Needs full review, testing, and any missing logic built.
+
 ## Launch Dates
 - 8 June 2026: Live storytelling event
 - 10 June 2026: Paid site goes live, interest list emailed

@@ -33,7 +33,7 @@ exports.handler = async function(event) {
   const returnUrl  = `https://24stories.co.za/book-order.html?confirmed=1`;
   const cancelUrl  = `https://24stories.co.za/book-order.html?id=${subscriberId}&cancelled=1`;
 
-  const rate     = qty < 10 ? 1200 : 1000;
+  const rate     = 1200;
   const amount   = (qty * rate).toFixed(2);
   const itemName = qty === 1 ? '24 Stories — 1 Extra Copy' : `24 Stories — ${qty} Extra Copies`;
 

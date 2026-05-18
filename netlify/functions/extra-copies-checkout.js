@@ -30,7 +30,7 @@ exports.handler = async function(event) {
     ? 'https://sandbox.payfast.co.za/eng/process'
     : 'https://www.payfast.co.za/eng/process';
 
-  const rate     = qty < 10 ? 1200 : 1000;
+  const rate     = 1200;
   const amount   = (qty * rate).toFixed(2);
   const itemName = qty === 1 ? '24 Stories — 1 Extra Copy' : `24 Stories — ${qty} Extra Copies`;
   const libUrl   = `https://24stories.co.za/library.html?id=${subscriberId}`;

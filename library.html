@@ -859,7 +859,7 @@
                 <div class="book-field">
                     <p class="book-field-label">Additional copies</p>
                     <p class="book-field-sub">Your book is included in your 24 Stories package. If you would like extra copies for family members, order them here. All copies go to the address above.<br><br>
-                    <strong>1–9 copies: R1,200 each &nbsp;·&nbsp; 10 or more copies: R1,000 each</strong></p>
+                    <strong>R1,200 per copy</strong></p>
                     <div class="copies-input-row">
                         <label for="copiesInput">Number of additional copies</label>
                         <input type="number" class="copies-number" id="copiesInput" min="0" max="99" value="0">
@@ -1557,7 +1557,7 @@
 
             function calcTotal(n) {
                 if (n <= 0) return 0;
-                return n < 10 ? n * 1200 : n * 1000;
+                return n * 1200;
             }
 
             function formatRand(n) {
@@ -1572,7 +1572,7 @@
                     btn.style.display       = 'none';
                     return;
                 }
-                var rate  = n < 10 ? 1200 : 1000;
+                var rate  = 1200;
                 var total = calcTotal(n);
                 totalEl.textContent     = formatRand(total);
                 breakdownEl.textContent = n + ' ' + (n === 1 ? 'copy' : 'copies') + ' \u00D7 ' + formatRand(rate) + ' each';

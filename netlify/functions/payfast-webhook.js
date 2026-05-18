@@ -107,7 +107,7 @@ exports.handler = async function(event) {
       }})
     });
 
-    const rate         = extraCopiesQty < 10 ? 1200 : 1000;
+    const rate         = 1200;
     const totalAmount  = extraCopiesQty * rate;
     const libUrl_ec    = `https://24stories.co.za/library.html?id=${recordId}`;
     const mjAuth_ec    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
@@ -126,7 +126,9 @@ exports.handler = async function(event) {
       await sendEmail(mjAuth_ec, {
         to:      { Email: emailTo, Name: emailName },
         subject: 'Your extra copies are confirmed — 24 Stories',
-        html:    email14Html(emailName, extraCopiesQty, totalAmount, libUrl_ec)
+        html:    isExternal
+          ? email14ExternalHtml(extName, ecFullName, extraCopiesQty, totalAmount)
+          : email14Html(emailName, extraCopiesQty, totalAmount, libUrl_ec)
       });
     }
 
@@ -571,7 +573,7 @@ function email14Html(firstName, quantity, totalAmount, libUrl) {
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Amount paid: <strong>${formattedAmt}</strong></p>
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Delivery: included — dispatched with the main book order</p>
   </div>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">All copies will be delivered together to the address on file in your Story Library. We will confirm when your order is on its way.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">All copies will be delivered together to your address. We will be in touch when your order is on its way.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <div style="border-top:3px solid #B8976A;padding:28px 0 24px;margin:40px 0 32px;">
     <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Your Story Library</p>
@@ -580,5 +582,31 @@ function email14Html(firstName, quantity, totalAmount, libUrl) {
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email14ExternalHtml(ordererName, storytellerName, quantity, totalAmount) {
+  const copyWord     = quantity === 1 ? 'copy' : 'copies';
+  const formattedAmt = 'R' + totalAmount.toLocaleString('en-ZA');
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Extra Copies</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your extra ${copyWord} are confirmed.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(ordererName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you — your payment of <strong>${formattedAmt}</strong> has been received. <strong>${quantity}</strong> additional ${copyWord} of ${esc(storytellerName)}'s book will be printed and delivered directly to them.</p>
+  <div style="background:#EFECEA;padding:28px 32px;margin:0 0 28px;">
+    <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Order summary</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Extra ${copyWord}: <strong>${quantity}</strong></p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Amount paid: <strong>${formattedAmt}</strong></p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Delivery: to ${esc(storytellerName)}'s address</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your copies will be ready at the same time as ${esc(storytellerName)}'s book. Please arrange collection or forward delivery directly with them — there's something rather lovely about that handover.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks from the time ${esc(storytellerName)} completes their book for printing and delivery to their door.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }

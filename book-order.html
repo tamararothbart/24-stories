@@ -247,7 +247,7 @@
 
   <p class="form-intro">Each copy is a linen-bound hardcover, printed alongside the main book order. Delivery is included in the price.</p>
 
-  <p class="pricing-row"><strong>1–9 copies: R1,200 each &nbsp;&middot;&nbsp; 10 or more copies: R1,000 each</strong></p>
+  <p class="pricing-row"><strong>R1,200 per copy</strong></p>
 
   <div class="field-group">
     <label class="field-label" for="ordererName">Your name</label>
@@ -348,7 +348,7 @@
       orderSummary.style.display = 'none';
       return;
     }
-    var rate  = n < 10 ? 1200 : 1000;
+    var rate  = 1200;
     var total = n * rate;
     qtyTotal.textContent     = formatRand(total);
     qtyBreakdown.textContent = n + ' ' + (n === 1 ? 'copy' : 'copies') + ' × ' + formatRand(rate) + ' each';

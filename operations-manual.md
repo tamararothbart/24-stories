@@ -386,6 +386,27 @@ If the subscriber does not respond and does not pay, the account stays frozen in
 
 ---
 
+### WHEN A SUBSCRIBER CONTACTS YOU ABOUT A LOST OR CHANGED CARD
+
+If a subscriber emails hello@ to say they've lost their card, their card has expired, or they're changing banks — **do nothing on your end.**
+
+Reply using the Gmail template **"Card change — wait for payment link"** (see below for how to find it).
+
+That is the complete process. Here is why it works without any action from you:
+
+- When their next payment fails, PayFast sends a signal to the system automatically
+- The system freezes their account and immediately emails them a restart link
+- They click the link, pay with their new card, and the subscription resumes
+- You receive a SUBSCRIPTION RESTARTED alert at hello@
+
+The subscriber does not lose any stories. Their prompt number does not reset. Their billing cycle continues from where it left off with the correct number of payments remaining.
+
+**The only disruption** is a brief account freeze on the day the payment fails — resolved the moment they click the restart link. For most subscribers this is not a problem. If they are mid-story on that exact day, reassure them their draft is safe in the Story Library.
+
+**Gmail template to use:** "Card change — wait for payment link"
+
+---
+
 ## PART 4 — WEEK 26 / BOOK PRODUCTION
 
 ---

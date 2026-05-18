@@ -15,11 +15,11 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { subscriberId, quantity } = body;
+  const { subscriberId, quantity, ordererName, ordererEmail, ordererPhone, deliveryAddress } = body;
   const qty = parseInt(quantity, 10) || 0;
 
-  if (!subscriberId || qty <= 0) {
-    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'subscriberId and quantity required' }) };
+  if (!subscriberId || qty <= 0 || !ordererName || !ordererEmail || !deliveryAddress) {
+    return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'All fields are required' }) };
   }
 
   const MERCHANT_ID  = process.env.PAYFAST_MERCHANT_ID;
@@ -30,22 +30,31 @@ exports.handler = async function(event) {
     ? 'https://sandbox.payfast.co.za/eng/process'
     : 'https://www.payfast.co.za/eng/process';
 
+  const returnUrl  = `https://24stories.co.za/book-order.html?confirmed=1`;
+  const cancelUrl  = `https://24stories.co.za/book-order.html?id=${subscriberId}&cancelled=1`;
+
   const rate     = qty < 10 ? 1200 : 1000;
   const amount   = (qty * rate).toFixed(2);
   const itemName = qty === 1 ? '24 Stories — 1 Extra Copy' : `24 Stories — ${qty} Extra Copies`;
-  const libUrl   = `https://24stories.co.za/library.html?id=${subscriberId}`;
+
+  // Pack orderer details into custom_str fields (| separator)
+  const str4 = `${ordererEmail}|${ordererPhone || ''}`.slice(0, 255);
+  const str5 = `${ordererName}|${deliveryAddress}`.slice(0, 255);
 
   const params = {
     merchant_id:  MERCHANT_ID,
     merchant_key: MERCHANT_KEY,
-    return_url:   libUrl + '&ordered=1',
-    cancel_url:   libUrl,
+    return_url:   returnUrl,
+    cancel_url:   cancelUrl,
     notify_url:   NOTIFY_URL,
     amount:       amount,
     item_name:    itemName,
-    custom_str1:     subscriberId,
-    custom_str2:     String(qty),
-    payment_method:  'cc'
+    custom_str1:  subscriberId,
+    custom_str2:  String(qty),
+    custom_str3:  'external',
+    custom_str4:  str4,
+    custom_str5:  str5,
+    payment_method: 'cc'
   };
 
   params.signature = generateSignature(params, PASSPHRASE);

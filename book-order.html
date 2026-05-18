@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Extra Copies — 24 Stories</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #E8E4DF;
+    font-family: 'Inter', sans-serif;
+    color: #1A1A1A;
+    min-height: 100vh;
+    padding: 48px 24px 80px;
+  }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .page-header img { height: 48px; width: auto; }
+
+  .form-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #F7F5F2;
+    padding: 48px 40px;
+  }
+  @media (max-width: 600px) {
+    .form-card { padding: 32px 24px; }
+  }
+
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+  }
+
+  .form-intro {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 40px;
+  }
+
+  .pricing-note {
+    background: #EFECEA;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 36px;
+  }
+  .pricing-note strong { color: #1A1A1A; }
+
+  .field-group { margin-bottom: 24px; }
+
+  .field-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .field-input,
+  .field-textarea {
+    width: 100%;
+    border: 1px solid #C8C4BE;
+    background: #fff;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    transition: border-color 0.15s;
+  }
+  .field-input:focus,
+  .field-textarea:focus { border-color: #B8976A; }
+
+  .field-textarea { resize: vertical; min-height: 100px; }
+
+  .qty-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .qty-input {
+    width: 100px;
+    border: 1px solid #C8C4BE;
+    background: #fff;
+    color: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    border-radius: 0;
+    text-align: center;
+    transition: border-color 0.15s;
+  }
+  .qty-input:focus { border-color: #B8976A; }
+
+  .qty-total {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: #1A1A1A;
+  }
+  .qty-breakdown {
+    font-size: 13px;
+    color: #888;
+    margin-top: 8px;
+  }
+
+  hr { border: none; border-top: 1px solid #D0CCC6; margin: 36px 0; }
+
+  .order-summary {
+    background: #EFECEA;
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    display: none;
+  }
+  .order-summary p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.9;
+    margin-bottom: 6px;
+  }
+  .order-summary p:last-child { margin-bottom: 0; }
+  .order-summary-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .btn-pay {
+    display: block;
+    width: 100%;
+    background: #1A1A1A;
+    color: #F7F5F2;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.06em;
+    padding: 18px 32px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s;
+  }
+  .btn-pay:hover:not(:disabled) { background: #333; }
+  .btn-pay:disabled { opacity: 0.6; cursor: default; }
+
+  .form-msg {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #B8976A;
+    line-height: 1.7;
+    display: none;
+  }
+  .form-msg.error { color: #c0392b; }
+
+  /* Confirmed / error states */
+  .state-confirmed,
+  .state-error-page {
+    max-width: 560px;
+    margin: 80px auto;
+    text-align: center;
+    padding: 0 24px;
+    display: none;
+  }
+  .state-confirmed .state-title,
+  .state-error-page .state-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+  }
+  .state-confirmed p,
+  .state-error-page p {
+    font-size: 16px;
+    color: #555;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <a href="index.html"><img src="logo.png" alt="24 Stories"></a>
+</div>
+
+<!-- Confirmed state (after PayFast return) -->
+<div class="state-confirmed" id="stateConfirmed">
+  <p class="eyebrow" style="text-align:center;">Order Confirmed</p>
+  <h1 class="state-title">Your extra copies are on their way.</h1>
+  <p>Thank you — your payment has been received. A confirmation email is on its way to you. All copies will be dispatched with the main book order.</p>
+  <p style="margin-top:20px;font-size:14px;color:#888;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a></p>
+</div>
+
+<!-- Invalid link state -->
+<div class="state-error-page" id="stateInvalid">
+  <h1 class="state-title">Invalid order link.</h1>
+  <p>Please ask the book recipient to share the correct order link with you, or email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
+</div>
+
+<!-- Cancelled state -->
+<div class="state-error-page" id="stateCancelled">
+  <h1 class="state-title">Payment cancelled.</h1>
+  <p>No payment was taken. <a href="#" id="tryCancelledAgain" style="color:#B8976A;text-decoration:underline;">Try again.</a></p>
+</div>
+
+<!-- Order form -->
+<div class="form-card" id="stateForm">
+  <p class="eyebrow">24 Stories</p>
+  <h1 class="form-title">Order extra copies of a 24 Stories book.</h1>
+  <p class="form-intro">Each copy is a linen-bound hardcover. Copies are dispatched together with the main book order. Delivery is included in the price.</p>
+
+  <div class="pricing-note">
+    <strong>1–9 copies: R1,200 each &nbsp;&middot;&nbsp; 10 or more copies: R1,000 each</strong><br>
+    Delivery included. All copies ship to the address you enter below.
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="ordererName">Your name</label>
+    <input class="field-input" type="text" id="ordererName" autocomplete="name" placeholder="Full name">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="ordererEmail">Your email</label>
+    <input class="field-input" type="email" id="ordererEmail" autocomplete="email" placeholder="email@example.com">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="ordererPhone">Your phone number</label>
+    <input class="field-input" type="tel" id="ordererPhone" autocomplete="tel" placeholder="e.g. 082 000 0000">
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="deliveryAddress">Delivery address</label>
+    <textarea class="field-textarea" id="deliveryAddress" autocomplete="street-address" placeholder="Street address, suburb, city, province, postal code"></textarea>
+  </div>
+
+  <div class="field-group">
+    <label class="field-label" for="qtyInput">Number of copies</label>
+    <div class="qty-row">
+      <input class="qty-input" type="number" id="qtyInput" min="1" max="99" value="" placeholder="0">
+      <span class="qty-total" id="qtyTotal"></span>
+    </div>
+    <p class="qty-breakdown" id="qtyBreakdown"></p>
+  </div>
+
+  <hr>
+
+  <div class="order-summary" id="orderSummary">
+    <p class="order-summary-label">Order summary</p>
+    <p id="summaryQty"></p>
+    <p id="summaryTotal"></p>
+    <p>Delivery: included</p>
+  </div>
+
+  <button class="btn-pay" id="btnPay" type="button">Pay now &rarr;</button>
+  <p class="form-msg" id="formMsg"></p>
+</div>
+
+<script>
+(function() {
+  var CHECKOUT_URL = '/.netlify/functions/book-order-checkout';
+
+  var urlParams    = new URLSearchParams(window.location.search);
+  var subscriberId = urlParams.get('id') || '';
+
+  // Handle return states
+  if (urlParams.get('confirmed') === '1') {
+    document.getElementById('stateForm').style.display      = 'none';
+    document.getElementById('stateConfirmed').style.display = 'block';
+    return;
+  }
+  if (urlParams.get('cancelled') === '1') {
+    document.getElementById('stateForm').style.display       = 'none';
+    document.getElementById('stateCancelled').style.display  = 'block';
+    document.getElementById('tryCancelledAgain').href =
+      'book-order.html?id=' + encodeURIComponent(subscriberId);
+    return;
+  }
+  if (!subscriberId) {
+    document.getElementById('stateForm').style.display      = 'none';
+    document.getElementById('stateInvalid').style.display   = 'block';
+    return;
+  }
+
+  // Price calculation
+  var qtyInput     = document.getElementById('qtyInput');
+  var qtyTotal     = document.getElementById('qtyTotal');
+  var qtyBreakdown = document.getElementById('qtyBreakdown');
+  var orderSummary = document.getElementById('orderSummary');
+  var summaryQty   = document.getElementById('summaryQty');
+  var summaryTotal = document.getElementById('summaryTotal');
+
+  function formatRand(n) { return 'R' + n.toLocaleString('en-ZA'); }
+
+  function updatePricing() {
+    var n = parseInt(qtyInput.value, 10) || 0;
+    if (n <= 0) {
+      qtyTotal.textContent     = '';
+      qtyBreakdown.textContent = '';
+      orderSummary.style.display = 'none';
+      return;
+    }
+    var rate  = n < 10 ? 1200 : 1000;
+    var total = n * rate;
+    qtyTotal.textContent     = formatRand(total);
+    qtyBreakdown.textContent = n + ' ' + (n === 1 ? 'copy' : 'copies') + ' × ' + formatRand(rate) + ' each';
+    summaryQty.textContent   = 'Copies: ' + n;
+    summaryTotal.textContent = 'Total: ' + formatRand(total);
+    orderSummary.style.display = 'block';
+  }
+
+  qtyInput.addEventListener('input', updatePricing);
+
+  // Submit
+  document.getElementById('btnPay').addEventListener('click', function() {
+    var name     = document.getElementById('ordererName').value.trim();
+    var email    = document.getElementById('ordererEmail').value.trim();
+    var phone    = document.getElementById('ordererPhone').value.trim();
+    var address  = document.getElementById('deliveryAddress').value.trim();
+    var qty      = parseInt(qtyInput.value, 10) || 0;
+    var msgEl    = document.getElementById('formMsg');
+    var btn      = document.getElementById('btnPay');
+
+    msgEl.style.display = 'none';
+    msgEl.classList.remove('error');
+
+    if (!name || !email || !address || qty <= 0) {
+      msgEl.textContent    = 'Please complete all fields and enter a quantity before continuing.';
+      msgEl.classList.add('error');
+      msgEl.style.display  = 'block';
+      return;
+    }
+
+    btn.disabled    = true;
+    btn.textContent = 'Preparing payment…';
+
+    fetch(CHECKOUT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subscriberId:    subscriberId,
+        quantity:        qty,
+        ordererName:     name,
+        ordererEmail:    email,
+        ordererPhone:    phone,
+        deliveryAddress: address
+      })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.payfast_params) {
+        btn.disabled    = false;
+        btn.textContent = 'Pay now →';
+        msgEl.textContent   = 'Something went wrong. Please try again.';
+        msgEl.classList.add('error');
+        msgEl.style.display = 'block';
+        return;
+      }
+      var form = document.createElement('form');
+      form.action = data.payfast_url || 'https://www.payfast.co.za/eng/process';
+      form.method = 'POST';
+      form.style.display = 'none';
+      Object.keys(data.payfast_params).forEach(function(k) {
+        var inp = document.createElement('input');
+        inp.type = 'hidden'; inp.name = k; inp.value = data.payfast_params[k];
+        form.appendChild(inp);
+      });
+      document.body.appendChild(form);
+      btn.textContent = 'Redirecting to PayFast…';
+      form.submit();
+    })
+    .catch(function() {
+      btn.disabled    = false;
+      btn.textContent = 'Pay now →';
+      msgEl.textContent   = 'Something went wrong. Please try again.';
+      msgEl.classList.add('error');
+      msgEl.style.display = 'block';
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

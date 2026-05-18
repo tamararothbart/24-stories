@@ -866,7 +866,7 @@
                         <span class="copies-total" id="copiesTotalDisplay"></span>
                     </div>
                     <p class="copies-breakdown" id="copiesBreakdown"></p>
-                    <button class="btn-request-payment" id="btnRequestPayment" type="button">Request a payment link</button>
+                    <button class="btn-request-payment" id="btnRequestPayment" type="button">Order extra copies</button>
                     <p class="field-saved-msg" id="copiesMsg"></p>
                 </div>
 
@@ -1043,6 +1043,16 @@
                 renderCards(byWeek, promptsByWeek, promptsSent);
                 renderBookPrep(f);
                 showState('library');
+
+                // Show confirmation if returning from extra copies PayFast payment
+                if (new URLSearchParams(window.location.search).get('ordered') === '1') {
+                    var copiesMsg = document.getElementById('copiesMsg');
+                    if (copiesMsg) {
+                        copiesMsg.textContent = 'Your order is confirmed. A confirmation email is on its way.';
+                        copiesMsg.style.display = 'block';
+                        setTimeout(function() { copiesMsg.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
+                    }
+                }
 
                 // Apply read-only mode after library renders
                 if (accessLevel === 'read_only') { applyReadOnlyMode(); }
@@ -1586,7 +1596,7 @@
                 .then(function(data) {
                     if (!data.payfast_params) {
                         btn.disabled = false;
-                        btn.textContent = 'Request a payment link';
+                        btn.textContent = 'Order extra copies';
                         if (msgEl) { msgEl.textContent = 'Something went wrong. Please try again.'; msgEl.style.display = 'block'; }
                         return;
                     }

@@ -15,6 +15,10 @@ exports.handler = async function(event) {
 
   // extra copies flow uses custom_str2 = numeric string
   const extraCopiesQty   = /^\d+$/.test(paymentType) ? parseInt(paymentType, 10) : 0;
+  // external book order (book-order.html) passes 'external' in custom_str3
+  const orderSource      = params.get('custom_str3') || '';
+  const ordererStr4      = params.get('custom_str4') || '';  // "email|phone"
+  const ordererStr5      = params.get('custom_str5') || '';  // "name|delivery address"
 
   // CANCELLED IPN — subscription ended due to payment failure
   if (paymentStatus === 'CANCELLED') {
@@ -108,23 +112,41 @@ exports.handler = async function(event) {
     const libUrl_ec    = `https://24stories.co.za/library.html?id=${recordId}`;
     const mjAuth_ec    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
     const firstName_ec = ecFields.StorytellerFirstName || '';
+    const ecSurname    = (ecFields.StorytellerSurname || '').trim();
+    const ecFullName   = ecSurname ? `${firstName_ec} ${ecSurname}` : firstName_ec;
+    const copyWord     = extraCopiesQty === 1 ? 'copy' : 'copies';
 
-    if (ecFields.StorytellerEmail) {
+    const isExternal   = orderSource === 'external';
+    const [extEmail = '', extPhone = ''] = ordererStr4.split('|');
+    const pipeIdx      = ordererStr5.indexOf('|');
+    const extName      = pipeIdx >= 0 ? ordererStr5.slice(0, pipeIdx) : ordererStr5;
+    const extAddress   = pipeIdx >= 0 ? ordererStr5.slice(pipeIdx + 1) : '';
+
+    const emailTo   = isExternal ? extEmail              : ecFields.StorytellerEmail;
+    const emailName = isExternal ? extName               : firstName_ec;
+    if (emailTo) {
       await sendEmail(mjAuth_ec, {
-        to:      { Email: ecFields.StorytellerEmail, Name: firstName_ec },
+        to:      { Email: emailTo, Name: emailName },
         subject: 'Your extra copies are confirmed — 24 Stories',
-        html:    email14Html(firstName_ec, extraCopiesQty, totalAmount, libUrl_ec)
+        html:    email14Html(emailName, extraCopiesQty, totalAmount, libUrl_ec)
       });
     }
 
     // Notify Tamara
-    const ecSurname  = (ecFields.StorytellerSurname || '').trim();
-    const ecFullName = ecSurname ? `${firstName_ec} ${ecSurname}` : firstName_ec;
-    const copyWord   = extraCopiesQty === 1 ? 'copy' : 'copies';
+    const deliveryBlock = isExternal
+      ? `<br>Orderer: ${esc(extName)}<br>Email: ${esc(extEmail)}<br>Phone: ${esc(extPhone)}<br>Delivery address: ${esc(extAddress || '—')}`
+      : `<br>Delivery address: ${esc(ecFields.DeliveryAddress || '—')}<br>Delivery phone: ${esc(ecFields.DeliveryPhone || '—')}`;
+    const alertSubject = isExternal
+      ? `EXTERNAL BOOK ORDER — ${ecFullName}: ${extraCopiesQty} ${copyWord}`
+      : `EXTRA COPIES — ${ecFullName}: ${extraCopiesQty} ${copyWord}`;
+    const alertIntro = isExternal
+      ? `<strong>${esc(extName)}</strong> has ordered <strong>${extraCopiesQty}</strong> extra ${copyWord} of <strong>${esc(ecFullName)}</strong>'s book.`
+      : `<strong>${esc(ecFullName)}</strong> has ordered <strong>${extraCopiesQty}</strong> extra ${copyWord}.`;
+
     await sendEmail(mjAuth_ec, {
       to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
-      subject: `EXTRA COPIES — ${ecFullName}: ${extraCopiesQty} ${copyWord}`,
-      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(ecFullName)}</strong> has ordered <strong>${extraCopiesQty}</strong> extra ${copyWord}.<br>Amount paid: R${parseFloat(amountGross).toFixed(2)}</p>`
+      subject: alertSubject,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;">${alertIntro}<br>Amount paid: R${parseFloat(amountGross).toFixed(2)}${deliveryBlock}</p>`
     });
 
     return { statusCode: 200, body: 'OK' };

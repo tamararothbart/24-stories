@@ -104,7 +104,8 @@ exports.handler = async function(event) {
   // Email 7 — to family recipients only if list is not empty
   if (hasRecipients) {
     const familySubject = `${f.StorytellerFirstName || 'A story'} — Week ${weekNumber}`;
-    const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, chapterTitle, editedText, imageUrl, caption);
+    const bookOrderUrl  = weekNumber >= 25 ? `https://24stories.co.za/book-order.html?id=${subscriberId}` : '';
+    const familyHtml    = email7Html(f.StorytellerFirstName, weekNumber, chapterTitle, editedText, imageUrl, caption, bookOrderUrl);
     for (const recipientEmail of dedupedList) {
       await sendEmail(mjAuth, {
         to:      { Email: recipientEmail, Name: '' },
@@ -211,7 +212,7 @@ function email6NoRecipientsHtml(firstName, weekNumber, chapterTitle, storyText, 
 }
 
 // Email 7 — family delivery
-function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, imageUrl, caption) {
+function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, imageUrl, caption, bookOrderUrl = '') {
   const photoBlock = imageUrl
     ? `<div style="margin:28px 0 44px;">
          <img src="${imageUrl}" alt="Photo from ${esc(storytellerFirstName)}" style="max-width:100%;height:auto;display:block;">
@@ -233,10 +234,16 @@ function email7Html(storytellerFirstName, weekNumber, chapterTitle, storyText, i
   <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 40px;white-space:pre-wrap;">${esc(storyText)}</p>
   ${photoBlock}
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-  <div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
+  ${bookOrderUrl
+    ? `<div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
+    <p style="font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 16px;">${esc(storytellerFirstName)}'s story collection is nearly complete.</p>
+    <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 20px;">If you'd like your own copy of the finished book, you can order here, now. Each book ships alongside the main order.</p>
+    <a href="${bookOrderUrl}" style="display:inline-block;background:#1A1A1A;color:#F7F5F2;text-decoration:none;padding:14px 28px;font-size:15px;letter-spacing:0.03em;">Order a copy &#8594;</a>
+  </div>`
+    : `<div style="background:#EFECEA;border-left:4px solid #B8976A;padding:28px 32px;margin:0 0 36px;">
     <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 14px;">Have a story you want to hear?</p>
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">If there's a story you've always wanted to hear — or one that deserves to be kept — ask them to tell it. The weekly prompts are guidelines only. Your storyteller is free to share any memory they choose.</p>
-  </div>
+  </div>`}
   <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Delivered by <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24 Stories</a> — preserving the stories that matter.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }

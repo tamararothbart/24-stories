@@ -604,7 +604,7 @@ function email14ExternalHtml(ordererName, storytellerName, quantity, totalAmount
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0;">Delivery: to ${esc(storytellerName)}'s address</p>
   </div>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your copies will be ready at the same time as ${esc(storytellerName)}'s book. Please arrange collection or forward delivery directly with them — there's something rather lovely about that handover.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks from the time ${esc(storytellerName)} completes their book for printing and delivery to their door.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks from the time ${esc(storytellerName)} completes all 26 weekly prompts for printing and delivery to their door. For any questions about your order, contact <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>

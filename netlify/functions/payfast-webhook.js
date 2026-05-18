@@ -118,12 +118,10 @@ exports.handler = async function(event) {
 
     const isExternal   = orderSource === 'external';
     const [extEmail = '', extPhone = ''] = ordererStr4.split('|');
-    const pipeIdx      = ordererStr5.indexOf('|');
-    const extName      = pipeIdx >= 0 ? ordererStr5.slice(0, pipeIdx) : ordererStr5;
-    const extAddress   = pipeIdx >= 0 ? ordererStr5.slice(pipeIdx + 1) : '';
+    const extName      = ordererStr5 || '';
 
-    const emailTo   = isExternal ? extEmail              : ecFields.StorytellerEmail;
-    const emailName = isExternal ? extName               : firstName_ec;
+    const emailTo   = isExternal ? extEmail    : ecFields.StorytellerEmail;
+    const emailName = isExternal ? extName     : firstName_ec;
     if (emailTo) {
       await sendEmail(mjAuth_ec, {
         to:      { Email: emailTo, Name: emailName },
@@ -134,7 +132,7 @@ exports.handler = async function(event) {
 
     // Notify Tamara
     const deliveryBlock = isExternal
-      ? `<br>Orderer: ${esc(extName)}<br>Email: ${esc(extEmail)}<br>Phone: ${esc(extPhone)}<br>Delivery address: ${esc(extAddress || '—')}`
+      ? `<br>Orderer: ${esc(extName)}<br>Email: ${esc(extEmail)}<br>Phone: ${esc(extPhone)}<br>Delivery: to ${esc(ecFullName)}'s address on file`
       : `<br>Delivery address: ${esc(ecFields.DeliveryAddress || '—')}<br>Delivery phone: ${esc(ecFields.DeliveryPhone || '—')}`;
     const alertSubject = isExternal
       ? `EXTERNAL BOOK ORDER — ${ecFullName}: ${extraCopiesQty} ${copyWord}`

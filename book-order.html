@@ -57,18 +57,27 @@
     font-size: 15px;
     line-height: 1.8;
     color: #555;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 
-  .pricing-note {
+  .delivery-note {
     background: #EFECEA;
-    padding: 16px 20px;
+    padding: 18px 22px;
     font-size: 14px;
     color: #444;
-    line-height: 1.7;
+    line-height: 1.8;
     margin-bottom: 36px;
   }
-  .pricing-note strong { color: #1A1A1A; }
+  .delivery-note strong { color: #1A1A1A; }
+  .delivery-note a { color: #B8976A; text-decoration: underline; }
+
+  .pricing-row {
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 36px;
+    line-height: 1.7;
+  }
+  .pricing-row strong { color: #1A1A1A; }
 
   .field-group { margin-bottom: 24px; }
 
@@ -82,8 +91,7 @@
     margin-bottom: 8px;
   }
 
-  .field-input,
-  .field-textarea {
+  .field-input {
     width: 100%;
     border: 1px solid #C8C4BE;
     background: #fff;
@@ -97,16 +105,12 @@
     border-radius: 0;
     transition: border-color 0.15s;
   }
-  .field-input:focus,
-  .field-textarea:focus { border-color: #B8976A; }
-
-  .field-textarea { resize: vertical; min-height: 100px; }
+  .field-input:focus { border-color: #B8976A; }
 
   .qty-row {
     display: flex;
     align-items: center;
     gap: 16px;
-    flex-wrap: wrap;
   }
   .qty-input {
     width: 100px;
@@ -143,13 +147,6 @@
     margin-bottom: 32px;
     display: none;
   }
-  .order-summary p {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.9;
-    margin-bottom: 6px;
-  }
-  .order-summary p:last-child { margin-bottom: 0; }
   .order-summary-label {
     font-size: 11px;
     letter-spacing: 0.12em;
@@ -158,6 +155,13 @@
     font-weight: 500;
     margin-bottom: 14px;
   }
+  .order-summary p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.9;
+    margin-bottom: 6px;
+  }
+  .order-summary p:last-child { margin-bottom: 0; }
 
   .btn-pay {
     display: block;
@@ -185,17 +189,15 @@
   }
   .form-msg.error { color: #c0392b; }
 
-  /* Confirmed / error states */
-  .state-confirmed,
-  .state-error-page {
+  /* Full-page states */
+  .state-page {
     max-width: 560px;
     margin: 80px auto;
     text-align: center;
     padding: 0 24px;
     display: none;
   }
-  .state-confirmed .state-title,
-  .state-error-page .state-title {
+  .state-page .state-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.8rem, 4vw, 2.4rem);
     font-weight: 300;
@@ -203,12 +205,13 @@
     color: #1A1A1A;
     margin-bottom: 20px;
   }
-  .state-confirmed p,
-  .state-error-page p {
+  .state-page p {
     font-size: 16px;
     color: #555;
     line-height: 1.8;
+    margin-bottom: 12px;
   }
+  .state-page a { color: #B8976A; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -217,36 +220,39 @@
   <a href="index.html"><img src="logo.png" alt="24 Stories"></a>
 </div>
 
-<!-- Confirmed state (after PayFast return) -->
-<div class="state-confirmed" id="stateConfirmed">
+<!-- Confirmed state -->
+<div class="state-page" id="stateConfirmed">
   <p class="eyebrow" style="text-align:center;">Order Confirmed</p>
   <h1 class="state-title">Your extra copies are on their way.</h1>
-  <p>Thank you — your payment has been received. A confirmation email is on its way to you. All copies will be dispatched with the main book order.</p>
-  <p style="margin-top:20px;font-size:14px;color:#888;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a></p>
+  <p>Your payment has been received. A confirmation email is on its way to you. Your copies will be dispatched with the main book order.</p>
+  <p style="font-size:14px;color:#888;">Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
 </div>
 
 <!-- Invalid link state -->
-<div class="state-error-page" id="stateInvalid">
+<div class="state-page" id="stateInvalid">
   <h1 class="state-title">Invalid order link.</h1>
-  <p>Please ask the book recipient to share the correct order link with you, or email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
+  <p>Please ask the storyteller to share the correct order link with you, or email <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>.</p>
 </div>
 
 <!-- Cancelled state -->
-<div class="state-error-page" id="stateCancelled">
+<div class="state-page" id="stateCancelled">
   <h1 class="state-title">Payment cancelled.</h1>
-  <p>No payment was taken. <a href="#" id="tryCancelledAgain" style="color:#B8976A;text-decoration:underline;">Try again.</a></p>
+  <p>No payment was taken. <a href="#" id="tryCancelledAgain">Try again.</a></p>
 </div>
 
 <!-- Order form -->
-<div class="form-card" id="stateForm">
+<div class="form-card" id="stateForm" style="display:none;">
   <p class="eyebrow">24 Stories</p>
-  <h1 class="form-title">Order extra copies of a 24 Stories book.</h1>
-  <p class="form-intro">Each copy is a linen-bound hardcover. Copies are dispatched together with the main book order. Delivery is included in the price.</p>
+  <h1 class="form-title" id="formTitle">Order extra copies.</h1>
 
-  <div class="pricing-note">
-    <strong>1–9 copies: R1,200 each &nbsp;&middot;&nbsp; 10 or more copies: R1,000 each</strong><br>
-    Delivery included. All copies ship to the address you enter below.
+  <p class="form-intro">Each copy is a linen-bound hardcover, printed and delivered directly to your storyteller. Delivery to your storyteller is included in the price.</p>
+
+  <div class="delivery-note">
+    Your copies ship to your storyteller's address — we'd love for you to arrange collection or onward delivery together. There's something rather lovely about that handover.<br><br>
+    For international or custom shipping, contact us at <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>. Additional charges apply.
   </div>
+
+  <p class="pricing-row"><strong>1–9 copies: R1,200 each &nbsp;&middot;&nbsp; 10 or more copies: R1,000 each</strong></p>
 
   <div class="field-group">
     <label class="field-label" for="ordererName">Your name</label>
@@ -264,11 +270,6 @@
   </div>
 
   <div class="field-group">
-    <label class="field-label" for="deliveryAddress">Delivery address</label>
-    <textarea class="field-textarea" id="deliveryAddress" autocomplete="street-address" placeholder="Street address, suburb, city, province, postal code"></textarea>
-  </div>
-
-  <div class="field-group">
     <label class="field-label" for="qtyInput">Number of copies</label>
     <div class="qty-row">
       <input class="qty-input" type="number" id="qtyInput" min="1" max="99" value="" placeholder="0">
@@ -283,7 +284,7 @@
     <p class="order-summary-label">Order summary</p>
     <p id="summaryQty"></p>
     <p id="summaryTotal"></p>
-    <p>Delivery: included</p>
+    <p>Delivery to storyteller: included</p>
   </div>
 
   <button class="btn-pay" id="btnPay" type="button">Pay now &rarr;</button>
@@ -293,28 +294,37 @@
 <script>
 (function() {
   var CHECKOUT_URL = '/.netlify/functions/book-order-checkout';
+  var LOOKUP_URL   = '/.netlify/functions/subscriber-lookup';
 
   var urlParams    = new URLSearchParams(window.location.search);
   var subscriberId = urlParams.get('id') || '';
 
-  // Handle return states
-  if (urlParams.get('confirmed') === '1') {
-    document.getElementById('stateForm').style.display      = 'none';
-    document.getElementById('stateConfirmed').style.display = 'block';
-    return;
+  function show(id) {
+    ['stateConfirmed','stateInvalid','stateCancelled','stateForm'].forEach(function(s) {
+      document.getElementById(s).style.display = s === id ? (id === 'stateForm' ? 'block' : 'block') : 'none';
+    });
   }
+
+  // Handle return states first
+  if (urlParams.get('confirmed') === '1') { show('stateConfirmed'); return; }
   if (urlParams.get('cancelled') === '1') {
-    document.getElementById('stateForm').style.display       = 'none';
-    document.getElementById('stateCancelled').style.display  = 'block';
-    document.getElementById('tryCancelledAgain').href =
-      'book-order.html?id=' + encodeURIComponent(subscriberId);
+    show('stateCancelled');
+    document.getElementById('tryCancelledAgain').href = 'book-order.html?id=' + encodeURIComponent(subscriberId);
     return;
   }
-  if (!subscriberId) {
-    document.getElementById('stateForm').style.display      = 'none';
-    document.getElementById('stateInvalid').style.display   = 'block';
-    return;
-  }
+  if (!subscriberId) { show('stateInvalid'); return; }
+
+  // Fetch storyteller name then show form
+  fetch(LOOKUP_URL + '?id=' + encodeURIComponent(subscriberId))
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.fullName) {
+        document.getElementById('formTitle').textContent =
+          'Order extra copies of ' + data.fullName + '’s 24 Stories book.';
+      }
+      show('stateForm');
+    })
+    .catch(function() { show('stateForm'); });
 
   // Price calculation
   var qtyInput     = document.getElementById('qtyInput');
@@ -329,8 +339,8 @@
   function updatePricing() {
     var n = parseInt(qtyInput.value, 10) || 0;
     if (n <= 0) {
-      qtyTotal.textContent     = '';
-      qtyBreakdown.textContent = '';
+      qtyTotal.textContent       = '';
+      qtyBreakdown.textContent   = '';
       orderSummary.style.display = 'none';
       return;
     }
@@ -347,21 +357,20 @@
 
   // Submit
   document.getElementById('btnPay').addEventListener('click', function() {
-    var name     = document.getElementById('ordererName').value.trim();
-    var email    = document.getElementById('ordererEmail').value.trim();
-    var phone    = document.getElementById('ordererPhone').value.trim();
-    var address  = document.getElementById('deliveryAddress').value.trim();
-    var qty      = parseInt(qtyInput.value, 10) || 0;
-    var msgEl    = document.getElementById('formMsg');
-    var btn      = document.getElementById('btnPay');
+    var name   = document.getElementById('ordererName').value.trim();
+    var email  = document.getElementById('ordererEmail').value.trim();
+    var phone  = document.getElementById('ordererPhone').value.trim();
+    var qty    = parseInt(qtyInput.value, 10) || 0;
+    var msgEl  = document.getElementById('formMsg');
+    var btn    = document.getElementById('btnPay');
 
     msgEl.style.display = 'none';
     msgEl.classList.remove('error');
 
-    if (!name || !email || !address || qty <= 0) {
-      msgEl.textContent    = 'Please complete all fields and enter a quantity before continuing.';
+    if (!name || !email || qty <= 0) {
+      msgEl.textContent   = 'Please enter your name, email, and a quantity before continuing.';
       msgEl.classList.add('error');
-      msgEl.style.display  = 'block';
+      msgEl.style.display = 'block';
       return;
     }
 
@@ -372,12 +381,11 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        subscriberId:    subscriberId,
-        quantity:        qty,
-        ordererName:     name,
-        ordererEmail:    email,
-        ordererPhone:    phone,
-        deliveryAddress: address
+        subscriberId: subscriberId,
+        quantity:     qty,
+        ordererName:  name,
+        ordererEmail: email,
+        ordererPhone: phone
       })
     })
     .then(function(r) { return r.json(); })

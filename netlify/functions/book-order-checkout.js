@@ -15,10 +15,10 @@ exports.handler = async function(event) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'Invalid JSON' }) };
   }
 
-  const { subscriberId, quantity, ordererName, ordererEmail, ordererPhone, deliveryAddress } = body;
+  const { subscriberId, quantity, ordererName, ordererEmail, ordererPhone } = body;
   const qty = parseInt(quantity, 10) || 0;
 
-  if (!subscriberId || qty <= 0 || !ordererName || !ordererEmail || !deliveryAddress) {
+  if (!subscriberId || qty <= 0 || !ordererName || !ordererEmail) {
     return { statusCode: 400, headers: corsHeaders(), body: JSON.stringify({ error: 'All fields are required' }) };
   }
 
@@ -39,7 +39,7 @@ exports.handler = async function(event) {
 
   // Pack orderer details into custom_str fields (| separator)
   const str4 = `${ordererEmail}|${ordererPhone || ''}`.slice(0, 255);
-  const str5 = `${ordererName}|${deliveryAddress}`.slice(0, 255);
+  const str5 = ordererName.slice(0, 255);
 
   const params = {
     merchant_id:  MERCHANT_ID,

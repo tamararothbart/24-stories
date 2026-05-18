@@ -245,12 +245,7 @@
   <p class="eyebrow">24 Stories</p>
   <h1 class="form-title" id="formTitle">Order extra copies.</h1>
 
-  <p class="form-intro">Each copy is a linen-bound hardcover, printed and delivered directly to your storyteller. Delivery to your storyteller is included in the price.</p>
-
-  <div class="delivery-note">
-    Your copies ship to your storyteller's address — we'd love for you to arrange collection or onward delivery together. There's something rather lovely about that handover.<br><br>
-    For international or custom shipping, contact us at <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>. Additional charges apply.
-  </div>
+  <p class="form-intro">Each copy is a linen-bound hardcover, printed alongside the main book order. Delivery is included in the price.</p>
 
   <p class="pricing-row"><strong>1–9 copies: R1,200 each &nbsp;&middot;&nbsp; 10 or more copies: R1,000 each</strong></p>
 
@@ -287,6 +282,12 @@
     <p>Delivery to storyteller: included</p>
   </div>
 
+  <div class="delivery-note" style="margin-bottom:28px;">
+    Your copies ship to your storyteller's address. You should arrange collection or forward delivery directly from them. There's something rather lovely about that handover.<br><br>
+    Allow for up to four weeks (maximum) from the time <span id="deliveryStoryteller">your storyteller</span> finishes their book to the time it's printed and delivered to their door.<br><br>
+    For international or custom shipping, contact us at <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>. Additional charges apply.
+  </div>
+
   <button class="btn-pay" id="btnPay" type="button">Pay now &rarr;</button>
   <p class="form-msg" id="formMsg"></p>
 </div>
@@ -321,6 +322,9 @@
       if (data.fullName) {
         document.getElementById('formTitle').textContent =
           'Order extra copies of ' + data.fullName + '’s 24 Stories book.';
+      }
+      if (data.firstName) {
+        document.getElementById('deliveryStoryteller').textContent = data.firstName;
       }
       show('stateForm');
     })

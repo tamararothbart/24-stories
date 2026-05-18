@@ -35,7 +35,7 @@ exports.handler = async function(event) {
   const PASSPHRASE   = process.env.PAYFAST_PASSPHRASE || '';
   const USE_SANDBOX  = process.env.PAYFAST_SANDBOX === 'true';
   const NOTIFY_URL   = 'https://24stories.co.za/.netlify/functions/payfast-webhook';
-  const RETURN_URL   = 'https://24stories.co.za/library.html?id=' + subscriberId;
+  const RETURN_URL   = 'https://24stories.co.za/library.html?id=' + subscriberId + '&restarted=1';
   const CANCEL_URL   = 'https://24stories.co.za/library.html?id=' + subscriberId;
 
   const today = new Date().toISOString().slice(0, 10);

@@ -212,14 +212,28 @@ You do nothing. It is automatic.
 
 ---
 
-### STEP 1 — TICK ONE CHECKBOX. THAT IS ALL.
+> ## ⚠⚠⚠ CRITICAL — THE ONE STEP YOU MUST NOT MISS ⚠⚠⚠
+>
+> **YOU MUST TICK THE CancellationRequested CHECKBOX IN AIRTABLE.**
+>
+> Nothing happens automatically until you tick it. If you forget:
+> - PayFast will keep billing the subscriber
+> - No cancellation email will be sent
+> - No AccessEndDate will be set
+> - The subscriber will remain Active indefinitely
+>
+> **Tick the checkbox. Then stop. That is the only thing you do.**
+
+---
+
+### STEP 1 — TICK THE CHECKBOX
 
 When a subscriber emails hello@24stories.co.za to cancel:
 
 1. Open **Airtable → Subscribers table**
 2. Find the subscriber's record
-3. Tick the **CancellationRequested** checkbox
-4. Close Airtable
+3. **TICK the CancellationRequested checkbox** ← THIS IS THE STEP
+4. Close Airtable and wait for the CANCELLATION PROCESSED email to arrive at hello@
 
 That is the only action you take. Everything else is automatic.
 
@@ -232,8 +246,8 @@ Within 2 minutes of you ticking the box:
 - The system cancels the subscription with PayFast — no further payments will be taken
 - **AccessEndDate** is calculated automatically: SubscriptionStartDate + number of payments already made = the last day of their current paid billing period
 - AccessEndDate is written to Airtable
-- The subscriber receives **email-17** ("Your 24 Stories subscription — cancellation confirmed") telling them their access end date and that their stories are safe
-- You receive a **CANCELLATION PROCESSED** alert at hello@24stories.co.za confirming the above, including the AccessEndDate and PayFast cancel status
+- The subscriber receives **email-17** ("We're Sorry To See You Go!") — their access end date, stories are safe, contact us to return
+- You receive a **CANCELLATION PROCESSED** alert at hello@24stories.co.za confirming the above, including the AccessEndDate, PayFast cancel status, and **the subscriber's restart link** (see below)
 
 The day before AccessEndDate:
 
@@ -244,6 +258,29 @@ On AccessEndDate (daily at 9am SAST):
 - Status is automatically set to Cancelled in Airtable
 - The subscriber's Story Library is sealed — they see "Your Story Library has been sealed"
 - You receive a **SEALED** alert at hello@
+
+---
+
+### THE RESTART LINK — WHERE TO FIND IT IF THEY WANT TO RETURN
+
+The **CANCELLATION PROCESSED** alert (which arrives at hello@ within 2 minutes of you ticking the checkbox) contains a restart link at the bottom:
+
+```
+https://24stories.co.za/.netlify/functions/restart-checkout?id=RECORD_ID
+```
+
+This link is permanent and unique to that subscriber. It stays valid indefinitely — even months later.
+
+**If the subscriber contacts you to return:**
+1. Search hello@24stories.co.za for "CANCELLATION PROCESSED [their name]"
+2. Open that alert email
+3. Copy the restart link from the bottom
+4. Paste it into a reply or WhatsApp message to them
+
+**If you can't find the alert email:**
+1. Open Airtable → Subscribers → find their record
+2. Copy the Record ID from the URL bar in your browser (format: `recXXXXXXXX`)
+3. Build the link: `https://24stories.co.za/.netlify/functions/restart-checkout?id=` + that Record ID
 
 ---
 
@@ -268,64 +305,75 @@ Do not change Status back to Active unless they have paid and you want prompts t
 
 ---
 
-### WHAT HAPPENS AUTOMATICALLY (YOU DO NOTHING)
+### WHAT HAPPENS AUTOMATICALLY (YOU DO NOTHING UNLESS YOU CHOOSE TO REACH OUT)
 
 When PayFast cannot collect a payment after all retries are exhausted, it sends a cancellation signal to the system. Within seconds:
 
 - The subscriber's account is **frozen** — no more prompts, Story Library locked immediately
+- The subscriber receives an automatic email ("We're Sorry To See You Go!") — their account is frozen, stories are safe, **restart link included**
 - You receive a **PAYMENT FAILED — SUBSCRIPTION FROZEN** alert at hello@24stories.co.za
 
 This is different from a voluntary cancellation. There is no end-of-billing-cycle grace period. The freeze is instant.
 
 ---
 
-### THE ALERT EMAIL CONTAINS EVERYTHING YOU NEED
+### THE SUBSCRIBER ALREADY HAS THEIR RESTART LINK
 
-The PAYMENT FAILED alert at hello@ contains:
-
-- Subscriber's full name
-- Email address
-- WhatsApp / phone number (if provided at signup)
-- **A one-click restart link** — ready to send
+The restart link is included in the automatic email sent to the subscriber. **You do not need to do anything unless you choose to follow up.**
 
 The restart link looks like this:
 ```
 https://24stories.co.za/.netlify/functions/restart-checkout?id=RECORD_ID
 ```
-Each link is unique to that subscriber. It expires only when you delete the subscriber record.
+Each link is unique to that subscriber and permanent — it stays valid until they use it.
+
+Your PAYMENT FAILED alert at hello@ also contains the restart link (as a backup, and for sending by WhatsApp if needed). It also contains:
+
+- Subscriber's full name
+- Email address
+- WhatsApp / phone number (if provided at signup)
 
 ---
 
-### YOUR ONE ACTION — SEND THE RESTART LINK
+### YOUR OPTIONAL ACTION — FOLLOW UP
 
-Decide whether to contact the subscriber by **email** or **WhatsApp**, then send them the restart link.
-
-**By email:**
-1. Open the PAYMENT FAILED alert in hello@24stories.co.za
-2. Copy the restart link from the alert
-3. Paste it into a new email to the subscriber
-4. Send
+The subscriber has the restart link in their email. You can choose to also reach out by WhatsApp:
 
 **By WhatsApp:**
-1. Open the PAYMENT FAILED alert on your phone or desktop (hello@ is Google Workspace — accessible anywhere)
+1. Open the PAYMENT FAILED alert on your phone or desktop (hello@ is Google Workspace)
 2. Long-press the restart link to copy it
 3. Open the subscriber's WhatsApp conversation (their number is in the alert)
-4. Paste and send
+4. Paste and send with a warm note
 
-**To save it for later (e.g. you want to call first, send the link after):**
-- Forward the PAYMENT FAILED alert to yourself at hello@ with subject "HOLD — [Name] restart link" so it stays at the top of your inbox
-- Or copy the link into a WhatsApp message to yourself (WhatsApp → your own number, or "Saved Messages" if using Telegram)
+**To save the link for later (if you want to call first):**
+- Forward the PAYMENT FAILED alert to yourself with subject "HOLD — [Name] restart link"
+- Or copy it to a WhatsApp "Saved Messages" or note
+
+**If you can't find the alert email later:**
+1. Open Airtable → Subscribers → find their record
+2. Copy the Record ID from the URL bar (format: `recXXXXXXXX`)
+3. Build the link: `https://24stories.co.za/.netlify/functions/restart-checkout?id=` + that Record ID
+
+---
+
+### WHAT THE SUBSCRIBER SEES WHEN THEY CLICK THE RESTART LINK
+
+The restart link does **not** take them to the subscription form. It goes directly to a PayFast payment page showing exactly how many payments remain on their original contract. After payment:
+
+- They land on their Story Library with a "payment received, reinstating shortly" message
+- Within minutes their account unfreezes (Status → Active, Library opens)
+- They receive a "Welcome back" confirmation email
 
 ---
 
 ### WHAT HAPPENS WHEN THEY PAY (FULLY AUTOMATIC)
 
-Once the subscriber clicks the link and completes payment:
+Once the subscriber completes payment:
 
 - Their account unfreezes immediately — Status → Active
-- Their Story Library reopens
-- They receive an automated email: "Welcome back — your subscription is active. Story Library open. Next prompt arrives Wednesday."
-- You receive a **SUBSCRIPTION RESTARTED** alert at hello@ confirming payment and amount
+- Their Story Library reopens from where they left off — same stories, same prompt number, correct remaining billing cycles
+- They receive a **"Welcome back — 24 Stories"** email confirming their subscription is active
+- You receive a **SUBSCRIPTION RESTARTED** alert at hello@ showing payment number and remaining cycles
 - Prompts resume automatically the following Wednesday
 
 You do not touch Airtable. You do not do anything else.
@@ -334,7 +382,7 @@ You do not touch Airtable. You do not do anything else.
 
 ### IF THEY DO NOT RESTART
 
-If the subscriber does not respond and does not pay, the account stays frozen indefinitely. No further prompts are sent. Their stories remain safe in Airtable. If they eventually return, email hello@24stories.co.za and you can send them a fresh restart link at any time.
+If the subscriber does not respond and does not pay, the account stays frozen indefinitely. No further prompts are sent. Their stories remain safe in Airtable. If they eventually return, the restart link in your PAYMENT FAILED alert remains valid — copy and send it at any time.
 
 ---
 

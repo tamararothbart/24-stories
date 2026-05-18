@@ -495,6 +495,7 @@ function emailFrozenHtml(firstName, restartLink) {
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">We're Sorry To See You Go!</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">A payment to your 24 Stories subscription has failed and your account has been frozen.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your Story Library is temporarily unavailable. Your stories are safe and will remain exactly as you left them.</p>

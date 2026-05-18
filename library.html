@@ -693,9 +693,9 @@
     <div id="stateFrozen" class="page-center" style="display:none; flex-direction:column; max-width:560px; margin:0 auto; text-align:center; padding:80px 24px;">
         <a href="index.html" style="margin-bottom:40px;"><img src="logo.png" alt="24 Stories" style="height:52px;width:auto;display:block;margin:0 auto;"></a>
         <p style="font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:500; letter-spacing:0.18em; text-transform:uppercase; color:#B8976A; margin-bottom:14px;">24 Stories</p>
-        <h1 style="font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,2.6rem); font-weight:300; color:#1A1A1A; line-height:1.2; margin-bottom:20px;">Your Story Library is temporarily unavailable.</h1>
-        <p style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#555; line-height:1.8; margin-bottom:36px;">Your subscription is frozen due to a missed payment. Your stories are safe.</p>
-        <p style="font-size:14px; color:#888; margin-bottom:24px;">To reactivate, complete a new payment and your library will reopen immediately.</p>
+        <h1 id="frozenHeading" style="font-family:'Cormorant Garamond',serif; font-size:clamp(2rem,5vw,2.6rem); font-weight:300; color:#1A1A1A; line-height:1.2; margin-bottom:20px;">Your Story Library is temporarily unavailable.</h1>
+        <p id="frozenBody" style="font-family:'Cormorant Garamond',serif; font-size:1.1rem; color:#555; line-height:1.8; margin-bottom:36px;">Your subscription is frozen due to a missed payment. Your stories are safe.</p>
+        <p id="frozenSub" style="font-size:14px; color:#888; margin-bottom:24px;">To reactivate, complete a new payment and your library will reopen immediately.</p>
         <a id="restartPaymentLink" href="#" style="display:inline-block;background:#1A1A1A;color:#F7F5F2;text-decoration:none;padding:15px 36px;font-family:'Cormorant Garamond',serif;font-size:1rem;letter-spacing:0.08em;">Restart my subscription &rarr;</a>
     </div>
 
@@ -1009,6 +1009,15 @@
                 if (accessLevel === 'frozen') {
                     var restartLink = document.getElementById('restartPaymentLink');
                     if (restartLink) restartLink.href = 'https://24stories.co.za/.netlify/functions/restart-checkout?id=' + subscriberId;
+                    var urlParams = new URLSearchParams(window.location.search);
+                    if (urlParams.get('restarted') === '1') {
+                        var frozenBody = document.getElementById('frozenBody');
+                        var frozenSub  = document.getElementById('frozenSub');
+                        var frozenBtn  = document.getElementById('restartPaymentLink');
+                        if (frozenBody) frozenBody.textContent = 'Your payment has been received. Your subscription will be reinstated as soon as it clears — usually within a few minutes.';
+                        if (frozenSub)  frozenSub.textContent  = 'Your confirmation email is on its way. You can close this page.';
+                        if (frozenBtn)  frozenBtn.style.display = 'none';
+                    }
                     showState('frozen'); return;
                 }
 

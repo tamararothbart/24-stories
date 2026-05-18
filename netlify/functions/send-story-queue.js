@@ -349,6 +349,7 @@ function email17Html(firstName, accessEndFmt) {
 <div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">We're Sorry To See You Go!</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We've received your cancellation request. Your subscription has been cancelled and no further payments will be taken.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You'll continue to receive your weekly prompts and full access to your Story Library until ${esc(accessEndFmt)}.</p>

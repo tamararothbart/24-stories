@@ -596,7 +596,7 @@ function email14ExternalHtml(ordererName, storytellerName, quantity, totalAmount
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Extra Copies</p>
   <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your extra ${copyWord} are confirmed.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(ordererName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you — your payment of <strong>${formattedAmt}</strong> has been received. <strong>${quantity}</strong> additional ${copyWord} of ${esc(storytellerName)}'s book will be printed and delivered directly to them.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Thank you — your payment of <strong>${formattedAmt}</strong> has been received.</p>
   <div style="background:#EFECEA;padding:28px 32px;margin:0 0 28px;">
     <p style="font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 16px;">Order summary</p>
     <p style="font-size:16px;color:#333;line-height:1.9;margin:0 0 10px;">Extra ${copyWord}: <strong>${quantity}</strong></p>

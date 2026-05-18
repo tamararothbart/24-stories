@@ -4,7 +4,6 @@ const AIRTABLE_PAT = process.env.AIRTABLE_PAT;
 const MAILJET_API_KEY = process.env.MAILJET_API_KEY;
 const MAILJET_API_SECRET = process.env.MAILJET_API_SECRET;
 
-// 24stories-live base, Coaching table
 const COACHING_BASE = 'appHPLRYmURYxlG3K';
 const COACHING_TABLE = 'tblDtVB2CALY2biJm';
 
@@ -31,64 +30,111 @@ function post(hostname, path, auth, body) {
   });
 }
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS'
+};
+
 exports.handler = async (event) => {
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers: corsHeaders, body: '' };
+  }
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method not allowed' };
+    return { statusCode: 405, headers: corsHeaders, body: 'Method not allowed' };
   }
 
-  let method = 'Unknown';
-  let page = 'coaching.html';
+  let name = '', mobile = '', email = '', page = 'coaching.html';
   try {
-    const body = JSON.parse(event.body || '{}');
-    method = body.method || 'Unknown';
-    page = body.page || 'coaching.html';
+    const b = JSON.parse(event.body || '{}');
+    name   = (b.name   || '').trim();
+    mobile = (b.mobile || '').trim();
+    email  = (b.email  || '').trim();
+    page   = (b.page   || 'coaching.html').trim();
   } catch (_) {}
 
-  const now = new Date().toLocaleString('en-ZA', { timeZone: 'Africa/Johannesburg', dateStyle: 'medium', timeStyle: 'short' });
+  if (!name || !mobile || !email) {
+    return { statusCode: 400, headers: corsHeaders, body: JSON.stringify({ error: 'Name, mobile and email are required.' }) };
+  }
 
-  // Log to Airtable (fire-and-forget friendly — errors don't block response)
+  const now = new Date().toLocaleString('en-ZA', {
+    timeZone: 'Africa/Johannesburg',
+    dateStyle: 'full',
+    timeStyle: 'short'
+  });
+
+  // Save lead to Airtable
   try {
     await post('api.airtable.com', `/v0/${COACHING_BASE}/${COACHING_TABLE}`, `Bearer ${AIRTABLE_PAT}`, {
       fields: {
-        Method: method === 'whatsapp' ? 'WhatsApp' : 'Email',
+        Name: name,
+        Contact: mobile,
+        Method: 'Form',
         Page: page,
         DateInquired: new Date().toISOString(),
-        Status: 'New'
+        Status: 'New',
+        Notes: `Email: ${email}`
       }
     });
   } catch (e) {
-    console.error('Airtable log failed:', e.message);
+    console.error('Airtable write failed:', e.message);
   }
 
-  // Email alert to Tamara
-  const methodLabel = method === 'whatsapp' ? 'WhatsApp' : 'Email';
-  const emailHtml = `
-    <div style="font-family:Georgia,serif;max-width:540px;margin:0 auto;padding:32px;background:#F7F5F2;color:#1A1A1A;">
-      <p style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;margin:0 0 24px;">COACHING INQUIRY — 24 STORIES</p>
-      <p style="font-size:18px;font-weight:bold;margin:0 0 20px;">New coaching inquiry</p>
-      <p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Method:</strong> ${methodLabel}</p>
-      <p style="font-size:15px;line-height:1.7;margin:0 0 8px;"><strong>Page:</strong> ${page}</p>
-      <p style="font-size:15px;line-height:1.7;margin:0 0 24px;"><strong>Time:</strong> ${now} SAST</p>
-      <p style="font-size:14px;color:#555;line-height:1.7;margin:0;">They clicked the ${methodLabel} button on the Bookings popup. Follow up immediately.<br>
-      Lead logged in Airtable → 24stories-live → Coaching.</p>
-    </div>`;
+  // Alert email to Tamara
+  const alertHtml = `
+  <div style="font-family:Georgia,serif;max-width:580px;margin:0 auto;background:#F7F5F2;padding:0;">
+
+    <div style="background:#C0392B;padding:20px 32px;">
+      <p style="font-family:Arial,sans-serif;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.7);margin:0 0 6px;">24 Stories — Coaching</p>
+      <p style="font-family:Georgia,serif;font-size:22px;font-weight:bold;color:#ffffff;margin:0;line-height:1.2;">Interest in coaching session<br>— respond ASAP</p>
+    </div>
+
+    <div style="padding:32px 32px 28px;">
+      <table cellpadding="0" cellspacing="0" style="border:none;border-collapse:collapse;width:100%;">
+        <tr>
+          <td style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;padding:10px 20px 10px 0;vertical-align:top;white-space:nowrap;">Name</td>
+          <td style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;padding:10px 0;font-weight:bold;">${name}</td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;padding:10px 20px 10px 0;vertical-align:top;white-space:nowrap;">Mobile</td>
+          <td style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;padding:10px 0;font-weight:bold;"><a href="tel:${mobile}" style="color:#1A1A1A;text-decoration:none;">${mobile}</a></td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;padding:10px 20px 10px 0;vertical-align:top;white-space:nowrap;">Email</td>
+          <td style="font-family:Georgia,serif;font-size:15px;color:#555;padding:10px 0;"><a href="mailto:${email}" style="color:#B8976A;">${email}</a></td>
+        </tr>
+        <tr>
+          <td style="font-family:Arial,sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#B8976A;padding:10px 20px 10px 0;vertical-align:top;white-space:nowrap;">Time</td>
+          <td style="font-family:Georgia,serif;font-size:14px;color:#888;padding:10px 0;">${now}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="border-top:1px solid #E0DDD8;padding:16px 32px 24px;">
+      <p style="font-family:Arial,sans-serif;font-size:12px;color:#aaa;line-height:1.6;margin:0;">Lead saved to Airtable &rarr; 24stories-live &rarr; Coaching &middot; Page: ${page}</p>
+    </div>
+
+  </div>`;
 
   try {
-    await post('api.mailjet.com', '/v3.1/send', 'Basic ' + Buffer.from(`${MAILJET_API_KEY}:${MAILJET_API_SECRET}`).toString('base64'), {
-      Messages: [{
-        From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        To: [{ Email: 'hello@24stories.co.za', Name: 'Tamara' }],
-        Subject: `Coaching inquiry — ${methodLabel} — ${now}`,
-        HTMLPart: emailHtml
-      }]
-    });
+    await post('api.mailjet.com', '/v3.1/send',
+      'Basic ' + Buffer.from(`${MAILJET_API_KEY}:${MAILJET_API_SECRET}`).toString('base64'),
+      {
+        Messages: [{
+          From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+          To:   [{ Email: 'hello@24stories.co.za',  Name: 'Tamara' }],
+          Subject: `Coaching inquiry — RESPOND ASAP — ${name}`,
+          HTMLPart: alertHtml
+        }]
+      }
+    );
   } catch (e) {
     console.error('Mailjet alert failed:', e.message);
   }
 
   return {
     statusCode: 200,
-    headers: { 'Access-Control-Allow-Origin': '*' },
+    headers: corsHeaders,
     body: JSON.stringify({ ok: true })
   };
 };

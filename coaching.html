@@ -385,48 +385,59 @@
         color: #444;
         margin: 0 0 28px;
     }
-    .bookings-actions { display: flex; flex-direction: column; gap: 12px; }
-    .bookings-action-btn {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 16px 20px;
-        text-decoration: none;
+    /* ─── Booking form fields ─────────────────────────────────────── */
+    .booking-field { margin-bottom: 18px; }
+    .booking-field label {
+        display: block;
         font-family: var(--font-body);
-        font-size: 13px;
-        letter-spacing: 0.08em;
-        border-radius: 2px;
-        border: none;
-        cursor: pointer;
-        transition: background 0.15s;
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: #888;
+        margin-bottom: 7px;
     }
-    .bookings-action-btn svg { flex-shrink: 0; }
-    .bookings-wa {
-        background: #25D366;
-        color: #fff;
+    .booking-field input {
+        width: 100%;
+        box-sizing: border-box;
+        border: 1px solid #D0CCC6;
+        background: #fff;
+        padding: 13px 14px;
+        font-family: var(--font-accent);
+        font-size: 15px;
+        color: var(--charcoal);
+        outline: none;
+        border-radius: 0;
+        -webkit-appearance: none;
+        appearance: none;
     }
-    .bookings-wa:hover { background: #1ebe5c; }
-    .bookings-email {
+    .booking-field input:focus { border-color: var(--charcoal); }
+    .booking-field input.error { border-color: #c0392b; }
+    .booking-submit {
+        width: 100%;
         background: var(--charcoal);
         color: var(--cream);
-    }
-    .bookings-email:hover { background: #333; }
-    .bookings-action-inner { display: flex; flex-direction: column; }
-    .bookings-action-label { font-size: 13px; letter-spacing: 0.1em; font-weight: 400; line-height: 1; }
-    .bookings-action-detail {
-        font-size: 12px;
-        opacity: 0.75;
-        letter-spacing: 0.03em;
-        margin-top: 3px;
-        line-height: 1;
-    }
-    .bookings-note {
-        font-size: 12px;
-        color: #999;
-        text-align: center;
-        margin-top: 20px;
         font-family: var(--font-body);
-        letter-spacing: 0.04em;
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 16px;
+        border: none;
+        cursor: pointer;
+        margin-top: 4px;
+        min-height: 50px;
+    }
+    .booking-submit:hover:not(:disabled) { background: #333; }
+    .booking-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+    .booking-success {
+        text-align: center;
+        padding: 28px 0 12px;
+    }
+    .booking-success p {
+        font-family: var(--font-accent);
+        font-size: 1.05rem;
+        line-height: 1.85;
+        color: var(--charcoal);
+        margin: 0;
     }
 
     /* ─── Responsive ──────────────────────────────────────────────── */
@@ -435,7 +446,7 @@
         .tamara-photo-wrap { max-width: 220px; aspect-ratio: 3 / 4; }
         .coaching-options-grid { grid-template-columns: 1fr; }
         .coaching-hero { padding-top: calc(var(--sec) + 64px); }
-        .bookings-action-detail { display: none; }
+        .bookings-modal { padding: 36px 24px 28px; }
     }
     </style>
 </head>
@@ -685,34 +696,28 @@
     <div class="bookings-overlay" id="bookingsOverlay" role="dialog" aria-modal="true" aria-label="Book a coaching session">
         <div class="bookings-modal">
             <button class="bookings-close" onclick="closeBookings()" aria-label="Close">&times;</button>
-            <p class="bookings-modal-eyebrow">Story Coaching &nbsp;&middot;&nbsp; 24 Stories</p>
+            <p class="bookings-modal-eyebrow">Story Coaching &nbsp;&middot;&nbsp; <span style="white-space:nowrap">24 Stories</span></p>
             <h3>Book a Session</h3>
             <div class="bookings-gold-rule"></div>
             <p>Register your interest and Tamara will call you directly within 24 hours to arrange a first session.</p>
-            <div class="bookings-actions">
-                <a href="https://wa.me/27823758320?text=Story+Coaching" target="_blank" rel="noopener"
-                   class="bookings-action-btn bookings-wa" onclick="trackInquiry('whatsapp')">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    <span class="bookings-action-inner">
-                        <span class="bookings-action-label">WhatsApp</span>
-                        <span class="bookings-action-detail">0823758320 &nbsp;&middot;&nbsp; Subject: Story Coaching</span>
-                    </span>
-                </a>
-                <a href="mailto:hello@24stories.co.za?subject=Story%20Coaching&body=My%20preferred%20contact%20method%20is%3A%20"
-                   class="bookings-action-btn bookings-email" onclick="trackInquiry('email')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <rect x="2" y="4" width="20" height="16" rx="2"/>
-                        <path d="M2 7l10 7 10-7"/>
-                    </svg>
-                    <span class="bookings-action-inner">
-                        <span class="bookings-action-label">Email</span>
-                        <span class="bookings-action-detail">hello@24stories.co.za &nbsp;&middot;&nbsp; Subject: Story Coaching</span>
-                    </span>
-                </a>
+            <form id="bookingForm" onsubmit="submitBooking(event)" novalidate>
+                <div class="booking-field">
+                    <label for="bName">Name</label>
+                    <input type="text" id="bName" name="name" autocomplete="name">
+                </div>
+                <div class="booking-field">
+                    <label for="bMobile">Mobile / WhatsApp</label>
+                    <input type="tel" id="bMobile" name="mobile" autocomplete="tel">
+                </div>
+                <div class="booking-field">
+                    <label for="bEmail">Email Address</label>
+                    <input type="email" id="bEmail" name="email" autocomplete="email">
+                </div>
+                <button type="submit" class="booking-submit" id="bookingSubmit">Submit</button>
+            </form>
+            <div id="bookingSuccess" style="display:none;" class="booking-success">
+                <p>Thank you. Tamara will be in touch within 24 hours.</p>
             </div>
-            <p class="bookings-note">Add your preferred contact method in the message body.</p>
         </div>
     </div>
 
@@ -725,6 +730,17 @@
     function closeBookings() {
         document.getElementById('bookingsOverlay').classList.remove('open');
         document.body.style.overflow = '';
+        setTimeout(function() {
+            document.getElementById('bookingForm').style.display = '';
+            document.getElementById('bookingSuccess').style.display = 'none';
+            document.getElementById('bookingForm').reset();
+            ['bName','bMobile','bEmail'].forEach(function(id) {
+                document.getElementById(id).classList.remove('error');
+            });
+            var btn = document.getElementById('bookingSubmit');
+            btn.disabled = false;
+            btn.textContent = 'Submit';
+        }, 300);
     }
     document.getElementById('bookingsOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeBookings();
@@ -732,12 +748,38 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeBookings();
     });
-    function trackInquiry(method) {
-        fetch('/.netlify/functions/coaching-inquiry', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ method: method, page: 'coaching.html' })
-        }).catch(function() {});
+    async function submitBooking(e) {
+        e.preventDefault();
+        var name   = document.getElementById('bName').value.trim();
+        var mobile = document.getElementById('bMobile').value.trim();
+        var email  = document.getElementById('bEmail').value.trim();
+        var valid  = true;
+        ['bName','bMobile','bEmail'].forEach(function(id) {
+            var el = document.getElementById(id);
+            if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+            else { el.classList.remove('error'); }
+        });
+        if (!valid) return;
+        var btn = document.getElementById('bookingSubmit');
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        try {
+            var res = await fetch('/.netlify/functions/coaching-inquiry', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name: name, mobile: mobile, email: email, page: window.location.pathname })
+            });
+            if (res.ok) {
+                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('bookingSuccess').style.display = 'block';
+            } else {
+                throw new Error('server');
+            }
+        } catch (err) {
+            btn.disabled = false;
+            btn.textContent = 'Submit';
+            alert('Something went wrong. Please try again or contact us at hello@24stories.co.za');
+        }
     }
     </script>
 

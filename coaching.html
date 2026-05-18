@@ -307,12 +307,135 @@
     }
     .contact-secondary a { color: #ffffff; text-decoration: underline; }
 
+    /* ─── Bookings popup ─────────────────────────────────────────── */
+    .bookings-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        background: var(--charcoal);
+        color: var(--cream);
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 14px 20px;
+        border-radius: 2px;
+        min-height: 48px;
+        border: none;
+        cursor: pointer;
+    }
+    .bookings-btn:hover { background: #333; }
+
+    .bookings-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(26,26,26,0.65);
+        z-index: 9000;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    .bookings-overlay.open { display: flex; }
+
+    .bookings-modal {
+        background: var(--cream);
+        max-width: 440px;
+        width: 100%;
+        padding: 40px 36px 36px;
+        position: relative;
+    }
+    .bookings-close {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        background: none;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: #888;
+        line-height: 1;
+        padding: 4px;
+    }
+    .bookings-close:hover { color: var(--charcoal); }
+    .bookings-modal-eyebrow {
+        font-family: var(--font-body);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin: 0 0 12px;
+    }
+    .bookings-modal h3 {
+        font-family: var(--font-head);
+        font-size: 1.7rem;
+        font-weight: 300;
+        color: var(--charcoal);
+        margin: 0 0 10px;
+        line-height: 1.2;
+    }
+    .bookings-gold-rule { width: 36px; height: 1px; background: var(--gold); margin: 0 0 20px; }
+    .bookings-modal p {
+        font-family: var(--font-accent);
+        font-size: 1rem;
+        line-height: 1.8;
+        color: #444;
+        margin: 0 0 28px;
+    }
+    .bookings-actions { display: flex; flex-direction: column; gap: 12px; }
+    .bookings-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        text-decoration: none;
+        font-family: var(--font-body);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        border-radius: 2px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.15s;
+    }
+    .bookings-action-btn svg { flex-shrink: 0; }
+    .bookings-wa {
+        background: #25D366;
+        color: #fff;
+    }
+    .bookings-wa:hover { background: #1ebe5c; }
+    .bookings-email {
+        background: var(--charcoal);
+        color: var(--cream);
+    }
+    .bookings-email:hover { background: #333; }
+    .bookings-action-inner { display: flex; flex-direction: column; }
+    .bookings-action-label { font-size: 13px; letter-spacing: 0.1em; font-weight: 400; line-height: 1; }
+    .bookings-action-detail {
+        font-size: 12px;
+        opacity: 0.75;
+        letter-spacing: 0.03em;
+        margin-top: 3px;
+        line-height: 1;
+    }
+    .bookings-note {
+        font-size: 12px;
+        color: #999;
+        text-align: center;
+        margin-top: 20px;
+        font-family: var(--font-body);
+        letter-spacing: 0.04em;
+    }
+
     /* ─── Responsive ──────────────────────────────────────────────── */
     @media (max-width: 768px) {
         .tamara-grid { grid-template-columns: 1fr; gap: 32px; }
         .tamara-photo-wrap { max-width: 220px; aspect-ratio: 3 / 4; }
         .coaching-options-grid { grid-template-columns: 1fr; }
         .coaching-hero { padding-top: calc(var(--sec) + 64px); }
+        .bookings-action-detail { display: none; }
     }
     </style>
 </head>
@@ -456,38 +579,34 @@
                     <p class="coaching-option-title">Single Session</p>
                     <p class="coaching-option-price">R1,200</p>
                     <p class="coaching-option-desc">One hour with Tamara. Your story read in advance.</p>
-                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="coaching-option-btn">Book via WhatsApp</a>
-                    <p class="card-contact-alt">+27 82 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                    <button class="bookings-btn" onclick="openBookings(event)">Bookings</button>
                 </div>
 
                 <div class="coaching-option-card">
                     <p class="coaching-option-title">Three Sessions</p>
                     <p class="coaching-option-price">R3,200</p>
                     <p class="coaching-option-desc">Use across any three stories in your journey. Save R400.</p>
-                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="coaching-option-btn">Book via WhatsApp</a>
-                    <p class="card-contact-alt">+27 82 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                    <button class="bookings-btn" onclick="openBookings(event)">Bookings</button>
                 </div>
 
                 <div class="coaching-option-card">
                     <p class="coaching-option-title">Six Sessions</p>
                     <p class="coaching-option-price">R5,500</p>
                     <p class="coaching-option-desc">A coaching companion for your most important chapters. Save R1,700.</p>
-                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="coaching-option-btn">Book via WhatsApp</a>
-                    <p class="card-contact-alt">+27 82 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                    <button class="bookings-btn" onclick="openBookings(event)">Bookings</button>
                 </div>
 
                 <div class="coaching-option-card">
                     <p class="coaching-option-title">Full 24-Session Programme</p>
                     <p class="coaching-option-price">R18,000</p>
                     <p class="coaching-option-desc">One session per story. The complete guided journey.</p>
-                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="coaching-option-btn">Book via WhatsApp</a>
-                    <p class="card-contact-alt">+27 82 375 8320 &nbsp;&middot;&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+                    <button class="bookings-btn" onclick="openBookings(event)">Bookings</button>
                 </div>
 
             </div>
 
             <p class="c-cards-note">Submit your story 24 hours before your session and Tamara will read it in preparation. Coaching is available to active subscribers only.</p>
-            <p class="c-cards-note">Buying coaching at the same time as your subscription? <a href="https://wa.me/27823758320" target="_blank" rel="noopener" style="color:var(--gold);"><span class="wa-mobile">WhatsApp us</span><span class="wa-desktop">WhatsApp: +27 82 375 8320</span></a> or email <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">hello@24stories.co.za</a> and we'll arrange both together.</p>
+            <p class="c-cards-note">Buying coaching at the same time as your subscription? <button onclick="openBookings(event)" style="background:none;border:none;padding:0;color:var(--gold);cursor:pointer;font-family:var(--font-accent);font-size:inherit;text-decoration:underline;">Register your interest</button> and Tamara will arrange both together.</p>
         </div>
     </section>
 
@@ -510,10 +629,8 @@
     <section class="contact-section">
         <div class="container">
             <h2>Book a Session</h2>
-            <p>Tamara arranges each session personally.<br>WhatsApp or email to introduce yourself and she will be in touch.</p>
-            <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer" class="contact-btn">WhatsApp Tamara</a>
-            <p class="wa-desktop-block" style="font-size:14px; color:#888; margin-top:10px;">+27 82 375 8320</p><br>
-            <p class="contact-secondary" style="margin-top:16px;">or <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></p>
+            <p>Tamara arranges each session personally.<br>Register your interest and she will call you within 24 hours.</p>
+            <button onclick="openBookings(event)" class="contact-btn" style="border:none;cursor:pointer;">Bookings</button>
         </div>
     </section>
 
@@ -561,6 +678,68 @@
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         </a>
     </div>
+
+    <!-- ════════════════════════════════════════════
+         BOOKINGS POPUP
+    ════════════════════════════════════════════ -->
+    <div class="bookings-overlay" id="bookingsOverlay" role="dialog" aria-modal="true" aria-label="Book a coaching session">
+        <div class="bookings-modal">
+            <button class="bookings-close" onclick="closeBookings()" aria-label="Close">&times;</button>
+            <p class="bookings-modal-eyebrow">Story Coaching &nbsp;&middot;&nbsp; 24 Stories</p>
+            <h3>Book a Session</h3>
+            <div class="bookings-gold-rule"></div>
+            <p>Register your interest and Tamara will call you directly within 24 hours to arrange a first session.</p>
+            <div class="bookings-actions">
+                <a href="https://wa.me/27823758320?text=Story+Coaching" target="_blank" rel="noopener"
+                   class="bookings-action-btn bookings-wa" onclick="trackInquiry('whatsapp')">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    <span class="bookings-action-inner">
+                        <span class="bookings-action-label">WhatsApp</span>
+                        <span class="bookings-action-detail">0823758320 &nbsp;&middot;&nbsp; Subject: Story Coaching</span>
+                    </span>
+                </a>
+                <a href="mailto:hello@24stories.co.za?subject=Story%20Coaching&body=My%20preferred%20contact%20method%20is%3A%20"
+                   class="bookings-action-btn bookings-email" onclick="trackInquiry('email')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="2" y="4" width="20" height="16" rx="2"/>
+                        <path d="M2 7l10 7 10-7"/>
+                    </svg>
+                    <span class="bookings-action-inner">
+                        <span class="bookings-action-label">Email</span>
+                        <span class="bookings-action-detail">hello@24stories.co.za &nbsp;&middot;&nbsp; Subject: Story Coaching</span>
+                    </span>
+                </a>
+            </div>
+            <p class="bookings-note">Add your preferred contact method in the message body.</p>
+        </div>
+    </div>
+
+    <script>
+    function openBookings(e) {
+        if (e) e.preventDefault();
+        document.getElementById('bookingsOverlay').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeBookings() {
+        document.getElementById('bookingsOverlay').classList.remove('open');
+        document.body.style.overflow = '';
+    }
+    document.getElementById('bookingsOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeBookings();
+    });
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeBookings();
+    });
+    function trackInquiry(method) {
+        fetch('/.netlify/functions/coaching-inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ method: method, page: 'coaching.html' })
+        }).catch(function() {});
+    }
+    </script>
 
     <script src="js/script.js"></script>
 </body>

@@ -103,6 +103,15 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - `events-inquiry.js` — saves events lead, notifies Tamara, sends storyteller application link if applicable
 - `story-application.js` — saves full storyteller application, notifies Tamara, sends applicant confirmation
 - `resend-library-link.js` — looks up subscriber by email (Active or Paused), resends library link
+- `coaching-inquiry.js` — coaching contact form handler: saves lead to 24stories-live Airtable base, sends loud alert to hello@24stories.co.za. Fields: name, mobile, email, page. Subject: "Coaching inquiry — RESPOND ASAP — [Name]"
+
+## Coaching — 24stories-live Airtable Base
+- **coaching.html** — coaching product page. All "Book" buttons open a contact form popup (Name, Mobile/WhatsApp, Email + Submit). No automation beyond lead capture.
+- **Airtable base:** 24stories-live (ID: appHPLRYmURYxlG3K) — SEPARATE from the 52stories subscriber base. Never write coaching leads to 52stories.
+- **Coaching table:** tblDtVB2CALY2biJm. Fields: Name, Contact (mobile), Method ('Form'), Page, DateInquired, Status ('New'), Notes (stores email as "Email: [address]")
+- **No Zoom, no calendar, no automation.** Tamara books and manages all sessions manually after receiving the alert.
+- **Invoice templates:** 7 templates (6 invoices + 1 payment confirmation) saved as Gmail canned responses in hello@24stories.co.za. File was removed from repo (2026-05-18) — do not recreate it publicly.
+- **Banking details on invoices:** T. Rothbart · Nedbank Sea Point · Current Account · 1069404799. EFT note for sessions within 72 hours.
 
 ## Payment Model
 - Monthly: R2,795/month × 6 cycles (auto-stops). PayFast recurring subscription (subscription_type=1, frequency=3, cycles=6).

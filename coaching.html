@@ -695,25 +695,27 @@
     <div class="bookings-overlay" id="bookingsOverlay" role="dialog" aria-modal="true" aria-label="Book a coaching session">
         <div class="bookings-modal">
             <button class="bookings-close" onclick="closeBookings()" aria-label="Close">&times;</button>
-            <p class="bookings-modal-eyebrow">Story Coaching &nbsp;&middot;&nbsp; <span style="white-space:nowrap">24 Stories</span></p>
-            <h3>Book a Session</h3>
-            <div class="bookings-gold-rule"></div>
-            <p>Register your interest and Tamara will call you directly within 24 hours to arrange a first session.</p>
-            <form id="bookingForm" onsubmit="submitBooking(event)" novalidate>
-                <div class="booking-field">
-                    <label for="bName">Name</label>
-                    <input type="text" id="bName" name="name" autocomplete="name">
-                </div>
-                <div class="booking-field">
-                    <label for="bMobile">Mobile / WhatsApp</label>
-                    <input type="tel" id="bMobile" name="mobile" autocomplete="tel">
-                </div>
-                <div class="booking-field">
-                    <label for="bEmail">Email Address</label>
-                    <input type="email" id="bEmail" name="email" autocomplete="email">
-                </div>
-                <button type="submit" class="booking-submit" id="bookingSubmit">Submit</button>
-            </form>
+            <div id="bookingFormContent">
+                <p class="bookings-modal-eyebrow">Story Coaching &nbsp;&middot;&nbsp; <span style="white-space:nowrap">24 Stories</span></p>
+                <h3>Book a Session</h3>
+                <div class="bookings-gold-rule"></div>
+                <p>Register your interest and Tamara will call you directly within 24 hours to arrange a first session.</p>
+                <form id="bookingForm" onsubmit="submitBooking(event)" novalidate>
+                    <div class="booking-field">
+                        <label for="bName">Name</label>
+                        <input type="text" id="bName" name="name" autocomplete="name">
+                    </div>
+                    <div class="booking-field">
+                        <label for="bMobile">Mobile / WhatsApp</label>
+                        <input type="tel" id="bMobile" name="mobile" autocomplete="tel">
+                    </div>
+                    <div class="booking-field">
+                        <label for="bEmail">Email Address</label>
+                        <input type="email" id="bEmail" name="email" autocomplete="email">
+                    </div>
+                    <button type="submit" class="booking-submit" id="bookingSubmit">Submit</button>
+                </form>
+            </div>
             <div id="bookingSuccess" style="display:none;" class="booking-success">
                 <p>Thank you. Tamara will be in touch within 24 hours.</p>
             </div>
@@ -730,7 +732,7 @@
         document.getElementById('bookingsOverlay').classList.remove('open');
         document.body.style.overflow = '';
         setTimeout(function() {
-            document.getElementById('bookingForm').style.display = '';
+            document.getElementById('bookingFormContent').style.display = '';
             document.getElementById('bookingSuccess').style.display = 'none';
             document.getElementById('bookingForm').reset();
             ['bName','bMobile','bEmail'].forEach(function(id) {
@@ -769,7 +771,7 @@
                 body: JSON.stringify({ name: name, mobile: mobile, email: email, page: window.location.pathname })
             });
             if (res.ok) {
-                document.getElementById('bookingForm').style.display = 'none';
+                document.getElementById('bookingFormContent').style.display = 'none';
                 document.getElementById('bookingSuccess').style.display = 'block';
             } else {
                 throw new Error('server');

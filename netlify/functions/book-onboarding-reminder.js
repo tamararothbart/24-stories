@@ -59,6 +59,19 @@ exports.handler = async function() {
       isOverdue  = true;
     }
 
+    // Gift giver book order nudge — day 2 after prompt 24 (Friday)
+    if (promptNumber === 24 && daysSince === 2) {
+      const giftGiverEmail = (f.GiftGiverEmail || '').trim();
+      if (giftGiverEmail && giftGiverEmail !== (f.StorytellerEmail || '').trim()) {
+        const bookOrderUrl = `https://24stories.co.za/book-order.html?id=${sub.id}`;
+        await sendEmail(mjAuth, {
+          to:      { Email: giftGiverEmail, Name: f.GiftGiverName || '' },
+          subject: `A note about ${f.StorytellerFirstName || 'their'}'s book — 24 Stories`,
+          html:    giftGiverBookOrderHtml(f.GiftGiverName || '', f.StorytellerFirstName || '', bookOrderUrl)
+        });
+      }
+    }
+
     if (!shouldSend) continue;
 
     // Send to subscriber
@@ -446,4 +459,23 @@ function coachingEmail4Html(firstName) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If there's someone who comes to mind, WhatsApp me. I'll make sure they're looked after from the very beginning.</p>
   ${coachingWhatsApp()}
   ${coachingSignOff()}`);
+}
+
+function giftGiverBookOrderHtml(giftGiverName, storytellerName, bookOrderUrl) {
+  const firstName = (giftGiverName || '').split(' ')[0] || 'there';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Extra Copies</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(storytellerName)}'s story collection is nearly complete.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We hope you've enjoyed reading their weekly instalments as much as we've enjoyed sending them to you.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If you'd like to order extra copies of the finished book for family, you can do so now. Each copy ships alongside the main order.</p>
+  <a href="${bookOrderUrl}" style="display:inline-block;background:#1A1A1A;color:#F7F5F2;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:36px;">Order extra copies &#8594;</a>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
 }

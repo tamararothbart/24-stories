@@ -56,7 +56,10 @@ exports.handler = async function() {
     const editedText   = storyFields.EditedText;
     const chapterTitle = storyFields.ChapterTitle      || '';
     const weekNumber   = storyFields.PromptNumber      || '';
-    const imageUrl     = storyFields.StoryImageURL     || '';
+    const rawImageUrl  = storyFields.StoryImageURL     || '';
+    const imageUrl     = rawImageUrl.includes('/image/upload/')
+      ? rawImageUrl.replace('/image/upload/', '/image/upload/w_1200,c_limit,q_auto,f_auto/')
+      : rawImageUrl;
     const caption      = storyFields.StoryImageCaption || '';
     const libToken     = f.LibraryToken || subscriberId;
     const libUrl       = `https://24stories.co.za/library.html?id=${libToken}`;

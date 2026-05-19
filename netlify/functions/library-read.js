@@ -25,10 +25,7 @@ exports.handler = async function(event) {
     return { statusCode: 404, headers: corsHeaders(), body: JSON.stringify({ error: 'Subscriber not found' }) };
   }
 
-  // Accelerated subscribers get all 26 prompts at once
-  const promptNumber = sub.fields.PromptNumber || 0;
-  const promptLimit  = sub.fields.AcceleratedSubscription ? 26 : Math.max(promptNumber, 1);
-  const promptsFormula = encodeURIComponent(`{Week}<=${promptLimit}`);
+  const promptsFormula = encodeURIComponent(`{Week}<=26`);
   const promptsSort = 'sort%5B0%5D%5Bfield%5D=Week&sort%5B0%5D%5Bdirection%5D=asc';
   const promptsRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Prompts?filterByFormula=${promptsFormula}&${promptsSort}&maxRecords=26`,

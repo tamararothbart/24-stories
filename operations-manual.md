@@ -147,6 +147,54 @@ Steps 4 and 5 stay the same. The only change is that the editing is lighter — 
 
 ---
 
+### D. AUDIO RECORDINGS — WHAT TO DO WITH THEM
+
+Every voice recording a subscriber makes is stored in Airtable (AudioURL field on the story record) and on Cloudinary permanently. You can access it any time by clicking the URL in Airtable.
+
+**Audio is not currently sent to storytellers or families.** Emails contain only the edited text and photo. This is intentional — audio quality varies. A clean pre-written recording is a pleasure to hear. A hesitant, noisy, or rambling recording sent to family undermines the premium feel of the product.
+
+---
+
+**FORWARDING AUDIO MANUALLY (available now)**
+
+If a recording is particularly clean and you want to share it:
+
+1. Open the story record in Airtable → Stories.
+2. Click the **AudioURL** field. It opens the Cloudinary link.
+3. Copy the URL.
+4. Compose a separate email to the family with the link.
+
+This is manual and occasional. Use it when the audio is genuinely good.
+
+---
+
+**SELECTIVE AUDIO IN FAMILY EMAILS (future build — decide before going live)**
+
+> ⚠ **DECISION REQUIRED BEFORE LAUNCH**
+>
+> Do you want selective audio delivery built into the SendToFamily flow?
+>
+> **How it would work:** An `IncludeAudio` checkbox is added to the Stories table. Before ticking SendToFamily, you listen to the audio in Airtable. If it is clean enough to send, you tick `IncludeAudio`. The family email includes a **"Listen to [Name] tell this story →"** button linking to the recording. If the checkbox is not ticked, the email goes out as normal — text and photo only.
+>
+> **Build required:** One new Airtable field + small change to send-story-queue.js. Ask Claude Code to build this when you are ready.
+
+---
+
+**AUDIO IN THE BOOK — QR CODES (future feature — not a launch requirement)**
+
+Remento prints a QR code next to each story in the finished book. Readers scan it with their phone and hear the voice recording. For 24 Stories this would be a premium add-on — the book becomes not just a written record but a listening experience.
+
+**How it would work:** At book compilation, a QR code image is generated for each story's AudioURL and placed in the chapter layout. Cloudinary can generate the QR code directly — no third-party service needed.
+
+**Two things to resolve before building it:**
+
+1. Only voice-recorded stories have an AudioURL. Typed stories have none. The book layout would need to handle both cases.
+2. Cloudinary URLs are permanent as long as you stay on Cloudinary. If you ever changed platforms, QR codes in already-printed books would stop working.
+
+Flag this as a Year 2 roadmap feature once the core product is live and proven.
+
+---
+
 ## PART 1B — MISSED PROMPTS, CATCHING UP, AND SPEEDING AHEAD
 
 ---

@@ -737,6 +737,9 @@
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') closeBookings();
     });
+    if (new URLSearchParams(window.location.search).get('book') === '1') {
+        openBookings({ preventDefault: function(){} });
+    }
     async function submitBooking(e) {
         e.preventDefault();
         var name   = document.getElementById('bName').value.trim();

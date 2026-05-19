@@ -52,50 +52,98 @@ Click that button. It takes you directly to the Airtable record for that story. 
 
 ### STEP 4 — YOU EDIT THE STORY
 
-**WHERE TO GO:** Click the "Edit this story in Airtable →" button in the alert email. It opens the exact record.
+**WHERE TO GO:** Click the **"Edit this story →"** button in the alert email. It opens the web editing page (edit.html) with the story already loaded.
 
 **WHAT TO DO:**
 
-1. The record opens. You are looking at the StoryID panel.
+1. The editing page opens. The story text is already in the editor — pre-loaded automatically from the subscriber's submission. You do not copy or paste anything.
 
-2. Scroll down to the **EditedText** field. It already contains a full copy of the raw story text — pre-loaded automatically when the subscriber submitted.
+2. Edit directly in the editor. Fix spelling, flow, structure — whatever the story needs.
 
-3. Edit directly within the EditedText field. You do not need to read StoryText and retype anything. Just edit what is already there.
+3. **Add a chapter title** in the Chapter Title field. Keep it short — four to eight words. This appears in the family delivery email, in the subscriber's story library, and in the book.
 
-4. To work more comfortably: click the diagonal expand arrows in the top-right corner of the EditedText field. This opens a full-screen editing panel.
+4. Click **Save**. The edited story is written to Airtable immediately.
 
-5. Grammarly works automatically in Airtable — your browser extension will run as you type.
+**THREE FIELDS IN AIRTABLE — KNOW THE DIFFERENCE:**
 
-6. When you are done editing, click outside the field or close the panel. Airtable saves automatically.
-
-7. **Add a chapter title.** Click the **ChapterTitle** field and type the title for this chapter. Keep it short — four to eight words. This title appears in the family delivery email, in the subscriber's story library dropdown, and in the book. Airtable saves automatically.
-
-**IMPORTANT:** Do not edit the StoryText field. That field holds the original submission exactly as the subscriber sent it — it is the authentic record. EditedText is where your work goes.
+| Field | What it is | Do you edit it? |
+|-------|-----------|-----------------|
+| StoryText | Raw submission — original record | Never. Leave untouched. |
+| EditedText | Your edited version — sent to family and used in book | Yes — this is where your edit lands when you save. |
+| FinalStory | Your fully approved version for book production | Yes — fill this at book stage before pressing Complete. |
 
 ---
 
 ### STEP 5 — YOU SEND THE STORY TO THE FAMILY
 
-**WHERE TO GO:** Stay in Airtable. You are still on the same story record you just edited.
+**WHERE TO GO:** Open Airtable → **Stories** table → find this subscriber's story record.
 
 **WHAT TO DO:**
 
-1. Tick the **SendToFamily** checkbox on the story record.
+1. Tick the **SendToFamily** checkbox.
 
-2. That's it. Do not navigate away — Airtable saves immediately.
+2. That's it. Airtable saves immediately.
 
 **WHAT HAPPENS NEXT (automatic, within 2 minutes):**
 
 - The system detects the ticked checkbox and fires automatically.
-- The subscriber receives an email confirming their story has been sent — with the edited version and the chapter title.
-- Every family email address on their Subscribers record receives the story and chapter title.
+- The storyteller receives an email confirming their story has been delivered — showing the edited version.
+- Every family email address on their Subscribers record receives the story.
 - The story record is updated: **SentToFamilyDate** is set to today and the **SendToFamily** checkbox unticks itself.
 
 **IF THE SUBSCRIBER HAS NO FAMILY RECIPIENTS:**
 
-Tick SendToFamily anyway. The subscriber still receives a confirmation email showing their edited story. There is nothing else you need to do.
+Tick SendToFamily anyway. The storyteller still receives a confirmation email. Nothing else to do.
 
-**NOTE:** The subscriber's library continues to show all stories — the edited version appears once EditedText is populated. This happens as soon as you save your edits in Step 4, independently of sending.
+---
+
+### TEXTEDIT — AUTOMATED STORY EDITING (NOT YET IN USE)
+
+TextEdit is a built-in editing engine that will eventually handle first-pass editing automatically, before the story reaches you. It is built but not yet QA'd. Do not use it until it has been tested and trained. The manual workflow above (Steps 4–5) is your current process.
+
+---
+
+**A. CURRENT MANUAL WORKFLOW (use this now)**
+
+1. Alert arrives at hello@24stories.co.za.
+2. Click **"Edit this story →"** in the email.
+3. Edit the story in the web editor. Add chapter title. Click Save.
+4. Open Airtable → Stories → find the record → tick **SendToFamily**.
+5. Done.
+
+---
+
+**B. HOW TO TRAIN TEXTEDIT BEFORE USING IT**
+
+TextEdit works from a written prompt — a set of instructions that tells Claude how to edit. You train it by refining those instructions based on what it gets wrong.
+
+Before switching it on:
+
+1. Take 5 stories you have already edited manually. You have both the raw version (StoryText) and your finished version (EditedText) in Airtable.
+
+2. Run TextEdit on those same raw stories and compare its output to yours.
+
+3. Identify the patterns where it falls short. Too formal? Loses the person's voice? Over-corrects colloquial grammar that should stay? Adds words you would cut?
+
+4. Update the Claude prompt inside TextEdit to address those patterns. Repeat until its draft is close enough to your standard that you are only making small adjustments — not rewriting.
+
+Do this exercise with 5 to 10 stories before switching TextEdit on. Ask Claude Code to run the comparison and help you refine the prompt.
+
+---
+
+**C. INSTALLING TEXTEDIT AND THE ADJUSTED WORKFLOW**
+
+When TextEdit is QA'd and trained, Claude Code will wire it into the submission flow. At that point:
+
+- A story is submitted → TextEdit runs automatically → EditedText is pre-filled with an AI-edited draft (not the raw text).
+- Your alert arrives at hello@ as usual.
+- You click **"Edit this story →"** — but now you open to Claude's draft, not the raw submission.
+- You review, adjust where needed, add the chapter title, click Save.
+- Go to Airtable → Stories → tick **SendToFamily**.
+
+Steps 4 and 5 stay the same. The only change is that the editing is lighter — you are reviewing and refining a draft rather than editing from raw.
+
+**Your editing time per story goes from 15–20 minutes to approximately 5 minutes.**
 
 ---
 

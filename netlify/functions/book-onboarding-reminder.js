@@ -387,17 +387,17 @@ function coachingSignOff() {
   return `
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">With warmth,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0;">The 24 Stories Team</p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:12px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>`;
+  <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">Tamara Rothbart</p>
+  <p style="font-size:13px;color:#555;line-height:1.8;margin:0 0 4px;">Founder, 24 Stories</p>
+  <p style="font-size:13px;color:#555;line-height:1.8;margin:0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>`;
 }
 
 function coachingLogo() {
   return `<img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">`;
 }
 
-function coachingWhatsApp() {
-  return `<a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">WhatsApp us &#8594;</a>
-<p style="font-size:15px;color:#555;line-height:1.7;margin:0 0 40px;">Or WhatsApp: <strong>082 375 8320</strong></p>`;
+function coachingCTA() {
+  return `<a href="https://24stories.co.za/coaching.html?book=1" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">Register your interest &#8594;</a>`;
 }
 
 function coachingWrap(body) {
@@ -414,11 +414,15 @@ function coachingEmail1Html(firstName) {
   ${coachingLogo()}
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Three stories. That's a real beginning.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The early weeks are often the most uncertain. You're deciding what to include and what to leave out. You're figuring out whose eyes you're writing for. You know you have the life experiences, but moulding them into stories can be harder than you anticipated. That's normal.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The early weeks are often the most uncertain. You're deciding what to include and what to leave out. You know you have the life experiences, but moulding them into stories can be harder than you anticipated. That's normal.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">I read everything that comes through. And I notice how much potential each story has — even when the storyteller can't quite see it themselves.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you feel like you're writing blind, recording in the dark, there's another option. A single coaching session is one hour with me. Your rough draft read in advance, a focused conversation, actionable feedback, tools and tips, and a clear, easy path forward to an unforgettable story.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that's where you are, WhatsApp me.</p>
-  ${coachingWhatsApp()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">If you feel like you're writing blind, recording in the dark, there's another option.</p>
+  <div style="border-left:4px solid #B8976A;background:#EDEAE6;padding:18px 22px;margin:0 0 28px;">
+    <p style="font-family:Georgia,serif;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#B8976A;margin:0 0 10px;">One session with Tamara</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.85;color:#1A1A1A;margin:0;">A single coaching session is one hour with me. Your rough draft read in advance, a focused conversation, actionable feedback, tools and tips, and a clear, easy path forward to an unforgettable story.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that's where you are, register your interest below and I'll be in touch within 24 hours.</p>
+  ${coachingCTA()}
   ${coachingSignOff()}`);
 }
 
@@ -427,11 +431,14 @@ function coachingEmail2Html(firstName) {
   ${coachingLogo()}
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Eight stories is not nothing. Most people don't make it this far — not because they stop caring, but because the stories start to feel harder rather than easier.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">What I notice at this stage is that the stories start to shift. By story eight or nine, the more complicated ones start surfacing. The stories that require more from you.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">That's where coaching makes a difference. Not because something is wrong, but because you're ready to go further than you might on your own.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">A three-session bundle (R3,200) gives you support for the stories that are asking the most of you right now. A six-session bundle (R5,500) takes you through the rest of the journey with a thinking partner by your side. Both can be used across any stories — the ones you've been circling, or the ones still to come.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If you're curious about what this could look like, WhatsApp me. We can start with a conversation about what's ahead.</p>
-  ${coachingWhatsApp()}
+  <div style="border-left:4px solid #B8976A;background:#EDEAE6;padding:18px 22px;margin:0 0 28px;">
+    <p style="font-family:Georgia,serif;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#B8976A;margin:0 0 10px;">Coaching options</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.85;color:#1A1A1A;margin:0 0 10px;">A three-session bundle (R3,200) gives you support for the stories that are asking the most of you right now.</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.85;color:#1A1A1A;margin:0;">A six-session bundle (R5,500) takes you through the rest of the journey with a thinking partner by your side. Both can be used across any stories — the ones you've been circling, or the ones still to come.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If you're curious about what this could look like, register your interest below and I'll be in touch within 24 hours.</p>
+  ${coachingCTA()}
   ${coachingSignOff()}`);
 }
 
@@ -442,10 +449,12 @@ function coachingEmail3Html(firstName) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Fifteen stories. You are well past the halfway point.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Some of what you've written has surprised you, I imagine. A story you thought would be easy that wasn't. One that turned out to hold more than you expected when you sat down to tell it.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Some storytellers find that the later prompts ask more of you. The stories about regret. About people who are no longer here. About things that have never quite been said out loud. These stories don't stop you because they're too small. They stop you because they matter too much.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Coaching at this stage is about having someone with you for the stories you've been putting off.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">They give you a thinking partner, a feedback loop, extra tools and a real-time editor for what's ahead.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If this is where you are, WhatsApp me.</p>
-  ${coachingWhatsApp()}
+  <div style="border-left:4px solid #B8976A;background:#EDEAE6;padding:18px 22px;margin:0 0 28px;">
+    <p style="font-family:Georgia,serif;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#B8976A;margin:0 0 10px;">Coaching at this stage</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.85;color:#1A1A1A;margin:0;">Having someone with you for the stories you've been putting off. A thinking partner, a feedback loop, extra tools and a real-time editor for what's ahead.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If this is where you are, register your interest below and I'll be in touch within 24 hours.</p>
+  ${coachingCTA()}
   ${coachingSignOff()}`);
 }
 
@@ -456,8 +465,8 @@ function coachingEmail4Html(firstName) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Most people carry their stories unspoken. They mean to write them down, or tell them to their children, or record them one day when there's more time. You've done it. Over the past months, you've sat down twenty-four times and put something real on the page.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Two stories remain. Finish well.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">When you're done — and when you've had a moment to let it land — I'd like to ask you something. Is there someone in your life whose stories should be recorded? A friend? A sibling? A spouse? You are now the person who knows exactly what this process takes, and what it's worth. You're the best possible person to pay it forward.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If there's someone who comes to mind, WhatsApp me. I'll make sure they're looked after from the very beginning.</p>
-  ${coachingWhatsApp()}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If there's someone who comes to mind, use the link below. It takes thirty seconds and I'll reach out to them personally.</p>
+  <a href="https://24stories.co.za/refer.html" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">Pay it forward &#8594;</a>
   ${coachingSignOff()}`);
 }
 

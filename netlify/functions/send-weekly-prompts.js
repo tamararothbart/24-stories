@@ -290,15 +290,19 @@ function coachingEmail0Html(firstName) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The most common concerns I hear at the beginning stage are "I don't have enough stories," "I don't know where to start," and "I'm not sure I know how to tell them."</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Trust me, you do have the stories, and I can help you start and give you all the tools and tricks to tell them.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">The prompts will guide you — that's what they're designed to do. But if you'd like to come into your first story with more clarity, I offer a single coaching session before you begin. One hour. We talk through what you most want to capture, how to think about your experiences as stories, and what will make yours worth reading. You leave with a clear starting point and a map for moving forward.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">As a welcome gift, I'm offering this first session at 25% off — R900 instead of R1,200.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">It's not something everyone needs. But for those who want it, it makes the whole journey easier.</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that sounds useful, WhatsApp me now and we'll arrange the session.</p>
-  <a href="https://wa.me/27823758320" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 12px;">WhatsApp us &#8594;</a>
-  <p style="font-size:15px;color:#555;line-height:1.7;margin:0 0 40px;">Or WhatsApp: <strong>082 375 8320</strong></p>
+  <div style="border-left:4px solid #B8976A;background:#EDEAE6;padding:18px 22px;margin:0 0 28px;">
+    <p style="font-family:Georgia,serif;font-size:13px;letter-spacing:0.14em;text-transform:uppercase;color:#B8976A;margin:0 0 8px;">Welcome gift</p>
+    <p style="font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#1A1A1A;margin:0 0 6px;">25% off your first session — R900 instead of R1,200.</p>
+    <p style="font-family:Georgia,serif;font-size:15px;color:#444;line-height:1.7;margin:0;">This offer is for new subscribers only and applies to your first session.</p>
+  </div>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">If that sounds useful, register your interest below and I'll be in touch within 24 hours.</p>
+  <a href="https://24stories.co.za/coaching.html?book=1" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 40px;">Register your interest &#8594;</a>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">With warmth,</p>
-  <p style="font-size:17px;line-height:1.9;margin:0;">The 24 Stories Team</p>
-  <p style="font-size:15px;color:#444;line-height:1.8;margin:12px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">Tamara Rothbart</p>
+  <p style="font-size:13px;color:#555;line-height:1.8;margin:0 0 4px;">Founder, 24 Stories</p>
+  <p style="font-size:13px;color:#555;line-height:1.8;margin:0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 

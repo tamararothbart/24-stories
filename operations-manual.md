@@ -2,7 +2,7 @@
 
 Operations Flow Reference
 
-Last updated: 11 May 2026
+Last updated: 20 May 2026
 
 This document tells you where to go and what to do for every operational task in 24 Stories. Keep it open in a browser tab. Add to it as new flows are built.
 
@@ -257,6 +257,22 @@ The website (24stories.co.za) has a section at the bottom of the page where subs
 
 ---
 
+**AIRTABLE STATUS FIELD — IT IS A DROPDOWN, NOT A CHECKBOX**
+
+The Status field on every Subscribers record has five options. To change it: open the subscriber record → click the Status field → pick the new value.
+
+| Status | What it means |
+|--------|--------------|
+| Active | Subscription running. Prompts go out on Wednesdays. Library open. |
+| Pending | Payment received, brief automated activation in progress. |
+| Frozen | All PayFast retries failed. Library locked, prompts stopped immediately. |
+| Cancelled | Voluntary cancellation. Library stays open until AccessEndDate. |
+| Complete | Book delivered. Subscription over. |
+
+This is your most direct override. If automation fails or something needs manual correction, change Status here.
+
+---
+
 **SUBSCRIBER'S LIBRARY**
 
 URL format: `24stories.co.za/library.html?id=[LibraryToken]`
@@ -281,7 +297,7 @@ You will rarely need to open this directly.
 
 ---
 
-**YOUR EMAIL — hello@24stories.co.za (Titan)**
+**YOUR EMAIL — hello@24stories.co.za (Google Workspace / Gmail)**
 
 - All Tamara manual emails go from here.
 - Story submission alerts arrive here (with direct Airtable link).
@@ -506,6 +522,24 @@ The subscriber does not lose any stories. Their prompt number does not reset. Th
 **The only disruption** is a brief account freeze on the day the payment fails — resolved the moment they click the restart link. For most subscribers this is not a problem. If they are mid-story on that exact day, reassure them their draft is safe in the Story Library.
 
 **Gmail template to use:** "Card change — wait for payment link"
+
+---
+
+### IF A SUBSCRIBER PAYS YOU BY MANUAL EFT INSTEAD
+
+If a subscriber whose account is Frozen contacts you and pays you directly by EFT into your personal bank account (rather than via the restart link):
+
+1. Confirm the payment has cleared in your Nedbank account.
+2. Open Airtable → Subscribers table → find their record.
+3. Click the **Status** field (it is a dropdown — not a checkbox).
+4. Change it from **Frozen** to **Active**.
+5. That is the only step. Prompts resume automatically the following Wednesday. Library reopens immediately.
+
+**Important:** When you do this, there is no active PayFast subscription running for that subscriber. No further automatic payments will be taken. You will need to either:
+- Remind them to pay the next month's EFT manually before their next billing date, or
+- Ask them to use the restart link to get back onto automatic card payments.
+
+At 20 subscribers, this is manageable. Keep a note in Airtable (Notes field if available, or in your own records) that this subscriber is on manual EFT.
 
 ---
 
@@ -776,7 +810,7 @@ You do not need to do anything immediately for any of these.
 2. You receive an instant notification at **hello@24stories.co.za** with their name, email, and what they did.
 3. The person receives an automatic confirmation email (except Events — attending only, where no email is sent until the date and venue are confirmed).
 
-**Notification subject lines to recognise in Titan:**
+**Notification subject lines to recognise at hello@24stories.co.za:**
 
 | Subject | Means |
 |---|---|
@@ -848,8 +882,8 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
    - [reason] → one short phrase (e.g. "a technical error on our side" or "an exceptional circumstance")
 6. Send from hello@24stories.co.za
 
-**One-time setup — save as a draft in Titan (hello@24stories.co.za):**
-1. Open Titan → click **+ New Email**
+**One-time setup — save as a Gmail template:**
+1. Open Gmail → Compose
 2. Subject: `Your refund — 24 Stories`
 3. Paste this into the body:
 
@@ -865,16 +899,14 @@ Tamara
 24 Stories
 ---
 
-4. Do not send — close the window. Titan saves it to Drafts automatically.
+4. Click ⋮ (bottom right of compose window) → Templates → Save draft as template → name it **Your refund — 24 Stories**. Do not send.
 
 **Every time you need to send a refund:**
-1. Go to Titan → Drafts → open **Your refund — 24 Stories**
-2. Select all the body text → copy
-3. Close the draft without sending (this keeps it intact for next time)
-4. Click **+ New Email**
-5. Paste the body → replace [FirstName], [Amount], and [reason] with the correct details
-6. Add the subscriber's email address in the To field
-7. Send from hello@24stories.co.za
+1. Open Gmail → Compose
+2. Click ⋮ → Templates → **Your refund — 24 Stories**
+3. Replace [FirstName], [Amount], and [reason] with the correct details
+4. Add the subscriber's email address in the To field
+5. Send from hello@24stories.co.za
 
 ---
 

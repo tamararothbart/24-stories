@@ -373,6 +373,35 @@ Invalid link state ✓
 ### Open item — future session
 External orderers (book-order.html) receive no dispatch notification. Email-12/13 only go to the storyteller. To fix: need a way to store orderer email against the subscriber record. Requires schema discussion — no field exists in Payments or Subscribers for this. Flag when first live external orders arrive.
 
+## Session 21 — Pre-Launch Sweep — COMPLETE (2026-05-20)
+
+### Confirmed done — verified from live code and Airtable, not memory files
+- **All operational alerts confirmed TO hello@24stories.co.za** — verified in send-story-queue.js, book-onboarding-reminder.js, payfast-webhook.js. No remaining code changes needed.
+- **No ReplyTo on automated notification emails (6, 7, 12, 13, 17) — intentional by design.** Service is capped. Subscribers have hello@ contact in email body. Do NOT add ReplyTo to these emails in future.
+- **Coaching email trigger BUILT AND LIVE** — CoachingEmailsSent field in Airtable. Email 0 in send-weekly-prompts.js. Emails 1–4 in book-onboarding-reminder.js.
+- **SubscriberTier + UpgradeDate deleted from Airtable** — confirmed via Metadata API. Schema is clean.
+- **All Gmail templates saved** — coaching invoices (Single Session R1,200, Starter Session R900, 3-Session Bundle R3,200, 6-Session Bundle R5,500, Full 24-Session Programme monthly R3,000, Full 24-Session Programme upfront R18,000), Payment Confirmation, Card Update subscriber response, Begin 24 Stories — Next Step outreach template. All in hello@24stories.co.za as canned responses.
+- **begin.html outreach email template** — single template only. Tested end-to-end.
+- **WhatsApp Business quick replies** — all 3 scenarios tested. Forward slash (/) in chat opens quick replies.
+- **Operations manual** — updated 2026-05-20: Status field explained (dropdown not checkbox), manual EFT override documented, Titan references replaced with Gmail/Google Workspace.
+- **send-story-queue.js** — no changes made. FROM stories@ is correct by design. TO addresses are correct. No ReplyTo is intentional.
+
+### Remaining before launch
+1. **Test index.html payment flows** — self and gift scenarios (sandbox). Confirm Airtable record created, emails 1/2/3 fire, admin alert arrives at hello@.
+2. **Test extra copies from Story Library** — confirm PayFast payment, email-14, Tamara alert with delivery address.
+3. **Payment confirmation emails** — confirm correct emails arrive after each test above.
+
+### Card update mechanism — PENDING
+- Tamara calling PayFast to understand their card update flow and retry behaviour.
+- Current position: wait for payment failure (PayFast retries, then CANCELLED IPN → Frozen → restart link emailed automatically). Pre-emptive card update requires further investigation.
+- If subscriber pays by manual EFT: change Status from Frozen → Active in Airtable dropdown. No PayFast subscription running — monitor manually.
+
+### GoDaddy call outstanding
+- Delete Titan subscriptions, delete 52stories domain, update card, set auto-renew on 24stories.co.za.
+
+### Launch day only — ready to execute
+- PayFast credential swap documented in CLAUDE.md above. Do not do this until launch day.
+
 ## Launch Dates
 - 8 June 2026: Live storytelling event
 - 10 June 2026: Paid site goes live, interest list emailed

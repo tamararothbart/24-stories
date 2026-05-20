@@ -217,8 +217,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        background: var(--charcoal);
-        color: var(--cream);
+        background: #424242;
+        color: #ffffff;
         border: 1.5px solid var(--gold);
         font-family: var(--font-body);
         font-size: 12px;
@@ -231,20 +231,15 @@
         min-height: 48px;
         cursor: pointer;
     }
-    .speak-btn:hover { background: #333; }
+    .speak-btn:hover { background: #555; }
 
-    /* ─── Prominent WhatsApp contact ─────────────────────────────── */
+    /* ─── Prominent WhatsApp / email contact ────────────────────── */
     a.contact-wa-prominent {
-        display: block;
-        font-family: var(--font-head);
-        font-size: clamp(1.5rem, 3vw, 2rem);
-        color: var(--charcoal);
-        font-weight: 400;
-        letter-spacing: 0.01em;
-        margin: 10px 0 4px;
+        color: var(--gold);
+        font-weight: 600;
         text-decoration: none;
     }
-    a.contact-wa-prominent:hover { color: var(--gold); }
+    a.contact-wa-prominent:hover { text-decoration: underline; }
 
     /* ─── Coach byline ───────────────────────────────────────────── */
     .coach-byline {
@@ -593,9 +588,7 @@
             <ul class="session-steps">
                 <li>
                     <div class="step-text">
-                        You schedule a time directly with Tamara.
-                        <a href="https://wa.me/27823758320" class="contact-wa-prominent">WhatsApp +27 82 375 8320</a>
-                        or <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">by email</a>.
+                        You schedule a time directly with Tamara — <a href="https://wa.me/27823758320" class="contact-wa-prominent">WhatsApp +27 82 375 8320</a> or <a href="mailto:hello@24stories.co.za" class="contact-wa-prominent">by email</a>.
                     </div>
                 </li>
                 <li>

@@ -710,6 +710,44 @@ If you want to confirm a new subscriber has been activated:
 
 ---
 
+## PART 6B — SENDING SIGN-UP LINKS TO INTERESTED PARTIES
+
+---
+
+### VIA EMAIL (Gmail)
+
+A branded email template is saved in Gmail as a canned response: **Begin 24 Stories — Next Step**.
+
+1. Open Gmail → Compose
+2. Click ⋮ (three dots, bottom right of compose window) → Templates → **Begin 24 Stories — Next Step**
+3. Replace **[Name]** with their first name
+4. Add their email address in the To field
+5. Send
+
+The "Begin here →" button in the email links to 24stories.co.za/begin.html. They choose self or gift from there and proceed directly to payment.
+
+---
+
+### VIA WHATSAPP BUSINESS
+
+Quick replies with sign-up links are saved in WhatsApp Business. The links open begin.html — either on the choose screen, pre-selected to self, or pre-selected to gift, depending on which quick reply you send.
+
+**To send a sign-up link:**
+
+1. Open WhatsApp Business
+2. Tap **+** (top right of Chats screen)
+3. Search for the person by name or type their number → open the chat
+   *(If they have already messaged you, just open the existing chat)*
+4. Tap the message field and type **/**
+5. Your quick replies will appear — select the right one
+6. Send
+
+The link arrives as a tappable URL on their phone. It opens begin.html in their browser and takes them straight to payment.
+
+**Note:** The person must be saved in your contacts before you can initiate a chat with them. If they have already messaged you, no contact saving is needed — just open the existing chat.
+
+---
+
 ## PART 7 — LEADS AND ENQUIRIES
 
 ---

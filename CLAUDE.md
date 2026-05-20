@@ -117,11 +117,14 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 
 ## Coaching — 24stories-live Airtable Base
 - **coaching.html** — coaching product page. All "Book" buttons open a contact form popup (Name, Mobile/WhatsApp, Email + Submit). No automation beyond lead capture.
+- **Available to active subscribers only.** No combined purchase flow. Subscribers sign up first, then access coaching.
 - **Airtable base:** 24stories-live (ID: appHPLRYmURYxlG3K) — SEPARATE from the 52stories subscriber base. Never write coaching leads to 52stories.
 - **Coaching table:** tblDtVB2CALY2biJm. Fields: Name, Contact (mobile), Method ('Form'), Page, DateInquired, Status ('New'), Notes (stores email as "Email: [address]")
-- **No Zoom, no calendar, no automation.** Tamara books and manages all sessions manually after receiving the alert.
+- **No Zoom, no calendar, no automation.** Tamara books and manages all sessions manually after receiving the alert. Response within 24 hours.
+- **Payment: EFT only.** Coaching is NOT paid via PayFast. Tamara invoices the subscriber manually. Payment goes by EFT to Tamara's personal banking account.
 - **Invoice templates:** 7 templates (6 invoices + 1 payment confirmation) saved as Gmail canned responses in hello@24stories.co.za. File was removed from repo (2026-05-18) — do not recreate it publicly.
 - **Banking details on invoices:** T. Rothbart · Nedbank Sea Point · Current Account · 1069404799. EFT note for sessions within 72 hours.
+- **20% off first session:** offer appears in the week-1 prompt email (coaching email fires alongside first prompt). NOT on the sign-up page. The sign-up page (begin.html) has no coaching mention.
 
 ## Payment Model
 - Monthly: R2,795/month × 6 cycles (auto-stops). PayFast recurring subscription (subscription_type=1, frequency=3, cycles=6).

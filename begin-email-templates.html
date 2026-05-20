@@ -85,7 +85,7 @@
 
     <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 28px;">Your first prompt will arrive on the following Wednesday.</p>
 
-    <a href="https://24stories.co.za/begin?type=self" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;font-family:Georgia,serif;font-size:16px;letter-spacing:0.05em;padding:16px 36px;margin:0 0 28px;">Begin here &rarr;</a>
+    <a href="https://24stories.co.za/begin.html?type=self" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;font-family:Georgia,serif;font-size:16px;letter-spacing:0.05em;padding:16px 36px;margin:0 0 28px;">Begin here &rarr;</a>
 
     <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 36px;">Let us know if you have any questions before you begin.</p>
 
@@ -142,15 +142,22 @@
 
 
 <script>
-function selectEmail(id, btn) {
+async function selectEmail(id, btn) {
   var el = document.getElementById(id);
-  var range = document.createRange();
-  range.selectNode(el);
-  var sel = window.getSelection();
-  sel.removeAllRanges();
-  sel.addRange(range);
-  document.execCommand('copy');
-  sel.removeAllRanges();
+  var html = el.innerHTML;
+  try {
+    var blob = new Blob([html], { type: 'text/html' });
+    await navigator.clipboard.write([new ClipboardItem({ 'text/html': blob })]);
+  } catch (e) {
+    // Fallback for browsers that don't support ClipboardItem
+    var range = document.createRange();
+    range.selectNode(el);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+  }
   btn.textContent = 'Copied ✔';
   btn.classList.add('copied');
   setTimeout(function() {

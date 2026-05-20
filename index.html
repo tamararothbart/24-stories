@@ -1318,33 +1318,50 @@
         var label = document.getElementById('founderVideoBtnLabel');
         if (!video || !btn) return;
 
+        var START_TIME = 0.2;   // skip first frame
+        var END_TIME   = 56.0;  // stop before camera reach at end
+
+        function resetToStart() {
+            video.pause();
+            video.currentTime = START_TIME;
+            setPlayState();
+        }
+
         function setPlayState() {
             icon.innerHTML = '<polygon points="5 3 19 12 5 21 5 3"></polygon>';
             label.textContent = 'Play';
             btn.setAttribute('aria-label', 'Play video');
         }
-        function setPauseState() {
-            icon.innerHTML = '<line x1="6" y1="4" x2="6" y2="20"></line><line x1="18" y1="4" x2="18" y2="20"></line>';
-            label.textContent = 'Pause';
-            btn.setAttribute('aria-label', 'Pause video');
+        function setStopState() {
+            icon.innerHTML = '<rect x="3" y="3" width="18" height="18" rx="2" ry="2" fill="currentColor" stroke="none"></rect>';
+            label.textContent = 'Stop';
+            btn.setAttribute('aria-label', 'Stop video');
         }
 
-        btn.addEventListener('click', function () {
-            if (video.paused || video.ended) {
-                video.currentTime = 0;
-                video.muted = false;
-                video.play();
-                setPauseState();
-            } else {
-                video.pause();
-                setPlayState();
+        // Show clean start frame on load
+        video.addEventListener('loadedmetadata', function () {
+            video.currentTime = START_TIME;
+        });
+
+        // Stop early to cut the camera-reach moment
+        video.addEventListener('timeupdate', function () {
+            if (video.currentTime >= END_TIME) {
+                resetToStart();
             }
         });
 
-        video.addEventListener('ended', function () {
-            video.currentTime = 0;
-            setPlayState();
+        btn.addEventListener('click', function () {
+            if (video.paused || video.ended) {
+                video.currentTime = START_TIME;
+                video.muted = false;
+                video.play();
+                setStopState();
+            } else {
+                resetToStart();
+            }
         });
+
+        video.addEventListener('ended', resetToStart);
     })();
     </script>
 

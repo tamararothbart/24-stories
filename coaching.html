@@ -212,6 +212,40 @@
     }
     .card-contact-alt a { color: #555; text-decoration: underline; }
 
+    /* ─── Talk to Tamara CTA button ──────────────────────────────── */
+    .speak-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--charcoal);
+        color: var(--cream);
+        border: 1.5px solid var(--gold);
+        font-family: var(--font-body);
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        text-decoration: none;
+        padding: 14px 40px;
+        border-radius: 2px;
+        min-height: 48px;
+        cursor: pointer;
+    }
+    .speak-btn:hover { background: #333; }
+
+    /* ─── Prominent WhatsApp contact ─────────────────────────────── */
+    a.contact-wa-prominent {
+        display: block;
+        font-family: var(--font-head);
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        color: var(--charcoal);
+        font-weight: 400;
+        letter-spacing: 0.01em;
+        margin: 10px 0 4px;
+        text-decoration: none;
+    }
+    a.contact-wa-prominent:hover { color: var(--gold); }
+
     /* ─── Coach byline ───────────────────────────────────────────── */
     .coach-byline {
         font-family: var(--font-head);
@@ -510,6 +544,9 @@
                     <p class="c-body-text">Every joy, every heartbreak, every win, every loss has contributed to the one-of-a-kind person you are. And in knowing you, your children, their children, and all the generations to follow will know themselves a little better, too.</p>
                 </div>
             </div>
+            <div style="text-align:center; margin-top:44px;">
+                <button class="speak-btn" onclick="openBookings(event)">Talk to Tamara</button>
+            </div>
         </div>
     </section>
 
@@ -538,6 +575,9 @@
                 <p class="c-body-text">Some storytellers find that the later prompts ask more of you. The stories about regret. About people who are no longer here. About things that have never been said out loud. These stories don't stop you because they're too small. They stop you because they matter too much.</p>
                 <p class="c-body-text">Coaching at this stage is about having someone with you for the stories you've been putting off. A thinking partner, a feedback loop, extra tools, and a real-time editor to get you across the finishing line.</p>
             </div>
+            <div style="text-align:center; margin-top:44px;">
+                <button class="speak-btn" onclick="openBookings(event)">Talk to Tamara</button>
+            </div>
         </div>
     </section>
 
@@ -553,7 +593,9 @@
             <ul class="session-steps">
                 <li>
                     <div class="step-text">
-                        You schedule a time directly with Tamara via <a href="https://wa.me/27823758320" style="color:var(--gold);">WhatsApp (+27 82 375 8320)</a>.
+                        You schedule a time directly with Tamara.
+                        <a href="https://wa.me/27823758320" class="contact-wa-prominent">WhatsApp +27 82 375 8320</a>
+                        or <a href="mailto:hello@24stories.co.za" style="color:var(--gold);">by email</a>.
                     </div>
                 </li>
                 <li>
@@ -572,6 +614,9 @@
                     </div>
                 </li>
             </ul>
+            <div style="text-align:center; margin-top:44px;">
+                <button class="speak-btn" onclick="openBookings(event)">Talk to Tamara</button>
+            </div>
         </div>
     </section>
 

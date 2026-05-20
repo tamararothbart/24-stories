@@ -466,7 +466,6 @@
                         <div id="s-helperFields" style="display:none; margin-top:12px;">
                             <input type="text" id="s-helper-name" name="s-helper-name" class="helper-sub-input" placeholder="Their name">
                             <input type="email" id="s-helper-email" name="s-helper-email" class="helper-sub-input" placeholder="Their email address">
-                            <input type="tel" id="s-helper-phone" name="s-helper-phone" class="helper-sub-input" placeholder="Their WhatsApp number (optional)">
                         </div>
                     </div>
 
@@ -549,7 +548,6 @@
                         <div id="g-helperFields" style="display:none; margin-top:12px;">
                             <input type="text" id="g-helper-name" name="g-helper-name" class="helper-sub-input" placeholder="Their name">
                             <input type="email" id="g-helper-email" name="g-helper-email" class="helper-sub-input" placeholder="Their email address">
-                            <input type="tel" id="g-helper-phone" name="g-helper-phone" class="helper-sub-input" placeholder="Their WhatsApp number (optional)">
                         </div>
                     </div>
 
@@ -890,7 +888,6 @@
         var addHelper   = getSelfHelperType() === 'other';
         var helperName  = addHelper ? (document.getElementById('s-helper-name').value.trim() || '') : '';
         var helperEmail = addHelper ? (sHelperEmail ? sHelperEmail.value.trim() : '') : '';
-        var helperPhone = addHelper ? (document.getElementById('s-helper-phone').value.trim() || '') : '';
         var familyEmails = buildFamilyEmails(document.getElementById('beginSelfForm'), 's-rec');
 
         fetch(CHECKOUT_URL, {
@@ -990,8 +987,6 @@
         var helperEmail  = helperVal === 'me'    ? giverEmail
                          : helperVal === 'other' ? (gHelperEmailInp ? gHelperEmailInp.value.trim() : '')
                          : '';
-        var helperPhone  = helperVal === 'other' ? (document.getElementById('g-helper-phone') ? document.getElementById('g-helper-phone').value.trim() : '') : '';
-
         var familyEmails = buildFamilyEmails(document.getElementById('beginGiftForm'), 'g-rec');
 
         fetch(CHECKOUT_URL, {

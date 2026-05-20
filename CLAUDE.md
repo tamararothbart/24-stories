@@ -1,5 +1,13 @@
 # 24 Stories — Website & Developer Context
 
+## ⚠ CLAUDE.MD IS THE ONLY SOURCE OF TRUTH — READ FIRST, EVERY SESSION
+
+**CLAUDE.md is updated every 5–10 minutes during a session. Every action, every confirmed fact, every decision goes here — not in memory files. Memory files are unreliable, go stale, and cause errors. Ignore them. Read CLAUDE.md and the live code files only.**
+
+**Session start protocol: read CLAUDE.md, then read the relevant live files before stating anything as done or not done.**
+
+---
+
 ## ⚠ ARCHITECTURE — READ FIRST, EVERY SESSION
 
 **MAKE IS PERMANENTLY CANCELLED. IT DOES NOT EXIST IN THIS PROJECT.**

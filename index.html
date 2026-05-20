@@ -1323,7 +1323,7 @@
 
         function resetToStart() {
             video.pause();
-            video.currentTime = START_TIME;
+            video.currentTime = END_TIME;
             setPlayState();
         }
 
@@ -1338,9 +1338,9 @@
             btn.setAttribute('aria-label', 'Stop video');
         }
 
-        // Show clean start frame on load
+        // Rest on clean end frame before and after playback
         video.addEventListener('loadedmetadata', function () {
-            video.currentTime = START_TIME;
+            video.currentTime = END_TIME;
         });
 
         // Stop early to cut the camera-reach moment

@@ -227,32 +227,20 @@
 
     <!-- ============================================================
          FOUNDER VIDEO
-         Replace: add video file to /24stories-website/ + captions.vtt
          ============================================================ -->
     <section class="founder-video-section">
         <div class="container founder-video-inner">
             <div class="founder-video-col">
                 <div class="founder-video-wrap">
-                    <!--
-                        TO WIRE UP:
-                        1. Replace src="" with your video filename, e.g. src="founder-video.mp4"
-                        2. Add a captions file: src="founder-captions.vtt" below
-                        3. Delete the .founder-video-placeholder div once the video is live
-                        4. Autoplay muted is already set — visitor can tap "Sound on" for audio
-                    -->
                     <video
                         class="founder-video"
                         autoplay
                         muted
                         playsinline
+                        loop
                         id="founderVideo">
-                        <source src="" type="video/mp4">
-                        <track kind="captions" src="founder-captions.vtt" srclang="en" label="English" default>
+                        <source src="founder-video.mp4" type="video/mp4">
                     </video>
-                    <div class="founder-video-placeholder" id="founderVideoPlaceholder">
-                        <p>Founder video</p>
-                        <p class="founder-ph-note">60 seconds · autoplay muted · captions · replace src="" in index.html</p>
-                    </div>
                     <button class="founder-video-sound" id="founderVideoSound" aria-label="Unmute video" style="display:none;">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
@@ -1333,9 +1321,7 @@
         var btn   = document.getElementById('founderVideoSound');
         var ph    = document.getElementById('founderVideoPlaceholder');
         if (!video || !btn) return;
-        // Show sound button and hide placeholder only when video can play
         video.addEventListener('canplay', function () {
-            if (ph) ph.style.display = 'none';
             btn.style.display = 'flex';
         });
         btn.addEventListener('click', function () {

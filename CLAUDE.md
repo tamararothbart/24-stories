@@ -68,6 +68,12 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - Never add fields to Airtable without explicit discussion — schema changes affect library.html, tell.html, and all Netlify Functions simultaneously.
 - Never reference Make. Never suggest Make. It does not exist in this project.
 
+## Outreach Email Template — LOCKED (2026-05-20)
+- File: `begin-email-templates.html` (repo root). Single template only — "Begin 24 Stories — Next Step".
+- Subject line: `Begin 24 Stories — Next Step`. Fill in: `[Name]`. Links to `https://24stories.co.za/begin.html`.
+- Copy mechanism: `navigator.clipboard.write()` with `text/html` blob — this is what preserves the clickable button when pasting into Gmail. Do NOT revert to `document.execCommand('copy')`.
+- Saved in Gmail as canned response. Tested end-to-end: button links correctly, payment completed from inside the email. Do not add more templates or change the copy mechanism.
+
 ## Founder Video — LIVE (2026-05-20)
 - File: `founder-video.mp4` (converted from `founder video ..mov`, H.264, 15MB, portrait 9:16)
 - Section: `.founder-video-section` in index.html — charcoal background, portrait wrap 360px max-width, 38% column

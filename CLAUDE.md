@@ -64,6 +64,12 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - Never add fields to Airtable without explicit discussion — schema changes affect library.html, tell.html, and all Netlify Functions simultaneously.
 - Never reference Make. Never suggest Make. It does not exist in this project.
 
+## Founder Video — LIVE (2026-05-20)
+- File: `founder-video.mp4` (converted from `founder video ..mov`, H.264, 15MB, portrait 9:16)
+- Section: `.founder-video-section` in index.html — charcoal background, portrait wrap 360px max-width, 38% column
+- Behaviour: rests on end frame (56s) as static image. Play starts at 1.0s with sound on. Stop returns to end frame. No loop. No autoplay.
+- To adjust trim: edit `START_TIME` (currently 1.0) and `END_TIME` (currently 56.0) in the founder video script block near the bottom of index.html.
+
 ## File Map
 - `index.html` — main site (pricing, FAQ, signup form, resend library link)
 - `library.html` — subscriber story library + book prep (reads/writes via Netlify Functions)

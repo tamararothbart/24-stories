@@ -27,11 +27,19 @@ All automation is built on Netlify Functions (serverless). There are no Make sce
 - Airtable PAT: in memory file
 
 ## PayFast — Netlify env status
-- PAYFAST_MERCHANT_ID: ✅ set (10048976) — SANDBOX credential. Updated 2026-05-17.
-- PAYFAST_MERCHANT_KEY: ✅ set (ipt18teru1agg) — SANDBOX credential. Updated 2026-05-17.
-- PAYFAST_PASSPHRASE: ✅ set (Twenty4Storie3) — set in both Netlify env and PayFast sandbox dashboard 2026-05-17.
-- PAYFAST_SANDBOX: ✅ set to "true" in Netlify env — extra-copies-checkout.js uses this to select sandbox URL.
-- PAYFAST_USE_SANDBOX: hardcoded true in begin.html AND js/script.js — controls which PayFast URL index.html and begin.html post to.
+- PAYFAST_MERCHANT_ID: ✅ set (10048976) — SANDBOX credential only. Live credential is 34556163 — swap on launch day.
+- PAYFAST_MERCHANT_KEY: ✅ set (ipt18teru1agg) — SANDBOX credential only. Live credential is liduaqfvjfeox — swap on launch day.
+- PAYFAST_PASSPHRASE: ✅ set (Twenty4Storie3) — same value for both sandbox and live accounts. No change needed on launch day.
+- PAYFAST_SANDBOX: ✅ set to "true" in Netlify env — set to "false" on launch day.
+- PAYFAST_USE_SANDBOX: hardcoded true in begin.html AND js/script.js — set both to false on launch day.
+
+## PayFast credential map (confirmed 2026-05-20)
+| Label | Merchant ID | Key | Notes |
+|-------|-------------|-----|-------|
+| **LIVE account** | **34556163** | **liduaqfvjfeox** | Use on launch day |
+| Sandbox dashboard | 10048976 | ipt18teru1agg | Currently in Netlify |
+| Temp sandbox (origin unknown) | 10048842 | do7cmfwoagwjs | Was in Netlify pre-2026-05-17 |
+Live credentials were NEVER set in Netlify during sandbox work — they are untouched.
 
 ## ⚠ UNTESTED IN PRODUCTION — VERIFY ON FIRST LIVE CANCELLATION
 The PayFast subscription cancel API call (in send-story-queue.js `cancelPayFastSubscription()`) has NEVER run against a live subscription. Sandbox PayFast does not support this API call. When the first real subscriber cancels after launch, check the CANCELLATION PROCESSED alert at hello@24stories.co.za immediately. If it says "PayFast subscription cancelled ✓" — all good. If it says WARNING — cancel manually in the PayFast dashboard and flag for investigation.
@@ -43,19 +51,15 @@ PayFast sandbox auto-completes payments without showing a card entry form. In li
 3. Confirm SUBSCRIPTION RESTARTED alert arrives at hello@ with correct payment count
 If the restart link fails in live mode for any reason, the fallback is: cancel the subscription in the PayFast dashboard and have the subscriber sign up fresh via begin.html (Tamara manually sets PromptNumber to resume where they left off).
 
-## ⚠ LAUNCH DAY PAYFAST CREDENTIAL TASK — UNRESOLVED
-Tamara has two sets of PayFast credentials and does not know which belongs to the live account:
-- Set A: 10048842 / do7cmfwoagwjs (was in Netlify before 2026-05-17 — origin unknown)
-- Set B: 10048976 / ipt18teru1agg (from sandbox.payfast.co.za dashboard 2026-05-17)
-ACTION REQUIRED before launch: log in to payfast.co.za (LIVE, not sandbox) and confirm which Merchant ID and Key appear there. That set becomes the launch credentials.
-On launch day — swap ALL of the following simultaneously:
-1. PAYFAST_MERCHANT_ID → live value (netlify env:set)
-2. PAYFAST_MERCHANT_KEY → live value (netlify env:set)
-3. PAYFAST_PASSPHRASE → confirm live passphrase matches payfast.co.za dashboard (netlify env:set)
-4. PAYFAST_SANDBOX env var → remove or set to "false" (netlify env:set)
-5. begin.html line 651: PAYFAST_USE_SANDBOX = false
+## ⚠ LAUNCH DAY PAYFAST SWAP — RESOLVED, READY TO EXECUTE
+Live credentials confirmed 2026-05-20. Swap ALL of the following simultaneously on launch day:
+1. `netlify env:set PAYFAST_MERCHANT_ID 34556163`
+2. `netlify env:set PAYFAST_MERCHANT_KEY liduaqfvjfeox`
+3. PAYFAST_PASSPHRASE stays as Twenty4Storie3 — no change needed
+4. `netlify env:set PAYFAST_SANDBOX false`
+5. begin.html line 645: PAYFAST_USE_SANDBOX = false
 6. js/script.js line 65: PAYFAST_USE_SANDBOX = false
-7. Redeploy to Netlify
+7. Push to GitHub (auto-deploys to Netlify)
 
 ## Airtable Schema — Subscribers Table (locked field names)
 StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, StoryHelperEmail, GiftGiverName, GiftGiverEmail, FamilyEmails, DeliveryAddress, DeliveryPhone, Phone, SubscriptionStartDate, Status, PromptNumber, LibraryToken, LastPromptSentDate, BookFormCompleted, BookTitle, PortraitPhotoURL, PortraitCaption, DedicationText, EpigraphText, CoverColour, BookCompiledDate, BookSentToPrintDate, BookProductionStatus (formula — read only), PauseStartDate, ExtraCopies (number), SendDelayNotification (checkbox), GenerateChapterOrder (checkbox), BookDispatchEmailSent (checkbox)

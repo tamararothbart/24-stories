@@ -335,7 +335,17 @@
             margin-bottom: 18px;
         }
         .begin-submit:hover { background: #333; }
-        .begin-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+        .begin-submit:disabled { cursor: not-allowed; }
+        .begin-submit.loading {
+            background: var(--gold);
+            color: #fff;
+            opacity: 1;
+            animation: pulse-btn 1.4s ease-in-out infinite;
+        }
+        @keyframes pulse-btn {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.7; }
+        }
 
         /* Fine print below submit */
         .begin-fine {
@@ -869,8 +879,9 @@
     document.getElementById('beginSelfForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = document.getElementById('s-submitBtn');
-        btn.textContent = 'Sending…';
+        btn.textContent = 'Taking you to payment…';
         btn.disabled = true;
+        btn.classList.add('loading');
 
         var fullName    = document.getElementById('s-fullname').value.trim();
         var nickname    = document.getElementById('s-firstname').value.trim();
@@ -907,11 +918,13 @@
             } else {
                 btn.textContent = 'Something went wrong. Please try again.';
                 btn.disabled = false;
+                btn.classList.remove('loading');
             }
         })
         .catch(function() {
             btn.textContent = 'Something went wrong. Please try again.';
             btn.disabled = false;
+            btn.classList.remove('loading');
         });
     });
 
@@ -957,8 +970,9 @@
     document.getElementById('beginGiftForm').addEventListener('submit', function(e) {
         e.preventDefault();
         var btn = document.getElementById('g-submitBtn');
-        btn.textContent = 'Sending…';
+        btn.textContent = 'Taking you to payment…';
         btn.disabled = true;
+        btn.classList.add('loading');
 
         var giverName    = document.getElementById('g-giver-name').value.trim();
         var giverEmail   = gGiverEmail.value.trim();
@@ -1005,11 +1019,13 @@
             } else {
                 btn.textContent = 'Something went wrong. Please try again.';
                 btn.disabled = false;
+                btn.classList.remove('loading');
             }
         })
         .catch(function() {
             btn.textContent = 'Something went wrong. Please try again.';
             btn.disabled = false;
+            btn.classList.remove('loading');
         });
     });
 

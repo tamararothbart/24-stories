@@ -60,7 +60,7 @@
             <div class="nav-menu" id="navMenu">
                 <a href="#how-it-works">How It Works</a>
                 <a href="#pricing">Pricing</a>
-                <a href="#subscribe" class="btn btn-nav-cta">Get Started</a>
+                <a href="begin.html" class="btn btn-nav-cta">Get Started</a>
                 <a href="coaching.html">Your Story Coach</a>
                 <a href="events.html">Live Events</a>
             </div>
@@ -138,7 +138,7 @@
                 <p class="hero-quote">"After nourishment, shelter and companionship, stories are the thing we need most in the world."</p>
                 <p class="hero-quote-attr">— Philip Pullman</p>
                 <div class="hero-actions">
-                    <a href="#subscribe" class="btn btn-primary btn-lg">Give This Gift</a>
+                    <a href="begin.html?type=gift" class="btn btn-primary btn-lg">Give This Gift</a>
                     <a href="#how-it-works" class="btn btn-ghost btn-lg">See How It Works</a>
                 </div>
             </div>
@@ -444,7 +444,7 @@
             </div>
 
             <div class="section-cta reveal">
-                <a href="#subscribe" class="btn btn-primary btn-lg">Give This Gift</a>
+                <a href="begin.html?type=gift" class="btn btn-primary btn-lg">Give This Gift</a>
             </div>
         </div>
     </section>
@@ -781,8 +781,8 @@
                         <li>And at the end of the journey: a linen-bound hardcover book, printed on art paper with full-colour photographs, typeset with care, delivered to your door</li>
                     </ul>
                     <div class="pricing-ctas">
-                        <a href="#subscribe" data-payment="monthly" class="btn btn-primary btn-block btn-lg">Give This Gift</a>
-                        <a href="#subscribe" data-payment="lump_sum" class="btn-outline-dark">Get Started</a>
+                        <a href="begin.html?type=gift" class="btn btn-primary btn-block btn-lg">Give This Gift</a>
+                        <a href="begin.html?type=self" class="btn-outline-dark">Get Started</a>
                     </div>
                     <p class="pricing-footnote">Monthly billing stops automatically after 6 payments. The book is included &mdash; no additional charge at the end.<br>Questions? <a href="https://wa.me/27823758320" style="color:#B8976A;"><span class="wa-mobile">WhatsApp us</span><span class="wa-desktop">WhatsApp: +27 82 375 8320</span></a> or write to <a href="mailto:hello@24stories.co.za" style="color:#B8976A;">hello@24stories.co.za</a></p>
                 </div>
@@ -1083,7 +1083,7 @@
         <div style="max-width:600px; margin:0 auto;">
             <p style="font-family:'Cormorant Garamond',serif; font-size:13px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:#B8976A; margin:0 0 28px;">Because some stories deserve to be kept forever.</p>
             <h2 style="font-family:'Playfair Display',serif; font-size:clamp(1.7rem,4vw,2.4rem); font-weight:400; color:#1A1A1A; line-height:1.45; margin:0 0 40px;">The gift is only possible<br>while there is still time to give it.</h2>
-            <a href="#subscribe" style="display:inline-block; background:#1A1A1A; color:#F7F5F2; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; padding:16px 44px; border-radius:2px;">Give This Gift</a>
+            <a href="begin.html?type=gift" style="display:inline-block; background:#1A1A1A; color:#F7F5F2; font-family:'Inter',sans-serif; font-size:13px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; padding:16px 44px; border-radius:2px;">Give This Gift</a>
         </div>
     </section>
 
@@ -1228,7 +1228,7 @@
                     <p class="footer-col-title">Navigate</p>
                     <a href="#how-it-works">How It Works</a>
                     <a href="#pricing">Pricing</a>
-                    <a href="#subscribe">Give This Gift</a>
+                    <a href="begin.html?type=gift">Give This Gift</a>
                 </div>
                 <div>
                     <p class="footer-col-title">Support</p>
@@ -1538,15 +1538,7 @@
             document.body.style.overflow = '';
         });
 
-        // All Get Started / Give This Gift buttons on mobile open the form overlay
-        document.querySelectorAll('a[href="#subscribe"], a.btn-nav-cta').forEach(function(btn) {
-            btn.addEventListener('click', function(e) {
-                if (window.innerWidth <= 768) {
-                    e.preventDefault();
-                    openMobileForm();
-                }
-            });
-        });
+        // Get Started / Give This Gift buttons link directly to begin.html on all devices
 
         // Mobile form submission
         document.getElementById('mobileInterestForm').addEventListener('submit', function(e) {

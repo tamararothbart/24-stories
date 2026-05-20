@@ -1549,8 +1549,8 @@ h1.hero-heading, .hero-content h1 {
     font-style: italic;
 }
 .form-optional {
-    font-size: 11px;
-    color: #aaa;
+    font-size: 13px;
+    color: #555;
     text-transform: lowercase;
     letter-spacing: normal;
     font-family: Georgia, serif;

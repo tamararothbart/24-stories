@@ -81,8 +81,6 @@ exports.handler = async function(event) {
     return_url:    RETURN_URL,
     cancel_url:    CANCEL_URL,
     notify_url:    NOTIFY_URL,
-    name_first:    storytellerFirstName.trim(),
-    email_address: storytellerEmail.trim().toLowerCase(),
     m_payment_id:  recordId,
     amount:        isMonthly ? '2795.00' : '16770.00',
     item_name:        '24 Stories — recurring payment, stops automatically after 6 months',

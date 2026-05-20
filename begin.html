@@ -179,10 +179,6 @@
             /* Submit button — full width, comfortable touch target */
             .begin-submit { width: 100%; padding: 16px; font-size: 12px; }
 
-            /* Coaching */
-            .begin-coaching { margin-top: 20px; padding-top: 16px; }
-            .begin-coaching p { font-size: 13px; }
-            .begin-coaching a { font-size: 13px; }
         }
         .begin-path-card {
             display: flex;
@@ -366,34 +362,6 @@
             line-height: 1.7;
         }
         .begin-qs a { color: #888; }
-
-        /* Coaching note */
-        .begin-coaching {
-            margin-top: 28px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-        .begin-coaching-head {
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 12px;
-        }
-        .begin-coaching p {
-            font-size: 14px;
-            color: var(--text-light);
-            line-height: 1.75;
-            max-width: 440px;
-            margin: 0 auto 14px;
-        }
-        .begin-coaching a {
-            font-size: 14px;
-            color: var(--text-mid);
-            text-decoration: underline;
-        }
 
         /* Footer */
         .begin-footer {
@@ -615,13 +583,6 @@
             </div>
         </div>
 
-        <!-- Coaching note -->
-        <div class="begin-coaching">
-            <p class="begin-coaching-head">Story coaching</p>
-            <p>New subscribers can receive 20% off their first story coaching session when booked with sign-up.</p>
-            <a href="coaching.html">Visit story coaching &rarr;</a>
-        </div>
-
     </div><!-- /begin-wrap -->
 
     <!-- Footer -->
@@ -672,13 +633,11 @@
         var hero     = document.querySelector('.begin-hero');
         var cards    = document.querySelector('.begin-path-cards');
         var intro    = document.querySelector('.begin-intro');
-        var coaching = document.querySelector('.begin-coaching');
         var wrap     = document.querySelector('.begin-wrap');
 
         if (hero)     hero.style.display     = 'none';
         if (cards)    cards.style.display    = 'none';
         if (intro)    intro.style.display    = 'none';
-        if (coaching) coaching.style.display = 'none';
         if (wrap)     wrap.classList.add('form-mode');
 
         if (type === 'self') {
@@ -698,7 +657,6 @@
         var hero     = document.querySelector('.begin-hero');
         var cards    = document.querySelector('.begin-path-cards');
         var intro    = document.querySelector('.begin-intro');
-        var coaching = document.querySelector('.begin-coaching');
         var wrap     = document.querySelector('.begin-wrap');
 
         secSelf.style.display = 'none';
@@ -706,7 +664,6 @@
         if (hero)     hero.style.display     = '';
         if (cards)    cards.style.display    = '';
         if (intro)    intro.style.display    = '';
-        if (coaching) coaching.style.display = '';
         if (wrap)     wrap.classList.remove('form-mode');
 
         window.scrollTo({ top: 0, behavior: 'auto' });
@@ -714,7 +671,7 @@
 
     // Show subscribed state if returning from PayFast with ?subscribed=1
     if (new URLSearchParams(window.location.search).get('subscribed') === '1') {
-        document.querySelectorAll('.begin-hero, .begin-path-cards, .begin-intro, .begin-coaching, #section-self, #section-gift').forEach(function(el) {
+        document.querySelectorAll('.begin-hero, .begin-path-cards, .begin-intro, #section-self, #section-gift').forEach(function(el) {
             if (el) el.style.display = 'none';
         });
         var secSub = document.getElementById('section-subscribed');

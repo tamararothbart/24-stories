@@ -329,7 +329,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 
 /* ── TABLE OF CONTENTS ── */
-.toc-page { padding: 58px 62px 72px 68px; }
+.toc-page { padding: 68px 69px 89px 92px; }
 .toc-heading {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 38px;
@@ -366,7 +366,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 
 /* ── CHAPTER ── */
-.chapter-page { padding: 58px 62px 72px 68px; }
+.chapter-page { padding: 68px 69px 89px 92px; }
 .chapter-title-block { margin-top: 62px; margin-bottom: 108px; }
 .chapter-title {
   font-family: 'Bebas Neue', sans-serif;

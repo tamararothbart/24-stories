@@ -375,7 +375,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
   color: #1A1A1A;
   text-align: justify;
 }
-.chapter-text p { margin-bottom: 20px; }
+.chapter-text p { margin-bottom: 20px; orphans: 3; widows: 3; }
 .chapter-text p:last-child { margin-bottom: 0; }
 @media print {
   .chapter-page { padding: 14mm 14mm 17mm 15mm; }
@@ -408,6 +408,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
   line-height: 19px;
   font-style: italic;
   color: #3A3A3A;
+  text-align: left;
 }
 @media print {
   .photo-page-inner { top: 16.5mm; left: 16.5mm; right: 16.5mm; height: 115mm; }

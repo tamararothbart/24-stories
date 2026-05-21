@@ -101,7 +101,7 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 ## Netlify Functions (20 total)
 
 **Book production:**
-- `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only), title page, portrait, dedication, epigraph, ToC, 26 chapters (ChapterOrder sort), colophon. Print format: A5 148mm × 210mm, Georgia/Cormorant Garamond, @page CSS margins. Admin page: `compile-book.html`.
+- `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only, hidden from PDF), title page, portrait, dedication, epigraph, ToC, chapters (ChapterOrder sort), colophon. Typography: Bebas Neue (Google Fonts) for all title/display text; Georgia serif for all body text — NO Cormorant Garamond. Print: A5 148mm × 210mm. Mirror margins (case-bound hardcover): recto 17mm top / 15mm outer / 22mm bottom / 20mm spine; verso 17mm top / 20mm outer / 22mm bottom / 15mm spine. Full-bleed named @page (margin:0, page:full-bleed) for cover/portrait/photo/dedication/epigraph/colophon. Dates never appear in book — StoryCircaDate is sorting only. Images always on own page after chapter text page. Admin page: compile-book.html. Test: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
 
 **Scheduled (cron):**
 - `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-9 at week 24
@@ -415,33 +415,96 @@ External orderers (book-order.html) receive no dispatch notification. Email-12/1
 ### Launch day only — ready to execute
 - PayFast credential swap documented in CLAUDE.md above. Do not do this until launch day.
 
-## Session 22 — Book Production Process — COMPLETE (2026-05-21)
+## Session 22 — Book Production: book-compile.js — COMPLETE (2026-05-21)
 
 ### Built
-- **book-compile.js** (new Netlify Function): compiles all 26 stories for a subscriber into a print-ready HTML book document.
-  - GET `?id=[recordId]` → returns full HTML for browser preview + Chrome → Print → PDF
-  - POST `{ id: [recordId] }` → emails HTML attachment to hello@, sets BookCompiledDate in Airtable
-  - Document sections (in order): printer spec sheet (screen-only, hidden from PDF), title page, portrait page, dedication page, epigraph page (if entered), table of contents, 26 chapters sorted by ChapterOrder, colophon
-  - Story text: FinalStory → EditedText → StoryText fallback per chapter
-  - Print format: A5 148mm × 210mm, @page CSS margin 20mm/18mm/24mm/24mm (top/outer/bottom/inner)
-  - Font: Cormorant Garamond (Google Fonts) with Georgia fallback
-  - Chapter numbers in words (One, Two... Twenty-Six)
-  - Circa dates formatted (YYYY-MM → "Month Year"; YYYY → "Year")
-  - Text to HTML: paragraphs split on double newlines, first paragraph no indent, subsequent paragraphs 5mm indent
-  - BOOK COMPILED alert to hello@ includes: chapter count, estimated pages, compiled date, cover colour, copies, delivery address, PDF export instructions, and the book HTML as attachment
-- **compile-book.html** (new admin page): Tamara enters subscriber Record ID → Preview in browser (opens new tab via GET) or Compile & email (POST)
+- **book-compile.js** — Netlify Function. Compiles all stories for a subscriber into a print-ready HTML book document.
+  - GET `?id=[recordId]` → returns full HTML for browser preview + Chrome → Print → Save as PDF
+  - POST `{id}` → emails HTML as .html attachment to hello@, sets BookCompiledDate in Airtable
+  - Admin page: `compile-book.html`
+- **compile-book.html** — Tamara admin page. Enter subscriber Record ID → Preview in browser (GET) or Compile & email (POST).
 
-### Book production workflow (in operations manual as Step 1.5)
-1. Tick GenerateChapterOrder → review CHAPTER ORDER GENERATED alert (existing Step 1)
-2. Final edits in Airtable Stories → FinalStory field
-3. Open compile-book.html → paste Record ID → Preview → review every chapter
-4. Fix anything in Airtable → recompile as many times as needed
-5. Compile & email → HTML attachment arrives at hello@
-6. Open attachment in Chrome → File → Print → Save as PDF (A5, margins: None, background graphics: On)
-7. Send PDF to printer with spec from alert
-8. Tick BookDispatchEmailSent in Airtable (existing Step 2)
+### Book structure (page order, fixed)
+1. Printer spec sheet — `.spec-sheet.no-print` — screen only, hidden from PDF
+2. Title page — full-bleed dark linen (CoverColour), Bebas Neue title + author block
+3. Portrait photograph — full-bleed, no caption (PortraitPhotoURL, only if set)
+4. Dedication page — fixed, centred, italic Georgia (DedicationText, only if set)
+5. Epigraph page — fixed, centred, italic Georgia (EpigraphText, only if set)
+6. Table of contents — Bebas Neue "Contents" heading, chapter numbers + titles, NO dates
+7. Chapters × N — each: one chapter-page (title block + story text); if image: separate photo-page after text page
+8. Colophon — bottom-centred, "This book was made for [Name]. Produced by 24 Stories."
 
-### No Airtable schema changes needed — uses existing fields only
+### Typography — FINAL, LOCKED
+- **ALL title/display/heading text: Bebas Neue** (Google Font, loaded via link tag in `<head>`)
+- **ALL body text: Georgia, 'Times New Roman', serif** — system font, always available
+- **NEVER use Cormorant Garamond, NEVER use Inter in 24 Stories books**
+- Chapter title: Bebas Neue 68px / 42pt, line-height 0.93, letter-spacing 0.01em, uppercase, `text-transform: uppercase`
+- Chapter body: Georgia 17.5px / 11pt, line-height 30px / 19pt, `text-align: justify`
+- Orphans: 3 / Widows: 3 — `orphans: 3; widows: 3` on `.chapter-text p`
+- Photo caption: Georgia italic 12.5px / 9pt, line-height 19px / 14.5pt, `text-align: left`
+- Dedication: Georgia italic 13.5px / 10pt, line-height 1.85
+- Epigraph: Georgia italic 14px / 10.5pt, line-height 1.9
+- ToC heading: Bebas Neue 38px / 24pt, letter-spacing 0.02em
+- ToC chapter number: Georgia 11px / 8pt, gold #B8976A
+- ToC chapter title: Georgia 14px / 10pt
+- Author name on cover: Bebas Neue 24px / 15pt, letter-spacing 0.09em, cream #F4F2EE
+- Cover subtitle: Georgia 11px / 7.5pt, "A Collection of Stories", uppercase, faded cream
+
+### Print format — A5 148mm × 210mm
+**Mirror margins (standard for case-bound hardcover — spine always wider):**
+- **Recto (odd/right-hand pages):** top 17mm / outer (fore-edge) 15mm / bottom 22mm / inner (spine) 20mm
+- **Verso (even/left-hand pages):** top 17mm / outer (fore-edge) 20mm / bottom 22mm / inner (spine) 15mm
+- CSS `@page { margin: 17mm 15mm 22mm 20mm; }` — carries recto as fallback if browser ignores `:left/:right`
+- CSS `@page :right { margin: 17mm 15mm 22mm 20mm; }` — recto
+- CSS `@page :left  { margin: 17mm 20mm 22mm 15mm; }` — verso
+
+**Full-bleed pages (cover, portrait, photo, dedication, epigraph, colophon):**
+- CSS `@page full-bleed { size: 148mm 210mm; margin: 0; }`
+- CSS `.fixed-page { page: full-bleed; }` in `@media print`
+- These pages have content to the trim edge — no margin
+
+**Screen preview proportions match print exactly:**
+- Screen page: 680×845px, background #F4F2EE
+- Scale factor: ~4.57px per mm
+- Chapter padding screen: 68px top / 69px outer / 89px bottom / 92px inner (matches print margin ratios)
+- Fixed pages: 845px height screen / 210mm print
+
+### Dates — NEVER appear in the book
+- StoryCircaDate is used ONLY by GenerateChapterOrder to sort chapters
+- Dates do NOT appear in chapters, chapter titles, ToC, or anywhere in the compiled book
+- `formatCirca()` helper exists in code but is not called from any book-rendering function — do not wire it in
+
+### Images — always own page, always after chapter text
+- Every chapter image appears on its own `.fixed-page` div, placed AFTER the chapter text page
+- NEVER inline within chapter text
+- Photo page layout: `photo-page-inner` — absolute top 76px / left 76px / right 76px / height 530px (screen); top 16.5mm / left 16.5mm / right 16.5mm / height 115mm (print)
+- Caption: absolute top 660px (screen) / top 143mm (print), italic, text-align left
+
+### Cover page
+- Backgrounds by CoverColour: Black → #1A1A1A / Blue → #1C2B3F / Red → #3A0E0E
+- Title block: top-left. `splitTitle()` splits title into ≤2 lines at word midpoint
+- Author block: bottom-right. Name in Bebas Neue, "A Collection of Stories" in small caps below
+- Cover screen positions: title-block top 220px left 68px; author-block bottom 160px right 68px
+- Cover print positions: title-block top 52mm left 15mm; author-block bottom 38mm right 15mm
+
+### Text content fallback chain (per chapter)
+FinalStory → EditedText → StoryText
+
+### Airtable fields used
+**Subscribers:** StorytellerFirstName, StorytellerSurname, BookTitle, PortraitPhotoURL, DedicationText, EpigraphText, CoverColour, DeliveryAddress, ExtraCopies, BookCompiledDate
+**Stories (per chapter):** ChapterOrder, ChapterTitle, FinalStory, EditedText, StoryText, StoryImageURL, StoryImageCaption
+
+### No Airtable schema changes this session — uses existing fields only
+(PortraitCaption exists in Subscribers schema but is intentionally unused — portrait is always full bleed, no caption, by design.)
+
+### Known limitations
+- `@page :left/:right` Chrome support not yet verified in production. Verify alternating spine margins on first printed proof. Fallback is recto margins on all pages (acceptable).
+- Page numbers not implemented — static HTML cannot accurately number dynamic-length chapters. Add in InDesign pass or by printer if needed.
+- Bebas Neue requires internet connection at Chrome PDF export time. Once exported, fonts are embedded in the PDF.
+
+### Test preview (use Tamara subscriber — never Elizabeth who is Paused)
+- Admin page: https://24stories.co.za/compile-book.html → enter `recj2fKFXLRmGNLn5` → Preview in browser
+- Direct function URL: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
 
 ## Launch Dates
 - 8 June 2026: Live storytelling event

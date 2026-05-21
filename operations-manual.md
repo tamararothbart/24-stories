@@ -629,12 +629,12 @@ Bookmark this page. You will use it once per subscriber at book production time.
 The preview is the complete book as it will be printed, displayed page by page in your browser:
 
 - Printer specification panel (amber box at top — does not appear in the PDF)
-- Title page
-- Portrait photograph and caption
-- Dedication
+- Title page (dark linen cover in the subscriber's chosen colour, Bebas Neue title and author name)
+- Portrait photograph (full page, full bleed — no caption)
+- Dedication (if the subscriber entered one)
 - Epigraph (if the subscriber entered one)
-- Table of contents — all 26 chapters in order, with titles and circa dates
-- All 26 chapters — each with chapter number, title, circa date, image (if submitted), and story text
+- Table of contents — all chapters in order, numbered, with titles only (no dates — circa dates are for chapter ordering only, they do not appear in the book)
+- All chapters — each with chapter title and story text; if the subscriber uploaded a photo for that story, it appears on its own dedicated page immediately after the story text, with caption below
 - Colophon
 
 **WHICH TEXT IS USED:** FinalStory field if filled; otherwise EditedText. Always check FinalStory is correct before compiling.
@@ -668,18 +668,100 @@ Click **Compile & email** on compile-book.html.
 
 The printer specification panel does not appear in the exported PDF. Only the book content exports.
 
-**SENDING TO THE PRINTER:**
-
-Send the PDF to the printer with these specifications:
-
-- Trim size: 148mm × 210mm (A5 portrait)
-- Binding: Case-bound hardcover — [CoverColour] linen cloth, no dust jacket
-- Interior: approx [N] pages (shown in BOOK COMPILED alert)
-- Paper: 90gsm uncoated cream
-- Quantity: [ExtraCopies + 1 total copies] (shown in alert)
-- Images: colour RGB
+**SENDING TO THE PRINTER — PRINT SPECIFICATION AND INSTRUCTIONS**
 
 You can recompile as many times as needed before clicking BookDispatchEmailSent. Each recompile overwrites BookCompiledDate with today's date.
+
+When the PDF is ready, email it to your printer. **Attach the PDF as a file. Paste the specification below into the body of the email.** Fill in the bracketed fields from the BOOK COMPILED alert that arrived at hello@ when you clicked Compile & email.
+
+---
+
+**HOW TO SEND — EMAIL TEMPLATE**
+
+Subject: `Print order — [Subscriber First Name] [Surname] — [Book Title] — [Date]`
+
+Paste this into the body, filling in each [bracket]:
+
+---
+
+Please print the following book to the specifications below. The print-ready PDF is attached.
+
+**SUBSCRIBER / DELIVERY**
+Name: [Subscriber full name]
+Delivery address: [Delivery address from BOOK COMPILED alert]
+Total copies: [Total copies from alert — subscriber copy plus extra copies]
+
+---
+
+**PRINT SPECIFICATION — 24 STORIES HARDCOVER BOOK**
+
+**FORMAT**
+Trim size: 148 × 210mm (A5 portrait)
+Orientation: Portrait
+Interior page count: Approximately [estimated pages from alert] pages (exact count from PDF)
+
+**BINDING**
+Type: Case-bound hardcover (sewn binding preferred; perfect binding not acceptable)
+Endpapers: Plain cream to match interior paper
+No dust jacket
+
+**COVER / CASE**
+Cloth: [CoverColour] linen — Black / Blue / Red (as specified)
+Cover laminate: None — cloth cover, no laminate
+Spine: Title and author name in foil or debossed lettering per your house template
+No cover image — cloth and lettering only
+
+**INTERIOR PAPER**
+Weight: 90gsm uncoated cream (or nearest equivalent — not bright white)
+If 90gsm is unavailable: 80gsm uncoated cream is acceptable. Do not substitute coated stock.
+
+**COLOUR**
+Text and chapter headings: Black, single-colour interior
+Photographs and images: Colour RGB (embedded in PDF, Cloudinary-hosted originals available on request)
+If full-colour interior printing is not available: greyscale is acceptable for photographic pages. Advise before printing.
+
+**MARGINS**
+Margins are set in the PDF via CSS paged media. Do not add or alter margins in your print software.
+The PDF uses mirror margins (wider at the spine — standard for case-bound hardcover):
+- Spine (inner) margin: 20mm
+- Fore-edge (outer) margin: 15mm
+- Head (top) margin: 17mm
+- Foot (bottom) margin: 22mm
+Full-bleed pages (cover, portrait, chapter photos, dedication, colophon) have zero margin — content to trim edge.
+
+**BLEED**
+The PDF does not include a bleed allowance. If your workflow requires 3mm bleed, please add it in your pre-press software. Advise if you need us to supply a bleed-extended PDF instead.
+
+**FILE**
+Format: PDF (Chrome-generated; fonts embedded; RGB colour space)
+Font note: Bebas Neue (display/headings) and Georgia (body text) are both embedded in the PDF. No font substitution required.
+Resolution: Images are supplied at Cloudinary's full-resolution output (minimum 1,000px on shortest edge). If any image falls below 150dpi at A5 print size, advise before printing.
+
+**PROOFING**
+A digital proof (PDF soft proof or screen proof) is required before going to press.
+Send proof to: hello@24stories.co.za
+Subject line: Proof — [Subscriber name] — [Book title]
+We will respond within 48 hours.
+Do not proceed to press without written approval from hello@24stories.co.za.
+
+**DELIVERY**
+Ship to the delivery address above via a tracked courier service.
+Delivery timeline: Please advise estimated dispatch date and tracking details by email once the book has been printed and handed to the courier.
+If there is any delay beyond your quoted turnaround, advise us immediately at hello@24stories.co.za before the delivery date passes.
+
+**CONTACT**
+hello@24stories.co.za
+24stories.co.za
+
+---
+
+This specification accompanies every 24 Stories print order. If anything is unclear or if you need the source files in a different format, write to hello@24stories.co.za before printing.
+
+---
+
+**AFTER SENDING TO THE PRINTER**
+
+Once the email is sent and the printer has confirmed receipt, return to Airtable and tick **BookDispatchEmailSent** (Step 2 below). This fires the subscriber's "your book is on its way" email and starts the delivery tracking alerts.
 
 ---
 

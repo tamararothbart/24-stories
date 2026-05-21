@@ -608,6 +608,81 @@ Only when you are satisfied with the chapter order and final edits, proceed to S
 
 ---
 
+### STEP 1.5 — COMPILE THE BOOK (your trigger)
+
+When you are satisfied with the chapter order and your final edits, compile the book.
+
+**WHERE TO GO:** `24stories.co.za/compile-book.html`
+
+Bookmark this page. You will use it once per subscriber at book production time.
+
+**WHAT TO DO:**
+
+1. Open Airtable → Subscribers table → find the subscriber's record
+2. Copy the Record ID from the URL bar (format: `recXXXXXXXX`)
+3. Go to `24stories.co.za/compile-book.html`
+4. Paste the Record ID into the field
+5. Click **Preview in browser** — the complete book opens in a new tab
+
+**WHAT THE PREVIEW SHOWS:**
+
+The preview is the complete book as it will be printed, displayed page by page in your browser:
+
+- Printer specification panel (amber box at top — does not appear in the PDF)
+- Title page
+- Portrait photograph and caption
+- Dedication
+- Epigraph (if the subscriber entered one)
+- Table of contents — all 26 chapters in order, with titles and circa dates
+- All 26 chapters — each with chapter number, title, circa date, image (if submitted), and story text
+- Colophon
+
+**WHICH TEXT IS USED:** FinalStory field if filled; otherwise EditedText. Always check FinalStory is correct before compiling.
+
+**IF ANYTHING NEEDS FIXING:**
+
+1. Go to Airtable → Stories table → open the relevant story record
+2. Edit FinalStory (or EditedText if FinalStory is empty) directly
+3. Return to compile-book.html → re-enter the Record ID → Preview again
+4. Repeat until the book is correct
+
+**WHEN THE BOOK IS READY:**
+
+Click **Compile & email** on compile-book.html.
+
+**What happens automatically (within seconds):**
+
+- The complete book HTML file is emailed to **hello@24stories.co.za** as an attachment (filename: BookTitle.html)
+- **BookCompiledDate** is set to today in Airtable
+- The BOOK COMPILED alert arrives at hello@ with the printer specification and your next steps
+
+**EXPORTING THE PRINT-READY PDF:**
+
+1. Open the HTML attachment in **Chrome** (not Safari, not Mail preview — Chrome only)
+2. Review the complete book one final time
+3. File → Print → **Save as PDF**
+   - Paper size: **A5**
+   - Margins: **None** (CSS handles all margins)
+   - Background graphics: **On**
+4. Save the PDF — this is your print-ready file
+
+The printer specification panel does not appear in the exported PDF. Only the book content exports.
+
+**SENDING TO THE PRINTER:**
+
+Send the PDF to the printer with these specifications:
+
+- Trim size: 148mm × 210mm (A5 portrait)
+- Binding: Case-bound hardcover — [CoverColour] linen cloth, no dust jacket
+- Interior: approx [N] pages (shown in BOOK COMPILED alert)
+- Paper: 90gsm uncoated cream
+- Quantity: [ExtraCopies + 1 total copies] (shown in alert)
+- Images: colour RGB
+
+You can recompile as many times as needed before clicking BookDispatchEmailSent. Each recompile overwrites BookCompiledDate with today's date.
+
+---
+
 ### STEP 2 — BOOK DISPATCH (your trigger)
 
 Tick **BookDispatchEmailSent** on the subscriber's Airtable record only when you are ready to send the book to print.

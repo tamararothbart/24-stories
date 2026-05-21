@@ -92,11 +92,16 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - `index.html` — main site (pricing, FAQ, signup form, resend library link)
 - `library.html` — subscriber story library + book prep (reads/writes via Netlify Functions)
 - `tell.html` — story submission (voice + typed, Claude cleanup, Cloudinary upload)
+- `compile-book.html` — Tamara admin: preview + compile subscriber book (book-compile.js)
+- `accelerated-admin.html` — Tamara admin: send accelerated payment link
 - `events.html` — live storytelling events (separate product)
 - `24stories-emails/` — 16 email HTML files (email-1 through email-16)
 - `netlify/functions/` — all serverless automation
 
 ## Netlify Functions (20 total)
+
+**Book production:**
+- `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only), title page, portrait, dedication, epigraph, ToC, 26 chapters (ChapterOrder sort), colophon. Print format: A5 148mm × 210mm, Georgia/Cormorant Garamond, @page CSS margins. Admin page: `compile-book.html`.
 
 **Scheduled (cron):**
 - `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-9 at week 24
@@ -409,6 +414,34 @@ External orderers (book-order.html) receive no dispatch notification. Email-12/1
 
 ### Launch day only — ready to execute
 - PayFast credential swap documented in CLAUDE.md above. Do not do this until launch day.
+
+## Session 22 — Book Production Process — COMPLETE (2026-05-21)
+
+### Built
+- **book-compile.js** (new Netlify Function): compiles all 26 stories for a subscriber into a print-ready HTML book document.
+  - GET `?id=[recordId]` → returns full HTML for browser preview + Chrome → Print → PDF
+  - POST `{ id: [recordId] }` → emails HTML attachment to hello@, sets BookCompiledDate in Airtable
+  - Document sections (in order): printer spec sheet (screen-only, hidden from PDF), title page, portrait page, dedication page, epigraph page (if entered), table of contents, 26 chapters sorted by ChapterOrder, colophon
+  - Story text: FinalStory → EditedText → StoryText fallback per chapter
+  - Print format: A5 148mm × 210mm, @page CSS margin 20mm/18mm/24mm/24mm (top/outer/bottom/inner)
+  - Font: Cormorant Garamond (Google Fonts) with Georgia fallback
+  - Chapter numbers in words (One, Two... Twenty-Six)
+  - Circa dates formatted (YYYY-MM → "Month Year"; YYYY → "Year")
+  - Text to HTML: paragraphs split on double newlines, first paragraph no indent, subsequent paragraphs 5mm indent
+  - BOOK COMPILED alert to hello@ includes: chapter count, estimated pages, compiled date, cover colour, copies, delivery address, PDF export instructions, and the book HTML as attachment
+- **compile-book.html** (new admin page): Tamara enters subscriber Record ID → Preview in browser (opens new tab via GET) or Compile & email (POST)
+
+### Book production workflow (in operations manual as Step 1.5)
+1. Tick GenerateChapterOrder → review CHAPTER ORDER GENERATED alert (existing Step 1)
+2. Final edits in Airtable Stories → FinalStory field
+3. Open compile-book.html → paste Record ID → Preview → review every chapter
+4. Fix anything in Airtable → recompile as many times as needed
+5. Compile & email → HTML attachment arrives at hello@
+6. Open attachment in Chrome → File → Print → Save as PDF (A5, margins: None, background graphics: On)
+7. Send PDF to printer with spec from alert
+8. Tick BookDispatchEmailSent in Airtable (existing Step 2)
+
+### No Airtable schema changes needed — uses existing fields only
 
 ## Launch Dates
 - 8 June 2026: Live storytelling event

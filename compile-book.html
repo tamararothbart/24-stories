@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Compile Book — 24 Stories</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #E8E4DF; font-family: Georgia, serif; display: flex; align-items: flex-start; justify-content: center; min-height: 100vh; padding: 32px 24px 60px; }
+    .card { background: #F7F5F2; padding: 48px 40px; max-width: 560px; width: 100%; color: #1A1A1A; }
+    img { display: block; margin: 0 0 32px auto; }
+    h1 { font-size: 22px; font-weight: normal; margin: 0 0 6px; }
+    .sub { font-size: 14px; color: #777; margin: 0 0 28px; line-height: 1.7; }
+    hr { border: none; border-top: 1px solid #D0CCC6; margin: 28px 0; }
+    label { display: block; font-size: 12px; letter-spacing: 0.11em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 8px; }
+    input[type=text] { width: 100%; border: 1px solid #D0CCC6; background: #fff; padding: 12px 14px; font-size: 16px; font-family: Georgia, serif; color: #1A1A1A; outline: none; margin-bottom: 6px; }
+    input:focus { border-color: #B8976A; }
+    .field-note { font-size: 12px; color: #999; line-height: 1.6; margin-bottom: 20px; }
+    .btn-row { display: flex; gap: 12px; margin-top: 4px; }
+    .btn-preview { background: #fff; color: #1A1A1A; border: 1px solid #1A1A1A; padding: 13px 22px; font-size: 15px; font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.02em; flex: 1; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+    .btn-preview:hover { background: #F0EDE8; }
+    .btn-compile { background: #1A1A1A; color: #fff; border: none; padding: 13px 22px; font-size: 15px; font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.02em; flex: 1; }
+    .btn-compile:hover { background: #333; }
+    .btn-compile:disabled { background: #999; cursor: not-allowed; }
+    .result { margin-top: 20px; padding: 18px 22px; font-size: 14px; line-height: 1.75; display: none; }
+    .result.success { background: #EAF4EA; color: #1D5C1D; border-left: 4px solid #2A6B2A; }
+    .result.error   { background: #FDECEA; color: #7A2020; border-left: 4px solid #C0392B; }
+    .steps { margin: 0; padding-left: 18px; }
+    .steps li { font-size: 13px; color: #555; line-height: 1.8; margin-bottom: 2px; }
+    .steps li strong { color: #1A1A1A; }
+    .section-label { font-size: 12px; letter-spacing: 0.11em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 10px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="160" height="36">
+    <h1>Compile a subscriber's book</h1>
+    <p class="sub">Use this page after you have generated and reviewed the chapter order. Compiling assembles all stories, images, and book details into a print-ready document.</p>
+
+    <hr>
+
+    <label for="subscriberId">Subscriber Airtable Record ID</label>
+    <input type="text" id="subscriberId" placeholder="recXXXXXXXXXXXXXX" autocomplete="off" spellcheck="false">
+    <p class="field-note">Find this in Airtable: open the subscriber record — the ID is in the URL bar (starts with "rec").</p>
+
+    <div class="btn-row">
+      <a class="btn-preview" id="previewBtn" href="#" target="_blank" onclick="return openPreview()">Preview in browser &#8599;</a>
+      <button class="btn-compile" id="compileBtn" onclick="compileAndEmail()">Compile &amp; email &#8594;</button>
+    </div>
+
+    <div class="result" id="result"></div>
+
+    <hr>
+
+    <p class="section-label">What each action does</p>
+    <ol class="steps">
+      <li><strong>Preview in browser</strong> — opens the complete book in a new tab so you can review all chapters, images, and order before sending to print. The printer specification panel appears at the top of the preview and is automatically hidden when you export to PDF.</li>
+      <li><strong>Compile &amp; email</strong> — sends the complete HTML book as an attachment to hello@24stories.co.za and sets BookCompiledDate in Airtable. Open the attachment in Chrome to export the print-ready PDF.</li>
+    </ol>
+
+    <hr>
+
+    <p class="section-label">After compiling</p>
+    <ol class="steps">
+      <li>Open the attached HTML file in <strong>Chrome</strong></li>
+      <li>Review every chapter — content, images, titles, order</li>
+      <li>If anything needs fixing: edit in Airtable → recompile here</li>
+      <li>File → Print → <strong>Save as PDF</strong><br>
+        <em style="font-size:12px;color:#888;">Paper: A5 &nbsp;|&nbsp; Margins: None &nbsp;|&nbsp; Background graphics: On</em></li>
+      <li>Send PDF to printer</li>
+      <li>Return to Airtable → tick <strong>BookDispatchEmailSent</strong></li>
+    </ol>
+  </div>
+
+  <script>
+    function getSubscriberId() {
+      return document.getElementById('subscriberId').value.trim();
+    }
+
+    function openPreview() {
+      var id = getSubscriberId();
+      if (!id) {
+        showResult('error', 'Enter a subscriber record ID first.');
+        return false;
+      }
+      var url = '/.netlify/functions/book-compile?id=' + encodeURIComponent(id);
+      document.getElementById('previewBtn').href = url;
+      return true;
+    }
+
+    async function compileAndEmail() {
+      var id = getSubscriberId();
+      if (!id) {
+        showResult('error', 'Enter a subscriber record ID first.');
+        return;
+      }
+
+      var btn = document.getElementById('compileBtn');
+      btn.disabled = true;
+      btn.textContent = 'Compiling…';
+      document.getElementById('result').style.display = 'none';
+
+      try {
+        var res  = await fetch('/.netlify/functions/book-compile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: id })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          showResult('success',
+            '<strong>Book compiled for ' + esc(data.name) + '</strong><br>' +
+            data.chapters + ' chapters &nbsp;&bull;&nbsp; BookCompiledDate set to ' + esc(data.compiled) + '<br><br>' +
+            'The book file has been emailed to hello@24stories.co.za as an attachment.<br>' +
+            'Open the attachment in Chrome to review and export the print-ready PDF.'
+          );
+        } else {
+          showResult('error', data.error || 'Something went wrong. Check Netlify logs.');
+        }
+      } catch(e) {
+        showResult('error', 'Network error — check your connection and try again.');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Compile & email →';
+    }
+
+    function showResult(type, msg) {
+      var el = document.getElementById('result');
+      el.className = 'result ' + type;
+      el.innerHTML = msg;
+      el.style.display = 'block';
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    document.getElementById('subscriberId').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') compileAndEmail();
+    });
+  </script>
+</body>
+</html>

@@ -8,6 +8,11 @@
 
 ---
 
+## ⚠ FOOTER — PERMANENT RULE
+**Do NOT add an "Also from us" section or any cross-product links to the footer — ever.** 24 Stories is a single product. Documentary Films, Heirloom Editions, and Life Legacy Stories do not exist as offerings. Removed 2026-05-21.
+
+---
+
 ## ⚠ ARCHITECTURE — READ FIRST, EVERY SESSION
 
 **MAKE IS PERMANENTLY CANCELLED. IT DOES NOT EXIST IN THIS PROJECT.**

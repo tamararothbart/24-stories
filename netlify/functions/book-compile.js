@@ -174,7 +174,8 @@ function bookCss() {
   return `
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-@page { size: 148mm 210mm; margin: 0; }
+@page           { size: 148mm 210mm; margin: 14mm 14mm 17mm 15mm; }
+@page full-bleed { size: 148mm 210mm; margin: 0; }
 
 body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 
@@ -213,7 +214,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
     overflow: hidden;
     box-shadow: none;
   }
-  .fixed-page { height: 210mm; min-height: unset; }
+  .fixed-page { height: 210mm; min-height: unset; page: full-bleed; }
   .no-print { display: none !important; }
 }
 
@@ -351,7 +352,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
   color: #1A1A1A;
 }
 @media print {
-  .toc-page { padding: 14mm 14mm 17mm 15mm; }
+  .toc-page { padding: 0; }
   .toc-heading { font-size: 24pt; margin-bottom: 9mm; }
   .toc-row { gap: 3mm; margin-bottom: 3mm; }
   .toc-num { font-size: 8pt; min-width: 4.5mm; }
@@ -378,7 +379,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 .chapter-text p { margin-bottom: 20px; orphans: 3; widows: 3; }
 .chapter-text p:last-child { margin-bottom: 0; }
 @media print {
-  .chapter-page { padding: 14mm 14mm 17mm 15mm; }
+  .chapter-page { padding: 0; }
   .chapter-title-block { margin-top: 14mm; margin-bottom: 24mm; }
   .chapter-title { font-size: 42pt; }
   .chapter-text { font-size: 11pt; line-height: 19pt; }

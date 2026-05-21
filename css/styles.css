@@ -1718,6 +1718,12 @@ h1.hero-heading, .hero-content h1 {
     }
 }
 
+/* Hide subscribe image at all single-column widths (≤1024px) so the form is
+   immediately visible. Below 768px the sweep rule also fires; this covers tablets. */
+@media (max-width: 1024px) {
+    .subscribe-img { display: none !important; }
+}
+
 @media (max-width: 768px) {
     .nav-menu {
         position: fixed;
@@ -1760,7 +1766,8 @@ h1.hero-heading, .hero-content h1 {
     .step { grid-template-columns: 1fr; }
     .step-marker { flex-direction: row; align-items: center; gap: 16px; }
     .step-line { width: 40px; height: 1px; flex: none; }
-    .footer-links { grid-template-columns: 1fr; }
+    /* Footer: keep Navigate + Support side by side at all mobile sizes */
+    .footer-links { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 
 /* ===================================
@@ -3564,9 +3571,11 @@ h1.hero-heading, .hero-content h1 {
     .hero-content .hero-quote { margin-bottom: 6px; }
     .hero-actions { margin-bottom: 20px; }
 
-    /* 3. Subscribe section — hide image, keep form visible immediately */
+    /* 3. Subscribe section — hide image on mobile/tablet so form is visible immediately.
+       Extended to 900px to cover portrait tablets where the image otherwise fills the width. */
     .subscribe-img { display: none !important; }
     .subscribe-inner { grid-template-columns: 1fr; gap: 0; }
+
 
     /* 4. Form card — tighter horizontal padding on small screens */
     .form-card { padding: 28px 20px; }

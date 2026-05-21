@@ -3051,7 +3051,7 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .founder-video-col {
-    flex: 0 0 38%;
+    flex: 0 0 auto;
 }
 
 .founder-crux {
@@ -3100,7 +3100,7 @@ h1.hero-heading, .hero-content h1 {
 .founder-video-wrap {
     position: relative;
     width: 100%;
-    max-width: 360px;
+    max-width: 220px;
     aspect-ratio: 9 / 16;
     background: #111;
     overflow: hidden;

@@ -11,6 +11,25 @@
 ## ⚠ FOOTER — PERMANENT RULE
 **Do NOT add an "Also from us" section or any cross-product links to the footer — ever.** 24 Stories is a single product. Documentary Films, Heirloom Editions, and Life Legacy Stories do not exist as offerings. Removed 2026-05-21.
 **Footer Navigate links (locked):** How It Works → #how-it-works | Pricing → #pricing | Give This Gift → #subscribe | Story Coaching → coaching.html. Added 2026-05-21.
+**Footer columns on mobile:** Navigate + Support always show side by side (2-column grid even at ≤480px). Locked 2026-05-21.
+
+---
+
+## Session 23 — Mobile Sweep — COMPLETE (2026-05-21)
+
+### What changed (styles.css + index.html + coaching.html + events.html)
+- **Hero book panel hidden on mobile:** `.hero-book-panel { display: none !important; }` at ≤768px. The 2-page spread at zoom:0.54 was 477px wide inside a 335px container — hard overflow:hidden cuts on both sides were causing the "borders on sides of pages" visual. The crux section (mobile-only, immediately below) already shows the book cover.
+- **Founder video hidden on mobile:** `.founder-video-section { display: none; }` at ≤768px. Tamara's explicit request.
+- **Subscribe image hidden at ≤1024px:** The girl-writing image was taking up the full width in single-column layout on tablets and mobile. Hidden entirely at ≤1024px (all single-column views) so the form is immediately visible.
+- **Section padding reduced on mobile:** `.how-it-works`, `.prompts-section`, `.book-section`, `.pricing`, `.subscribe` → 48px at ≤768px, 40px at ≤480px. `.testimonials` → 36px. Reduces total scroll distance significantly.
+- **Inline-style section padding:** Urgency banner (80px→clamp(44px,8vw,80px)), coaching band (72px min→48px min), resend section (80px→clamp(48px,8vw,80px)). Desktop values unchanged.
+- **Footer 2-column at ≤480px:** Changed from `1fr` to `repeat(2, 1fr)` so Navigate and Support remain side by side at all mobile screen sizes.
+- **coaching.html hero bug fixed:** The existing 768px rule set padding-top to 136px on mobile (bug — was adding to the large desktop value). Fixed to `padding: 88px var(--pad) 44px` on mobile.
+- **coaching.html sections:** `.c-section` padding reduced from 72px to 44px on mobile.
+- **events.html sections:** `.section` padding reduced from 72px to 44px on mobile.
+
+### FAQs — no change needed
+FAQs are `<details>/<summary>` elements — already function as native dropdowns (tap to expand/collapse). The + / − indicator is shown via CSS `::after`. No code change needed.
 
 ---
 

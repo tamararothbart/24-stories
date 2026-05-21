@@ -129,6 +129,7 @@ function buildBookHtml(sf, stories) {
   const rawTitle = sf.BookTitle || (name + ' — Collected Stories');
   const displayTitle = rawTitle.includes(' by ') ? rawTitle.split(' by ')[0].trim() : rawTitle;
   const year = new Date().getFullYear();
+  const coverColour = sf.CoverColour || 'Black';
 
   const chapters = stories.map((s, i) => {
     const num = s.fields.ChapterOrder || (i + 1);
@@ -136,7 +137,6 @@ function buildBookHtml(sf, stories) {
       num,
       word: CHAPTER_WORDS[num - 1] || String(num),
       title: s.fields.ChapterTitle || '',
-      circa: formatCirca(s.fields.StoryCircaDate || ''),
       text: s.fields.FinalStory || s.fields.EditedText || s.fields.StoryText || '',
       imageUrl: s.fields.StoryImageURL || '',
       caption: s.fields.StoryImageCaption || ''
@@ -145,12 +145,12 @@ function buildBookHtml(sf, stories) {
 
   const parts = [
     specSheetHtml(sf, stories, name, displayTitle),
-    titlePageHtml(displayTitle, name, year),
+    titlePageHtml(displayTitle, name, coverColour),
   ];
-  if (sf.PortraitPhotoURL) parts.push(portraitPageHtml(sf.PortraitPhotoURL, sf.PortraitCaption || '', name));
+  if (sf.PortraitPhotoURL) parts.push(portraitPageHtml(sf.PortraitPhotoURL, name));
   if (sf.DedicationText)   parts.push(dedicationPageHtml(sf.DedicationText));
   if (sf.EpigraphText)     parts.push(epigraphPageHtml(sf.EpigraphText));
-  parts.push(tocHtml(chapters, displayTitle));
+  parts.push(tocHtml(chapters));
   chapters.forEach(c => parts.push(chapterHtml(c)));
   parts.push(colophonHtml(name, year));
 
@@ -160,7 +160,8 @@ function buildBookHtml(sf, stories) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${esc(displayTitle)}</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>${bookCss()}</style>
 </head>
 <body>
@@ -173,295 +174,282 @@ function bookCss() {
   return `
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-@page {
-  size: 148mm 210mm;
-  margin: 20mm 18mm 24mm 24mm;
-}
+@page { size: 148mm 210mm; margin: 0; }
 
-body {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  color: #1A1A1A;
-}
+body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 
+/* ── SCREEN ── */
 @media screen {
-  body { background: #C8C4BF; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-  .page {
-    width: 148mm;
-    min-height: 210mm;
-    padding: 20mm 18mm 24mm 24mm;
-    background: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.28);
-    position: relative;
+  body {
+    background: #E8E4DF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 48px 24px 80px;
+    gap: 3px;
   }
+  .page {
+    width: 680px;
+    min-height: 845px;
+    background: #F4F2EE;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
+    position: relative;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .fixed-page { height: 845px; min-height: unset; }
 }
 
+/* ── PRINT ── */
 @media print {
   body { background: none; padding: 0; display: block; }
   .page {
+    width: 148mm;
+    min-height: 210mm;
+    background: #F4F2EE;
     page-break-before: always;
     break-before: page;
-    padding: 0;
+    position: relative;
+    overflow: hidden;
     box-shadow: none;
-    width: 100%;
   }
+  .fixed-page { height: 210mm; min-height: unset; }
   .no-print { display: none !important; }
 }
 
-/* ── Title Page ── */
-.title-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.title-page .book-title {
-  font-size: 28pt;
-  font-weight: 300;
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  margin-bottom: 14mm;
-}
-.title-page .book-author {
-  font-size: 12pt;
-  font-weight: 300;
-  letter-spacing: 0.14em;
-  color: #555;
-  margin-bottom: 4mm;
-}
-.title-page .book-imprint {
-  font-size: 8.5pt;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #B8976A;
+/* ── TITLE / COVER ── */
+.title-block {
   position: absolute;
-  bottom: 24mm;
-  left: 0;
-  right: 0;
-  text-align: center;
+  top: 220px;
+  left: 68px;
+}
+.title-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 108px;
+  line-height: 0.90;
+  letter-spacing: 0.01em;
+  color: #F4F2EE;
+  text-transform: uppercase;
+}
+.author-block {
+  position: absolute;
+  bottom: 160px;
+  right: 68px;
+  text-align: right;
+}
+.author-name-cover {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: 0.09em;
+  color: #F4F2EE;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(244,242,238,0.55);
+  margin-bottom: 8px;
+}
+.author-sub-cover {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(244,242,238,0.65);
+  margin-top: 8px;
+  display: block;
 }
 @media print {
-  .title-page .book-imprint { bottom: 0; }
+  .title-block { top: 52mm; left: 15mm; }
+  .title-text { font-size: 66pt; line-height: 0.90; }
+  .author-block { bottom: 38mm; right: 15mm; }
+  .author-name-cover { font-size: 15pt; padding-bottom: 2mm; margin-bottom: 2mm; }
+  .author-sub-cover { font-size: 7.5pt; margin-top: 2mm; }
 }
 
-/* ── Portrait Page ── */
-.portrait-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  gap: 5mm;
+/* ── PORTRAIT ── */
+.portrait-wrap {
+  position: absolute;
+  inset: 52px;
 }
-.portrait-page img {
-  max-width: 82mm;
-  max-height: 108mm;
+.portrait-wrap img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
 }
-.portrait-page .portrait-caption {
-  font-size: 10pt;
-  font-style: italic;
-  color: #555;
-  line-height: 1.65;
-}
-.portrait-page .portrait-name {
-  font-size: 11pt;
-  font-weight: 600;
-  letter-spacing: 0.09em;
+@media print {
+  .portrait-wrap { inset: 11mm; }
 }
 
-/* ── Dedication Page ── */
-.dedication-page {
+/* ── FRONT MATTER (dedication, epigraph) ── */
+.front-matter {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 90px 72px;
+  flex-direction: column;
   text-align: center;
-  gap: 6mm;
-}
-.dedication-label {
-  font-size: 8.5pt;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #B8976A;
 }
 .dedication-text {
-  font-size: 13pt;
-  font-style: italic;
+  font-size: 13.5px;
   line-height: 1.85;
-  color: #333;
-}
-.dedication-text p { margin-bottom: 4mm; }
-.dedication-text p:last-child { margin-bottom: 0; }
-
-/* ── Epigraph Page ── */
-.epigraph-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.epigraph-text {
-  font-size: 12pt;
   font-style: italic;
+  color: #2A2A2A;
+  max-width: 440px;
+}
+.dedication-text p { margin-bottom: 14px; }
+.dedication-text p:last-child { margin-bottom: 0; }
+.epigraph-quote {
+  font-size: 14px;
   line-height: 1.9;
-  color: #444;
-  max-width: 82mm;
+  font-style: italic;
+  color: #1A1A1A;
+  max-width: 460px;
+  margin-bottom: 20px;
 }
-.epigraph-text p { margin-bottom: 4mm; }
-.epigraph-text p:last-child { margin-bottom: 0; }
+.epigraph-quote p { margin-bottom: 12px; }
+.epigraph-quote p:last-child { margin-bottom: 0; }
+.epigraph-attribution {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #777;
+  font-style: normal;
+}
+@media print {
+  .front-matter { padding: 22mm 16mm; }
+  .dedication-text { font-size: 10pt; max-width: 88mm; }
+  .dedication-text p { margin-bottom: 3.5mm; }
+  .epigraph-quote { font-size: 10.5pt; max-width: 92mm; margin-bottom: 5mm; }
+  .epigraph-attribution { font-size: 7.5pt; }
+}
 
-/* ── Table of Contents ── */
-.toc-page {}
+/* ── TABLE OF CONTENTS ── */
+.toc-page { padding: 58px 62px 72px 68px; }
 .toc-heading {
-  font-size: 8.5pt;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #B8976A;
-  margin-bottom: 6mm;
-}
-.toc-book-title {
-  font-size: 17pt;
-  font-weight: 300;
-  margin-bottom: 10mm;
-  line-height: 1.3;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 38px;
+  letter-spacing: 0.02em;
+  color: #1A1A1A;
+  margin-bottom: 36px;
 }
 .toc-row {
   display: flex;
   align-items: baseline;
-  gap: 4mm;
-  margin-bottom: 3.5mm;
+  gap: 12px;
+  margin-bottom: 12px;
   page-break-inside: avoid;
   break-inside: avoid;
 }
 .toc-num {
-  font-size: 8.5pt;
+  font-size: 11px;
   color: #B8976A;
-  min-width: 5mm;
+  min-width: 18px;
   flex-shrink: 0;
   text-align: right;
 }
-.toc-chapter-title {
-  font-size: 10.5pt;
-  line-height: 1.4;
-  flex: 1;
+.toc-title {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #1A1A1A;
 }
-.toc-circa {
-  font-size: 9pt;
-  font-style: italic;
-  color: #888;
-  white-space: nowrap;
+@media print {
+  .toc-page { padding: 14mm 14mm 17mm 15mm; }
+  .toc-heading { font-size: 24pt; margin-bottom: 9mm; }
+  .toc-row { gap: 3mm; margin-bottom: 3mm; }
+  .toc-num { font-size: 8pt; min-width: 4.5mm; }
+  .toc-title { font-size: 10pt; }
 }
 
-/* ── Chapter ── */
-.chapter-header { margin-bottom: 7mm; }
-.chapter-number {
-  font-size: 8.5pt;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #B8976A;
-  margin-bottom: 2.5mm;
-}
+/* ── CHAPTER ── */
+.chapter-page { padding: 58px 62px 72px 68px; }
+.chapter-title-block { margin-top: 62px; margin-bottom: 108px; }
 .chapter-title {
-  font-size: 17pt;
-  font-weight: 300;
-  line-height: 1.3;
-  margin-bottom: 2.5mm;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 68px;
+  line-height: 0.93;
+  letter-spacing: 0.01em;
+  color: #1A1A1A;
+  text-transform: uppercase;
 }
-.chapter-circa {
-  font-size: 10pt;
-  font-style: italic;
-  color: #777;
+.chapter-text {
+  font-size: 17.5px;
+  line-height: 30px;
+  color: #1A1A1A;
+  text-align: justify;
 }
-.chapter-rule {
-  border: none;
-  border-top: 1px solid #D0CCC6;
-  margin: 5mm 0;
+.chapter-text p { margin-bottom: 20px; }
+.chapter-text p:last-child { margin-bottom: 0; }
+@media print {
+  .chapter-page { padding: 14mm 14mm 17mm 15mm; }
+  .chapter-title-block { margin-top: 14mm; margin-bottom: 24mm; }
+  .chapter-title { font-size: 42pt; }
+  .chapter-text { font-size: 11pt; line-height: 19pt; }
+  .chapter-text p { margin-bottom: 4.5mm; }
 }
-.chapter-image {
-  margin: 5mm 0 6mm;
-  text-align: center;
-  page-break-inside: avoid;
-  break-inside: avoid;
+
+/* ── PHOTO PAGE ── */
+.photo-page-inner {
+  position: absolute;
+  top: 76px;
+  left: 76px;
+  right: 76px;
+  height: 530px;
 }
-.chapter-image img {
-  max-width: 100%;
-  max-height: 75mm;
-  object-fit: contain;
+.photo-page-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  margin: 0 auto;
 }
-.image-caption {
-  font-size: 9.5pt;
+.caption {
+  position: absolute;
+  top: 660px;
+  left: 76px;
+  right: 76px;
+  font-size: 12.5px;
+  line-height: 19px;
   font-style: italic;
-  color: #555;
-  margin-top: 2mm;
-  line-height: 1.6;
+  color: #3A3A3A;
 }
-.chapter-text p {
-  font-size: 11pt;
-  line-height: 1.85;
-  margin: 0;
-  text-indent: 0;
-  orphans: 3;
-  widows: 3;
-}
-.chapter-text p + p {
-  text-indent: 5mm;
-  margin-top: 0;
+@media print {
+  .photo-page-inner { top: 16.5mm; left: 16.5mm; right: 16.5mm; height: 115mm; }
+  .caption { top: 143mm; left: 16.5mm; right: 16.5mm; font-size: 9pt; line-height: 14.5pt; }
 }
 
-/* ── Colophon ── */
-.colophon-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
+/* ── COLOPHON ── */
+.colophon-inner {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  right: 0;
   text-align: center;
 }
-.colophon-page p {
-  font-size: 9pt;
+.colophon-inner p {
+  font-size: 11px;
   color: #999;
-  line-height: 1.8;
+  line-height: 1.9;
   letter-spacing: 0.06em;
-  margin-bottom: 2mm;
+}
+@media print {
+  .colophon-inner { bottom: 15mm; }
+  .colophon-inner p { font-size: 8pt; }
 }
 
-/* ── Spec Sheet (screen only) ── */
+/* ── SPEC SHEET (screen only) ── */
 .spec-sheet {
-  width: 148mm;
+  width: 680px;
   background: #FFF9EE;
   border: 2px solid #B8976A;
-  padding: 20px 24px;
+  padding: 24px 28px;
   font-family: Georgia, serif;
   font-size: 13px;
   line-height: 1.8;
   color: #1A1A1A;
+  flex-shrink: 0;
 }
-.spec-sheet h2 {
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
-  color: #B8976A;
-}
-.spec-sheet h3 {
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  margin: 14px 0 5px;
-  color: #555;
-}
+.spec-sheet h2 { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 10px; color: #B8976A; }
+.spec-sheet h3 { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; margin: 14px 0 5px; color: #555; }
 .spec-sheet p, .spec-sheet li { font-size: 13px; margin-bottom: 3px; }
 .spec-sheet ul { padding-left: 16px; margin-bottom: 4px; }
-.spec-sheet .spec-note {
-  font-style: italic;
-  color: #888;
-  font-size: 11.5px;
-  margin-top: 10px;
-}
+.spec-sheet .spec-note { font-style: italic; color: #888; font-size: 11.5px; margin-top: 10px; }
 @media print { .spec-sheet { display: none; } }
 `;
 }
@@ -509,73 +497,88 @@ function specSheetHtml(sf, stories, name, title) {
 </div>`;
 }
 
-function titlePageHtml(title, name, year) {
-  return `<div class="page title-page">
-  <p class="book-title">${esc(title)}</p>
-  <p class="book-author">by ${esc(name)}</p>
-  <p class="book-imprint">A 24 Stories Memoir &nbsp;&bull;&nbsp; ${year}</p>
+function splitTitle(title) {
+  const words = title.toUpperCase().split(/\s+/).filter(w => w);
+  if (words.length === 0) return '';
+  if (words.length <= 2) return words.join('<br>');
+  const mid = Math.ceil(words.length / 2);
+  return words.slice(0, mid).join(' ') + '<br>' + words.slice(mid).join(' ');
+}
+
+function titlePageHtml(title, name, coverColour) {
+  const bgMap = { Black: '#1A1A1A', Blue: '#1C2B3F', Red: '#3A0E0E' };
+  const bg = bgMap[coverColour] || '#1A1A1A';
+  return `<div class="page fixed-page" style="background:${bg};">
+  <div class="title-block">
+    <div class="title-text">${splitTitle(title)}</div>
+  </div>
+  <div class="author-block">
+    <div class="author-name-cover">${esc(name.toUpperCase())}</div>
+    <span class="author-sub-cover">A Collection of Stories</span>
+  </div>
 </div>`;
 }
 
-function portraitPageHtml(url, caption, name) {
-  return `<div class="page portrait-page">
-  <img src="${esc(url)}" alt="${esc(name)}">
-  ${caption ? `<p class="portrait-caption">${esc(caption)}</p>` : ''}
-  <p class="portrait-name">${esc(name)}</p>
+function portraitPageHtml(url, name) {
+  return `<div class="page fixed-page">
+  <div class="portrait-wrap">
+    <img src="${esc(url)}" alt="${esc(name)}">
+  </div>
 </div>`;
 }
 
 function dedicationPageHtml(text) {
-  return `<div class="page dedication-page">
-  <p class="dedication-label">Dedication</p>
-  <div class="dedication-text">${textToHtml(text)}</div>
+  return `<div class="page fixed-page">
+  <div class="front-matter">
+    <div class="dedication-text">${textToHtml(text)}</div>
+  </div>
 </div>`;
 }
 
 function epigraphPageHtml(text) {
-  return `<div class="page epigraph-page">
-  <div class="epigraph-text">${textToHtml(text)}</div>
+  return `<div class="page fixed-page">
+  <div class="front-matter">
+    <div class="epigraph-quote">${textToHtml(text)}</div>
+  </div>
 </div>`;
 }
 
-function tocHtml(chapters, bookTitle) {
+function tocHtml(chapters) {
   const rows = chapters.map(c => `
   <div class="toc-row">
     <span class="toc-num">${c.num}.</span>
-    <span class="toc-chapter-title">${esc(c.title || ('Chapter ' + c.word))}</span>
-    <span class="toc-circa">${esc(c.circa)}</span>
+    <span class="toc-title">${esc(c.title || c.word)}</span>
   </div>`).join('');
-
   return `<div class="page toc-page">
-  <p class="toc-heading">Contents</p>
-  <p class="toc-book-title">${esc(bookTitle)}</p>
+  <div class="toc-heading">Contents</div>
   ${rows}
 </div>`;
 }
 
 function chapterHtml(c) {
-  const imageBlock = c.imageUrl ? `
-  <div class="chapter-image">
-    <img src="${esc(c.imageUrl)}" alt="${esc(c.caption || '')}">
-    ${c.caption ? `<p class="image-caption">${esc(c.caption)}</p>` : ''}
-  </div>` : '';
-
-  return `<div class="page chapter-page">
-  <div class="chapter-header">
-    <p class="chapter-number">Chapter ${esc(c.word)}</p>
-    ${c.title ? `<p class="chapter-title">${esc(c.title)}</p>` : ''}
-    ${c.circa ? `<p class="chapter-circa">${esc(c.circa)}</p>` : ''}
+  const titleDisplay = splitTitle(c.title || c.word);
+  const textPage = `<div class="page chapter-page">
+  <div class="chapter-title-block">
+    <div class="chapter-title">${titleDisplay}</div>
   </div>
-  <hr class="chapter-rule">
-  ${imageBlock}
   <div class="chapter-text">${textToHtml(c.text)}</div>
 </div>`;
+  if (!c.imageUrl) return textPage;
+  const photoPage = `<div class="page fixed-page">
+  <div class="photo-page-inner">
+    <img src="${esc(c.imageUrl)}" alt="">
+  </div>
+  ${c.caption ? `<div class="caption">${esc(c.caption)}</div>` : ''}
+</div>`;
+  return textPage + '\n' + photoPage;
 }
 
 function colophonHtml(name, year) {
-  return `<div class="page colophon-page">
-  <p>This book was made for ${esc(name)}.</p>
-  <p>Produced by 24 Stories &bull; 24stories.co.za &bull; ${year}</p>
+  return `<div class="page fixed-page">
+  <div class="colophon-inner">
+    <p>This book was made for ${esc(name)}.</p>
+    <p>Produced by 24 Stories &bull; 24stories.co.za &bull; ${year}</p>
+  </div>
 </div>`;
 }
 

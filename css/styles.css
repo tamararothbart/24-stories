@@ -3560,13 +3560,15 @@ h1.hero-heading, .hero-content h1 {
     .testimonials  { padding-top: 36px; padding-bottom: 36px; }
     .section-sub   { margin-bottom: 40px; }
 
-    /* 2. Hero: hide the two-page book spread.
-       At zoom:0.54 the spread is 477px wide but the mobile container is only
-       ~335px — overflow:hidden clips both sides, creating hard visible cuts.
-       The crux section immediately below already shows the book cover on mobile. */
-    .hero-book-panel { display: none !important; }
+    /* 2. Hero book panel — show only the text page (left slot).
+       At zoom:0.54 the full 2-page spread was 477px in a 335px container,
+       creating hard overflow:hidden cuts on both sides.
+       Fix: hide the photo page; zoom single text page to fill the container.
+       440px × 0.74 = 326px — fits cleanly inside the 335px mobile container. */
+    .hero-book-panel .bex-spread > .bex-slot.book-swiper:last-child { display: none; }
+    .hero-book-panel .hero-spread-wrap { zoom: 0.74; }
 
-    /* Tighten hero copy spacing now that the panel is gone */
+    /* Tighten hero copy spacing */
     .hero-split { padding-bottom: 0; }
     .hero-content .hero-quote { margin-bottom: 6px; }
     .hero-actions { margin-bottom: 20px; }

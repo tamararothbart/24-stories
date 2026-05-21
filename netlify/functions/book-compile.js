@@ -174,8 +174,14 @@ function bookCss() {
   return `
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-@page           { size: 148mm 210mm; margin: 14mm 14mm 17mm 15mm; }
-@page full-bleed { size: 148mm 210mm; margin: 0; }
+/* Recto (odd/right-hand): spine on left. Verso (even/left-hand): spine on right. */
+@page         { size: 148mm 210mm; }
+@page :right  { margin: 17mm 15mm 22mm 20mm; }
+@page :left   { margin: 17mm 20mm 22mm 15mm; }
+/* Full-bleed pages (cover, portrait, photos): zero margin, content to trim edge */
+@page full-bleed        { size: 148mm 210mm; margin: 0; }
+@page full-bleed :right { margin: 0; }
+@page full-bleed :left  { margin: 0; }
 
 body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 

@@ -3537,3 +3537,82 @@ h1.hero-heading, .hero-content h1 {
         box-shadow: 0 4px 16px rgba(0,0,0,0.14);
     }
 }
+
+/* ===================================
+   MOBILE SWEEP — 2026-05-21
+   Touch ONLY ≤768px. Desktop untouched.
+   =================================== */
+@media (max-width: 768px) {
+
+    /* 1. Section vertical padding — reduce 72px minimum to 48px */
+    .how-it-works  { padding-top: 48px; padding-bottom: 48px; }
+    .prompts-section { padding-top: 48px; padding-bottom: 48px; }
+    .book-section  { padding-top: 48px; padding-bottom: 48px; }
+    .pricing       { padding-top: 48px; padding-bottom: 48px; }
+    .subscribe     { padding-top: 48px; padding-bottom: 48px; }
+    .testimonials  { padding-top: 36px; padding-bottom: 36px; }
+    .section-sub   { margin-bottom: 40px; }
+
+    /* 2. Hero: hide the two-page book spread.
+       At zoom:0.54 the spread is 477px wide but the mobile container is only
+       ~335px — overflow:hidden clips both sides, creating hard visible cuts.
+       The crux section immediately below already shows the book cover on mobile. */
+    .hero-book-panel { display: none !important; }
+
+    /* Tighten hero copy spacing now that the panel is gone */
+    .hero-split { padding-bottom: 0; }
+    .hero-content .hero-quote { margin-bottom: 6px; }
+    .hero-actions { margin-bottom: 20px; }
+
+    /* 3. Subscribe section — hide image, keep form visible immediately */
+    .subscribe-img { display: none !important; }
+    .subscribe-inner { grid-template-columns: 1fr; gap: 0; }
+
+    /* 4. Form card — tighter horizontal padding on small screens */
+    .form-card { padding: 28px 20px; }
+
+    /* 5. Pricing card */
+    .pricing-single .pricing-tier { padding: 32px 20px; }
+
+    /* 6. Book outcome grid — tighter gap in single column */
+    .book-outcome-grid { gap: 32px; }
+
+    /* 7. Cover colour toggle — centre it under the carousel */
+    .cover-toggle-wrap { align-items: center; width: 100%; }
+
+    /* 8. Final CTA banner — reduce height */
+    .final-cta { min-height: 280px; }
+    .final-cta-content { padding-top: 48px; padding-bottom: 48px; }
+
+    /* 9. Subscribe header — less bottom gap */
+    .subscribe-header { margin-bottom: 36px; }
+
+    /* 10. Concept strip numbers — readable but not oversized */
+    .concept-num { font-size: clamp(2rem, 6vw, 3.6rem); }
+
+    /* 11. Embedded prompts — already hidden on mobile via earlier rule */
+
+    /* 12. Steps swiper — match crux section background */
+    .steps-mobile-only { margin-top: 0; }
+
+    /* 13. Founder video — hidden on mobile per design decision */
+    .founder-video-section { display: none; }
+}
+
+@media (max-width: 480px) {
+    /* Further reductions for small phones */
+    .how-it-works,
+    .book-section,
+    .pricing,
+    .subscribe { padding-top: 40px; padding-bottom: 40px; }
+
+    /* Hero heading — slightly smaller on very narrow screens */
+    .hero-split .hero-content h1 { font-size: 2.2rem; }
+
+    /* Book carousel caption */
+    .book-carousel-caption { font-size: 13px; margin-top: 28px; }
+
+    /* Form card — max compression */
+    .form-card { padding: 24px 16px; }
+    .pricing-single .pricing-tier { padding: 28px 16px; }
+}

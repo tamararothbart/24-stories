@@ -475,8 +475,11 @@
         .tamara-grid { grid-template-columns: 1fr; gap: 32px; }
         .tamara-photo-wrap { max-width: 220px; aspect-ratio: 3 / 4; }
         .coaching-options-grid { grid-template-columns: 1fr; }
-        .coaching-hero { padding-top: calc(var(--sec) + 64px); }
+        /* Hero: the original calc() gave 136px on mobile — too tall. Reduce to navbar-height + comfortable gap. */
+        .coaching-hero { padding: 88px var(--pad) 44px; }
         .bookings-modal { padding: 36px 24px 28px; }
+        /* Section padding: reduce from 72px to 44px on mobile */
+        .c-section { padding: 44px var(--pad); }
     }
     </style>
 </head>

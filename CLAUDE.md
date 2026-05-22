@@ -8,6 +8,31 @@
 
 ---
 
+## Session 24 — tell.html + Library Fixes — COMPLETE (2026-05-22)
+
+### tell.html — Pause button added to voice recording
+- `MediaRecorder.pause()` / `resume()` wired up. Pause button appears below timer during recording.
+- Button only appears if browser supports `MediaRecorder.pause` (feature detection — graceful degradation on older devices).
+- When paused: timer freezes, pulsing stops, status text changes to "Paused — tap Resume to continue".
+- Speak state text legibility improved: `.speak-sub` 0.82rem/#999 → 0.95rem/#555. `.btn-pause-resume` 0.78rem/#aaa → 0.88rem/#555.
+
+### library.html — Prompt reveal fixed (CRITICAL)
+- `promptsSent` was hardcoded to `26` — showed all 26 prompts to every subscriber from day one. Relic of once-off R6,795 model that was never updated when model switched to monthly subscription.
+- Fixed to `f.PromptNumber || 0`. Prompts now reveal one per week as each prompt email is sent.
+- Library link goes out with the **first prompt email** (not the welcome email). PromptNumber is always ≥ 1 on first visit. `|| 0` fallback is safe.
+- CLAUDE.md Payment Model section corrected to reflect this.
+
+### Strategic decisions (no code changes)
+- Two-tier model (Story Share + Premium) discussed and deferred. Sticking with single-tier 24 Stories.
+- Story Share as a separate app concept noted — deferred until Claude cleanup quality test results are in.
+- Cleanup quality test: Tamara arranging 2 external testers. They will sign up as real subscribers (Tamara as Story Helper). Results in ~24 hours.
+
+### Test subscriber state (2026-05-22)
+- Tamara test subscriber (recj2fKFXLRmGNLn5) reset to PromptNumber=1, LastPromptSentDate=2026-05-22 for library reveal testing.
+- After testing: reset PromptNumber back to 26.
+
+---
+
 ## ⚠ FOOTER — PERMANENT RULE
 **Do NOT add an "Also from us" section or any cross-product links to the footer — ever.** 24 Stories is a single product. Documentary Films, Heirloom Editions, and Life Legacy Stories do not exist as offerings. Removed 2026-05-21.
 **Footer Navigate links (locked):** How It Works → #how-it-works | Pricing → #pricing | Give This Gift → #subscribe | Story Coaching → coaching.html. Added 2026-05-21.

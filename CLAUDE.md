@@ -8,7 +8,7 @@
 
 ---
 
-## Session 24 — tell.html + Library Fixes — COMPLETE (2026-05-22)
+## Session 24 — tell.html + Library + Email-3 Fixes — COMPLETE (2026-05-22)
 
 ### tell.html — Pause button added to voice recording
 - `MediaRecorder.pause()` / `resume()` wired up. Pause button appears below timer during recording.
@@ -40,10 +40,14 @@
 - `libUrl` parameter removed from `email3Html()` signature and call site.
 - **RULE (locked):** Neither the storyteller welcome (email-1) nor the story helper welcome (email-3) contains a library link or button. The library link first appears in the Week 1 prompt email (email-4). This matches PromptNumber gating in library.html.
 
+### Reference email files — NOTE
+- `24stories-emails/email-3-storyhelper-welcome.html` is a STALE reference file. The live email is built inside `email3Html()` in payfast-webhook.js. Do not read the reference file to determine what email-3 sends — read payfast-webhook.js.
+- Same applies to all emails in `24stories-emails/` — they are documentation only. Live email HTML is always in the relevant Netlify Function.
+
 ### Strategic decisions (no code changes)
 - Two-tier model (Story Share + Premium) discussed and deferred. Sticking with single-tier 24 Stories.
 - Story Share as a separate app concept noted — deferred until Claude cleanup quality test results are in.
-- Cleanup quality test: Tamara arranging 2 external testers. They will sign up as real subscribers (Tamara as Story Helper). Results in ~24 hours.
+- Cleanup quality test: Tamara arranging 2 external testers. They will sign up as real subscribers (Tamara as Story Helper). Results pending.
 
 ### Test subscriber state (2026-05-22)
 - Tamara test subscriber (recj2fKFXLRmGNLn5) reset to PromptNumber=1, LastPromptSentDate=2026-05-22 for library reveal testing.

@@ -16,11 +16,18 @@
 - When paused: timer freezes, pulsing stops, status text changes to "Paused — tap Resume to continue".
 - Speak state text legibility improved: `.speak-sub` 0.82rem/#999 → 0.95rem/#555. `.btn-pause-resume` 0.78rem/#aaa → 0.88rem/#555.
 
-### library.html — Prompt reveal fixed (CRITICAL)
+### library.html — Prompt reveal + progress bar fixed (CRITICAL)
 - `promptsSent` was hardcoded to `26` — showed all 26 prompts to every subscriber from day one. Relic of once-off R6,795 model that was never updated when model switched to monthly subscription.
-- Fixed to `f.PromptNumber || 0`. Prompts now reveal one per week as each prompt email is sent.
-- Library link goes out with the **first prompt email** (not the welcome email). PromptNumber is always ≥ 1 on first visit. `|| 0` fallback is safe.
+- Story cards: `renderCards(byWeek, promptsByWeek, promptsSent)` — only shows cards up to `f.PromptNumber`.
+- Progress bar: `renderProgress(byWeek, 26, promptsSent)` — ALWAYS renders all 26 circles. Weeks beyond PromptNumber use `st-future` state (barely visible pale dot). Weeks sent use the existing states (empty/awaiting/story/full).
+- Progress dot states (locked): `st-future` = not yet sent (pale/invisible); `st-empty` = prompt sent, no story; `st-awaiting` = story submitted, being edited; `st-story` = edited, no photo; `st-full` = story + photo + caption complete.
+- Library link goes out with the **first prompt email** (not the welcome email). PromptNumber is always ≥ 1 on first visit.
 - CLAUDE.md Payment Model section corrected to reflect this.
+
+### library.html — Book prep section muting
+- When `PromptNumber < 20`: `.book-prep` section gets class `book-prep-inactive` (opacity 0.35, pointer-events none). Notice text appears: "Your story journey is just beginning. This section opens as you approach your final prompts."
+- When `PromptNumber >= 20`: full opacity, fully interactive.
+- Mark as Complete button unlocks at `PromptNumber >= 26` (unchanged).
 
 ### Strategic decisions (no code changes)
 - Two-tier model (Story Share + Premium) discussed and deferred. Sticking with single-tier 24 Stories.

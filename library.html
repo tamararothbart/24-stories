@@ -159,7 +159,9 @@
         .progress-dot.st-awaiting { background: var(--white); border: 1.5px dashed var(--gold); color: var(--gold); }
         .progress-dot.st-story    { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
         .progress-dot.st-full     { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
+        .progress-dot.st-future   { background: #faf9f7; border: 1.5px solid #e8e4df; color: #e0ddd8; cursor: default; }
         .progress-dot:hover { transform: scale(1.15); }
+        .progress-dot.st-future:hover { transform: none; }
 
         .progress-summary {
             font-size: 0.82rem;
@@ -410,6 +412,7 @@
             padding: 44px 44px 52px;
             margin-top: 60px;
         }
+        .book-prep-inactive { opacity: 0.35; pointer-events: none; user-select: none; }
 
         .book-prep-eyebrow {
             font-size: 0.82rem;
@@ -730,6 +733,7 @@
                 <p class="book-prep-eyebrow">Your Legacy Book</p>
                 <h2 class="book-prep-heading">Preparing your book</h2>
                 <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, choose your cover colour, write your dedication and epigraph, and confirm your delivery address at any time.</p>
+                <p id="bookPrepNotice" style="display:none; font-size:0.88rem; color:#aaa; font-style:italic; line-height:1.75; margin-bottom:32px; margin-top:-28px;">Your story journey is just beginning. This section opens as you approach your final prompts.</p>
 
                 <!-- PORTRAIT -->
                 <div class="book-field">
@@ -986,8 +990,8 @@
                 if (wk) promptsByWeek[wk] = r.fields;
             });
 
-            renderProgress(byWeek, mockPrompts.records.length);
-            renderCards(byWeek, promptsByWeek, mockPrompts.records.length);
+            renderProgress(byWeek, 26, 3);
+            renderCards(byWeek, promptsByWeek, 3);
             renderBookPrep(f);
             showState('library');
         }
@@ -1039,7 +1043,7 @@
                     if (wk) promptsByWeek[wk] = r.fields;
                 });
 
-                renderProgress(byWeek, promptsSent);
+                renderProgress(byWeek, 26, promptsSent);
                 renderCards(byWeek, promptsByWeek, promptsSent);
                 renderBookPrep(f);
                 showState('library');
@@ -1075,15 +1079,20 @@
         }
 
         // ---- PROGRESS ----
-        function renderProgress(byWeek, promptsSent) {
+        function renderProgress(byWeek, totalWeeks, promptsSent) {
             var track = document.getElementById('progressTrack');
             var told = 0, withPhoto = 0;
-            for (var w = 1; w <= promptsSent; w++) {
-                var st = getStatus(byWeek[w]);
-                if (st === 'awaiting' || st === 'story' || st === 'full') told++;
-                if (st === 'full') withPhoto++;
+            for (var w = 1; w <= totalWeeks; w++) {
+                var st;
+                if (w > promptsSent) {
+                    st = 'future';
+                } else {
+                    st = getStatus(byWeek[w]);
+                    if (st === 'awaiting' || st === 'story' || st === 'full') told++;
+                    if (st === 'full') withPhoto++;
+                }
                 var a = document.createElement('a');
-                a.href        = '#week-' + w;
+                a.href        = w <= promptsSent ? '#week-' + w : '#';
                 a.className   = 'progress-dot st-' + st;
                 a.title       = 'Week ' + w;
                 a.textContent = w;
@@ -1335,7 +1344,14 @@
 
         // ---- BOOK PREP ----
         function renderBookPrep(f) {
-            setupMarkAsComplete((f.PromptNumber || 0) >= 26);
+            var promptNumber = f.PromptNumber || 0;
+            if (promptNumber < 20) {
+                var bookPrepSection = document.querySelector('.book-prep');
+                if (bookPrepSection) bookPrepSection.classList.add('book-prep-inactive');
+                var bookPrepNotice = document.getElementById('bookPrepNotice');
+                if (bookPrepNotice) bookPrepNotice.style.display = 'block';
+            }
+            setupMarkAsComplete(promptNumber >= 26);
             setupBookPhoto('btnPortrait', 'portraitInput', 'portraitFilename', 'portraitUploading', 'portraitOk', 'portraitExisting', 'portrait', f.PortraitPhotoURL || '');
 
             // Book title: two-input design — default prefix + name, OR custom title

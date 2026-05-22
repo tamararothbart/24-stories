@@ -8,6 +8,47 @@
 
 ---
 
+## Session 25 — Progress Bar Overhaul + Book Onboarding at Week 21 — COMPLETE (2026-05-22)
+
+### library.html — Progress bar: 6-state system (replaces 4-state gold system)
+- All 26 circles always shown. Future weeks render as `<span>` (non-clickable). Sent weeks render as `<a>` anchors.
+- New function `getProgressState(story, weekNum, promptsSent)` derives state from StoryText/EditedText + StoryImageURL + StoryImageCaption.
+- **6 states (LOCKED):**
+  - `st-future`: pale grey, no interaction — week not yet sent
+  - `st-current-incomplete`: dashed black border — current week, story/image/caption not all present
+  - `st-current-complete`: solid black border — current week, story + image + caption all present
+  - `st-past-missed`: solid RED border — past week, no story at all
+  - `st-past-incomplete`: dashed RED border — past week, story submitted but image or caption missing
+  - `st-past-complete`: solid black border — past week, all elements present
+- Old 4-state gold system (st-empty/awaiting/story/full on progress dots) removed. Story card status pills UNCHANGED.
+- `renderProgress()` now loops 1–26 always (not just to promptsSent).
+- "Complete" = has (StoryText OR EditedText) AND StoryImageURL AND StoryImageCaption. Awaiting stories with image+caption count as past-complete (subscriber did their part).
+- Timing (Phase 2 confirmed): send-weekly-prompts.js patches PromptNumber in Airtable immediately after sending the email — library reflects new prompt/circle state within seconds of dispatch. No additional synchronization needed.
+
+### Phase 3 — Book onboarding trigger moved from week 24 → week 21
+- **send-weekly-prompts.js**: email-9 now fires alongside week 21 prompt (was week 24). `isWeek24` renamed `isWeek21`. Subject: "Your Legacy Book — time to get it ready."
+- **email9Html**: heading changed from "Two chapters to go. Time to prepare your book." → "Your book begins here." Body copy updated to be chapter-count neutral (removed "Two more stories to tell"). Body otherwise unchanged.
+- **book-onboarding-reminder.js**: Airtable query formula changed from `{PromptNumber}>=24` → `{PromptNumber}>=21`. Day-3 and Day-6 reminder gates changed from `promptNumber===24` → `promptNumber===21`. Day-1 and Day-4 final/overdue gates on promptNumber===26 are UNCHANGED.
+- **payfast-webhook.js**: Removed write to non-existent `BookOnboardingUnlocked` field (was silently failing). Added payment-6 safety net: if PaymentsCount reaches 6 and PromptNumber < 21, fires email-9 to subscriber. Added `email9Html()` function at bottom of file.
+- Updated Book Onboarding schedule in this file (see below).
+
+### Book Onboarding Email Schedule (UPDATED — locked 2026-05-22)
+| Day | Trigger | Email |
+|-----|---------|-------|
+| 0 | Prompt 21 sent | Email-9 fires alongside prompt |
+| +3 | PromptNumber=21, daysSince=3 | Email-10 Reminder 1 |
+| +6 | PromptNumber=21, daysSince=6 | Email-10 Reminder 2 |
+| +15 | PromptNumber=26, daysSince=1 | Email-10 Final reminder |
+| +18 | PromptNumber=26, daysSince=4 | Email-11 Overdue + Tamara alert |
+| Safety | PaymentsCount=6 AND PromptNumber<21 | Email-9 fires via payfast-webhook.js |
+Stop condition: PortraitPhotoURL + BookTitle + DedicationText all filled OR BookFormCompleted filled.
+
+### Test subscriber state (2026-05-22 — CLEANED)
+- Tamara test subscriber (recj2fKFXLRmGNLn5) reset to PromptNumber=26, LastPromptSentDate=2026-05-20.
+- Test story record recI4cgzzeN2ChlmB created during testing and DELETED. Subscriber Stories field is empty again.
+
+---
+
 ## Session 24 — tell.html + Library + Email-3 Fixes — COMPLETE (2026-05-22)
 
 ### tell.html — Pause button added to voice recording
@@ -16,18 +57,9 @@
 - When paused: timer freezes, pulsing stops, status text changes to "Paused — tap Resume to continue".
 - Speak state text legibility improved: `.speak-sub` 0.82rem/#999 → 0.95rem/#555. `.btn-pause-resume` 0.78rem/#aaa → 0.88rem/#555.
 
-### library.html — Prompt reveal + progress bar fixed (CRITICAL)
-- `promptsSent` was hardcoded to `26` — showed all 26 prompts to every subscriber from day one. Relic of once-off R6,795 model that was never updated when model switched to monthly subscription.
-- Story cards: `renderCards(byWeek, promptsByWeek, promptsSent)` — only shows cards up to `f.PromptNumber`.
-- Progress bar: `renderProgress(byWeek, 26, promptsSent)` — ALWAYS renders all 26 circles. Weeks beyond PromptNumber use `st-future` state (barely visible pale dot). Weeks sent use the existing states (empty/awaiting/story/full).
-- Progress dots: only weeks up to PromptNumber are shown. No future dots. No st-future state.
-- Progress dot states (LOCKED — do not change without discussion):
-  - `st-empty`: white fill, grey border — prompt sent, no story yet
-  - `st-awaiting`: white fill, dashed gold border — story submitted, being edited
-  - `st-story`: white fill, solid gold border — story edited, photo or caption missing
-  - `st-full`: gold fill, solid gold border — story + photo + caption all complete
+### library.html — Session 24 notes (superseded by Session 25)
+- Progress bar: Session 25 replaced the gold 4-state system entirely. Do not reference old st-empty/awaiting/story/full states for progress dots.
 - Library link goes out with the **first prompt email** (not the welcome email). PromptNumber is always ≥ 1 on first visit.
-- CLAUDE.md Payment Model section corrected to reflect this.
 
 ### library.html — Book prep section muting
 - When `PromptNumber < 20`: `.book-prep` section gets class `book-prep-inactive` (opacity 0.35, pointer-events none). Notice text appears: "Your story journey is just beginning. This section opens as you approach your final prompts."

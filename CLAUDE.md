@@ -34,6 +34,12 @@
 - When `PromptNumber >= 20`: full opacity, fully interactive.
 - Mark as Complete button unlocks at `PromptNumber >= 26` (unchanged).
 
+### payfast-webhook.js — email-3 (Story Helper welcome) library link removed
+- email-3 previously contained a full "The Story Library" button section with the library URL. Removed.
+- "Add a photograph" bullet updated: "Your Story Library link arrives this Wednesday with the first prompt."
+- `libUrl` parameter removed from `email3Html()` signature and call site.
+- **RULE (locked):** Neither the storyteller welcome (email-1) nor the story helper welcome (email-3) contains a library link or button. The library link first appears in the Week 1 prompt email (email-4). This matches PromptNumber gating in library.html.
+
 ### Strategic decisions (no code changes)
 - Two-tier model (Story Share + Premium) discussed and deferred. Sticking with single-tier 24 Stories.
 - Story Share as a separate app concept noted — deferred until Claude cleanup quality test results are in.

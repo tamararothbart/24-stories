@@ -367,7 +367,7 @@ exports.handler = async function(event) {
     await sendEmail(mjAuth, {
       to:      { Email: storyHelperEmail, Name: storyHelperName },
       subject: 'You have been named as ' + storytellerFirstName + "'s Story Helper — 24 Stories",
-      html:    email3Html(storyHelperName, storytellerFirstName, libUrl)
+      html:    email3Html(storyHelperName, storytellerFirstName)
     });
   }
 
@@ -474,7 +474,7 @@ function email2Html(giftGiverName, storytellerFirstName) {
 </html>`;
 }
 
-function email3Html(storyHelperName, storytellerFirstName, libUrl) {
+function email3Html(storyHelperName, storytellerFirstName) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -491,16 +491,10 @@ function email3Html(storyHelperName, storytellerFirstName, libUrl) {
       <ul style="list-style:none;padding:0;margin:0 0 28px;">
         <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Nudge gently, once a week.</strong> You will receive the same weekly prompt that ${esc(storytellerFirstName)} receives. If five days have passed and no story has arrived in your inbox, a simple "Did you get your prompt this week?" is enough.</li>
         <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Help with recording or typing.</strong> Some storytellers need someone to sit with them the first few times. If that's you, that's a gift too.</li>
-        <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add a photograph.</strong> Each story has room for one image. ${esc(storytellerFirstName)} can upload it directly — but if not, you can do it instead. Open the Story Library, find the relevant story, and upload from there. Photographs can be added at any time, in any order. Your link is <span style="color:#C0392B;font-weight:bold;">below</span>.</li>
+        <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add a photograph.</strong> Each story has room for one image. ${esc(storytellerFirstName)} can upload it directly — but if not, you can do it instead. Open the Story Library, find the relevant story, and upload from there. Photographs can be added at any time, in any order. Your Story Library link arrives this Wednesday with the first prompt.</li>
       </ul>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You'll receive a copy of each story as it's sent to the family. You don't need to do anything to make that happen — it's automatic.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
-      <div style="border-top:3px solid #C0392B;padding:28px 0 24px;margin:40px 0 32px;">
-        <p style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#C0392B;font-weight:bold;margin:0 0 14px;">The Story Library</p>
-        <p style="font-size:15px;color:#1A1A1A;line-height:1.8;margin:0 0 16px;">This is where you and ${esc(storytellerFirstName)} will find all the prompts, stories, and photographs. Open it from any device, at any time.</p>
-        <a href="${libUrl}" style="display:inline-block;background:#C0392B;color:#ffffff;text-decoration:none;padding:15px 32px;font-size:16px;letter-spacing:0.03em;margin-bottom:14px;">Open the library &#8594;</a><br>
-        <p style="font-size:13px;color:#555;line-height:1.7;margin:4px 0 0;">Direct link: <a href="${libUrl}" style="color:#C0392B;text-decoration:underline;word-break:break-all;">${libUrl}</a></p>
-      </div>
       <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br>The 24 Stories Team</p>
       <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We are here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
     </div>

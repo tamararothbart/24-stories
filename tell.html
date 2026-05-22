@@ -322,6 +322,19 @@
 
         .btn-rerecord:hover { color: var(--red); }
 
+        .btn-pause-resume {
+            background: none;
+            border: none;
+            font-size: 0.78rem;
+            color: #aaa;
+            cursor: pointer;
+            text-decoration: underline;
+            margin: 8px auto 0;
+            padding: 0;
+            display: block;
+        }
+        .btn-pause-resume:hover { color: var(--charcoal); }
+
         .not-supported-msg {
             background: #fff8f0;
             border: 1px solid #f0d9b5;
@@ -568,7 +581,8 @@
                     </svg>
                 </button>
                 <p class="record-timer" id="recordTimer">0:00</p>
-                <p class="speak-sub">Recording — tap to stop when you are done</p>
+                <p class="speak-sub" id="recordingStatus">Recording — tap to stop when you are done</p>
+                <button class="btn-pause-resume" id="btnPauseResume" style="display:none;">Pause</button>
             </div>
 
             <!-- Processing -->
@@ -867,6 +881,7 @@
         var audioURL       = '';
         var timerInterval  = null;
         var recordSeconds  = 0;
+        var isPaused       = false;
 
         function formatTime(s) {
             return Math.floor(s / 60) + ':' + (s % 60 < 10 ? '0' : '') + (s % 60);
@@ -905,6 +920,8 @@
                 mediaRecorder.onstop = function() {
                     stream.getTracks().forEach(function(t) { t.stop(); });
                     clearInterval(timerInterval);
+                    isPaused = false;
+                    document.getElementById('btnPauseResume').style.display = 'none';
                     document.getElementById('btnSubmit').disabled = true;
                     showSpeakState('speakProcessing');
 
@@ -974,6 +991,7 @@
 
                 mediaRecorder.start(1000);
                 recordSeconds = 0;
+                isPaused = false;
                 document.getElementById('recordTimer').textContent = '0:00';
                 timerInterval = setInterval(function() {
                     recordSeconds++;
@@ -981,6 +999,11 @@
                 }, 1000);
 
                 showSpeakState('speakRecording');
+                var pauseBtn = document.getElementById('btnPauseResume');
+                if (typeof mediaRecorder.pause === 'function') {
+                    pauseBtn.textContent = 'Pause';
+                    pauseBtn.style.display = 'block';
+                }
             })
             .catch(function() {
                 document.getElementById('errorMsg').textContent = 'Microphone access denied. Please allow microphone access in your browser settings and try again.';
@@ -997,10 +1020,32 @@
         document.getElementById('btnReRecord').addEventListener('click', function() {
             audioURL  = '';
             audioChunks = [];
+            isPaused = false;
             document.getElementById('audioStoryText').value = '';
             document.getElementById('btnCleanupSpeak').style.display = 'none';
             document.getElementById('errorMsg').classList.remove('visible');
             showSpeakState('speakIdle');
+        });
+
+        document.getElementById('btnPauseResume').addEventListener('click', function() {
+            if (isPaused) {
+                mediaRecorder.resume();
+                isPaused = false;
+                timerInterval = setInterval(function() {
+                    recordSeconds++;
+                    document.getElementById('recordTimer').textContent = formatTime(recordSeconds);
+                }, 1000);
+                document.getElementById('btnStop').classList.add('pulsing');
+                document.getElementById('recordingStatus').textContent = 'Recording — tap to stop when you are done';
+                this.textContent = 'Pause';
+            } else {
+                mediaRecorder.pause();
+                isPaused = true;
+                clearInterval(timerInterval);
+                document.getElementById('btnStop').classList.remove('pulsing');
+                document.getElementById('recordingStatus').textContent = 'Paused — tap Resume to continue';
+                this.textContent = 'Resume';
+            }
         });
 
         document.getElementById('audioStoryText').addEventListener('input', updateSpeakWordCount);

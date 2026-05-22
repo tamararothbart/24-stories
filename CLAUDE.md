@@ -45,6 +45,47 @@
 
 ---
 
+## TRIGGER: "test storylibrary behaviour"
+
+When Tamara says this, run the following test sequence. Do not ask questions — execute.
+
+### What you are testing
+That the Story Library reveals prompts one at a time as PromptNumber increments, and that the progress circles show the correct state at each step.
+
+### Test subscriber
+- Record ID: recj2fKFXLRmGNLn5
+- Library URL: https://24stories.co.za/library.html?id=recj2fKFXLRmGNLn5
+
+### Step 1 — Confirm starting state
+Fetch subscriber from Airtable. Confirm PromptNumber = 1. If not, patch it to 1.
+
+### Step 2 — Check library at PromptNumber 1
+Tell Tamara to open library URL. Expected: 26 circles in progress bar (1 active, 25 pale), only Week 1 story card visible, book prep section muted (opacity 0.35).
+
+### Step 3 — Submit Week 1 story
+Tell.html URL for Week 1:
+```
+https://24stories.co.za/tell.html?id=recj2fKFXLRmGNLn5&week=1&weekname=Inheritance&theme=I+got+it+from+my+mama%2Fpapa&prompt=Prepare+a+five-minute+story+about+something+you+inherited+%E2%80%94+jokes,+traditions,+taste.&angles=Heirlooms,+Traits,+Family+Lore
+```
+Tamara submits a story (voice or typed). Expected: story saved to Airtable, Tamara alert fires to hello@.
+
+### Step 4 — Bump to PromptNumber 2
+PATCH Airtable: PromptNumber → 2, LastPromptSentDate → today.
+
+### Step 5 — Check library at PromptNumber 2
+Tell Tamara to refresh library URL. Expected: Week 1 circle shows correct state (st-story if no photo, st-full if photo+caption), Week 2 circle shows st-empty (prompt sent, no story), Weeks 3–26 pale. Week 2 story card now visible.
+
+### Step 6 — Submit Week 2 story
+Tell.html URL for Week 2:
+```
+https://24stories.co.za/tell.html?id=recj2fKFXLRmGNLn5&week=2&weekname=Youthful+Imaginings&theme=Beginnings&prompt=Prepare+a+five-minute+story+about+unfulfilled+hopes,+wild+ambitions,+or+the+thing+you+always+dreamed+you%27d+become+%28but+never+did%29.&angles=Compromise,+Rite+of+Passage,+Dawning+Realizations
+```
+
+### Step 7 — Confirm and reset
+After test passes: PATCH Airtable to reset PromptNumber → 26, LastPromptSentDate → 2026-05-20.
+
+---
+
 ## ⚠ FOOTER — PERMANENT RULE
 **Do NOT add an "Also from us" section or any cross-product links to the footer — ever.** 24 Stories is a single product. Documentary Films, Heirloom Editions, and Life Legacy Stories do not exist as offerings. Removed 2026-05-21.
 **Footer Navigate links (locked):** How It Works → #how-it-works | Pricing → #pricing | Give This Gift → #subscribe | Story Coaching → coaching.html. Added 2026-05-21.

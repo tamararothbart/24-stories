@@ -40,9 +40,10 @@
 - `libUrl` parameter removed from `email3Html()` signature and call site.
 - **RULE (locked):** Neither the storyteller welcome (email-1) nor the story helper welcome (email-3) contains a library link or button. The library link first appears in the Week 1 prompt email (email-4). This matches PromptNumber gating in library.html.
 
-### Reference email files — NOTE
-- `24stories-emails/email-3-storyhelper-welcome.html` is a STALE reference file. The live email is built inside `email3Html()` in payfast-webhook.js. Do not read the reference file to determine what email-3 sends — read payfast-webhook.js.
-- Same applies to all emails in `24stories-emails/` — they are documentation only. Live email HTML is always in the relevant Netlify Function.
+### 24stories-emails/ folder — DELETED (2026-05-22)
+- The entire `24stories-emails/` reference folder has been deleted from the repo.
+- Live email HTML is in the Netlify Functions only. To read any email, read the relevant function in `netlify/functions/`.
+- Do not recreate this folder.
 
 ### Strategic decisions (no code changes)
 - Two-tier model (Story Share + Premium) discussed and deferred. Sticking with single-tier 24 Stories.

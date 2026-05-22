@@ -155,10 +155,12 @@
             transition: transform 0.15s ease;
         }
 
-        .progress-dot.st-empty    { background: var(--white); border: 1.5px solid var(--border); color: #bbb; }
-        .progress-dot.st-awaiting { background: var(--white); border: 1.5px dashed var(--gold); color: var(--gold); }
-        .progress-dot.st-story    { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
-        .progress-dot.st-full     { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
+        .progress-dot.st-future             { background: #faf9f7; border: 1.5px solid #e8e4de; color: #ccc; pointer-events: none; cursor: default; }
+        .progress-dot.st-current-incomplete { background: var(--white); border: 2px dashed var(--charcoal); color: var(--charcoal); }
+        .progress-dot.st-current-complete   { background: var(--white); border: 2px solid var(--charcoal); color: var(--charcoal); }
+        .progress-dot.st-past-missed        { background: var(--white); border: 2px solid var(--red); color: var(--red); }
+        .progress-dot.st-past-incomplete    { background: var(--white); border: 2px dashed var(--red); color: var(--red); }
+        .progress-dot.st-past-complete      { background: var(--white); border: 2px solid var(--charcoal); color: var(--charcoal); }
         .progress-dot:hover { transform: scale(1.15); }
 
         .progress-summary {
@@ -1076,23 +1078,45 @@
             return 'story';
         }
 
+        function getProgressState(story, weekNum, promptsSent) {
+            if (weekNum > promptsSent) return 'future';
+            var hasStory   = !!(story && (story.StoryText || story.EditedText));
+            var hasImage   = !!(story && story.StoryImageURL);
+            var hasCaption = !!(story && story.StoryImageCaption);
+            var isComplete = hasStory && hasImage && hasCaption;
+            if (weekNum === promptsSent) {
+                return isComplete ? 'current-complete' : 'current-incomplete';
+            }
+            if (!hasStory) return 'past-missed';
+            if (isComplete) return 'past-complete';
+            return 'past-incomplete';
+        }
+
         // ---- PROGRESS ----
         function renderProgress(byWeek, totalWeeks, promptsSent) {
             var track = document.getElementById('progressTrack');
             var told = 0, withPhoto = 0;
-            for (var w = 1; w <= promptsSent; w++) {
-                var st = getStatus(byWeek[w]);
-                if (st === 'awaiting' || st === 'story' || st === 'full') told++;
-                if (st === 'full') withPhoto++;
-                var a = document.createElement('a');
-                a.href        = '#week-' + w;
-                a.className   = 'progress-dot st-' + st;
-                a.title       = 'Week ' + w;
-                a.textContent = w;
-                track.appendChild(a);
+            for (var w = 1; w <= totalWeeks; w++) {
+                var story = byWeek[w];
+                var st    = getProgressState(story, w, promptsSent);
+                if (w <= promptsSent) {
+                    if (story && (story.StoryText || story.EditedText)) told++;
+                    if (story && (story.StoryText || story.EditedText) && story.StoryImageURL && story.StoryImageCaption) withPhoto++;
+                }
+                var el;
+                if (w <= promptsSent) {
+                    el      = document.createElement('a');
+                    el.href = '#week-' + w;
+                } else {
+                    el = document.createElement('span');
+                }
+                el.className   = 'progress-dot st-' + st;
+                el.title       = 'Week ' + w;
+                el.textContent = w;
+                track.appendChild(el);
             }
             var missingPhoto = told - withPhoto;
-            var txt = told + ' of ' + promptsSent + ' stories told';
+            var txt = told + ' of ' + promptsSent + ' ' + (promptsSent === 1 ? 'story' : 'stories') + ' told';
             if (missingPhoto > 0) txt += ' \u00B7 ' + missingPhoto + ' image' + (missingPhoto === 1 ? '' : 's') + ' missing';
             document.getElementById('progressSummary').textContent = txt;
         }

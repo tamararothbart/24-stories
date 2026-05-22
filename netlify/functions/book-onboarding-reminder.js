@@ -15,7 +15,7 @@ exports.handler = async function() {
   const mjAuth    = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
 
   const formula = encodeURIComponent(
-    `AND({Status}="Active",{PromptNumber}>=24,NOT({BookFormCompleted}))`
+    `AND({Status}="Active",{PromptNumber}>=21,NOT({BookFormCompleted}))`
   );
   const subRes = await fetch(
     `https://api.airtable.com/v0/${BASE}/Subscribers?filterByFormula=${formula}&maxRecords=100`,
@@ -47,8 +47,8 @@ exports.handler = async function() {
     let shouldSend = false;
     let isOverdue  = false;
 
-    if (promptNumber === 24 && (daysSince === 3 || daysSince === 6)) {
-      // Reminders 1 and 2 — day 3 and day 6 after prompt 24
+    if (promptNumber === 21 && (daysSince === 3 || daysSince === 6)) {
+      // Reminders 1 and 2 — day 3 and day 6 after prompt 21
       shouldSend = true;
     } else if (promptNumber === 26 && daysSince === 1) {
       // Final reminder — day 1 after prompt 26

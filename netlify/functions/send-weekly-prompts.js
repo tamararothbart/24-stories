@@ -53,7 +53,7 @@ exports.handler = async function() {
     const tellUrl     = buildTellUrl(subscriberId, weekNumber, weekName, theme, promptText, otherAngles);
 
     const isWeek1  = weekNumber === 1;
-    const isWeek24 = weekNumber === 24;
+    const isWeek21 = weekNumber === 21;
     const isWeek25 = weekNumber === 25;
     const isWeek26 = weekNumber === 26;
 
@@ -88,11 +88,11 @@ exports.handler = async function() {
       });
     }
 
-    // Week 24: book onboarding intro fires alongside the prompt
-    if (isWeek24 && f.StorytellerEmail) {
+    // Week 21: book onboarding intro fires alongside the prompt
+    if (isWeek21 && f.StorytellerEmail) {
       await sendEmail(mjAuth, {
         to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
-        subject: 'Two chapters to go — time to prepare your book',
+        subject: 'Your Legacy Book — time to get it ready',
         html:    email9Html(f.StorytellerFirstName, libUrl)
       });
     }
@@ -313,9 +313,9 @@ function email9Html(firstName, libUrl) {
 <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
   <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
   <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
-  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Two chapters to go. Time to prepare your book.</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book begins here.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">You're nearly there. Two more stories to tell — and while you tell them, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">While you continue telling your stories, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
   <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <ul style="list-style:none;padding:0;margin:0 0 28px;">
@@ -324,7 +324,7 @@ function email9Html(firstName, libUrl) {
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
     <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to four weeks from print to delivery. No further changes can be made after pressing Complete.</li>
   </ul>
-  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no deadline — but the sooner you press Complete, the sooner your book arrives.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no deadline — but the sooner these details are in place, the sooner your book arrives.</p>
   <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>

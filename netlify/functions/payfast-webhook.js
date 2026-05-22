@@ -241,17 +241,15 @@ exports.handler = async function(event) {
   }
 
   // For monthly recurring: subsequent payment IPNs arrive when subscriber is already Active.
-  // Increment PaymentsCount; if it reaches 6, unlock book onboarding.
+  // Increment PaymentsCount; if it reaches 6 and prompt 21 hasn't fired yet, send book onboarding email.
   if (isAlreadyActive) {
     const currentCount = fields.PaymentsCount || 0;
     const newCount = currentCount + 1;
-    const unlockFields = { PaymentsCount: newCount };
-    if (newCount >= 6) unlockFields.BookOnboardingUnlocked = true;
 
     await fetch(`https://api.airtable.com/v0/${BASE}/Subscribers/${recordId}`, {
       method: 'PATCH',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ fields: unlockFields })
+      body: JSON.stringify({ fields: { PaymentsCount: newCount } })
     });
 
     await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
@@ -269,15 +267,27 @@ exports.handler = async function(event) {
     const mjAuth_rec = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
     const recSurname = (fields.StorytellerSurname || '').trim();
     const recName    = recSurname ? `${storytellerFirstName} ${recSurname}` : storytellerFirstName;
+
+    // Payment 6 safety net: fire book onboarding if subscriber hasn't reached prompt 21 yet
+    if (newCount >= 6 && (fields.PromptNumber || 0) < 21 && storytellerEmail) {
+      const libToken6 = fields.LibraryToken || recordId;
+      const libUrl6   = `https://24stories.co.za/library.html?id=${libToken6}`;
+      await sendEmail(mjAuth_rec, {
+        to:      { Email: storytellerEmail, Name: storytellerFirstName },
+        subject: 'Your Legacy Book — time to get it ready',
+        html:    email9Html(storytellerFirstName, libUrl6)
+      });
+    }
+
     const recSubject = newCount >= 6
-      ? `PAYMENT 6/6 COMPLETE — ${recName} — book onboarding unlocked`
+      ? `PAYMENT 6/6 COMPLETE — ${recName}`
       : `PAYMENT ${newCount}/6 — ${recName}`;
     await sendEmail(mjAuth_rec, {
       to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
       subject: recSubject,
-      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(recName)}</strong> — payment ${newCount} of 6 received.<br>Amount: R${parseFloat(amountGross).toFixed(2)}${newCount >= 6 ? '<br><strong>All 6 payments complete. Book onboarding now unlocked.</strong>' : ''}</p>`
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;"><strong>${esc(recName)}</strong> — payment ${newCount} of 6 received.<br>Amount: R${parseFloat(amountGross).toFixed(2)}${newCount >= 6 ? '<br><strong>All 6 payments complete.</strong>' : ''}</p>`
     });
-    console.log(`Payment ${newCount}/6 recorded for subscriber ${recordId}${newCount >= 6 ? ' — BookOnboardingUnlocked set' : ''}`);
+    console.log(`Payment ${newCount}/6 recorded for subscriber ${recordId}`);
     return { statusCode: 200, body: 'OK' };
   }
 
@@ -602,5 +612,31 @@ function email14ExternalHtml(ordererName, storytellerName, quantity, totalAmount
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function email9Html(firstName, libUrl) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Legacy Book</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">Your book begins here.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">While you continue telling your stories, we want to make sure your Legacy Book is ready to go the moment you press Complete.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There are four things to do in your Story Library. Some you may have already done — if so, you are ahead of the game.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <ul style="list-style:none;padding:0;margin:0 0 28px;">
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Tell any missing stories.</strong> Your library holds all the prompts you have received. If there are weeks you have not yet recorded, return to your library at any time.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Add photographs and captions.</strong> Each chapter has room for one image. If you have not yet added them, you can do so now — or any time before you press Complete.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Complete your book details.</strong> Your book already has a working title. You are welcome to keep it, adjust it, or replace it entirely. You may also add a portrait photograph and a dedication.</li>
+    <li style="font-size:16px;line-height:1.9;padding:14px 0;border-bottom:1px solid #E0DCD7;color:#222;"><strong>Press Complete.</strong> When all your stories are told and your details are in place, press the Mark as Complete button in your library. Your book goes straight to production. Allow up to four weeks from print to delivery. No further changes can be made after pressing Complete.</li>
+  </ul>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's no deadline — but the sooner these details are in place, the sooner your book arrives.</p>
+  <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }

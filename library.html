@@ -159,9 +159,7 @@
         .progress-dot.st-awaiting { background: var(--white); border: 1.5px dashed var(--gold); color: var(--gold); }
         .progress-dot.st-story    { background: var(--white); border: 1.5px solid var(--gold); color: var(--gold); }
         .progress-dot.st-full     { background: var(--gold); border: 1.5px solid var(--gold); color: var(--white); }
-        .progress-dot.st-future   { width: 20px; height: 20px; background: #f0ede9; border: none; color: transparent; cursor: default; align-self: center; }
         .progress-dot:hover { transform: scale(1.15); }
-        .progress-dot.st-future:hover { transform: none; }
 
         .progress-summary {
             font-size: 0.82rem;
@@ -1082,17 +1080,12 @@
         function renderProgress(byWeek, totalWeeks, promptsSent) {
             var track = document.getElementById('progressTrack');
             var told = 0, withPhoto = 0;
-            for (var w = 1; w <= totalWeeks; w++) {
-                var st;
-                if (w > promptsSent) {
-                    st = 'future';
-                } else {
-                    st = getStatus(byWeek[w]);
-                    if (st === 'awaiting' || st === 'story' || st === 'full') told++;
-                    if (st === 'full') withPhoto++;
-                }
+            for (var w = 1; w <= promptsSent; w++) {
+                var st = getStatus(byWeek[w]);
+                if (st === 'awaiting' || st === 'story' || st === 'full') told++;
+                if (st === 'full') withPhoto++;
                 var a = document.createElement('a');
-                a.href        = w <= promptsSent ? '#week-' + w : '#';
+                a.href        = '#week-' + w;
                 a.className   = 'progress-dot st-' + st;
                 a.title       = 'Week ' + w;
                 a.textContent = w;

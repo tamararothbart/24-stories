@@ -1025,7 +1025,7 @@
                 var name = (f.StorytellerFirstName || '') + (f.StorytellerSurname ? ' ' + f.StorytellerSurname : '');
                 document.getElementById('headerName').textContent = name || '';
 
-                var promptsSent = 26;
+                var promptsSent = f.PromptNumber || 0;
 
                 var byWeek = {};
                 (stories.records || []).forEach(function(r) {

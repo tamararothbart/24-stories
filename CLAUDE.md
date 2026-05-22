@@ -176,7 +176,7 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - Extra copies: R1,200 each (ordered via Story Library).
 - Airtable record created on payment_status = COMPLETE only.
 - Book: physical printed hardcover. SA printer + Courier Guy. Up to 4 weeks delivery.
-- Library: URL-based access (library.html?id=[LibraryToken]). All 26 prompts unlocked day one.
+- Library: URL-based access (library.html?id=[LibraryToken]). Prompts reveal one at a time — library shows up to PromptNumber. Library link goes out with the first prompt email (not the welcome email), so PromptNumber is always ≥ 1 on first visit.
 - No client proof — library IS the proof.
 - CoverColour: Black / Blue / Red (linen cloth, no cover image).
 

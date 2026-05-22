@@ -20,7 +20,12 @@
 - `promptsSent` was hardcoded to `26` — showed all 26 prompts to every subscriber from day one. Relic of once-off R6,795 model that was never updated when model switched to monthly subscription.
 - Story cards: `renderCards(byWeek, promptsByWeek, promptsSent)` — only shows cards up to `f.PromptNumber`.
 - Progress bar: `renderProgress(byWeek, 26, promptsSent)` — ALWAYS renders all 26 circles. Weeks beyond PromptNumber use `st-future` state (barely visible pale dot). Weeks sent use the existing states (empty/awaiting/story/full).
-- Progress dot states (locked): `st-future` = not yet sent (pale/invisible); `st-empty` = prompt sent, no story; `st-awaiting` = story submitted, being edited; `st-story` = edited, no photo; `st-full` = story + photo + caption complete.
+- Progress dot states (LOCKED — do not change without discussion):
+  - `st-future`: pale, barely visible — prompt not yet sent
+  - `st-empty`: white fill, light grey border — prompt sent, no story yet
+  - `st-awaiting`: white fill, solid gold border — story submitted, being edited by Tamara
+  - `st-story`: white fill, dashed gold border — story edited, photo or caption missing
+  - `st-full`: gold fill, solid charcoal border — story + photo + caption all complete
 - Library link goes out with the **first prompt email** (not the welcome email). PromptNumber is always ≥ 1 on first visit.
 - CLAUDE.md Payment Model section corrected to reflect this.
 

@@ -95,6 +95,10 @@ exports.handler = async function(event) {
       body: JSON.stringify({ fields: { ExtraCopies: newExtra } })
     });
 
+    const isExternal   = orderSource === 'external';
+    const [extEmail = '', extPhone = ''] = ordererStr4.split('|');
+    const extName      = ordererStr5 || '';
+
     const extraPaymentFields = isExternal
       ? { OrdererEmail: extEmail, OrdererName: extName }
       : {};
@@ -119,10 +123,6 @@ exports.handler = async function(event) {
     const ecSurname    = (ecFields.StorytellerSurname || '').trim();
     const ecFullName   = ecSurname ? `${firstName_ec} ${ecSurname}` : firstName_ec;
     const copyWord     = extraCopiesQty === 1 ? 'copy' : 'copies';
-
-    const isExternal   = orderSource === 'external';
-    const [extEmail = '', extPhone = ''] = ordererStr4.split('|');
-    const extName      = ordererStr5 || '';
 
     const emailTo   = isExternal ? extEmail    : ecFields.StorytellerEmail;
     const emailName = isExternal ? extName     : firstName_ec;

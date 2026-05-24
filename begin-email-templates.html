@@ -69,6 +69,45 @@
 
 
 
+<!-- ═══ TEMPLATE 2 — BOOK ORDER LINK ═══ -->
+<div class="block">
+  <div class="block-label">Template 2 — Extra Copies &nbsp;·&nbsp; External order link</div>
+  <div class="block-meta">Subject: <code>Order extra copies — 24 Stories</code> &nbsp;·&nbsp; Fill in: <code>[Name]</code> and <code>[RECORD_ID]</code> (Airtable subscriber record ID — open the subscriber in Airtable, copy the record ID from the URL)</div>
+  <div class="select-bar">
+    <button class="select-btn" onclick="selectEmail('e2',this)">Copy this email</button>
+    <span class="select-hint">Copies full layout — paste straight into Gmail Compose</span>
+  </div>
+  <div class="email-body" id="e2">
+
+    <img src="https://24stories.co.za/logo.png" alt="24 Stories" width="160" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:40px;margin-left:auto;">
+
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 22px;">Dear [Name],</p>
+
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 22px;">Thank you for your interest in ordering extra copies of the book.</p>
+
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 22px;">Each copy is a linen-bound hardcover, printed alongside the main order. The price is <strong>R1,200 per copy</strong>, delivery included. Your copies ship to your storyteller's address — you'll arrange collection or forward delivery directly from them.</p>
+
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 28px;">Use the link below to place your order and pay securely by card.</p>
+
+    <a href="https://24stories.co.za/book-order.html?id=[RECORD_ID]" style="display:inline-block;background:#1A1A1A;color:#ffffff;text-decoration:none;font-family:Georgia,serif;font-size:16px;letter-spacing:0.05em;padding:16px 36px;margin:0 0 28px;">Order extra copies &rarr;</a>
+
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.9;color:#1A1A1A;margin:0 0 36px;">Let us know if you have any questions.</p>
+
+    <div style="height:1px;background:#D0CCC6;margin-bottom:28px;"></div>
+
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;margin:0 0 4px;">With warmth,</p>
+    <p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;margin:0 0 16px;">Tamara Rothbart</p>
+    <p style="font-family:Arial,sans-serif;font-size:13px;line-height:1.8;color:#555;margin:0 0 4px;">Founder, 24 Stories</p>
+    <p style="font-family:Arial,sans-serif;font-size:13px;line-height:1.8;color:#555;margin:0 0 4px;">082 375 8320 &nbsp;&middot;&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+
+    <div style="height:1px;background:#D0CCC6;margin:28px 0;"></div>
+
+    <p style="font-family:Georgia,serif;font-size:13px;font-style:italic;line-height:1.7;color:#888;margin:0;">"After nourishment, shelter and companionship, stories are the thing we need most in the world." — Philip Pullman</p>
+
+  </div>
+</div>
+
+
 <script>
 async function selectEmail(id, btn) {
   var el = document.getElementById(id);

@@ -560,8 +560,8 @@ Library flow (button, PayFast, return confirmation, Tamara alert with delivery a
 External flow (book-order.html, PayFast, confirmed screen, external email-14, EXTERNAL BOOK ORDER alert) ✓
 Invalid link state ✓
 
-### Open item — future session
-External orderers (book-order.html) receive no dispatch notification. Email-12/13 only go to the storyteller. To fix: need a way to store orderer email against the subscriber record. Requires schema discussion — no field exists in Payments or Subscribers for this. Flag when first live external orders arrive.
+### Dispatch notification — RESOLVED (2026-05-24)
+External orderers now receive a dispatch notification. See Session 26 at top of file.
 
 ## Session 21 — Pre-Launch Sweep — COMPLETE (2026-05-20)
 

@@ -3,8 +3,15 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method not allowed' };
   }
 
+  // Log raw IPN for debugging
+  console.log('PAYFAST IPN RAW BODY:', event.body);
+  console.log('PAYFAST IPN HEADERS:', JSON.stringify(event.headers));
+
   // PayFast sends application/x-www-form-urlencoded
-  const params = new URLSearchParams(event.body || '');
+  const rawBody = event.isBase64Encoded
+    ? Buffer.from(event.body || '', 'base64').toString('utf8')
+    : (event.body || '');
+  const params = new URLSearchParams(rawBody);
   const paymentStatus    = params.get('payment_status');
   const recordId         = params.get('custom_str1');
   const paymentType      = params.get('custom_str2') || 'monthly'; // 'monthly' or 'lump_sum'

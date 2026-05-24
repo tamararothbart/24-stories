@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="24 Stories Live — a live storytelling evening in Cape Town. Real people. True stories. No notes. No acting.">
+    <title>24 Stories Live — Cape Town Storytelling Events</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+    /* ─── PAGE-SPECIFIC STYLES ──────────────────────────────────────── */
+
+    .events-hero {
+        background: var(--charcoal);
+        padding: calc(var(--sec) + 80px) var(--pad) var(--sec);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .events-hero::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(184,151,106,0.08) 0%, transparent 70%);
+        pointer-events: none;
+    }
+    .events-hero .eyebrow { color: var(--gold); margin-bottom: 20px; }
+    .events-hero h1 {
+        font-family: var(--font-head);
+        font-size: clamp(3rem, 7vw, 5.5rem);
+        font-weight: 300;
+        color: var(--cream);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 28px;
+    }
+    .events-hero h1 em { color: var(--gold); font-style: italic; }
+    .events-hero .hero-sub {
+        font-size: 1.1rem;
+        font-weight: 300;
+        color: rgba(247,245,242,0.6);
+        max-width: 560px;
+        margin: 0 auto 48px;
+        line-height: 1.8;
+    }
+    .tbc-badge {
+        display: inline-block;
+        border: 1px solid rgba(184,151,106,0.35);
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 400;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 8px 20px;
+        margin-bottom: 44px;
+    }
+
+    /* ─── Section scaffolding ─────────────────────────────────────── */
+    .section { padding: var(--sec) var(--pad); }
+    .section-cream { background: var(--cream); }
+    .section-white { background: var(--white); }
+    .section-center { text-align: center; }
+    .section-center .section-eyebrow { text-align: center; display: block; }
+    .narrow { max-width: 720px; margin-left: auto; margin-right: auto; }
+
+    /* ─── About + Pitch sections ─────────────────────────────────── */
+    .what-divider {
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        margin: 32px 0;
+    }
+    .headline-caps {
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        font-style: normal;
+    }
+    .pitch-quote {
+        font-style: italic;
+        margin-bottom: 8px;
+    }
+    .pitch-attribution {
+        font-size: 11px;
+        letter-spacing: .16em;
+        text-transform: uppercase;
+        color: var(--gold);
+        font-weight: 400;
+        margin-bottom: 32px;
+        display: block;
+    }
+    .pitch-close {
+        font-style: italic;
+    }
+
+    /* ─── Community / Stay in the Loop ───────────────────────────── */
+    .community-section {
+        background: var(--charcoal);
+        padding: var(--sec) var(--pad);
+        text-align: center;
+    }
+    .community-inner {
+        max-width: 520px;
+        margin: 0 auto;
+    }
+    .community-section .section-eyebrow { color: var(--gold); display: block; margin-bottom: 20px; }
+    .community-section h2 {
+        color: var(--cream);
+        margin-bottom: 28px;
+    }
+    .community-section p {
+        color: rgba(247,245,242,0.6);
+        font-size: .95rem;
+        line-height: 1.85;
+        margin-bottom: 14px;
+    }
+    .community-note {
+        font-size: .8rem !important;
+        color: rgba(247,245,242,0.35) !important;
+        margin-top: 20px !important;
+    }
+    .community-form {
+        margin-top: 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+    .community-form input[type="text"],
+    .community-form input[type="email"] {
+        width: 100%;
+        background: #ffffff;
+        border: 1px solid rgba(255,255,255,0.4);
+        padding: 14px 18px;
+        font-family: var(--font-body);
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--charcoal);
+        outline: none;
+        border-radius: 0;
+        transition: border-color var(--dur) var(--ease);
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .community-form input::placeholder { color: #999; }
+    .community-form input:focus { border-color: var(--gold); }
+    #mailingListBtn {
+        background: transparent;
+        border: 1px solid rgba(184,151,106,0.5);
+        color: rgba(247,245,242,0.75);
+        font-family: 'Cormorant Garamond', serif;
+        font-style: italic;
+        font-weight: 400;
+        font-size: 13px;
+        text-transform: none;
+        letter-spacing: 0;
+        line-height: 1.5;
+        padding: 14px 20px;
+        white-space: normal;
+    }
+
+    .events-mobile-logo { display: none; }
+    .footer-back-link { display: none; }
+    .footer-contact-web { display: none; }
+
+    @media (max-width: 768px) {
+        .navbar { display: none; }
+        .events-hero { padding-top: 40px; }
+        .events-mobile-logo {
+            display: block;
+            margin-bottom: 28px;
+        }
+        .events-mobile-logo img {
+            height: 48px;
+            width: auto;
+        }
+        #about { padding-bottom: 28px; }
+        .section-cream { padding-top: 28px; }
+        .community-section { padding-bottom: 24px; }
+        .footer { padding-top: 24px; }
+        .footer-logo { display: none; }
+        .footer-this-page { display: none; }
+        .footer-tagline { display: none; }
+        .footer-also-from-us { display: none; }
+        .footer-back-link { display: block; text-align: center; padding: 0 32px; }
+        .footer-back-link a {
+            display: inline-block;
+            background: #B8976A;
+            color: #ffffff;
+            border: 3px solid #B8976A;
+            font-family: var(--font-body);
+            font-style: normal;
+            font-size: 12px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 20px 28px;
+            text-decoration: none;
+            border-radius: 2px;
+            line-height: 1.5;
+            max-width: 260px;
+        }
+        .footer-links .footer-contact-social { display: none; }
+        .footer-links .footer-contact-web { display: block; }
+        .pitch-body { display: none; }
+        /* Section vertical padding — reduce from 72px to 44px */
+        .section { padding-top: 44px; padding-bottom: 44px; }
+    }
+
+    </style>
+</head>
+<body>
+
+    <!-- ════════════════════════════════════════════
+         NAVIGATION
+    ════════════════════════════════════════════ -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a href="index.html" class="nav-brand">
+                <img src="logo.png" alt="24 Stories" style="height:64px; width:auto; display:block;" />
+            </a>
+            <div class="nav-menu" id="navMenu">
+                <a href="#about">About</a>
+                <a href="#community">Stay in the Loop</a>
+                <a href="index.html" class="btn btn-nav-cta">The Book Experience</a>
+            </div>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+
+    <!-- ════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════ -->
+    <section class="events-hero">
+        <div class="container">
+            <a href="index.html" class="events-mobile-logo"><img src="logo.png" alt="24 Stories" /></a>
+            <span class="eyebrow">24 Stories Live &nbsp;·&nbsp; Cape Town</span>
+            <div class="tbc-badge">Next Event &nbsp;·&nbsp; Cape Town &nbsp;·&nbsp; Date &amp; Venue TBC</div>
+            <h1>A room for stories<br>that deserve to be told<br><em>out loud.</em></h1>
+            <p class="hero-sub">A live storytelling evening. Real people. True stories. No notes. No acting.</p>
+            <a href="#community" class="btn btn-ghost btn-lg">Sign Me Up</a>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         ABOUT
+    ════════════════════════════════════════════ -->
+    <section class="section section-white" id="about">
+        <div class="container">
+            <div class="narrow">
+                <span class="section-eyebrow">What is 24 Stories Live?</span>
+                <h2 class="headline-caps">True Stories.<br>Told Live.</h2>
+                <div class="what-divider"></div>
+                <p>24 Stories Live is an evening in Cape Town where ordinary people tell extraordinary stories.</p>
+                <p>Each evening is built around a single theme. Storytellers speak from memory, in first person, grounded in specific moments. Five minutes. No notes.</p>
+                <p class="pitch-quote" style="margin-top: 2.5em;">"We are lonesome animals. We spend all our life trying to be less lonesome. One of our ancient methods is to tell a story, begging the listener to say — and to feel — 'Yes, that's the way it is, or at least that's the way I feel it.'"</p>
+                <span class="pitch-attribution">— John Steinbeck</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         STAY IN THE LOOP
+    ════════════════════════════════════════════ -->
+    <section class="community-section" id="community">
+        <div class="community-inner">
+            <span class="section-eyebrow">Join the 24 Stories Community</span>
+            <h2>Stay in the Loop</h2>
+            <p>Be the first to know when the next event is confirmed. All 24 Stories Live events take place in Cape Town — Atlantic Seaboard, CBD or Southern Suburbs.</p>
+            <p>Leave your name and email below and we will be in touch with the theme, date, and venue.</p>
+
+            <form id="mailingListForm" class="community-form">
+                <input type="text" name="name" placeholder="Your name" required>
+                <input type="email" name="email" placeholder="Your email address" required>
+                <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; text-align:left; margin-top:4px;">
+                    <input type="checkbox" name="interest_storyteller" value="yes" style="width:18px; height:18px; accent-color:#B8976A; flex-shrink:0; margin-top:2px;">
+                    <span style="font-size:.88rem; color:rgba(247,245,242,0.7); line-height:1.6;">I'm interested in telling a story</span>
+                </label>
+                <button type="submit" id="mailingListBtn" class="btn btn-primary" style="width:100%;margin-top:16px;">Sign Me Up — We do not share your details with anyone. You will only hear from us about 24 Stories.</button>
+            </form>
+            <div id="mailingListSuccess" style="display:none; padding:24px 0;">
+                <p style="font-family:'Playfair Display',serif; font-size:22px; color:var(--cream); margin:0 0 12px;" id="successHeading">You are on the list.</p>
+                <p style="font-family:'Cormorant Garamond',serif; font-size:17px; color:rgba(247,245,242,0.7); line-height:1.7; margin:0;" id="successBody">We will be in touch as soon as the next event is confirmed.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="footer-brand">
+                <p class="footer-logo">24 Stories</p>
+                <p class="footer-tagline">Live storytelling events in Cape Town.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-this-page">
+                    <p class="footer-col-title">This Page</p>
+                    <a href="#about">About the Event</a>
+                    <a href="#community">Stay in the Loop</a>
+                </div>
+                <div>
+                    <p class="footer-col-title">Contact</p>
+                    <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a>
+                    <a href="https://24stories.co.za" class="footer-contact-web">24stories.co.za</a>
+                    <a href="https://wa.me/27823758320" target="_blank" rel="noopener noreferrer" class="footer-contact-social"><span class="wa-mobile">WhatsApp</span><span class="wa-desktop">WhatsApp: +27 82 375 8320</span></a>
+                    <a href="https://www.facebook.com/24storiesza" target="_blank" rel="noopener noreferrer" class="footer-contact-social">Facebook</a>
+                </div>
+                <div class="footer-also-from-us">
+                    <p class="footer-col-title">Also from us</p>
+                    <a href="index.html">24 Stories — The Book Experience</a>
+                    <a href="../lifelegacy-website/index.html">Life Legacy Stories</a>
+                </div>
+                <div class="footer-back-link">
+                    <a href="index.html">← 24 Stories — Back to The Legacy Book Experience →</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 24 Stories — 24stories.co.za. Cape Town, South Africa.</p>
+        </div>
+    </footer>
+
+
+    <div class="social-float-stack">
+        <a href="https://www.facebook.com/24storiesza" target="_blank" rel="noopener" class="social-float social-float--fb" aria-label="Follow us on Facebook">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+            </svg>
+        </a>
+        <a href="https://wa.me/27823758320" target="_blank" rel="noopener" class="social-float social-float--wa" aria-label="Chat on WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+        </a>
+    </div>
+
+    <script src="js/script.js"></script>
+
+    <script>
+    document.getElementById('mailingListForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var form = this;
+        var btn = document.getElementById('mailingListBtn');
+        if (btn.disabled) return;
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+        var isStoryteller = form.querySelector('[name="interest_storyteller"]').checked;
+        fetch('/.netlify/functions/events-inquiry', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name:        form.querySelector('[name="name"]').value,
+                email:       form.querySelector('[name="email"]').value,
+                storyteller: isStoryteller ? 'yes' : ''
+            })
+        }).then(function() {
+            form.style.display = 'none';
+            if (isStoryteller) {
+                document.getElementById('successHeading').textContent = 'Check your inbox.';
+                document.getElementById('successBody').textContent = 'We have sent you details on how to apply. If you do not see the email within a few minutes, check your spam folder.';
+            }
+            document.getElementById('mailingListSuccess').style.display = 'block';
+        }).catch(function() {
+            form.style.display = 'none';
+            document.getElementById('mailingListSuccess').style.display = 'block';
+        });
+    });
+    </script>
+
+
+</body>
+</html>

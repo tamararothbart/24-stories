@@ -8,6 +8,31 @@
 
 ---
 
+## Session 26 — Extra Copies Flow: Display + Confirmation — COMPLETE (2026-05-24)
+
+### Extra copies — library.html
+- `setupExtraCopies(existingQty)` now accepts `f.ExtraCopies` from Airtable. If > 0, shows green line above input: "X extra copy / X extra copies on order." Font size 1rem.
+- Input always resets to 0 on library load (including return from PayFast). No pre-population.
+- On `?ordered=N` return from PayFast: shows confirmation message "Your order is confirmed — N extra copy/copies. A confirmation email is on its way." — receipt for current payment only, not cumulative.
+- Green tally line is the cumulative total from Airtable (updates after IPN fires).
+
+### extra-copies-checkout.js
+- `return_url` now carries actual qty: `&ordered=N` (was hardcoded `&ordered=1`).
+
+### Print order — confirmed correct, no changes needed
+- `ExtraCopies` in Airtable = extra copies only (excludes master copy).
+- `book-compile.js` and `book-dispatch.js` both calculate total print copies as `1 + ExtraCopies`. Master copy always included automatically.
+- PayFast webhook increments `ExtraCopies` (read-then-write) — never overwrites.
+
+### Sandbox behaviour — confirmed expected
+- PayFast sandbox returns a generic "payment confirmed" screen with a link back to Story Library. No itemised receipt. This is sandbox-only behaviour — production PayFast shows full payment details.
+
+### Test result (2026-05-24)
+- Tamara ordered 10 extra copies across multiple sandbox payments. Airtable ExtraCopies = 10 ✓. Print order = 11 (master + 10 extra) ✓.
+- ExtraCopies reset to 0 after testing.
+
+---
+
 ## Session 25 — Progress Bar Overhaul + Book Onboarding at Week 21 — COMPLETE (2026-05-22)
 
 ### library.html — Progress bar: 6-state system (replaces 4-state gold system)

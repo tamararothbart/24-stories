@@ -139,6 +139,15 @@ exports.handler = async function(event) {
       });
     }
 
+    // Notify storyteller when an external orderer buys copies of their book
+    if (isExternal && ecFields.StorytellerEmail) {
+      await sendEmail(mjAuth_ec, {
+        to:      { Email: ecFields.StorytellerEmail, Name: firstName_ec },
+        subject: `${esc(extName)} has ordered extra copies of your book — 24 Stories`,
+        html:    emailExternalOrderAlertHtml(firstName_ec, extName, extraCopiesQty, libUrl_ec)
+      });
+    }
+
     // Notify Tamara
     const deliveryBlock = isExternal
       ? `<br>Orderer: ${esc(extName)}<br>Email: ${esc(extEmail)}<br>Phone: ${esc(extPhone)}<br>Delivery: to ${esc(ecFullName)}'s address on file`
@@ -619,6 +628,24 @@ function email14ExternalHtml(ordererName, storytellerName, quantity, totalAmount
   <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
   <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
   <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;">Questions? We're here to help.<br><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+function emailExternalOrderAlertHtml(storytellerFirstName, ordererName, quantity, libUrl) {
+  const copyWord = quantity === 1 ? 'copy' : 'copies';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Dear ${esc(storytellerFirstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We wanted to let you know that ${esc(ordererName)} has ordered ${quantity} extra ${copyWord} of your book.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">We're thrilled that you have such great support. We thought to let you know in case it affects the number of extra copies, if any, that you were planning to order yourself through your Story Library.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 28px;">Your total print run will reflect all orders placed — yours and theirs — when your book goes to print.</p>
+  <a href="${libUrl}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:0 0 22px;">Open your Story Library &#8594;</a>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 36px;">Email <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> if you have any questions regarding your book order total.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
 </div></div></body></html>`;
 }
 

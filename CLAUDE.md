@@ -42,9 +42,16 @@
 - Replaces `new URLSearchParams(event.body || '')` with conditional decode first.
 
 ### External book order — end-to-end confirmed working (2026-05-24)
-- Webhook tested via manual IPN POST: Airtable ExtraCopies updated ✓, Payment record created with OrdererEmail/OrdererName ✓, orderer confirmation email (email-14 External) sent ✓, hello@ alert sent ✓.
+- Webhook tested via manual IPN POST: Airtable ExtraCopies updated ✓, Payment record created with OrdererEmail/OrdererName ✓, orderer confirmation email (email-14 External) sent ✓, storyteller alert email sent ✓, hello@ alert sent ✓.
 - PayFast sandbox IPNs for one-off credit card payments are unreliable (sandbox limitation — not a code issue). Production PayFast IPNs are reliable. Subscription IPNs (tested in Sessions 18–19) use the same mechanism and work correctly.
 - No duplicate-IPN protection on ExtraCopies increment. Acceptable risk — extra copies are manual fulfilment; double-charge visible in Airtable. Harden if needed post-launch.
+
+### Storyteller alert on external book order — BUILT & TESTED (2026-05-24)
+- When an external orderer completes payment via book-order.html, an email fires to the storyteller (StorytellerEmail) alerting them that [OrdererName] has ordered [N] extra copies of their book.
+- Purpose: prevents storyteller over-ordering their own copies, unaware that family/friends have already ordered.
+- Copy: warm tone; advises storyteller to check their own order in case it affects what they need; directs questions to hello@24stories.co.za; includes library link.
+- Function: `emailExternalOrderAlertHtml()` in payfast-webhook.js.
+- Full email sequence on external order: (1) orderer confirmation email-14 External, (2) storyteller alert, (3) hello@ alert.
 
 ### Sandbox behaviour — confirmed expected
 - PayFast sandbox returns a generic "payment confirmed" screen with a link back to Story Library. No itemised receipt. This is sandbox-only behaviour — production PayFast shows full payment details.

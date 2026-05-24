@@ -95,6 +95,9 @@ exports.handler = async function(event) {
       body: JSON.stringify({ fields: { ExtraCopies: newExtra } })
     });
 
+    const extraPaymentFields = isExternal
+      ? { OrdererEmail: extEmail, OrdererName: extName }
+      : {};
     await fetch(`https://api.airtable.com/v0/${BASE}/Payments`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${AIRTABLE_PAT}`, 'Content-Type': 'application/json' },
@@ -103,7 +106,8 @@ exports.handler = async function(event) {
         PayFastTransactionID: pfTransactionId,
         Amount:               parseFloat(amountGross) || 0,
         Date:                 paymentDate.slice(0, 10),
-        Status:               'COMPLETE'
+        Status:               'COMPLETE',
+        ...extraPaymentFields
       }})
     });
 

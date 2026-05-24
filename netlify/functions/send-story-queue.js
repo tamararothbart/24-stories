@@ -213,6 +213,29 @@ exports.handler = async function() {
       });
 
       console.log(`Book dispatch email sent to ${f.StorytellerEmail}`);
+
+      // Notify any external orderers (family/gift givers who ordered via book-order.html)
+      const ordererFormula = encodeURIComponent(
+        `AND(FIND('${sub.id}', ARRAYJOIN({Subscribers})), {OrdererEmail}!='')`
+      );
+      const ordererRes = await fetch(
+        `https://api.airtable.com/v0/${BASE}/Payments?filterByFormula=${ordererFormula}`,
+        { headers: hdrs }
+      );
+      if (ordererRes.ok) {
+        const { records: ordererPayments } = await ordererRes.json();
+        for (const p of ordererPayments) {
+          const ordererEmail = p.fields.OrdererEmail;
+          const ordererName  = p.fields.OrdererName || '';
+          if (!ordererEmail) continue;
+          await sendEmail(mjAuth, {
+            to:      { Email: ordererEmail, Name: ordererName },
+            subject: `${f.StorytellerFirstName || 'Your storyteller'}'s book is on its way`,
+            html:    emailOrdererDispatchHtml(ordererName, f.StorytellerFirstName || '', deliveryAddress)
+          });
+          console.log(`Orderer dispatch email sent to ${ordererEmail}`);
+        }
+      }
     }
   }
 
@@ -456,6 +479,29 @@ async function generateChapterOrder(BASE, PAT, mjAuth, subscriberId, subFields) 
     }] })
   });
   console.log(`Chapter order generated for ${name} — ${sorted.length} chapters`);
+}
+
+function emailOrdererDispatchHtml(ordererName, storytellerFirstName, deliveryAddress) {
+  const firstName = (ordererName || '').split(' ')[0] || 'there';
+  const addressBlock = deliveryAddress
+    ? `<div style="background:#EFECEA;padding:20px 28px;margin:0 0 28px;"><p style="font-size:15px;color:#555;line-height:1.8;margin:0;white-space:pre-wrap;">${esc(deliveryAddress)}</p></div>`
+    : '';
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your Copies</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">${esc(storytellerFirstName)}'s book is on its way.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your copies of ${esc(storytellerFirstName)}'s book have been sent to print and are on their way to ${esc(storytellerFirstName)}'s address.</p>
+  ${addressBlock}
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Please arrange collection or forward delivery directly with ${esc(storytellerFirstName)} — we'll leave that handover in your hands.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Allow up to four weeks from today for print and delivery. For any questions about your order, contact <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a>.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:20px 0 0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
 }
 
 function email12Html(firstName, deliveryAddress, totalBooks, bookTitle) {

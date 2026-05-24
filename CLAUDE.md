@@ -8,7 +8,7 @@
 
 ---
 
-## Session 26 — Extra Copies Flow: Display + Confirmation — COMPLETE (2026-05-24)
+## Session 26 — Extra Copies Flow: Display + Dispatch Notification — COMPLETE (2026-05-24)
 
 ### Extra copies — library.html
 - `setupExtraCopies(existingQty)` now accepts `f.ExtraCopies` from Airtable. If > 0, shows green line above input: "X extra copy / X extra copies on order." Font size 1rem.
@@ -18,6 +18,12 @@
 
 ### extra-copies-checkout.js
 - `return_url` now carries actual qty: `&ordered=N` (was hardcoded `&ordered=1`).
+
+### External orderer dispatch notification — BUILT (2026-05-24)
+- **Airtable — Payments table:** Two new fields added: `OrdererEmail` (fld6KdRaoqjfuvahh) and `OrdererName` (fld6nxc0QymqWBnZv). Empty on subscription/library payments. Only populated on external book orders.
+- **payfast-webhook.js:** External order Payments record now writes `OrdererEmail` + `OrdererName` from `custom_str4`/`custom_str5`.
+- **send-story-queue.js:** On `BookDispatchEmailSent` tick, after sending email-12 to storyteller, queries Payments for all records linked to that subscriber where `OrdererEmail` is set. Sends `emailOrdererDispatchHtml()` to each.
+- **Dispatch email to orderers:** Subject "[Storyteller]'s book is on its way." Copy confirms copies dispatched to storyteller's address, instructs orderer to arrange collection/forward delivery with storyteller directly. Timing: up to four weeks.
 
 ### Print order — confirmed correct, no changes needed
 - `ExtraCopies` in Airtable = extra copies only (excludes master copy).

@@ -1053,9 +1053,8 @@
                 if (orderedQty > 0) {
                     var copiesMsg = document.getElementById('copiesMsg');
                     if (copiesMsg) {
-                        var totalExtra = f.ExtraCopies || orderedQty;
-                        var copyWord   = totalExtra === 1 ? 'extra copy' : 'extra copies';
-                        copiesMsg.textContent = 'Your order is confirmed — ' + totalExtra + ' ' + copyWord + ' on order. A confirmation email is on its way.';
+                        var copyWord = orderedQty === 1 ? 'extra copy' : 'extra copies';
+                        copiesMsg.textContent = 'Your order is confirmed — ' + orderedQty + ' ' + copyWord + '. A confirmation email is on its way.';
                         copiesMsg.style.display = 'block';
                         setTimeout(function() { copiesMsg.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
                     }

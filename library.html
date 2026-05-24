@@ -1051,14 +1051,11 @@
                 // Show confirmation if returning from extra copies PayFast payment
                 var orderedQty = parseInt(new URLSearchParams(window.location.search).get('ordered'), 10) || 0;
                 if (orderedQty > 0) {
-                    var copiesInput = document.getElementById('copiesInput');
-                    if (copiesInput) {
-                        copiesInput.value = orderedQty;
-                        copiesInput.dispatchEvent(new Event('input'));
-                    }
                     var copiesMsg = document.getElementById('copiesMsg');
                     if (copiesMsg) {
-                        copiesMsg.textContent = 'Your order is confirmed. A confirmation email is on its way.';
+                        var totalExtra = f.ExtraCopies || orderedQty;
+                        var copyWord   = totalExtra === 1 ? 'extra copy' : 'extra copies';
+                        copiesMsg.textContent = 'Your order is confirmed — ' + totalExtra + ' ' + copyWord + ' on order. A confirmation email is on its way.';
                         copiesMsg.style.display = 'block';
                         setTimeout(function() { copiesMsg.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 400);
                     }
@@ -1597,7 +1594,7 @@
             if (existingQty > 0) {
                 var onOrderNote = document.createElement('p');
                 onOrderNote.style.cssText = 'font-size:0.88rem;color:var(--green);margin-bottom:14px;';
-                onOrderNote.textContent = existingQty + (existingQty === 1 ? ' copy' : ' copies') + ' on order.';
+                onOrderNote.textContent = existingQty + (existingQty === 1 ? ' extra copy' : ' extra copies') + ' on order.';
                 input.closest('.copies-input-row').insertAdjacentElement('beforebegin', onOrderNote);
             }
 

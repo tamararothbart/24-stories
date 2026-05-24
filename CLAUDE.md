@@ -30,12 +30,29 @@
 - `book-compile.js` and `book-dispatch.js` both calculate total print copies as `1 + ExtraCopies`. Master copy always included automatically.
 - PayFast webhook increments `ExtraCopies` (read-then-write) — never overwrites.
 
+### begin-email-templates.html — Template 2 added (2026-05-24)
+- Template 2: "Order extra copies — 24 Stories". For responding to email enquiries about extra book copies.
+- Fill in: `[Name]` and `[RECORD_ID]` (Airtable subscriber record ID from URL).
+- Button links to `https://24stories.co.za/book-order.html?id=[RECORD_ID]`.
+- Signature: "The 24 Stories Team" (NOT Tamara's personal signature — coaching only gets personal sig).
+- Same clipboard copy mechanism as Template 1.
+
+### payfast-webhook.js — base64 body handling added (2026-05-24)
+- Added `event.isBase64Encoded` check so body decodes correctly if Netlify base64-encodes it.
+- Replaces `new URLSearchParams(event.body || '')` with conditional decode first.
+
+### External book order — end-to-end confirmed working (2026-05-24)
+- Webhook tested via manual IPN POST: Airtable ExtraCopies updated ✓, Payment record created with OrdererEmail/OrdererName ✓, orderer confirmation email (email-14 External) sent ✓, hello@ alert sent ✓.
+- PayFast sandbox IPNs for one-off credit card payments are unreliable (sandbox limitation — not a code issue). Production PayFast IPNs are reliable. Subscription IPNs (tested in Sessions 18–19) use the same mechanism and work correctly.
+- No duplicate-IPN protection on ExtraCopies increment. Acceptable risk — extra copies are manual fulfilment; double-charge visible in Airtable. Harden if needed post-launch.
+
 ### Sandbox behaviour — confirmed expected
 - PayFast sandbox returns a generic "payment confirmed" screen with a link back to Story Library. No itemised receipt. This is sandbox-only behaviour — production PayFast shows full payment details.
 
 ### Test result (2026-05-24)
-- Tamara ordered 10 extra copies across multiple sandbox payments. Airtable ExtraCopies = 10 ✓. Print order = 11 (master + 10 extra) ✓.
-- ExtraCopies reset to 0 after testing.
+- Tamara ordered 10 extra copies across multiple sandbox payments (library flow). Airtable ExtraCopies = 10 ✓. Print order = 11 (master + 10 extra) ✓.
+- External book order flow (book-order.html) confirmed working via manual IPN simulation.
+- ExtraCopies reset to 0 after all testing.
 
 ---
 

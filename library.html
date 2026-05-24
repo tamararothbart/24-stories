@@ -1049,7 +1049,13 @@
                 showState('library');
 
                 // Show confirmation if returning from extra copies PayFast payment
-                if (new URLSearchParams(window.location.search).get('ordered') === '1') {
+                var orderedQty = parseInt(new URLSearchParams(window.location.search).get('ordered'), 10) || 0;
+                if (orderedQty > 0) {
+                    var copiesInput = document.getElementById('copiesInput');
+                    if (copiesInput) {
+                        copiesInput.value = orderedQty;
+                        copiesInput.dispatchEvent(new Event('input'));
+                    }
                     var copiesMsg = document.getElementById('copiesMsg');
                     if (copiesMsg) {
                         copiesMsg.textContent = 'Your order is confirmed. A confirmation email is on its way.';
@@ -1486,7 +1492,7 @@
             })();
             setupTextSave('deliveryPhone',  'phoneSaved',      'deliveryPhone');
             setupCoverColour(f.CoverColour || '');
-            setupExtraCopies();
+            setupExtraCopies(f.ExtraCopies || 0);
         }
 
         function setupCoverColour(saved) {
@@ -1581,12 +1587,19 @@
         }
 
         // ---- EXTRA COPIES ----
-        function setupExtraCopies() {
+        function setupExtraCopies(existingQty) {
             var input       = document.getElementById('copiesInput');
             var totalEl     = document.getElementById('copiesTotalDisplay');
             var breakdownEl = document.getElementById('copiesBreakdown');
             var btn         = document.getElementById('btnRequestPayment');
             var msgEl       = document.getElementById('copiesMsg');
+
+            if (existingQty > 0) {
+                var onOrderNote = document.createElement('p');
+                onOrderNote.style.cssText = 'font-size:0.88rem;color:var(--green);margin-bottom:14px;';
+                onOrderNote.textContent = existingQty + (existingQty === 1 ? ' copy' : ' copies') + ' on order.';
+                input.closest('.copies-input-row').insertAdjacentElement('beforebegin', onOrderNote);
+            }
 
             function calcTotal(n) {
                 if (n <= 0) return 0;

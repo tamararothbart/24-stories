@@ -38,7 +38,7 @@ exports.handler = async function(event) {
   const params = {
     merchant_id:  MERCHANT_ID,
     merchant_key: MERCHANT_KEY,
-    return_url:   libUrl + '&ordered=1',
+    return_url:   libUrl + '&ordered=' + qty,
     cancel_url:   libUrl,
     notify_url:   NOTIFY_URL,
     amount:       amount,

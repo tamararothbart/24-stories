@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Enrol a Subscriber — 24 Stories</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #E8E4DF; font-family: Georgia, serif; min-height: 100vh; display: flex; align-items: flex-start; justify-content: center; padding: 48px 20px 80px; }
+    .card { background: #F7F5F2; max-width: 560px; width: 100%; padding: 48px 40px; }
+    img { display: block; margin: 0 0 36px auto; height: 36px; width: auto; }
+    h1 { font-size: 22px; font-weight: normal; color: #1A1A1A; margin: 0 0 6px; }
+    .subtitle { font-size: 14px; color: #888; line-height: 1.6; margin: 0 0 36px; }
+    hr { border: none; border-top: 1px solid #D0CCC6; margin: 32px 0; }
+    .section-label { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin: 0 0 20px; font-family: 'Georgia', serif; }
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; font-family: Georgia, serif; }
+    input[type=text], input[type=email], input[type=tel], textarea {
+      width: 100%; border: 1px solid #C8C4BE; background: #fff; padding: 11px 14px;
+      font-size: 15px; font-family: Georgia, serif; color: #1A1A1A; outline: none;
+      border-radius: 0; transition: border-color 0.15s;
+    }
+    input:focus, textarea:focus { border-color: #B8976A; }
+    textarea { resize: vertical; min-height: 80px; }
+    .radio-group { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+    .radio-btn { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; color: #1A1A1A; padding: 9px 16px; border: 1px solid #C8C4BE; background: #fff; transition: all 0.15s; }
+    .radio-btn input { display: none; }
+    .radio-btn.selected { background: #1A1A1A; color: #F7F5F2; border-color: #1A1A1A; }
+    .extra-fields { display: none; margin-top: 12px; }
+    .btn { display: block; width: 100%; background: #1A1A1A; color: #F7F5F2; border: none; padding: 15px 24px; font-size: 16px; font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.03em; margin-top: 32px; transition: background 0.15s; }
+    .btn:hover { background: #333; }
+    .btn:disabled { background: #999; cursor: not-allowed; }
+    .error-msg { background: #FDECEA; color: #7A2020; border-left: 4px solid #C0392B; padding: 14px 18px; font-size: 14px; margin-top: 20px; display: none; line-height: 1.6; }
+    /* Confirmation screen */
+    #stateConfirmed { display: none; }
+    .confirmed-name { font-size: 28px; font-weight: normal; color: #1A1A1A; margin: 0 0 8px; }
+    .confirmed-sub { font-size: 15px; color: #666; line-height: 1.7; margin: 0 0 32px; }
+    .copy-block { background: #F0EDE8; padding: 16px 18px; margin-bottom: 16px; }
+    .copy-label { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 8px; font-family: Georgia, serif; }
+    .copy-text { font-size: 14px; color: #1A1A1A; line-height: 1.7; word-break: break-all; margin-bottom: 12px; }
+    .copy-btn { background: none; border: 1px solid #1A1A1A; color: #1A1A1A; padding: 8px 20px; font-size: 13px; font-family: Georgia, serif; cursor: pointer; letter-spacing: 0.05em; transition: all 0.15s; }
+    .copy-btn:hover { background: #1A1A1A; color: #F7F5F2; }
+    .copy-btn.copied { background: #2A6B2A; color: #fff; border-color: #2A6B2A; }
+    .record-id { font-size: 12px; color: #999; margin-top: 24px; }
+    .enrol-another { margin-top: 28px; background: none; border: 1px solid #C8C4BE; color: #555; padding: 12px 24px; font-size: 14px; font-family: Georgia, serif; cursor: pointer; width: 100%; transition: all 0.15s; }
+    .enrol-another:hover { border-color: #1A1A1A; color: #1A1A1A; }
+    @media (max-width: 600px) { .card { padding: 36px 24px; } }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories">
+
+    <!-- Form state -->
+    <div id="stateForm">
+      <h1>Enrol a subscriber</h1>
+      <p class="subtitle">Complimentary enrolment. All welcome emails fire automatically.</p>
+
+      <hr>
+      <p class="section-label">The Storyteller</p>
+
+      <div class="field">
+        <label>What do they go by? <span style="color:#aaa;">(how we address them in every email)</span></label>
+        <input type="text" id="firstName" placeholder="e.g. Gran, Bill, Mandy">
+      </div>
+      <div class="field">
+        <label>Full name <span style="color:#aaa;">(optional)</span></label>
+        <input type="text" id="surname" placeholder="Surname">
+      </div>
+      <div class="field">
+        <label>Their email address</label>
+        <input type="email" id="storytellerEmail" placeholder="Their email — where prompts will be sent">
+      </div>
+      <div class="field">
+        <label>Their WhatsApp / phone <span style="color:#aaa;">(optional)</span></label>
+        <input type="tel" id="phone" placeholder="e.g. 082 000 0000">
+      </div>
+
+      <hr>
+      <p class="section-label">Gift Giver <span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:11px;color:#aaa;">(if someone is giving this as a gift)</span></p>
+
+      <div class="radio-group" id="ggRadios">
+        <label class="radio-btn selected" id="ggNoneBtn">
+          <input type="radio" name="gg-type" value="none" checked> None
+        </label>
+        <label class="radio-btn" id="ggOtherBtn">
+          <input type="radio" name="gg-type" value="other"> Someone else
+        </label>
+      </div>
+      <div class="extra-fields" id="ggFields">
+        <div class="field">
+          <input type="text" id="ggName" placeholder="Gift giver's name">
+        </div>
+        <div class="field">
+          <input type="email" id="ggEmail" placeholder="Gift giver's email">
+        </div>
+      </div>
+
+      <hr>
+      <p class="section-label">Story Helper <span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:11px;color:#aaa;">(optional)</span></p>
+
+      <div class="radio-group" id="shRadios">
+        <label class="radio-btn selected" id="shNoneBtn">
+          <input type="radio" name="sh-type" value="none" checked> None
+        </label>
+        <label class="radio-btn" id="shGGBtn">
+          <input type="radio" name="sh-type" value="giver"> Gift giver
+        </label>
+        <label class="radio-btn" id="shOtherBtn">
+          <input type="radio" name="sh-type" value="other"> Someone else
+        </label>
+      </div>
+      <div class="extra-fields" id="shFields">
+        <div class="field">
+          <input type="text" id="shName" placeholder="Story helper's name">
+        </div>
+        <div class="field">
+          <input type="email" id="shEmail" placeholder="Story helper's email">
+        </div>
+      </div>
+
+      <hr>
+      <p class="section-label">Family Recipients <span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:11px;color:#aaa;">(who receives the weekly story emails)</span></p>
+      <div class="field">
+        <label>One email address per line</label>
+        <textarea id="familyEmails" placeholder="family@example.com&#10;another@example.com"></textarea>
+      </div>
+
+      <hr>
+      <p class="section-label">Book Delivery <span style="font-weight:normal;text-transform:none;letter-spacing:0;font-size:11px;color:#aaa;">(can be added later in Airtable)</span></p>
+      <div class="field">
+        <label>Delivery address <span style="color:#aaa;">(optional)</span></label>
+        <textarea id="deliveryAddress" placeholder="Street address, suburb, city, postal code" style="min-height:60px;"></textarea>
+      </div>
+      <div class="field">
+        <label>Delivery phone <span style="color:#aaa;">(optional)</span></label>
+        <input type="tel" id="deliveryPhone" placeholder="e.g. 082 000 0000">
+      </div>
+
+      <button class="btn" id="enrollBtn" onclick="enroll()">Enrol and send welcome emails &rarr;</button>
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Confirmation state -->
+    <div id="stateConfirmed">
+      <p class="confirmed-name" id="confirmedName"></p>
+      <p class="confirmed-sub">Enrolled successfully. Welcome emails have been sent.</p>
+
+      <div class="copy-block">
+        <p class="copy-label">Story Library Link</p>
+        <p class="copy-text" id="libUrlDisplay"></p>
+        <button class="copy-btn" onclick="copyText('libUrl', this)">Copy link</button>
+      </div>
+
+      <div class="copy-block">
+        <p class="copy-label">WhatsApp Message</p>
+        <p class="copy-text" id="waDisplay"></p>
+        <button class="copy-btn" onclick="copyText('wa', this)">Copy message</button>
+      </div>
+
+      <p class="record-id">Airtable record: <span id="confirmedRecordId"></span></p>
+      <button class="enrol-another" onclick="resetForm()">Enrol another subscriber</button>
+    </div>
+  </div>
+
+  <script>
+    var libUrlValue = '';
+    var waValue     = '';
+
+    // Radio pill buttons
+    function setupRadios(groupId, btnIds, extraFieldsMap) {
+      var radios = document.querySelectorAll('[name="' + (groupId === 'ggRadios' ? 'gg-type' : 'sh-type') + '"]');
+      radios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+          btnIds.forEach(function(id) {
+            document.getElementById(id).classList.remove('selected');
+          });
+          this.parentElement.classList.add('selected');
+          Object.keys(extraFieldsMap).forEach(function(val) {
+            var el = document.getElementById(extraFieldsMap[val]);
+            if (el) el.style.display = (radio.value === val) ? 'block' : 'none';
+          });
+          // Story helper: if "giver" selected, hide shFields too
+          if (radio.value === 'giver' && extraFieldsMap['other']) {
+            document.getElementById(extraFieldsMap['other']).style.display = 'none';
+          }
+        });
+      });
+    }
+
+    setupRadios('ggRadios', ['ggNoneBtn','ggOtherBtn'], { other: 'ggFields' });
+    setupRadios('shRadios', ['shNoneBtn','shGGBtn','shOtherBtn'], { other: 'shFields' });
+
+    async function enroll() {
+      var btn = document.getElementById('enrollBtn');
+      var err = document.getElementById('errorMsg');
+      err.style.display = 'none';
+
+      var firstName        = document.getElementById('firstName').value.trim();
+      var surname          = document.getElementById('surname').value.trim();
+      var storytellerEmail = document.getElementById('storytellerEmail').value.trim();
+      var phone            = document.getElementById('phone').value.trim();
+      var familyEmails     = document.getElementById('familyEmails').value.trim();
+      var deliveryAddress  = document.getElementById('deliveryAddress').value.trim();
+      var deliveryPhone    = document.getElementById('deliveryPhone').value.trim();
+
+      if (!firstName || !storytellerEmail) {
+        showError('Please enter the storyteller\'s first name and email address.');
+        return;
+      }
+
+      var ggType  = document.querySelector('[name="gg-type"]:checked').value;
+      var ggName  = ggType === 'other' ? document.getElementById('ggName').value.trim()  : '';
+      var ggEmail = ggType === 'other' ? document.getElementById('ggEmail').value.trim()  : '';
+
+      var shType  = document.querySelector('[name="sh-type"]:checked').value;
+      var shName  = '';
+      var shEmail = '';
+      if (shType === 'giver') {
+        shName  = ggName;
+        shEmail = ggEmail;
+      } else if (shType === 'other') {
+        shName  = document.getElementById('shName').value.trim();
+        shEmail = document.getElementById('shEmail').value.trim();
+      }
+
+      btn.disabled    = true;
+      btn.textContent = 'Enrolling…';
+
+      try {
+        var res  = await fetch('/.netlify/functions/admin-enroll', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({
+            storytellerFirstName: firstName,
+            storytellerSurname:   surname,
+            storytellerEmail:     storytellerEmail,
+            giftGiverName:        ggName,
+            giftGiverEmail:       ggEmail,
+            storyHelperName:      shName,
+            storyHelperEmail:     shEmail,
+            familyEmails:         familyEmails,
+            phone:                phone,
+            deliveryAddress:      deliveryAddress,
+            deliveryPhone:        deliveryPhone
+          })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+          libUrlValue = data.libUrl;
+          waValue     = 'Hi ' + firstName + ', you\'re enrolled in 24 Stories. Your welcome email is on its way — check your inbox. Your story library is ready here: ' + data.libUrl + '. Your first prompt arrives this Wednesday.';
+
+          document.getElementById('confirmedName').textContent = firstName + ' is enrolled.';
+          document.getElementById('libUrlDisplay').textContent = data.libUrl;
+          document.getElementById('waDisplay').textContent     = waValue;
+          document.getElementById('confirmedRecordId').textContent = data.recordId;
+
+          document.getElementById('stateForm').style.display      = 'none';
+          document.getElementById('stateConfirmed').style.display = 'block';
+        } else {
+          showError(data.error || 'Something went wrong. Please try again.');
+          btn.disabled    = false;
+          btn.textContent = 'Enrol and send welcome emails →';
+        }
+      } catch(e) {
+        showError('Connection error. Please try again.');
+        btn.disabled    = false;
+        btn.textContent = 'Enrol and send welcome emails →';
+      }
+    }
+
+    function showError(msg) {
+      var el = document.getElementById('errorMsg');
+      el.textContent  = msg;
+      el.style.display = 'block';
+    }
+
+    function copyText(type, btn) {
+      var text = type === 'libUrl' ? libUrlValue : waValue;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = type === 'libUrl' ? 'Copy link' : 'Copy message';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    function resetForm() {
+      document.getElementById('stateForm').style.display      = 'block';
+      document.getElementById('stateConfirmed').style.display = 'none';
+      document.getElementById('enrollBtn').disabled    = false;
+      document.getElementById('enrollBtn').textContent = 'Enrol and send welcome emails →';
+      document.getElementById('errorMsg').style.display = 'none';
+      ['firstName','surname','storytellerEmail','phone','familyEmails',
+       'deliveryAddress','deliveryPhone','ggName','ggEmail','shName','shEmail'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      // Reset radios to None
+      document.querySelector('[name="gg-type"][value="none"]').checked = true;
+      document.querySelector('[name="sh-type"][value="none"]').checked = true;
+      ['ggNoneBtn','ggOtherBtn','shNoneBtn','shGGBtn','shOtherBtn'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('selected');
+      });
+      document.getElementById('ggNoneBtn').classList.add('selected');
+      document.getElementById('shNoneBtn').classList.add('selected');
+      document.getElementById('ggFields').style.display = 'none';
+      document.getElementById('shFields').style.display = 'none';
+    }
+  </script>
+</body>
+</html>

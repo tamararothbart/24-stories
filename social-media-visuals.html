@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>24 Stories — Social Media Visuals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #D8D5D0;
+      font-family: Arial, sans-serif;
+      padding: 40px 0 80px;
+    }
+
+    /* ── INSTRUCTIONS ───────────────────────────────── */
+    .instructions {
+      max-width: 700px;
+      margin: 0 auto 48px;
+      background: #fff;
+      padding: 32px 36px;
+      border-radius: 4px;
+    }
+    .instructions h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: #1A1A1A;
+    }
+    .instructions p {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+    .instructions ol {
+      font-size: 15px;
+      color: #444;
+      line-height: 1.9;
+      padding-left: 20px;
+    }
+    .instructions code {
+      background: #f0eeec;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 13px;
+      color: #B8976A;
+    }
+
+    /* ── NAV ────────────────────────────────────────── */
+    .nav {
+      max-width: 700px;
+      margin: 0 auto 48px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .nav a {
+      background: #1A1A1A;
+      color: #F7F5F2;
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      padding: 8px 14px;
+      border-radius: 2px;
+    }
+    .nav a:hover { background: #B8976A; }
+
+    /* ── PANEL WRAPPERS ─────────────────────────────── */
+    .panel-section {
+      margin: 0 auto 64px;
+      width: 1080px;
+    }
+    .panel-label {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #666;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .panel-caption {
+      font-size: 13px;
+      color: #888;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
+    /* ── THE PANEL ITSELF ───────────────────────────── */
+    .panel {
+      width: 1080px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── POST 1 — Founder story ─────────────────────── */
+    #post1 {
+      background: #1A1A1A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+    }
+    #post1 .quote {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 400;
+      color: #F7F5F2;
+      text-align: center;
+      line-height: 1.55;
+      max-width: 820px;
+      margin-bottom: 48px;
+    }
+    #post1 .rule {
+      width: 120px;
+      height: 1px;
+      background: #B8976A;
+    }
+    #post1 .byline {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B8976A;
+      white-space: nowrap;
+    }
+
+    /* ── POST 2 — How it works ──────────────────────── */
+    #post2 {
+      background: #F7F5F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+    }
+    #post2 .label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B8976A;
+      margin-bottom: 52px;
+      text-align: center;
+    }
+    #post2 .prompt {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-style: italic;
+      font-weight: 400;
+      color: #1A1A1A;
+      text-align: center;
+      line-height: 1.5;
+      max-width: 820px;
+    }
+    #post2 .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 56px;
+    }
+    #post2 .bottom-rule {
+      width: 100%;
+      height: 1px;
+      background: #B8976A;
+      margin-bottom: 24px;
+    }
+    #post2 .bottom-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+    }
+
+    /* ── POST 3 — Prompt reveal (split) ─────────────── */
+    #post3 {
+      display: flex;
+    }
+    #post3 .left {
+      width: 540px;
+      height: 1080px;
+      background: #1A1A1A;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 52px;
+      position: relative;
+    }
+    #post3 .left::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 80px;
+      bottom: 80px;
+      width: 1px;
+      background: #B8976A;
+    }
+    #post3 .left-prompt {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-style: italic;
+      color: #F7F5F2;
+      text-align: center;
+      line-height: 1.6;
+    }
+    #post3 .right {
+      width: 540px;
+      height: 1080px;
+      background: #F7F5F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 52px;
+    }
+    #post3 .right-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 23px;
+      color: #1A1A1A;
+      text-align: center;
+      line-height: 1.8;
+      margin-bottom: 10px;
+    }
+    #post3 .right-rule {
+      width: 80px;
+      height: 1px;
+      background: #B8976A;
+      margin: 32px auto;
+    }
+    #post3 .right-brand {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #B8976A;
+      text-align: center;
+    }
+
+    /* ── POST 4 — Family angle ──────────────────────── */
+    #post4 {
+      background: #F7F5F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 70px;
+    }
+    #post4 .rule-top {
+      width: 100%;
+      height: 1px;
+      background: #B8976A;
+      margin-bottom: 48px;
+    }
+    #post4 .cities {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 48px;
+    }
+    #post4 .city-col {
+      text-align: center;
+      flex: 1;
+    }
+    #post4 .city-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #1A1A1A;
+      display: block;
+      margin-bottom: 10px;
+    }
+    #post4 .city-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 15px;
+      color: #888;
+      font-style: italic;
+    }
+    #post4 .rule-bottom {
+      width: 100%;
+      height: 1px;
+      background: #B8976A;
+      margin-bottom: 56px;
+    }
+    #post4 .main-line {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-style: italic;
+      color: #1A1A1A;
+      text-align: center;
+      line-height: 1.4;
+      max-width: 820px;
+    }
+    #post4 .byline {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #B8976A;
+      white-space: nowrap;
+    }
+
+    /* ── POST 5 — Finite ────────────────────────────── */
+    #post5 {
+      background: #1A1A1A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+    }
+    #post5 .rule {
+      width: 160px;
+      height: 1px;
+      background: #B8976A;
+    }
+    #post5 .lines {
+      padding: 56px 0;
+      text-align: center;
+    }
+    #post5 .line {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 88px;
+      font-weight: 300;
+      color: #F7F5F2;
+      line-height: 1.25;
+      display: block;
+    }
+    #post5 .byline {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B8976A;
+      white-space: nowrap;
+    }
+
+    /* ── POST 6 — Imagine story ─────────────────────── */
+    #post6 {
+      background: #1A1A1A;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+    }
+    #post6 .rule {
+      width: 120px;
+      height: 1px;
+      background: #B8976A;
+    }
+    #post6 .lines {
+      padding: 52px 0;
+      text-align: center;
+    }
+    #post6 .line {
+      font-family: 'Playfair Display', serif;
+      font-size: 44px;
+      font-style: italic;
+      font-weight: 400;
+      color: #F7F5F2;
+      line-height: 1.6;
+      display: block;
+    }
+    #post6 .byline {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B8976A;
+      white-space: nowrap;
+    }
+
+    /* ── POST 7 — Launch ────────────────────────────── */
+    #post7 {
+      background: #F7F5F2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px;
+    }
+    #post7 .rule {
+      width: 100px;
+      height: 1px;
+      background: #B8976A;
+    }
+    #post7 .date {
+      font-family: 'Playfair Display', serif;
+      font-size: 92px;
+      font-weight: 400;
+      color: #1A1A1A;
+      text-align: center;
+      line-height: 1.1;
+      margin: 44px 0 20px;
+    }
+    #post7 .sub {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #1A1A1A;
+      text-align: center;
+      margin-bottom: 44px;
+      letter-spacing: 0.02em;
+    }
+    #post7 .url {
+      position: absolute;
+      bottom: 56px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #B8976A;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- INSTRUCTIONS -->
+  <div class="instructions">
+    <h1>24 Stories — Social Media Visuals</h1>
+    <p>Seven Facebook post visuals, ready to screenshot. Each panel is exactly 1080×1080px.</p>
+    <p><strong>How to save each visual as an image (Chrome on Mac):</strong></p>
+    <ol>
+      <li>Make sure you are online (fonts load from Google)</li>
+      <li>Open Chrome. Press <code>Cmd + 0</code> to set zoom to 100%</li>
+      <li>Right-click anywhere on a panel → <strong>Inspect</strong></li>
+      <li>In the Elements panel on the right, the highlighted line will be the panel div</li>
+      <li>Right-click that highlighted line → <strong>Capture node screenshot</strong></li>
+      <li>The image downloads automatically to your Downloads folder — exactly 1080×1080px</li>
+    </ol>
+    <p style="margin-top:16px;">Repeat for each of the 7 panels. Takes about 2 minutes per panel once you know the steps.</p>
+  </div>
+
+  <!-- NAVIGATION -->
+  <div class="nav">
+    <a href="#section1">Post 1 — Founder</a>
+    <a href="#section2">Post 2 — How It Works</a>
+    <a href="#section3">Post 3 — Prompt Reveal</a>
+    <a href="#section4">Post 4 — Family</a>
+    <a href="#section5">Post 5 — Finite</a>
+    <a href="#section6">Post 6 — Imagine</a>
+    <a href="#section7">Post 7 — Launch</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 1 — Founder story
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section1">
+    <p class="panel-label">Post 1 — Founder story · Monday 26 May</p>
+    <div class="panel" id="post1">
+      <p class="quote">My father tells a story the way you hold a dream just after waking.</p>
+      <div class="rule"></div>
+      <p class="byline">24 Stories</p>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 2 — How it works
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section2">
+    <p class="panel-label">Post 2 — How it works · Wednesday 28 May</p>
+    <div class="panel" id="post2">
+      <p class="label">A prompt. Every week. For six months.</p>
+      <p class="prompt">"What did your hands<br>do for a living?"</p>
+      <div class="bottom">
+        <div class="bottom-rule"></div>
+        <p class="bottom-text">24 Stories</p>
+      </div>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 3 — Prompt reveal (split design)
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section3">
+    <p class="panel-label">Post 3 — Prompt reveal · Friday 30 May</p>
+    <div class="panel" id="post3">
+      <div class="left">
+        <p class="left-prompt">"Tell a story about something you inherited — jokes, traditions, taste."</p>
+      </div>
+      <div class="right">
+        <p class="right-line">She spoke for eight minutes.</p>
+        <p class="right-line">The whole family<br>read it on Friday.</p>
+        <div class="right-rule"></div>
+        <p class="right-brand">24 Stories<br>24stories.co.za</p>
+      </div>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 4 — Family angle
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section4">
+    <p class="panel-label">Post 4 — The family angle · Monday 2 June</p>
+    <div class="panel" id="post4">
+      <div class="rule-top"></div>
+      <div class="cities">
+        <div class="city-col">
+          <span class="city-name">Cape Town</span>
+          <span class="city-role">A daughter</span>
+        </div>
+        <div class="city-col">
+          <span class="city-name">London</span>
+          <span class="city-role">A grandson</span>
+        </div>
+        <div class="city-col">
+          <span class="city-name">Durban</span>
+          <span class="city-role">A brother</span>
+        </div>
+      </div>
+      <div class="rule-bottom"></div>
+      <p class="main-line">"Her story. Their inbox.<br>The same week."</p>
+      <p class="byline">24 Stories</p>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 5 — Finite
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section5">
+    <p class="panel-label">Post 5 — Six months. One book. Done. · Wednesday 4 June</p>
+    <div class="panel" id="post5">
+      <div class="rule"></div>
+      <div class="lines">
+        <span class="line">Six months.</span>
+        <span class="line">One book.</span>
+        <span class="line">Done.</span>
+      </div>
+      <div class="rule"></div>
+      <p class="byline">24 Stories</p>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 6 — Imagine story
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section6">
+    <p class="panel-label">Post 6 — The "imagine" story · Friday 6 June</p>
+    <div class="panel" id="post6">
+      <div class="rule"></div>
+      <div class="lines">
+        <span class="line">You didn't know any of this.</span>
+        <span class="line">Neither did he know</span>
+        <span class="line">that you needed to.</span>
+      </div>
+      <div class="rule"></div>
+      <p class="byline">24 Stories</p>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       POST 7 — Launch announcement
+       ═══════════════════════════════════════════════ -->
+  <div class="panel-section" id="section7">
+    <p class="panel-label">Post 7 — Launch announcement · Tuesday 9 June</p>
+    <div class="panel" id="post7">
+      <div class="rule"></div>
+      <p class="date">10 June.</p>
+      <p class="sub">24 Stories opens.</p>
+      <div class="rule"></div>
+      <p class="url">24stories.co.za</p>
+    </div>
+    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+  </div>
+
+</body>
+</html>

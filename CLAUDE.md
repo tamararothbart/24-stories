@@ -8,6 +8,45 @@
 
 ---
 
+## Session 27 — Complimentary Subscription System — COMPLETE (2026-05-25)
+
+### gifted.html — subscriber-facing complimentary enrolment page
+- URL: `https://24stories.co.za/gifted.html` — send via WhatsApp or email to complimentary subscribers
+- Opens directly on the self form (no landing/path choice screen)
+- Gift path accessible via `gifted.html?type=gift` (rarely used)
+- Logo is NOT a clickable link — no `<a>` wrapper, just `<img>`
+- Calls `/.netlify/functions/admin-enroll` on submit
+- Status goes to Active immediately — no PayFast involved
+- Confirmation message: "Welcome to 24 Stories. A welcome email is on its way to your inbox. Your first prompt arrives this Wednesday."
+- No payment language, no sandbox references, no billing copy
+
+### admin-enroll.js — Netlify Function (POST)
+- Creates Airtable subscriber record: Status=Active, PromptNumber=0, SubscriptionStartDate=today, WelcomeEmailSentAt=now
+- Fires email-1 to storyteller, email-2 to gift giver (if ≠ storyteller email), email-3 to story helper (if ≠ storyteller email)
+- Fires COMPLIMENTARY ENROLMENT alert to hello@24stories.co.za with record ID + library URL
+- Returns `{ success, recordId, libUrl, firstName }`
+- Email-1 and email-3 copy is identical to payfast-webhook.js versions. Email-2 omits "Thank you for your purchase."
+
+### Gmail Template 3 — Complimentary Subscription (begin-email-templates.html)
+- Subject: `A complimentary subscription to 24 Stories`
+- Fill in: `[Name]`
+- Body: "Hello [Name], Here is the link to a complimentary subscription to 24 Stories. Tap the Get Started button, fill in your details, and your storytelling journey begins."
+- Button: "Get Started →" → `https://24stories.co.za/gifted.html`
+- Signature: The 24 Stories Team
+- Open at `https://24stories.co.za/begin-email-templates.html` — Template 3 is at the bottom. Click "Copy this email" → paste into Gmail Compose.
+
+### WhatsApp quick reply — complimentary subscription
+- Shortcut: `gifted` (WhatsApp Business adds the / automatically — just type the word)
+- Message: "Hello [Name], here is your complimentary subscription to 24 Stories. Tap the link, fill in your details, and your storytelling journey begins: https://24stories.co.za/gifted.html"
+
+### Pablo Rothbart — test subscriber (2026-05-25) — PENDING DELETION
+- Record ID: recqWhEXze1wC4C0d | StorytellerEmail: rothbartpablo@gmail.com
+- Status: Active, PromptNumber: 0 (Airtable NOT updated — stays in normal queue)
+- Week 1 prompt sent manually to rothbartpablo@gmail.com for library link testing
+- **DELETE this record once Pablo confirms library opens correctly**
+
+---
+
 ## Session 26 — Extra Copies Flow: Display + Dispatch Notification — COMPLETE (2026-05-24)
 
 ### Extra copies — library.html
@@ -277,11 +316,12 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - Never add fields to Airtable without explicit discussion — schema changes affect library.html, tell.html, and all Netlify Functions simultaneously.
 - Never reference Make. Never suggest Make. It does not exist in this project.
 
-## Outreach Email Template — LOCKED (2026-05-20)
-- File: `begin-email-templates.html` (repo root). Single template only — "Begin 24 Stories — Next Step".
-- Subject line: `Begin 24 Stories — Next Step`. Fill in: `[Name]`. Links to `https://24stories.co.za/begin.html`.
-- Copy mechanism: `navigator.clipboard.write()` with `text/html` blob — this is what preserves the clickable button when pasting into Gmail. Do NOT revert to `document.execCommand('copy')`.
-- Saved in Gmail as canned response. Tested end-to-end: button links correctly, payment completed from inside the email. Do not add more templates or change the copy mechanism.
+## Outreach Email Templates — LOCKED (2026-05-25)
+- File: `begin-email-templates.html` (repo root). Three templates. Open at `https://24stories.co.za/begin-email-templates.html`.
+- Copy mechanism: `navigator.clipboard.write()` with `text/html` blob — preserves clickable button when pasting into Gmail. Do NOT revert to `document.execCommand('copy')`.
+- **Template 1 — Begin 24 Stories:** Subject `Begin 24 Stories — Next Step`. Fill in: `[Name]`. Links to `https://24stories.co.za/begin.html`. Saved in Gmail as canned response.
+- **Template 2 — Extra copies:** Subject `Order extra copies — 24 Stories`. Fill in: `[Name]` and `[RECORD_ID]`. Links to `https://24stories.co.za/book-order.html?id=[RECORD_ID]`.
+- **Template 3 — Complimentary subscription:** Subject `A complimentary subscription to 24 Stories`. Fill in: `[Name]`. Links to `https://24stories.co.za/gifted.html`. Save in Gmail as canned response.
 
 ## Founder Video — LIVE (2026-05-20)
 - File: `founder-video.mp4` (converted from `founder video ..mov`, H.264, 15MB, portrait 9:16)
@@ -291,12 +331,12 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 
 ## File Map
 - `index.html` — main site (pricing, FAQ, signup form, resend library link)
+- `begin.html` — subscriber sign-up + PayFast checkout (self or gift path)
+- `gifted.html` — complimentary subscriber enrolment (no PayFast — calls admin-enroll.js directly)
 - `library.html` — subscriber story library + book prep (reads/writes via Netlify Functions)
 - `tell.html` — story submission (voice + typed, Claude cleanup, Cloudinary upload)
 - `compile-book.html` — Tamara admin: preview + compile subscriber book (book-compile.js)
-- `accelerated-admin.html` — Tamara admin: send accelerated payment link
-- `events.html` — live storytelling events (separate product)
-- `24stories-emails/` — 16 email HTML files (email-1 through email-16)
+- `begin-email-templates.html` — 3 Gmail copy-paste templates: (1) Begin outreach, (2) Extra copies link, (3) Complimentary subscription
 - `netlify/functions/` — all serverless automation
 
 ## Netlify Functions (20 total)
@@ -326,6 +366,9 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - `story-save.js` — saves EditedText from edit.html back to Airtable
 - `transcribe.js` — calls OpenAI Whisper to transcribe audio recording
 - `cleanup.js` — calls Claude API (streaming) to copy-edit raw story text
+
+**Complimentary enrolment:**
+- `admin-enroll.js` — POST: creates Active subscriber record in Airtable, fires emails 1/2/3, sends COMPLIMENTARY ENROLMENT alert to hello@. Called by gifted.html. No PayFast.
 
 **Leads / marketing:**
 - `early-interest.js` — saves interest form lead, notifies Tamara, sends confirmation email

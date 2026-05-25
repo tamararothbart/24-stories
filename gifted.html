@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Begin 24 Stories</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        body { background: var(--cream); }
+        .begin-header { background: var(--white); border-bottom: 1px solid var(--border); padding: 18px var(--pad); text-align: center; }
+        .begin-header a { display: inline-block; }
+        .begin-header img { height: 52px; width: auto; display: block; }
+        .begin-hero { background: var(--white); padding: clamp(20px,3vw,32px) var(--pad) clamp(16px,2.5vw,24px); text-align: center; border-bottom: 1px solid var(--border); }
+        .begin-hero h1 { font-family: var(--font-head); font-size: clamp(2.4rem,5vw,3.6rem); font-weight: 300; color: var(--charcoal); margin-bottom: 18px; letter-spacing: -0.025em; }
+        .begin-subhead { font-family: var(--font-head); font-size: clamp(1.05rem,2.5vw,1.3rem); color: var(--text-mid); max-width: 580px; margin: 0 auto; line-height: 1.8; }
+        .begin-wrap { max-width: 720px; margin: 0 auto; padding: clamp(20px,3vw,34px) var(--pad) clamp(60px,8vw,100px); }
+        .begin-path-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+        .begin-path-card { background: var(--white); border: 1px solid var(--border); padding: clamp(20px,3vw,32px) clamp(16px,2.5vw,28px); text-align: left; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; gap: 10px; }
+        .begin-path-card:hover { border-color: var(--gold); box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+        .begin-path-card-title { font-family: var(--font-head); font-size: clamp(1.1rem,2.2vw,1.4rem); font-weight: 400; color: var(--charcoal); line-height: 1.35; }
+        .begin-path-card-cta { font-size: 13px; color: var(--gold); letter-spacing: 0.06em; }
+        .begin-form-outer { display: none; }
+        .begin-form-card { background: var(--white); border: 1px solid var(--border); padding: clamp(28px,4vw,52px); }
+        .begin-back { margin-bottom: 28px; }
+        .begin-back a { font-size: 14px; color: var(--text-light); text-decoration: none; letter-spacing: 0.04em; }
+        .begin-back a:hover { color: var(--charcoal); }
+        .begin-form-heading { font-family: var(--font-head); font-size: clamp(1.6rem,3vw,2.2rem); font-weight: 300; color: var(--charcoal); margin: 0 0 32px; letter-spacing: -0.02em; }
+        .helper-options { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+        .helper-option { display: flex; align-items: center; gap: 8px; font-size: 15px; color: var(--charcoal); cursor: pointer; padding: 10px 18px; border: 1px solid var(--border); background: var(--white); transition: all 0.15s; }
+        .helper-option:has(input:checked) { background: var(--charcoal); color: var(--cream); border-color: var(--charcoal); }
+        .helper-sub-input { display: block; width: 100%; border: 1px solid var(--border); padding: 11px 14px; font-size: 15px; font-family: Georgia, serif; color: var(--charcoal); margin-bottom: 10px; background: var(--white); outline: none; }
+        .helper-sub-input:focus { border-color: var(--gold); }
+        .recipient-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+        .recipient-row input { flex: 1; border: 1px solid var(--border); padding: 11px 14px; font-size: 15px; font-family: Georgia, serif; color: var(--charcoal); background: var(--white); outline: none; }
+        .recipient-row input:focus { border-color: var(--gold); }
+        .recipient-row input:disabled { background: #F0EDE8; color: var(--text-light); }
+        .recipient-hint { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 14px; }
+        .begin-submit { display: block; width: 100%; background: var(--charcoal); color: var(--white, #F7F5F2); border: none; padding: 18px 24px; font-family: var(--font-ui); font-size: 13px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; margin-top: 32px; transition: background 0.15s; }
+        .begin-submit:hover { background: #333; }
+        .begin-submit:disabled { background: #999; cursor: not-allowed; }
+        .begin-qs { font-size: 13px; color: var(--text-light); margin-top: 24px; text-align: center; }
+        .begin-qs a { color: var(--text-mid); }
+        .begin-footer { border-top: 1px solid var(--border); padding: 28px var(--pad); text-align: center; }
+        .begin-footer p { font-size: 13px; color: var(--text-light); }
+        .begin-footer a { color: var(--text-light); text-decoration: none; }
+        .begin-footer a:hover { color: var(--charcoal); }
+        @media (max-width: 540px) {
+            .begin-path-cards { grid-template-columns: 1fr; }
+            .begin-form-card { padding: 28px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="begin-header">
+        <a href="https://24stories.co.za"><img src="images/24stories-logo.png" alt="24 Stories" onerror="this.src='https://resilient-eclair-c46b34.netlify.app/logo.png'"></a>
+    </header>
+
+    <section class="begin-hero">
+        <p class="section-eyebrow">Complimentary subscription</p>
+        <h1>Welcome to 24 Stories</h1>
+        <p class="begin-subhead">Complete the details below and we'll set up your 24 Stories journey.</p>
+    </section>
+
+    <div class="begin-wrap">
+
+        <!-- Path choice -->
+        <div class="begin-path-cards" id="section-landing">
+            <button class="begin-path-card" id="btn-self" type="button">
+                <span class="begin-path-card-title">I'm telling my own story</span>
+                <span class="begin-path-card-cta">Click here and begin &rarr;</span>
+            </button>
+            <button class="begin-path-card" id="btn-gift" type="button">
+                <span class="begin-path-card-title">I'm giving 24 Stories as a gift</span>
+                <span class="begin-path-card-cta">Click here and give &rarr;</span>
+            </button>
+        </div>
+
+        <!-- =====================
+             SELF FORM
+             ===================== -->
+        <div class="begin-form-outer" id="section-self">
+            <div class="begin-form-card">
+                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
+                <h2 class="begin-form-heading">Your details</h2>
+                <form id="beginSelfForm">
+
+                    <div class="field">
+                        <label for="s-fullname">Your full name</label>
+                        <input type="text" id="s-fullname" name="s-fullname" placeholder="Your full name" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-firstname">What should we call you in emails? <span class="field-note">(how we address you in every email)</span></label>
+                        <input type="text" id="s-firstname" name="s-firstname" placeholder="e.g. Margaret, Bill, Gran" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-email">Your email address <span class="field-note">(where your weekly prompts will arrive)</span></label>
+                        <input type="email" id="s-email" name="s-email" placeholder="Your email" required>
+                    </div>
+                    <div class="field">
+                        <label for="s-phone">Your WhatsApp number <span class="field-note">(optional)</span></label>
+                        <input type="tel" id="s-phone" name="s-phone" placeholder="e.g. 082 375 8320">
+                    </div>
+
+                    <p class="form-section-label">Story Helper <span class="form-optional">(optional)</span></p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside you and can help with recording, uploading photographs, or giving you a gentle nudge if a week slips by.</p>
+                    <div class="field">
+                        <div class="helper-options">
+                            <label class="helper-option"><input type="radio" name="s-helper-type" value="none" checked> None</label>
+                            <label class="helper-option"><input type="radio" name="s-helper-type" value="other"> Story Helper</label>
+                        </div>
+                        <div id="s-helperFields" style="display:none; margin-top:12px;">
+                            <input type="text" id="s-helper-name" class="helper-sub-input" placeholder="Their name">
+                            <input type="email" id="s-helper-email" class="helper-sub-input" placeholder="Their email address">
+                        </div>
+                    </div>
+
+                    <p class="form-section-label">Who should receive your weekly stories?</p>
+                    <div class="recipient-hint" id="s-recipient-instruction"></div>
+                    <div class="field">
+                        <div id="s-recipientFields"></div>
+                    </div>
+
+                    <button type="submit" class="begin-submit" id="s-submitBtn">Get Started &rarr;</button>
+                    <p class="begin-qs">Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener">WhatsApp +27 82 375 8320</a></p>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- =====================
+             GIFT FORM
+             ===================== -->
+        <div class="begin-form-outer" id="section-gift">
+            <div class="begin-form-card">
+                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
+                <h2 class="begin-form-heading">Gift giver details</h2>
+                <form id="beginGiftForm">
+
+                    <div class="field">
+                        <label for="g-giver-name">Your name</label>
+                        <input type="text" id="g-giver-name" name="g-giver-name" placeholder="Your name" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-giver-email">Your email address <span class="field-note">(your confirmation will be sent here)</span></label>
+                        <input type="email" id="g-giver-email" name="g-giver-email" placeholder="Your email" required>
+                    </div>
+
+                    <p class="form-section-label">Storyteller details</p>
+                    <div class="field">
+                        <label for="g-storyteller-name">Storyteller's name</label>
+                        <input type="text" id="g-storyteller-name" name="g-storyteller-name" placeholder="Their full name" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-firstname">What should we call them in emails? <span class="field-note">(how we address them in every email)</span></label>
+                        <input type="text" id="g-storyteller-firstname" name="g-storyteller-firstname" placeholder="e.g. Gran, Bill, Margaret" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-email">Their email address <span class="field-note">(where prompts will be sent)</span></label>
+                        <input type="email" id="g-storyteller-email" name="g-storyteller-email" placeholder="Their email" required>
+                    </div>
+                    <div class="field">
+                        <label for="g-storyteller-phone">Their WhatsApp number <span class="field-note">(optional)</span></label>
+                        <input type="tel" id="g-storyteller-phone" name="g-storyteller-phone" placeholder="Their WhatsApp (optional)">
+                    </div>
+
+                    <p class="form-section-label">Story Helper</p>
+                    <p style="font-size:15px; color:var(--text-mid); line-height:1.7; margin:0 0 14px;">A Story Helper receives each prompt alongside the storyteller and can help with recording and uploading photographs. Will you be helping, or would you like someone else to assist?</p>
+                    <div class="field">
+                        <div class="helper-options">
+                            <label class="helper-option"><input type="radio" name="g-helper-type" value="none" checked> None</label>
+                            <label class="helper-option"><input type="radio" name="g-helper-type" value="me"> Me</label>
+                            <label class="helper-option"><input type="radio" name="g-helper-type" value="other"> Someone else</label>
+                        </div>
+                        <div id="g-helperFields" style="display:none; margin-top:12px;">
+                            <input type="text" id="g-helper-name" class="helper-sub-input" placeholder="Their name">
+                            <input type="email" id="g-helper-email" class="helper-sub-input" placeholder="Their email address">
+                        </div>
+                    </div>
+
+                    <p class="form-section-label">Who should receive the weekly stories?</p>
+                    <div class="recipient-hint" id="g-recipient-instruction"></div>
+                    <div class="field">
+                        <div id="g-recipientFields"></div>
+                    </div>
+
+                    <button type="submit" class="begin-submit" id="g-submitBtn">Give 24 Stories &rarr;</button>
+                    <p class="begin-qs">Questions? <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp; <a href="https://wa.me/27823758320" target="_blank" rel="noopener">WhatsApp +27 82 375 8320</a></p>
+
+                </form>
+            </div>
+        </div>
+
+        <!-- Enrolled confirmation -->
+        <div class="begin-form-outer" id="section-enrolled">
+            <div class="begin-form-card" style="text-align:center; padding:60px 40px;">
+                <p style="font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#B8976A;font-weight:600;margin:0 0 20px;">You're enrolled</p>
+                <h2 style="font-family:var(--font-head);font-size:clamp(2.2rem,5vw,3.2rem);font-weight:300;color:var(--charcoal);margin:0 0 28px;letter-spacing:-0.02em;">Welcome to 24 Stories.</h2>
+                <div style="width:40px;height:1px;background:#B8976A;margin:0 auto 28px;"></div>
+                <p style="font-size:1.1rem;font-weight:700;color:#1A1A1A;line-height:1.7;max-width:420px;margin:0 auto 24px;">A welcome email is on its way to your inbox. Your first prompt arrives this Wednesday.</p>
+                <p style="font-size:0.9rem;color:#999;line-height:1.7;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;">hello@24stories.co.za</a></p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="begin-footer">
+        <p>
+            <a href="https://24stories.co.za">24stories.co.za</a> &nbsp;&middot;&nbsp;
+            <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;&middot;&nbsp;
+            <a href="terms.html">Terms &amp; Conditions</a> &nbsp;&middot;&nbsp;
+            <a href="privacy.html">Privacy Policy</a>
+        </p>
+    </footer>
+
+    <script>
+    var ENROLL_URL = '/.netlify/functions/admin-enroll';
+
+    // ── Navigation ──────────────────────────────────────────────
+    function showLanding() {
+        document.getElementById('section-landing').style.display = '';
+        document.getElementById('section-self').style.display    = 'none';
+        document.getElementById('section-gift').style.display    = 'none';
+        document.getElementById('section-enrolled').style.display = 'none';
+    }
+    function showSection(id) {
+        document.getElementById('section-landing').style.display = 'none';
+        ['section-self','section-gift','section-enrolled'].forEach(function(s) {
+            document.getElementById(s).style.display = 'none';
+        });
+        document.getElementById(id).style.display = 'block';
+    }
+
+    document.getElementById('btn-self').addEventListener('click', function() { showSection('section-self'); });
+    document.getElementById('btn-gift').addEventListener('click', function() { showSection('section-gift'); });
+
+    // Auto-show path from URL param (?type=self or ?type=gift)
+    (function() {
+        var type = new URLSearchParams(window.location.search).get('type');
+        if (type === 'self') showSection('section-self');
+        if (type === 'gift') showSection('section-gift');
+    })();
+
+    // ── Recipient auto-fill ──────────────────────────────────────
+    function buildRecipientRows(containerId, instructionId, autoEmails, max) {
+        var container = document.getElementById(containerId);
+        var instr     = document.getElementById(instructionId);
+        var autoCount = autoEmails.filter(Boolean).length;
+        var remaining = max - autoCount;
+
+        if (autoCount === 2) {
+            instr.textContent = 'Your email and your Story Helper\'s have been added automatically. Add up to ' + remaining + ' more family members below.';
+        } else if (autoCount === 1) {
+            instr.textContent = 'Your email has been added automatically. Add up to ' + remaining + ' more family members below.';
+        } else {
+            instr.textContent = 'Add as many as you like — up to ' + max + '.';
+        }
+
+        var existing = [];
+        container.querySelectorAll('input').forEach(function(inp, i) {
+            if (i >= autoCount) existing.push(inp.value);
+        });
+
+        container.innerHTML = '';
+        for (var i = 0; i < max; i++) {
+            var row   = document.createElement('div');
+            row.className = 'recipient-row';
+            var inp   = document.createElement('input');
+            inp.type  = 'email';
+            inp.name  = containerId.replace('Fields','') + '-' + (i + 1);
+            if (i < autoCount) {
+                inp.value    = autoEmails[i];
+                inp.disabled = true;
+                inp.placeholder = '';
+            } else {
+                var exIdx = i - autoCount;
+                inp.value       = existing[exIdx] || '';
+                inp.placeholder = 'Family member email ' + (i + 1);
+                inp.addEventListener('input', function() {
+                    if (containerId === 'g-recipientFields') refreshGiftRecipients();
+                    else refreshSelfRecipients();
+                });
+            }
+            row.appendChild(inp);
+            container.appendChild(row);
+        }
+    }
+
+    function collectFamilyEmails(containerId) {
+        var arr = [];
+        document.getElementById(containerId).querySelectorAll('input').forEach(function(inp) {
+            if (inp.value.trim()) arr.push(inp.value.trim());
+        });
+        return arr.join('\n');
+    }
+
+    // Gift form recipients
+    function getGiftAutoEmails() {
+        var storyteller = (document.getElementById('g-storyteller-email').value || '').trim();
+        var giver       = (document.getElementById('g-giver-email').value || '').trim();
+        var helperType  = (document.querySelector('[name="g-helper-type"]:checked') || {}).value || 'none';
+        var helper      = helperType === 'me'    ? giver
+                        : helperType === 'other' ? (document.getElementById('g-helper-email').value || '').trim()
+                        : '';
+        var auto = [];
+        if (giver && giver !== storyteller) auto.push(giver);
+        if (helper && helper !== giver && helper !== storyteller) auto.push(helper);
+        return auto;
+    }
+    function refreshGiftRecipients() {
+        buildRecipientRows('g-recipientFields', 'g-recipient-instruction', getGiftAutoEmails(), 10);
+    }
+
+    // Self form recipients
+    function getSelfAutoEmails() {
+        var helperType = (document.querySelector('[name="s-helper-type"]:checked') || {}).value || 'none';
+        var helper     = helperType === 'other' ? (document.getElementById('s-helper-email').value || '').trim() : '';
+        var auto = [];
+        if (helper) auto.push(helper);
+        return auto;
+    }
+    function refreshSelfRecipients() {
+        buildRecipientRows('s-recipientFields', 's-recipient-instruction', getSelfAutoEmails(), 10);
+    }
+
+    // Wire up listeners
+    ['g-giver-email','g-storyteller-email','g-helper-email'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', refreshGiftRecipients);
+    });
+    document.querySelectorAll('[name="g-helper-type"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.getElementById('g-helperFields').style.display = this.value === 'other' ? 'block' : 'none';
+            refreshGiftRecipients();
+        });
+    });
+    document.querySelectorAll('[name="s-helper-type"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            document.getElementById('s-helperFields').style.display = this.value === 'other' ? 'block' : 'none';
+            refreshSelfRecipients();
+        });
+    });
+    document.getElementById('s-helper-email').addEventListener('input', refreshSelfRecipients);
+
+    // Initial build
+    refreshGiftRecipients();
+    refreshSelfRecipients();
+
+    // ── Self form submit ─────────────────────────────────────────
+    document.getElementById('beginSelfForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('s-submitBtn');
+        btn.textContent = 'Enrolling…';
+        btn.disabled    = true;
+
+        var fullName   = document.getElementById('s-fullname').value.trim();
+        var firstName  = document.getElementById('s-firstname').value.trim();
+        var email      = document.getElementById('s-email').value.trim();
+        var phone      = document.getElementById('s-phone').value.trim();
+        var helperType = (document.querySelector('[name="s-helper-type"]:checked') || {}).value || 'none';
+        var helperName  = helperType === 'other' ? document.getElementById('s-helper-name').value.trim()  : '';
+        var helperEmail = helperType === 'other' ? document.getElementById('s-helper-email').value.trim() : '';
+
+        fetch(ENROLL_URL, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                storytellerFirstName: firstName,
+                storytellerSurname:   fullName.replace(firstName, '').trim(),
+                storytellerEmail:     email,
+                giftGiverName:        fullName,
+                giftGiverEmail:       email,
+                storyHelperName:      helperName,
+                storyHelperEmail:     helperEmail,
+                familyEmails:         collectFamilyEmails('s-recipientFields'),
+                phone:                phone
+            })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+            if (data.success) {
+                showSection('section-enrolled');
+            } else {
+                btn.textContent = 'Get Started →';
+                btn.disabled    = false;
+                alert(data.error || 'Something went wrong. Please try again or email hello@24stories.co.za.');
+            }
+        }).catch(function() {
+            btn.textContent = 'Get Started →';
+            btn.disabled    = false;
+            alert('Connection error. Please try again or email hello@24stories.co.za.');
+        });
+    });
+
+    // ── Gift form submit ─────────────────────────────────────────
+    document.getElementById('beginGiftForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('g-submitBtn');
+        btn.textContent = 'Enrolling…';
+        btn.disabled    = true;
+
+        var giverName        = document.getElementById('g-giver-name').value.trim();
+        var giverEmail       = document.getElementById('g-giver-email').value.trim();
+        var storytellerName  = document.getElementById('g-storyteller-name').value.trim();
+        var storytellerFirst = document.getElementById('g-storyteller-firstname').value.trim();
+        var storytellerEmail = document.getElementById('g-storyteller-email').value.trim();
+        var phone            = document.getElementById('g-storyteller-phone').value.trim();
+        var helperType       = (document.querySelector('[name="g-helper-type"]:checked') || {}).value || 'none';
+        var helperName  = helperType === 'me'    ? giverName
+                        : helperType === 'other' ? document.getElementById('g-helper-name').value.trim()
+                        : '';
+        var helperEmail = helperType === 'me'    ? giverEmail
+                        : helperType === 'other' ? document.getElementById('g-helper-email').value.trim()
+                        : '';
+
+        fetch(ENROLL_URL, {
+            method:  'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                storytellerFirstName: storytellerFirst,
+                storytellerSurname:   storytellerName.replace(storytellerFirst, '').trim(),
+                storytellerEmail:     storytellerEmail,
+                giftGiverName:        giverName,
+                giftGiverEmail:       giverEmail,
+                storyHelperName:      helperName,
+                storyHelperEmail:     helperEmail,
+                familyEmails:         collectFamilyEmails('g-recipientFields'),
+                phone:                phone
+            })
+        }).then(function(r) { return r.json(); }).then(function(data) {
+            if (data.success) {
+                showSection('section-enrolled');
+            } else {
+                btn.textContent = 'Give 24 Stories →';
+                btn.disabled    = false;
+                alert(data.error || 'Something went wrong. Please try again or email hello@24stories.co.za.');
+            }
+        }).catch(function() {
+            btn.textContent = 'Give 24 Stories →';
+            btn.disabled    = false;
+            alert('Connection error. Please try again or email hello@24stories.co.za.');
+        });
+    });
+    </script>
+
+</body>
+</html>

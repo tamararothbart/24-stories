@@ -57,7 +57,7 @@
 <body>
 
     <header class="begin-header">
-        <a href="https://24stories.co.za"><img src="images/24stories-logo.png" alt="24 Stories" onerror="this.src='https://resilient-eclair-c46b34.netlify.app/logo.png'"></a>
+        <img src="images/24stories-logo.png" alt="24 Stories" onerror="this.src='https://resilient-eclair-c46b34.netlify.app/logo.png'">
     </header>
 
     <section class="begin-hero">
@@ -68,8 +68,8 @@
 
     <div class="begin-wrap">
 
-        <!-- Path choice -->
-        <div class="begin-path-cards" id="section-landing">
+        <!-- Path choice — hidden by default, accessible via ?type=gift -->
+        <div class="begin-path-cards" id="section-landing" style="display:none;">
             <button class="begin-path-card" id="btn-self" type="button">
                 <span class="begin-path-card-title">I'm telling my own story</span>
                 <span class="begin-path-card-cta">Click here and begin &rarr;</span>
@@ -83,9 +83,8 @@
         <!-- =====================
              SELF FORM
              ===================== -->
-        <div class="begin-form-outer" id="section-self">
+        <div class="begin-form-outer" id="section-self" style="display:block;">
             <div class="begin-form-card">
-                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
                 <h2 class="begin-form-heading">Your details</h2>
                 <form id="beginSelfForm">
 
@@ -137,7 +136,6 @@
              ===================== -->
         <div class="begin-form-outer" id="section-gift">
             <div class="begin-form-card">
-                <p class="begin-back"><a href="#" onclick="showLanding(); return false;">&larr; Back</a></p>
                 <h2 class="begin-form-heading">Gift giver details</h2>
                 <form id="beginGiftForm">
 
@@ -221,27 +219,17 @@
     var ENROLL_URL = '/.netlify/functions/admin-enroll';
 
     // ── Navigation ──────────────────────────────────────────────
-    function showLanding() {
-        document.getElementById('section-landing').style.display = '';
-        document.getElementById('section-self').style.display    = 'none';
-        document.getElementById('section-gift').style.display    = 'none';
-        document.getElementById('section-enrolled').style.display = 'none';
-    }
+    // Default: self form is visible. ?type=gift switches to gift form.
     function showSection(id) {
-        document.getElementById('section-landing').style.display = 'none';
         ['section-self','section-gift','section-enrolled'].forEach(function(s) {
             document.getElementById(s).style.display = 'none';
         });
         document.getElementById(id).style.display = 'block';
     }
 
-    document.getElementById('btn-self').addEventListener('click', function() { showSection('section-self'); });
-    document.getElementById('btn-gift').addEventListener('click', function() { showSection('section-gift'); });
-
-    // Auto-show path from URL param (?type=self or ?type=gift)
+    // Switch to gift path via URL param
     (function() {
         var type = new URLSearchParams(window.location.search).get('type');
-        if (type === 'self') showSection('section-self');
         if (type === 'gift') showSection('section-gift');
     })();
 

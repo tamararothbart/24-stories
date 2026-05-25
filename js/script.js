@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================
     var PAYFAST_LIVE_URL    = 'https://www.payfast.co.za/eng/process';
     var PAYFAST_SANDBOX_URL = 'https://sandbox.payfast.co.za/eng/process';
-    var PAYFAST_USE_SANDBOX = true; // set false on launch
+    var PAYFAST_USE_SANDBOX = false; // live
     var PAYFAST_URL         = PAYFAST_USE_SANDBOX ? PAYFAST_SANDBOX_URL : PAYFAST_LIVE_URL;
 
     // Netlify function endpoints

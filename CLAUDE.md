@@ -432,25 +432,24 @@ Changed from `'24 Stories'` to `'24 Stories — 6 monthly payments, stops automa
 All pill buttons. Radio input hidden. `:has(input:checked)` drives charcoal/cream selected state.
 Self form converted from checkbox to radio buttons. `getSelfHelperType()` function reads radio value in both begin.html and js/script.js. Submit handlers use `getSelfHelperType() === 'other'` instead of `sAddHelper.checked`.
 
-### Payment flow test — Scenario 1 COMPLETE (begin.html, self, no helper)
-- Auto-fill works reactively on typed/pasted input (not browser autocomplete)
-- PayFast sandbox payment completes, IPN fires, record activates (Status→Active, PaymentsCount=1)
-- SUBSCRIBED page appears on return ✓
-- Email 1 arrived at storyteller ✓
-- Admin NEW SUBSCRIBER alert arrived at hello@ ✓
+### Payment flow tests — COMPLETE (2026-05-25)
 
-### Payment flow test — Scenario 2 IN PROGRESS (gift, no helper)
-- Payment went through ✓
-- SUBSCRIBED page appeared ✓
-- Pending: confirm Email 1 (storyteller), Email 2 (gift giver), admin alert all arrived
+**begin.html is one page, one link.** Subscriber chooses gift or self on the page and continues. There are not separate test scenarios per path — all paths are within the same form.
 
-### Remaining test scenarios
-3. begin.html — self + Story Helper
-4. begin.html — gift + Me (gift giver is helper) → confirm Email 2 + Email 3 both to giver
-5. begin.html — gift + Someone else → confirm Email 2 to giver, Email 3 to helper
-6. index.html — same gift/self scenarios
-7. Mobile (begin.html on phone)
-8. Extra copies from Story Library
+- All three email paths confirmed via IPN simulation (2026-05-25):
+  - Self, no helper: Email-1 (self copy) to storyteller ✓
+  - Gift, no helper: Email-1 (gift copy) to storyteller, Email-2 to gift giver ✓
+  - Gift + helper (Me): Email-1 to storyteller, Email-2 + Email-3 both to gift giver ✓
+- Airtable: Status→Active, PaymentsCount=1, WelcomeEmailSentAt set on all three ✓
+- Live sandbox payment confirmed: record activates, hello@ alert fires ✓
+- index.html is NOT a separate test — it directs to begin.html on launch day
+
+**Mobile sign-up links (Tamara sends specific links per path):**
+- Default: `https://24stories.co.za/begin.html`
+- Self path: `https://24stories.co.za/begin.html?type=self`
+- Gift path: `https://24stories.co.za/begin.html?type=gift`
+- Mobile render confirmed ✓
+
 After all tests: delete test Airtable records. Resolve PayFast live credential identity before launch.
 
 ## Session 18 continued — Scenario B: Voluntary cancellation flow (2026-05-17)

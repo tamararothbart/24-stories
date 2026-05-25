@@ -299,15 +299,15 @@ PayFast sandbox auto-completes payments without showing a card entry form. In li
 3. Confirm SUBSCRIPTION RESTARTED alert arrives at hello@ with correct payment count
 If the restart link fails in live mode for any reason, the fallback is: cancel the subscription in the PayFast dashboard and have the subscriber sign up fresh via begin.html (Tamara manually sets PromptNumber to resume where they left off).
 
-## ⚠ LAUNCH DAY PAYFAST SWAP — RESOLVED, READY TO EXECUTE
-Live credentials confirmed 2026-05-20. Swap ALL of the following simultaneously on launch day:
-1. `netlify env:set PAYFAST_MERCHANT_ID 34556163`
-2. `netlify env:set PAYFAST_MERCHANT_KEY liduaqfvjfeox`
-3. PAYFAST_PASSPHRASE stays as Twenty4Storie3 — no change needed
-4. `netlify env:set PAYFAST_SANDBOX false`
-5. begin.html line 645: PAYFAST_USE_SANDBOX = false
-6. js/script.js line 65: PAYFAST_USE_SANDBOX = false
-7. Push to GitHub (auto-deploys to Netlify)
+## ✅ PAYFAST LIVE — EXECUTED 2026-05-25
+All 7 steps completed. Site is now taking live payments.
+- PAYFAST_MERCHANT_ID = 34556163 (live) ✓
+- PAYFAST_MERCHANT_KEY = liduaqfvjfeox (live) ✓
+- PAYFAST_PASSPHRASE = Twenty4Storie3 ✓
+- PAYFAST_SANDBOX = false ✓
+- begin.html PAYFAST_USE_SANDBOX = false ✓
+- js/script.js PAYFAST_USE_SANDBOX = false ✓
+- Pushed: commit 81dc1a4 ✓
 
 ## Airtable Schema — Subscribers Table (locked field names)
 StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, StoryHelperEmail, GiftGiverName, GiftGiverEmail, FamilyEmails, DeliveryAddress, DeliveryPhone, Phone, SubscriptionStartDate, Status, PromptNumber, LibraryToken, LastPromptSentDate, BookFormCompleted, BookTitle, PortraitPhotoURL, PortraitCaption, DedicationText, EpigraphText, CoverColour, BookCompiledDate, BookSentToPrintDate, BookProductionStatus (formula — read only), PauseStartDate, ExtraCopies (number), SendDelayNotification (checkbox), GenerateChapterOrder (checkbox), BookDispatchEmailSent (checkbox)

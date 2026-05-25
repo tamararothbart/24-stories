@@ -2,7 +2,7 @@
 
 Operations Flow Reference
 
-Last updated: 20 May 2026
+Last updated: 25 May 2026 — PayFast live
 
 This document tells you where to go and what to do for every operational task in 24 Stories. Keep it open in a browser tab. Add to it as new flows are built.
 
@@ -416,6 +416,8 @@ Do not change Status back to Active unless they have paid and you want prompts t
 ---
 
 ## PART 3C — WHAT TO DO WHEN A PAYMENT FAILS
+
+This section covers **payments 2 through 6** — i.e., a recurring monthly payment fails for a subscriber who is already Active. If a first payment fails at sign-up (before the subscriber has ever been activated), their record ends up in a Frozen state without having received a welcome email. This is an edge case — contact hello@24stories.co.za and manually change their Status back to Pending or delete the record as appropriate.
 
 ---
 
@@ -1031,7 +1033,7 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
 
 1. Log in to PayFast merchant dashboard → Transactions → find the transaction → Refund
 2. In Airtable → Subscribers table → set Status = Cancelled
-3. Open Titan → click **+ New Email** → click the Templates icon → select **Refund confirmation**
+3. Open Gmail → Compose → click ⋮ (bottom right) → Templates → **Your refund — 24 Stories**
 4. Address it to the subscriber (their email is in the request they sent you)
 5. Replace the three placeholders:
    - [FirstName] → their first name

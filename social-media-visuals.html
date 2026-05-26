@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>24 Stories — Social Media Visuals</title>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -85,6 +86,25 @@
       margin-top: 10px;
       line-height: 1.6;
     }
+    .action-bar {
+      display: flex;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .action-bar button {
+      background: #B8976A;
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      font-family: Arial, sans-serif;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.15s;
+    }
+    .action-bar button:hover { background: #1A1A1A; }
+    .action-bar button.copied { background: #4a7c59; }
 
     /* ── THE PANEL ITSELF ───────────────────────────── */
     .panel {
@@ -480,7 +500,10 @@
       <div class="rule"></div>
       <p class="byline">24 Stories</p>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post1', this)">Copy image</button>
+      <button onclick="savePanel('post1', '24stories-post1-founder')">Save image</button>
+    </div>
   </div>
 
 
@@ -497,7 +520,10 @@
         <p class="bottom-text">24 Stories</p>
       </div>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post2', this)">Copy image</button>
+      <button onclick="savePanel('post2', '24stories-post2-how-it-works')">Save image</button>
+    </div>
   </div>
 
 
@@ -517,7 +543,10 @@
         <p class="right-brand">24 Stories<br>24stories.co.za</p>
       </div>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post3', this)">Copy image</button>
+      <button onclick="savePanel('post3', '24stories-post3-prompt-reveal')">Save image</button>
+    </div>
   </div>
 
 
@@ -546,7 +575,10 @@
       <p class="main-line">"Her story. Their inbox.<br>The same week."</p>
       <p class="byline">24 Stories</p>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post4', this)">Copy image</button>
+      <button onclick="savePanel('post4', '24stories-post4-family')">Save image</button>
+    </div>
   </div>
 
 
@@ -565,7 +597,10 @@
       <div class="rule"></div>
       <p class="byline">24 Stories</p>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post5', this)">Copy image</button>
+      <button onclick="savePanel('post5', '24stories-post5-finite')">Save image</button>
+    </div>
   </div>
 
 
@@ -584,7 +619,10 @@
       <div class="rule"></div>
       <p class="byline">24 Stories</p>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post6', this)">Copy image</button>
+      <button onclick="savePanel('post6', '24stories-post6-imagine')">Save image</button>
+    </div>
   </div>
 
 
@@ -600,8 +638,45 @@
       <div class="rule"></div>
       <p class="url">24stories.co.za</p>
     </div>
-    <p class="panel-caption">Right-click the panel above → Inspect → right-click highlighted div → Capture node screenshot</p>
+    <div class="action-bar">
+      <button onclick="copyPanel('post7', this)">Copy image</button>
+      <button onclick="savePanel('post7', '24stories-post7-launch')">Save image</button>
+    </div>
   </div>
+
+  <script>
+    async function copyPanel(id, btn) {
+      const el = document.getElementById(id);
+      const orig = btn.textContent;
+      btn.textContent = 'Rendering...';
+      try {
+        const canvas = await html2canvas(el, { scale: 1, useCORS: true, logging: false });
+        canvas.toBlob(async function(blob) {
+          try {
+            await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+            btn.textContent = 'Copied ✓';
+            btn.classList.add('copied');
+            setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 2500);
+          } catch (e) {
+            btn.textContent = orig;
+            alert('Copy failed — ' + e.message + '\nTry the Save image button instead.');
+          }
+        }, 'image/png');
+      } catch (e) {
+        btn.textContent = orig;
+        alert('Render error — ' + e.message);
+      }
+    }
+
+    function savePanel(id, filename) {
+      html2canvas(document.getElementById(id), { scale: 1, useCORS: true, logging: false }).then(function(canvas) {
+        const a = document.createElement('a');
+        a.download = filename + '.png';
+        a.href = canvas.toDataURL('image/png');
+        a.click();
+      });
+    }
+  </script>
 
 </body>
 </html>

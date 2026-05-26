@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /library.html
+Disallow: /tell.html
+Disallow: /book-order.html
+Disallow: /edit.html
+Disallow: /compile-book.html
+Disallow: /accelerated-admin.html
+Disallow: /admin-enroll.html
+
+Sitemap: https://24stories.co.za/sitemap.xml

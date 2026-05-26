@@ -470,6 +470,7 @@
                     </div>
 
                     <p class="form-section-label">Who should receive your weekly stories?</p>
+                    <p style="font-size:13px; color:#888; font-style:italic; margin:0 0 14px;">Email addresses only — not names.</p>
                     <div class="field">
                         <div class="recipient-fields" id="s-recipientFields"></div>
                     </div>
@@ -552,6 +553,7 @@
                     </div>
 
                     <p class="form-section-label">Who should receive the weekly stories?</p>
+                    <p style="font-size:13px; color:#888; font-style:italic; margin:0 0 14px;">Email addresses only — not names.</p>
                     <div class="field">
                         <div class="recipient-fields" id="g-recipientFields"></div>
                     </div>
@@ -767,8 +769,8 @@
         }
 
         hint.textContent = validAuto.length > 0
-            ? 'Add up to ' + remaining + ' more family member' + (remaining !== 1 ? 's' : '') + '.'
-            : 'Add as many as you like — up to 10.';
+            ? 'Add up to ' + remaining + ' more — email addresses only.'
+            : 'Add as many as you like — up to 10. Email addresses only.';
         container.appendChild(hint);
 
         dynamicCount++;
@@ -814,7 +816,7 @@
         inp.type        = 'email';
         inp.name        = namePrefix + '-' + slotNum;
         inp.id          = namePrefix + '-' + slotNum;
-        inp.placeholder = 'Their email address';
+        inp.placeholder = 'e.g. sarah@gmail.com';
         inp.style.cssText = 'width:100%; padding:14px 16px; border:1px solid var(--border); font-family:var(--font-body); font-size:16px; font-weight:300; color:var(--charcoal); background:var(--white); outline:none; border-radius:0; -webkit-appearance:none; transition:border-color 0.3s;';
         inp.addEventListener('focus', function() { this.style.borderColor = 'var(--charcoal)'; });
         inp.addEventListener('blur',  function() { this.style.borderColor = 'var(--border)'; });

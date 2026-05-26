@@ -186,8 +186,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         hint.textContent = validAuto.length > 0
-            ? `Add up to ${remaining} more family member${remaining !== 1 ? 's' : ''}.`
-            : 'Add as many as you like — up to 10.';
+            ? `Add up to ${remaining} more — email addresses only.`
+            : 'Add as many as you like — up to 10. Email addresses only.';
         container.appendChild(hint);
 
         // First open slot
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         input.type = 'email';
         input.name = `${namePrefix}-${slotNum}`;
         input.id = `${namePrefix}-${slotNum}`;
-        input.placeholder = 'Their email address';
+        input.placeholder = 'e.g. sarah@gmail.com';
         input.style.width = '100%';
 
         wrapper.appendChild(label);
@@ -304,11 +304,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const instr = document.getElementById('g-recipient-instruction');
             if (instr) {
                 if (autoCount === 0) {
-                    instr.textContent = `Add as many as you like — up to ${max}.`;
+                    instr.textContent = `Email addresses only — add as many as you like, up to ${max}.`;
                 } else if (autoCount === 2) {
-                    instr.textContent = `Your email and your Story Helper's have been added automatically. Add up to ${remaining} more family members below.`;
+                    instr.textContent = `Your email and your Story Helper's have been added automatically. Add up to ${remaining} more email addresses below.`;
                 } else {
-                    instr.textContent = `Your email has been added automatically. Add up to ${remaining} more family members below.`;
+                    instr.textContent = `Your email has been added automatically. Add up to ${remaining} more email addresses below.`;
                 }
             }
             buildRecipientSection('g-recipientFields', 'g-recipient', autoEmails, max);
@@ -410,9 +410,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const instr = document.getElementById('s-recipient-instruction');
             if (instr) {
                 if (autoCount === 0) {
-                    instr.textContent = `Add as many as you like — up to ${max}.`;
+                    instr.textContent = `Email addresses only — add as many as you like, up to ${max}.`;
                 } else {
-                    instr.textContent = `Your Story Helper's email has been added automatically. Add up to ${remaining} more family members below.`;
+                    instr.textContent = `Your Story Helper's email has been added automatically. Add up to ${remaining} more email addresses below.`;
                 }
             }
             buildRecipientSection('s-recipientFields', 's-recipient', autoEmails, max);

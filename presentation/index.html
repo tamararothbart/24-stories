@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>24 Stories — Business Presentation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #F0EDE8; color: #1A1A1A; }
+
+  /* ── Hero cover ── */
+  .hero {
+    background: #1A1A1A;
+    color: #F4F2EE;
+    padding: 80px 80px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .hero-logo { color: #B8976A; font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase; }
+  .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: 84px; line-height: 0.92; letter-spacing: 0.01em; }
+  .hero-sub { font-size: 20px; color: #B8976A; line-height: 1.7; font-style: italic; max-width: 640px; }
+  .hero-meta { font-size: 14px; color: #666; line-height: 1.8; border-top: 1px solid #333; padding-top: 24px; }
+
+  /* ── Navigation ── */
+  .nav {
+    background: #F7F5F2;
+    border-bottom: 2px solid #D0CCC6;
+    padding: 0 80px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav a {
+    display: block;
+    padding: 18px 24px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #888;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 3px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav a:hover { color: #1A1A1A; border-bottom-color: #B8976A; }
+  .nav a.active { color: #1A1A1A; border-bottom-color: #B8976A; font-weight: bold; }
+
+  /* ── Sections ── */
+  .section { padding: 80px 80px; border-bottom: 1px solid #D0CCC6; }
+  .section-label { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 10px; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 56px; letter-spacing: 0.02em; line-height: 1; margin-bottom: 20px; }
+  .section-intro { font-size: 18px; line-height: 1.85; color: #444; max-width: 700px; margin-bottom: 48px; }
+
+  /* ── Sequence / flow ── */
+  .flow { display: flex; flex-direction: column; gap: 0; }
+  .flow-step {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 0 32px;
+    padding: 32px 0;
+    border-bottom: 1px solid #E0DCD7;
+    align-items: start;
+  }
+  .flow-step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #B8976A;
+    line-height: 1;
+    padding-top: 4px;
+    text-align: right;
+  }
+  .step-body { }
+  .step-trigger {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: bold;
+    margin-bottom: 6px;
+  }
+  .step-title { font-size: 22px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
+  .step-desc { font-size: 16px; line-height: 1.85; color: #444; margin-bottom: 16px; }
+  .step-links { display: flex; gap: 16px; flex-wrap: wrap; }
+  .step-link {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    border: 1.5px solid #1A1A1A;
+    color: #1A1A1A;
+  }
+  .step-link:hover { background: #1A1A1A; color: #F4F2EE; }
+  .step-link.gold { background: #B8976A; color: #fff; border-color: #B8976A; }
+  .step-link.gold:hover { background: #9a7a56; border-color: #9a7a56; }
+
+  /* ── Product overview ── */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-bottom: 48px;
+  }
+  .product-card {
+    background: #F7F5F2;
+    padding: 32px 28px;
+  }
+  .product-card-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 14px; }
+  .product-card-value { font-size: 18px; line-height: 1.7; color: #1A1A1A; }
+  .product-card-value strong { display: block; font-size: 24px; margin-bottom: 4px; }
+
+  /* ── Print spec summary ── */
+  .spec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-bottom: 40px;
+  }
+  .spec-card {
+    background: #F7F5F2;
+    padding: 28px;
+  }
+  .spec-card-label { font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #B8976A; font-weight: bold; margin-bottom: 10px; }
+  .spec-card-value { font-size: 16px; line-height: 1.8; color: #1A1A1A; }
+
+  /* ── CTA button ── */
+  .cta {
+    display: inline-block;
+    background: #1A1A1A;
+    color: #F4F2EE;
+    text-decoration: none;
+    padding: 18px 40px;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .cta:hover { background: #333; }
+  .cta.gold { background: #B8976A; }
+  .cta.gold:hover { background: #9a7a56; }
+
+  /* ── Colour chips ── */
+  .chips { display: flex; gap: 20px; align-items: center; margin-top: 12px; }
+  .chip { width: 32px; height: 32px; border-radius: 3px; flex-shrink: 0; }
+  .chip-label { font-size: 14px; color: #555; }
+
+  /* ── Page preview frames ── */
+  .preview-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 32px;
+  }
+  .preview-card {
+    background: #fff;
+    border: 1.5px solid #D0CCC6;
+    overflow: hidden;
+  }
+  .preview-label {
+    background: #1A1A1A;
+    color: #B8976A;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    font-weight: bold;
+  }
+  .preview-frame {
+    width: 100%;
+    height: 340px;
+    border: none;
+    display: block;
+  }
+  .preview-open {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #B8976A;
+    text-decoration: none;
+    border-top: 1px solid #E0DCD7;
+  }
+  .preview-open:hover { background: #F7F5F2; }
+
+  /* ── Footer ── */
+  footer {
+    background: #1A1A1A;
+    color: #888;
+    padding: 40px 80px;
+    font-size: 14px;
+    line-height: 1.9;
+  }
+  footer a { color: #B8976A; text-decoration: none; }
+
+  @media (max-width: 900px) {
+    .hero, .section, footer { padding-left: 32px; padding-right: 32px; }
+    .nav { padding: 0 32px; }
+    .product-grid, .preview-grid { grid-template-columns: 1fr 1fr; }
+    .spec-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-logo">24 Stories &nbsp;·&nbsp; Business Presentation</div>
+  <div>
+    <div class="hero-title">24 Stories</div>
+    <div style="margin-top:24px;" class="hero-sub">
+      A 26-week guided memoir programme that transforms a person's life stories into a printed Legacy Book — delivered to family, week by week, as they are written.
+    </div>
+  </div>
+  <div class="hero-meta">
+    24stories.co.za &nbsp;·&nbsp; hello@24stories.co.za &nbsp;·&nbsp; R2,795/month × 6 months &nbsp;·&nbsp; Hardcover legacy book included
+  </div>
+</div>
+
+<!-- ── NAV ── -->
+<nav class="nav">
+  <a href="#overview">Overview</a>
+  <a href="#flow">Subscriber Journey</a>
+  <a href="#tell">Story Recording</a>
+  <a href="#library">Story Library</a>
+  <a href="#book">The Book</a>
+  <a href="#print" style="color:#B8976A;font-weight:bold;">Print Specification</a>
+</nav>
+
+<!-- ── 1. OVERVIEW ── -->
+<div class="section" id="overview">
+  <div class="section-label">The product</div>
+  <div class="section-title">What 24 Stories Is</div>
+  <p class="section-intro">A subscriber spends 26 weeks recording their life stories — one memoir prompt per week. Every story is professionally edited and delivered by email to the subscriber's family. At the end of the journey, all 26 chapters are compiled into a beautifully designed linen-bound hardcover book.</p>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-card-label">Price</div>
+      <div class="product-card-value"><strong>R2,795/month</strong> × 6 months<br>or R16,770 once-off</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Duration</div>
+      <div class="product-card-value"><strong>26 weeks</strong><br>One prompt every Wednesday</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Stories</div>
+      <div class="product-card-value"><strong>26 chapters</strong><br>5 minutes each, voice or typed</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Editing</div>
+      <div class="product-card-value"><strong>Every story</strong><br>Professionally edited by Tamara</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Delivery</div>
+      <div class="product-card-value"><strong>Weekly to family</strong><br>Email with story and photograph</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">The book</div>
+      <div class="product-card-value"><strong>Physical hardcover</strong><br>Linen cloth, A5, case-bound</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 2. SUBSCRIBER JOURNEY ── -->
+<div class="section" id="flow">
+  <div class="section-label">The email sequence</div>
+  <div class="section-title">Subscriber Journey</div>
+  <p class="section-intro">Every subscriber moves through a fixed sequence of automated and manually approved emails. Below is the full flow — click any email to see the live template.</p>
+
+  <div class="flow">
+
+    <div class="flow-step">
+      <div class="step-num">01</div>
+      <div class="step-body">
+        <div class="step-trigger">Immediately on sign-up</div>
+        <div class="step-title">Welcome — to the storyteller</div>
+        <div class="step-desc">Sent to the storyteller at the moment of payment. Explains what 24 Stories is, how the prompts work, what to expect, and introduces their Story Helper if one was named. The library link does not appear here — it arrives on Wednesday with the first prompt.</div>
+        <div class="step-links">
+          <a href="email-1-welcome.html" class="step-link gold" target="_blank">Open Email 1 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">02</div>
+      <div class="step-body">
+        <div class="step-trigger">Immediately on sign-up (if gift subscription)</div>
+        <div class="step-title">Gift giver confirmation</div>
+        <div class="step-desc">Sent to the person who purchased the gift subscription. Acknowledges their generosity and confirms the storyteller has received their welcome email.</div>
+        <div class="step-links">
+          <a href="email-2-gift-giver.html" class="step-link" target="_blank">Open Email 2 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">03</div>
+      <div class="step-body">
+        <div class="step-trigger">Immediately on sign-up (if story helper named)</div>
+        <div class="step-title">Story Helper welcome</div>
+        <div class="step-desc">Sent to the named story helper — often a family member or close friend. Explains their role: gentle nudging, sitting with the storyteller, adding photographs to the library.</div>
+        <div class="step-links">
+          <a href="email-3-story-helper.html" class="step-link" target="_blank">Open Email 3 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">04</div>
+      <div class="step-body">
+        <div class="step-trigger">Wednesday — every week (Week 1 version shown)</div>
+        <div class="step-title">Weekly prompt — the first one</div>
+        <div class="step-desc">Each Wednesday, the weekly prompt arrives. Week 1 includes a fuller "how 24 Stories works" explainer. Weeks 2–24 are shorter. Weeks 25 and 26 are special final-chapter emails. Each prompt email contains the "Tell your story" button and the Story Library link.</div>
+        <div class="step-links">
+          <a href="email-4-first-prompt.html" class="step-link gold" target="_blank">Open Email 4 — Week 1 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">05</div>
+      <div class="step-body">
+        <div class="step-trigger">Saturday — if no story received since Wednesday</div>
+        <div class="step-title">Day 4 reminder — a gentle nudge</div>
+        <div class="step-desc">If no story has been submitted by Saturday, the subscriber receives a gentle reminder. The full prompt is repeated so they don't need to search. No judgement. One nudge per week maximum.</div>
+        <div class="step-links">
+          <a href="email-5-day4-reminder.html" class="step-link" target="_blank">Open Email 5 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">06</div>
+      <div class="step-body">
+        <div class="step-trigger">When Tamara approves and sends each story</div>
+        <div class="step-title">Story sent — confirmation to storyteller</div>
+        <div class="step-desc">Once Tamara approves the edited story, it is sent to the family. At the same moment, the storyteller receives a confirmation showing exactly what the family received — the edited story and the photograph.</div>
+        <div class="step-links">
+          <a href="email-6-story-sent-to-storyteller.html" class="step-link gold" target="_blank">Open Email 6 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">07</div>
+      <div class="step-body">
+        <div class="step-trigger">Simultaneously — delivered to family recipients</div>
+        <div class="step-title">Story delivery — the family receives it</div>
+        <div class="step-desc">The subscriber's family and named recipients receive the edited story and photograph. This is the email they look forward to every week. It is the living product — the gift that arrives in their inbox before the book exists.</div>
+        <div class="step-links">
+          <a href="email-7-story-to-family.html" class="step-link gold" target="_blank">Open Email 7 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">08</div>
+      <div class="step-body">
+        <div class="step-trigger">Week 21 — alongside the prompt</div>
+        <div class="step-title">Book onboarding begins — "Your book begins here"</div>
+        <div class="step-desc">At Week 21, the subscriber receives a second email alongside their weekly prompt. It invites them to complete four tasks in their Story Library: upload a portrait, confirm the book title, write a dedication, write an epigraph. This sets up the Legacy Book for production.</div>
+        <div class="step-links">
+          <a href="email-9-book-onboarding.html" class="step-link gold" target="_blank">Open Email 9 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">09</div>
+      <div class="step-body">
+        <div class="step-trigger">Day +3 and +6 after Week 21 (if book details not complete)</div>
+        <div class="step-title">Book onboarding reminder</div>
+        <div class="step-desc">If the subscriber has not completed their book details within 3 or 6 days, a short gentle reminder is sent. Final reminders follow at the end of Week 26.</div>
+        <div class="step-links">
+          <a href="email-10-book-reminder.html" class="step-link" target="_blank">Open Email 10 &#8594;</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── 3. STORY RECORDING ── -->
+<div class="section" id="tell">
+  <div class="section-label">How stories are captured</div>
+  <div class="section-title">Story Recording — tell.html</div>
+  <p class="section-intro">Every prompt email contains a "Tell your story" button that opens a personalised recording page. The subscriber can record their story in their own voice, or type it. Voice recordings are transcribed automatically by OpenAI Whisper, then passed through Claude (Anthropic's AI) for a light copy-edit. The subscriber reads, edits, and presses Send.</p>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-card-label">Voice recording</div>
+      <div class="product-card-value">Microphone recording directly in the browser. Pause and resume supported. No app required.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Transcription</div>
+      <div class="product-card-value">OpenAI Whisper converts the audio to text automatically within seconds.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">AI copy-edit</div>
+      <div class="product-card-value">Claude (Anthropic) lightly cleans the transcript — fixing grammar, removing filler words — while preserving the storyteller's voice.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Storyteller review</div>
+      <div class="product-card-value">The subscriber reads the cleaned transcript and edits as they like before sending.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Photograph</div>
+      <div class="product-card-value">One photograph can be added per story — uploaded directly from the recording page or from the Story Library at any time.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Human editing</div>
+      <div class="product-card-value">Tamara reads and edits every story before it is sent to the family. This is the core differentiator.</div>
+    </div>
+  </div>
+
+  <a href="https://24stories.co.za/tell.html?id=recj2fKFXLRmGNLn5&week=1&weekname=Inheritance&theme=I+got+it+from+my+mama&prompt=Prepare+a+five-minute+story+about+something+you+inherited.&angles=Heirlooms,+Traits,+Family+Lore" class="cta" target="_blank">Open the story recording page (live demo) &#8594;</a>
+</div>
+
+<!-- ── 4. STORY LIBRARY ── -->
+<div class="section" id="library">
+  <div class="section-label">The subscriber's home</div>
+  <div class="section-title">Story Library — library.html</div>
+  <p class="section-intro">Every subscriber has a private Story Library — a URL-based personal page that holds all their prompts, submitted stories, photographs, and book preparation tools. Access is by a unique link (no login, no password). The library link first appears in the Week 1 prompt email.</p>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-card-label">Progress tracker</div>
+      <div class="product-card-value">26 circles showing which stories are complete, which are in progress, and which are missed. Six states: future / current / past missed / past incomplete / past complete.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Story cards</div>
+      <div class="product-card-value">One card per week sent. Each card shows the edited story, the photograph, and the caption. Photographs can be added or updated at any time.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Book preparation</div>
+      <div class="product-card-value">Portrait upload, book title, dedication, epigraph, cover colour selection (Black / Blue / Red), chapter order. Unlocks at Week 20.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Access</div>
+      <div class="product-card-value">URL-based (no login). All 26 prompts visible from day one. Stories only appear once sent — there is no preview of future prompts.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Complete button</div>
+      <div class="product-card-value">When all 26 stories are told and book details are complete, the subscriber presses Complete. This triggers book compilation and dispatch.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">No admin in the library</div>
+      <div class="product-card-value">The library is the subscriber's personal space. All administrative functions — editing, approval — happen behind the scenes at hello@24stories.co.za.</div>
+    </div>
+  </div>
+
+  <a href="https://24stories.co.za/library.html?id=recj2fKFXLRmGNLn5" class="cta" target="_blank">Open the Story Library (Tamara's test subscriber) &#8594;</a>
+</div>
+
+<!-- ── 5. THE BOOK ── -->
+<div class="section" id="book">
+  <div class="section-label">The finished product</div>
+  <div class="section-title">The Legacy Book</div>
+  <p class="section-intro">When the subscriber presses Complete, all 26 chapters are compiled automatically into a print-ready PDF. Tamara reviews, exports to PDF in Chrome, and sends to the printer with a full specification. The subscriber receives the book at their door within four weeks.</p>
+
+  <div class="product-grid">
+    <div class="product-card">
+      <div class="product-card-label">Format</div>
+      <div class="product-card-value">A5 (148 × 210mm) hardcover, case-bound, sewn binding</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Cover</div>
+      <div class="product-card-value">
+        Fine woven linen cloth. Three colours:
+        <div class="chips">
+          <span class="chip" style="background:#1A1A1A;"></span><span class="chip-label">Black</span>
+          <span class="chip" style="background:#1C2B3F;"></span><span class="chip-label">Blue</span>
+          <span class="chip" style="background:#3A0E0E;"></span><span class="chip-label">Red</span>
+        </div>
+      </div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Lettering</div>
+      <div class="product-card-value">Debossed into cloth. No foil, no dust jacket.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Paper</div>
+      <div class="product-card-value">90gsm uncoated cream. No bright white, no coated stock.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Typography</div>
+      <div class="product-card-value">Bebas Neue for all display/headings. Georgia serif for all body text. Embedded in PDF.</div>
+    </div>
+    <div class="product-card">
+      <div class="product-card-label">Extra copies</div>
+      <div class="product-card-value">R1,200 per extra copy. Family can order via a standalone link. All copies ship together.</div>
+    </div>
+  </div>
+
+  <a href="https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5" class="cta" target="_blank">Preview a compiled book (live) &#8594;</a>
+</div>
+
+<!-- ── 6. PRINT SPECIFICATION ── -->
+<div class="section" id="print" style="background:#F7F5F2;">
+  <div class="section-label">For the printer</div>
+  <div class="section-title">Print Specification</div>
+  <p class="section-intro">Every print order is accompanied by a full specification document. Below is a summary. Open the full printer spec document for the complete brief to share with your printer today.</p>
+
+  <div class="spec-grid">
+    <div class="spec-card">
+      <div class="spec-card-label">Trim size</div>
+      <div class="spec-card-value">148 × 210mm (A5 portrait)</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Binding</div>
+      <div class="spec-card-value">Case-bound hardcover — sewn binding preferred. No perfect binding.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Cover cloth</div>
+      <div class="spec-card-value">Fine woven linen. Black / Navy / Deep red (per order). No dust jacket, no laminate.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Lettering</div>
+      <div class="spec-card-value">Debossed into cloth. Single ink matching cloth colour. No foil, no metallic.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Endpapers</div>
+      <div class="spec-card-value">Plain cream — matching interior paper</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Interior paper</div>
+      <div class="spec-card-value">90gsm uncoated cream (fallback: 80gsm uncoated cream)</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Colour</div>
+      <div class="spec-card-value">Text: black, single-colour. Photos: colour RGB embedded in PDF.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Spine margin</div>
+      <div class="spec-card-value">Recto: 20mm. Verso: 15mm. Fore-edge: 15mm (recto) / 20mm (verso). Mirror margins.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Full-bleed pages</div>
+      <div class="spec-card-value">Cover, portrait, chapter photos, dedication, epigraph, colophon — zero margin.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">File format</div>
+      <div class="spec-card-value">PDF — Chrome export. A5 paper size. Fonts embedded (Bebas Neue + Georgia).</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Images</div>
+      <div class="spec-card-value">Min 1,000px on shortest edge. RGB. Flag any image below 150dpi at trim size.</div>
+    </div>
+    <div class="spec-card">
+      <div class="spec-card-label">Proofing</div>
+      <div class="spec-card-value">Digital proof required before press. Send to hello@24stories.co.za. No press without written sign-off.</div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:8px;">
+    <a href="printer-spec.html" class="cta gold" target="_blank">Open full printer specification document &#8594;</a>
+    <a href="https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5" class="cta" target="_blank">Preview a compiled book PDF &#8594;</a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div>24 Stories &nbsp;·&nbsp; <a href="https://24stories.co.za">24stories.co.za</a> &nbsp;·&nbsp; <a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a></div>
+  <div style="margin-top:8px;font-size:13px;color:#555;">Presentation files in /24stories-website/presentation/ &nbsp;·&nbsp; These links open live pages and email templates from the production system.</div>
+</footer>
+
+</body>
+</html>

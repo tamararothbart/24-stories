@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>24 Stories — Print Specification</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, serif; background: #F0EDE8; color: #1A1A1A; }
+
+  /* ── Cover page ── */
+  .cover {
+    background: #1A1A1A;
+    color: #F4F2EE;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 64px 72px;
+    page-break-after: always;
+  }
+  .cover-logo { font-family: Georgia, serif; font-size: 13px; letter-spacing: 0.22em; text-transform: uppercase; color: #B8976A; }
+  .cover-main { }
+  .cover-title { font-family: 'Bebas Neue', sans-serif; font-size: 96px; line-height: 0.9; letter-spacing: 0.01em; margin-bottom: 32px; }
+  .cover-subtitle { font-size: 20px; color: #B8976A; line-height: 1.7; font-style: italic; }
+  .cover-footer { border-top: 1px solid #333; padding-top: 28px; font-size: 14px; color: #888; line-height: 1.8; }
+
+  /* ── Inner pages ── */
+  .page {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 72px;
+    page-break-after: always;
+  }
+  .page + .page { border-top: 2px solid #C8B99A; }
+
+  /* Section heading */
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    margin-bottom: 48px;
+    color: #1A1A1A;
+  }
+  .intro-text {
+    font-size: 18px;
+    line-height: 1.85;
+    color: #333;
+    max-width: 680px;
+    margin-bottom: 40px;
+  }
+
+  /* Spec blocks */
+  .spec-group {
+    margin-bottom: 48px;
+  }
+  .spec-group-title {
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #1A1A1A;
+    border-bottom: 2px solid #1A1A1A;
+    padding-bottom: 8px;
+    margin-bottom: 20px;
+  }
+  .spec-row {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 16px 32px;
+    padding: 14px 0;
+    border-bottom: 1px solid #D8D2CA;
+    align-items: baseline;
+  }
+  .spec-label {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+  .spec-value {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #1A1A1A;
+  }
+  .spec-value strong { font-weight: bold; }
+  .spec-value em { font-style: italic; color: #555; }
+  .spec-note {
+    font-size: 13px;
+    color: #888;
+    font-style: italic;
+    line-height: 1.7;
+    margin-top: 4px;
+  }
+
+  /* Colour chips */
+  .colour-options { display: flex; gap: 24px; align-items: center; }
+  .colour-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1;
+  }
+  .chip { width: 28px; height: 28px; border-radius: 3px; flex-shrink: 0; }
+  .chip-black { background: #1A1A1A; }
+  .chip-blue  { background: #1C2B3F; }
+  .chip-red   { background: #3A0E0E; }
+
+  /* Page order list */
+  .page-order { list-style: none; counter-reset: po; }
+  .page-order li {
+    counter-increment: po;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid #D8D2CA;
+    font-size: 16px;
+    line-height: 1.7;
+    align-items: baseline;
+  }
+  .page-order li::before {
+    content: counter(po, decimal-leading-zero);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: #B8976A;
+    font-weight: bold;
+    padding-top: 2px;
+  }
+  .po-title { font-weight: bold; display: block; }
+  .po-detail { font-size: 14px; color: #666; line-height: 1.7; }
+
+  /* Typography table */
+  .type-table { width: 100%; border-collapse: collapse; }
+  .type-table th {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: bold;
+    text-align: left;
+    padding: 10px 16px 10px 0;
+    border-bottom: 2px solid #1A1A1A;
+  }
+  .type-table td {
+    font-size: 15px;
+    line-height: 1.75;
+    padding: 12px 16px 12px 0;
+    border-bottom: 1px solid #D8D2CA;
+    vertical-align: top;
+    color: #1A1A1A;
+  }
+  .type-table td:first-child { color: #555; font-size: 14px; }
+
+  /* Margin diagram */
+  .margin-diagram {
+    display: flex;
+    gap: 48px;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+  .margin-box {
+    border: 2px solid #1A1A1A;
+    position: relative;
+    width: 180px;
+    height: 250px;
+    background: #fff;
+    flex-shrink: 0;
+  }
+  .margin-inner {
+    border: 1px dashed #B8976A;
+    position: absolute;
+  }
+  .margin-label {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #B8976A;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+  .margin-arrow {
+    font-size: 11px;
+    color: #888;
+    position: absolute;
+    white-space: nowrap;
+  }
+
+  /* Alert / call-out boxes */
+  .callout {
+    background: #EDEAE6;
+    border-left: 4px solid #B8976A;
+    padding: 24px 28px;
+    margin: 32px 0;
+    font-size: 16px;
+    line-height: 1.8;
+    color: #1A1A1A;
+  }
+  .callout strong { display: block; font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: #B8976A; margin-bottom: 8px; }
+
+  /* Proofing block */
+  .proof-block {
+    background: #1A1A1A;
+    color: #F4F2EE;
+    padding: 36px 40px;
+    margin: 32px 0;
+  }
+  .proof-block h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.04em;
+    margin-bottom: 20px;
+    color: #B8976A;
+  }
+  .proof-block p { font-size: 16px; line-height: 1.85; margin-bottom: 14px; }
+  .proof-block a { color: #B8976A; }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { page-break-after: always; }
+    .proof-block { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .chip { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ─────────────────────────────────────────────── COVER PAGE -->
+<div class="cover">
+  <div class="cover-logo">24 Stories &nbsp;·&nbsp; 24stories.co.za</div>
+  <div class="cover-main">
+    <div class="cover-title">Print<br>Specification</div>
+    <div class="cover-subtitle">
+      Hardcover Legacy Book<br>
+      Complete typographic and production brief<br>
+      For submission with every print order
+    </div>
+  </div>
+  <div class="cover-footer">
+    hello@24stories.co.za &nbsp;·&nbsp; All questions to this address before printing &nbsp;·&nbsp; A proof is required before press
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── THE PRODUCT -->
+<div class="page">
+  <div class="section-label">What we produce</div>
+  <div class="section-title">The 24 Stories Legacy Book</div>
+
+  <p class="intro-text">
+    Each subscriber to 24 Stories spends 26 weeks recording their life stories — one prompt per week.
+    Every story is edited professionally and delivered to their family by email.
+    At the end of the journey, all 26 chapters are compiled into a printed hardcover book: a legacy edition, designed to last generations.
+  </p>
+  <p class="intro-text">
+    The book is typeset automatically from the subscriber's stories, photographs, and book details.
+    It is exported from Chrome as a print-ready PDF. Our specification is fixed. Every order uses the same format.
+  </p>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Format &amp; Binding</div>
+    <div class="spec-row">
+      <div class="spec-label">Trim size</div>
+      <div class="spec-value"><strong>148 × 210 mm (A5 portrait)</strong></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Orientation</div>
+      <div class="spec-value">Portrait</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Binding</div>
+      <div class="spec-value"><strong>Case-bound hardcover — sewn binding preferred.</strong><br>
+        <em>Perfect binding is not acceptable. This is a keepsake edition.</em></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Endpapers</div>
+      <div class="spec-value">Plain cream — matching interior paper colour</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Dust jacket</div>
+      <div class="spec-value">None. Cloth binding only.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Laminate</div>
+      <div class="spec-value">None.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── COVER SPEC -->
+<div class="page">
+  <div class="section-label">Cover &amp; Case</div>
+  <div class="section-title">Cloth &amp; Lettering</div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Case Material</div>
+    <div class="spec-row">
+      <div class="spec-label">Material</div>
+      <div class="spec-value"><strong>Fine woven linen cloth</strong> (wibalin or equivalent)<br>
+        <em>Smooth, matte, no texture treatment required.</em></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Colour</div>
+      <div class="spec-value">
+        Per order — one of three options:
+        <div class="colour-options" style="margin-top:12px;">
+          <div class="colour-chip"><span class="chip chip-black"></span> Black &nbsp;<em style="color:#888;font-size:13px;">#1A1A1A</em></div>
+          <div class="colour-chip"><span class="chip chip-blue"></span> Blue &nbsp;<em style="color:#888;font-size:13px;">#1C2B3F (deep navy)</em></div>
+          <div class="colour-chip"><span class="chip chip-red"></span> Red &nbsp;<em style="color:#888;font-size:13px;">#3A0E0E (deep wine red)</em></div>
+        </div>
+        <div class="spec-note">Subscriber selects colour at sign-up. The print order email specifies which colour applies to each job.</div>
+      </div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Lettering method</div>
+      <div class="spec-value"><strong>Debossed into cloth.</strong> Single ink colour matching the cloth (no foil, no gold, no metallic).</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Front Cover Layout — Typographic Only</div>
+
+    <div class="callout">
+      <strong>Important</strong>
+      There is no cover image or photograph on the front cover. The front cover is typographic only — cloth texture and debossed lettering. No photograph, no illustration, no additional design elements.
+    </div>
+
+    <div class="spec-row">
+      <div class="spec-label">Title block</div>
+      <div class="spec-value">
+        Upper left, flush left.<br>
+        Book title in <strong>large bold condensed sans-serif, ALL CAPS</strong> (Bebas Neue style).<br>
+        Title may run over two lines — split at natural word break.<br>
+        <em>Example: "DEAR / FAMILY," on two lines</em>
+      </div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Middle expanse</div>
+      <div class="spec-value">Large empty area of cloth texture — no content</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Author block</div>
+      <div class="spec-value">
+        Lower right.<br>
+        Line 1 (optional): "by" — small lowercase<br>
+        Line 2: Author name in bold condensed caps<br>
+        Line 3: "A COLLECTION OF STORIES" in small tracked caps
+      </div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Spine &amp; Back Cover</div>
+    <div class="spec-row">
+      <div class="spec-label">Spine</div>
+      <div class="spec-value">Book title and author name in condensed caps, reading top to bottom<br>
+        <em>"PUBLISHED BY 24 STORIES" at base of spine in small condensed caps</em></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Back cover</div>
+      <div class="spec-value">Blank. No copy, no barcode.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── INTERIOR PAPER -->
+<div class="page">
+  <div class="section-label">Interior</div>
+  <div class="section-title">Paper &amp; Colour</div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Paper Stock</div>
+    <div class="spec-row">
+      <div class="spec-label">Weight</div>
+      <div class="spec-value"><strong>90gsm uncoated cream</strong></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Finish</div>
+      <div class="spec-value">Uncoated. Matte. Cream tone (not bright white).</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Fallback</div>
+      <div class="spec-value">If 90gsm unavailable: <strong>80gsm uncoated cream</strong>. Advise before substituting.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Not acceptable</div>
+      <div class="spec-value">Coated stock. Bright white paper. Gloss. Satin.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Colour</div>
+    <div class="spec-row">
+      <div class="spec-label">Text &amp; headings</div>
+      <div class="spec-value">Black — single colour throughout</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Photographs</div>
+      <div class="spec-value">Colour RGB — images embedded in the PDF at full resolution</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Photo fallback</div>
+      <div class="spec-value">If full-colour interior unavailable: greyscale for photo pages is acceptable. <strong>Advise before printing.</strong></div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Image Requirements</div>
+    <div class="spec-row">
+      <div class="spec-label">Resolution</div>
+      <div class="spec-value">Minimum 1,000px on shortest edge (Cloudinary full-resolution output)</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">DPI check</div>
+      <div class="spec-value">If any image falls below 150dpi at trim size, <strong>advise before pressing.</strong></div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Colour space</div>
+      <div class="spec-value">RGB (embedded in PDF)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── MARGINS -->
+<div class="page">
+  <div class="section-label">Page Setup</div>
+  <div class="section-title">Margins &amp; Bleed</div>
+
+  <p class="intro-text">Mirror margins are set in the PDF via CSS. Do not add or alter margins in pre-press software. The PDF is authoritative.</p>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Mirror Margins (standard case-bound hardcover — spine always wider)</div>
+    <div class="spec-row">
+      <div class="spec-label">Recto pages<br><em style="font-size:12px;font-weight:normal;">(odd / right-hand)</em></div>
+      <div class="spec-value">
+        Top: <strong>17mm</strong> &nbsp;|&nbsp; Outer (fore-edge): <strong>15mm</strong> &nbsp;|&nbsp; Bottom: <strong>22mm</strong> &nbsp;|&nbsp; Spine (inner): <strong>20mm</strong>
+      </div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Verso pages<br><em style="font-size:12px;font-weight:normal;">(even / left-hand)</em></div>
+      <div class="spec-value">
+        Top: <strong>17mm</strong> &nbsp;|&nbsp; Outer (fore-edge): <strong>20mm</strong> &nbsp;|&nbsp; Bottom: <strong>22mm</strong> &nbsp;|&nbsp; Spine (inner): <strong>15mm</strong>
+      </div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Verification</div>
+      <div class="spec-value">On the first printed proof, please verify that alternating spine margins are honoured — recto pages should have 20mm at the spine (left edge), verso pages 15mm at the spine (right edge).</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Full-Bleed Pages — Zero Margin</div>
+    <div class="spec-row">
+      <div class="spec-label">Which pages</div>
+      <div class="spec-value">Cover (title page) &nbsp;|&nbsp; Portrait photograph &nbsp;|&nbsp; Chapter photo pages &nbsp;|&nbsp; Dedication &nbsp;|&nbsp; Epigraph &nbsp;|&nbsp; Colophon</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Treatment</div>
+      <div class="spec-value">Content to trim edge. No margin. These pages are marked with <code>@page full-bleed { margin: 0 }</code> in the PDF.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Bleed</div>
+    <div class="spec-row">
+      <div class="spec-label">Bleed allowance</div>
+      <div class="spec-value">The PDF does not include a bleed allowance. If your workflow requires 3mm bleed, add in pre-press — or advise and we will supply a bleed-extended PDF.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Page Numbers</div>
+    <div class="spec-row">
+      <div class="spec-label">Status</div>
+      <div class="spec-value">Not included in the PDF. If page numbers are required, advise — they can be added in InDesign or equivalent pre-press software.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── TYPOGRAPHY -->
+<div class="page">
+  <div class="section-label">Typefaces</div>
+  <div class="section-title">Typography Specification</div>
+
+  <p class="intro-text">Typography is embedded in the PDF. No substitution required. The two typefaces used throughout the book are listed below.</p>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Typefaces</div>
+    <div class="spec-row">
+      <div class="spec-label">Display / Headings</div>
+      <div class="spec-value"><strong>Bebas Neue</strong> (Google Fonts) — all chapter titles, cover text, table of contents heading, section labels. Embedded in PDF. No substitution.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Body</div>
+      <div class="spec-value"><strong>Georgia</strong> serif — all body text, captions, dedication, epigraph, colophon. System font, always available.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Not used</div>
+      <div class="spec-value">No other typefaces. Cormorant Garamond and Inter are website-only fonts and do not appear in the book.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Type Sizes &amp; Styles (reference — embedded in PDF)</div>
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Font</th>
+          <th>Size</th>
+          <th>Style &amp; Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Chapter title</td>
+          <td>Bebas Neue</td>
+          <td>68px / 42pt</td>
+          <td>Uppercase, line-height 0.93, letter-spacing 0.01em</td>
+        </tr>
+        <tr>
+          <td>Body text</td>
+          <td>Georgia</td>
+          <td>17.5px / 11pt</td>
+          <td>Justified, line-height 30px/19pt; orphans 3, widows 3</td>
+        </tr>
+        <tr>
+          <td>Photo caption</td>
+          <td>Georgia italic</td>
+          <td>12.5px / 9pt</td>
+          <td>Line-height 19px/14.5pt, text-align left</td>
+        </tr>
+        <tr>
+          <td>Dedication</td>
+          <td>Georgia italic</td>
+          <td>13.5px / 10pt</td>
+          <td>Line-height 1.85, centred on full-bleed page</td>
+        </tr>
+        <tr>
+          <td>Epigraph</td>
+          <td>Georgia italic</td>
+          <td>14px / 10.5pt</td>
+          <td>Line-height 1.9, centred on full-bleed page</td>
+        </tr>
+        <tr>
+          <td>ToC heading</td>
+          <td>Bebas Neue</td>
+          <td>38px / 24pt</td>
+          <td>Letter-spacing 0.02em</td>
+        </tr>
+        <tr>
+          <td>ToC chapter number</td>
+          <td>Georgia</td>
+          <td>11px / 8pt</td>
+          <td>Gold #B8976A</td>
+        </tr>
+        <tr>
+          <td>ToC chapter title</td>
+          <td>Georgia</td>
+          <td>14px / 10pt</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Cover — author name</td>
+          <td>Bebas Neue</td>
+          <td>24px / 15pt</td>
+          <td>Cream #F4F2EE, letter-spacing 0.09em</td>
+        </tr>
+        <tr>
+          <td>Cover — subtitle</td>
+          <td>Georgia</td>
+          <td>11px / 7.5pt</td>
+          <td>"A Collection of Stories", faded cream, uppercase</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── BOOK STRUCTURE -->
+<div class="page">
+  <div class="section-label">Content</div>
+  <div class="section-title">Book Structure — Page Order</div>
+
+  <p class="intro-text">The page order is fixed and generated automatically. Every book follows this sequence.</p>
+
+  <ol class="page-order">
+    <li>
+      <div>
+        <span class="po-title">Title Page</span>
+        <span class="po-detail">Full-bleed. Background: subscriber's cloth colour (black #1A1A1A / blue #1C2B3F / red #3A0E0E). Book title in Bebas Neue, upper left. Author name block lower right: name in Bebas Neue, "A Collection of Stories" in small caps below. No image.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Portrait Photograph</span>
+        <span class="po-detail">Full-bleed, no caption. Included only if subscriber has uploaded a portrait. Orientation: portrait preferred. No border or frame.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Dedication Page</span>
+        <span class="po-detail">Full-bleed. Centred. Georgia italic. Subscriber's written dedication. Included only if dedication text is provided.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Epigraph Page</span>
+        <span class="po-detail">Full-bleed. Centred. Georgia italic. Subscriber's chosen quote or epigraph. Included only if epigraph text is provided.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Table of Contents</span>
+        <span class="po-detail">Bebas Neue "Contents" heading. Chapter numbers in gold (#B8976A), chapter titles in Georgia. No dates — dates do not appear anywhere in the book.</span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Chapters × 26 (or fewer if subscriber has not completed all prompts)</span>
+        <span class="po-detail">
+          Each chapter = one chapter-page followed (if an image was supplied) by one photo-page.<br>
+          <strong>Chapter page:</strong> Bebas Neue chapter title, Georgia body text, justified, mirror margins.<br>
+          <strong>Photo page:</strong> Always on its own full-bleed page, always after the chapter text — never inline within text. Caption in Georgia italic below image.<br>
+          Chapter order is set by the subscriber in their Story Library (ChapterOrder field). No dates in chapter headings or text.
+        </span>
+      </div>
+    </li>
+    <li>
+      <div>
+        <span class="po-title">Colophon</span>
+        <span class="po-detail">Full-bleed. Bottom-centred. Georgia. "This book was made for [Subscriber Name]. Produced by 24 Stories."</span>
+      </div>
+    </li>
+  </ol>
+</div>
+
+<!-- ─────────────────────────────────────────────── FILE SPEC -->
+<div class="page">
+  <div class="section-label">File</div>
+  <div class="section-title">PDF Specification</div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">File</div>
+    <div class="spec-row">
+      <div class="spec-label">Format</div>
+      <div class="spec-value"><strong>PDF</strong> — generated in Chrome via File → Print → Save as PDF</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Paper size</div>
+      <div class="spec-value"><strong>A5 (148 × 210mm)</strong> — set in Chrome print dialog. Margins: None (CSS handles all margins). Background graphics: On.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Fonts</div>
+      <div class="spec-value">Embedded in PDF. <strong>Bebas Neue</strong> (display) + <strong>Georgia</strong> (body). No substitution required. Note: Bebas Neue requires internet access at export time — once exported, fonts are embedded and the printer needs no internet connection.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Colour space</div>
+      <div class="spec-value">RGB (Chrome output). Text is black throughout. Images are colour RGB.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Images</div>
+      <div class="spec-value">Cloudinary full-resolution output, minimum 1,000px on shortest edge, embedded in PDF</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Spec sheet</div>
+      <div class="spec-value">The PDF begins with a printer spec reference panel marked ".no-print" — this does <strong>not</strong> appear in the exported PDF. Only book content is in the PDF.</div>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>How to export</strong>
+    1. Open the HTML attachment from the BOOK COMPILED email in <strong>Chrome</strong> (not Safari, not Mail preview).<br>
+    2. Review the complete book — content, images, chapter order, chapter titles.<br>
+    3. File → Print → Save as PDF. Paper size: A5. Margins: None. Background graphics: On.<br>
+    4. Save PDF. Attach to print order email.
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">How to send the print order</div>
+    <div class="spec-row">
+      <div class="spec-label">Subject line</div>
+      <div class="spec-value">Print order — [Subscriber First Name] [Surname] — [Book Title] — [Date]</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Attach</div>
+      <div class="spec-value">The exported PDF</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Include</div>
+      <div class="spec-value">Subscriber name, delivery address, total number of copies (master + any extra copies ordered)</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Copies</div>
+      <div class="spec-value">Total copies = 1 (master) + ExtraCopies (subscriber or family may order additional copies at R1,200 each). Extra copies ship to the same delivery address as the master.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────── PROOFING -->
+<div class="page">
+  <div class="section-label">Quality Control</div>
+  <div class="section-title">Proofing &amp; Delivery</div>
+
+  <div class="proof-block">
+    <h3>A digital proof is required before press — no exceptions.</h3>
+    <p>Send a PDF soft proof or screen proof to:</p>
+    <p><strong>hello@24stories.co.za</strong></p>
+    <p>Subject line: <em>Proof — [Subscriber name] — [Book title]</em></p>
+    <p>We will respond within 48 hours. Do not proceed to press without written sign-off from hello@24stories.co.za.</p>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">What to verify on the proof</div>
+    <div class="spec-row">
+      <div class="spec-label">Mirror margins</div>
+      <div class="spec-value">Recto pages: spine margin (left) = 20mm. Verso pages: spine margin (right) = 15mm. Verify these alternate correctly — this is a CSS-set feature that may or may not survive PDF pre-press.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Full-bleed pages</div>
+      <div class="spec-value">Title page, portrait, chapter photos, dedication, epigraph, colophon — content to trim edge, no margin showing.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Photo pages</div>
+      <div class="spec-value">Each chapter photo appears on its own page after the chapter text. Never inline within text.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Image resolution</div>
+      <div class="spec-value">Flag any image below 150dpi at trim size before pressing.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Cover cloth</div>
+      <div class="spec-value">Verify cloth colour matches the order (Black / Blue / Red). Confirm debossed lettering not foil.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Delivery</div>
+    <div class="spec-row">
+      <div class="spec-label">Courier</div>
+      <div class="spec-value">Tracked courier to the delivery address specified in the print order. Advise estimated dispatch date and tracking number once handed to courier.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Delays</div>
+      <div class="spec-value">If any delay occurs beyond your quoted turnaround, notify hello@24stories.co.za before the due date passes.</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">Quoted turnaround</div>
+      <div class="spec-value">We advise subscribers to allow up to 4 weeks from order to delivery. Please confirm your standard turnaround at time of quoting.</div>
+    </div>
+  </div>
+
+  <div class="spec-group">
+    <div class="spec-group-title">Contact</div>
+    <div class="spec-row">
+      <div class="spec-label">All correspondence</div>
+      <div class="spec-value"><a href="mailto:hello@24stories.co.za">hello@24stories.co.za</a> &nbsp;·&nbsp; 24stories.co.za</div>
+    </div>
+    <div class="spec-row">
+      <div class="spec-label">This document</div>
+      <div class="spec-value">This specification accompanies every 24 Stories print order. If anything is unclear, write to hello@24stories.co.za before printing.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

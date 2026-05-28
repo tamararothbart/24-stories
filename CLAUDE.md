@@ -329,6 +329,13 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - Behaviour: rests on end frame (56s) as static image. Play starts at 1.0s with sound on. Stop returns to end frame. No loop. No autoplay.
 - To adjust trim: edit `START_TIME` (currently 1.0) and `END_TIME` (currently 56.0) in the founder video script block near the bottom of index.html.
 
+## Presentation & Printer Spec — Quick Links
+- **Presentation hub:** https://24stories.co.za/presentation/index.html — subscriber journey, email sequence, all links in one page. Bookmark this.
+- **Printer spec:** https://24stories.co.za/presentation/printer-spec.html — full print brief for the printer (170 × 240mm, linen cloth, margins, typography, proofing)
+- **Live compiled book (PDF preview):** https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
+- **Story recording (tell.html demo):** https://24stories.co.za/tell.html?id=recj2fKFXLRmGNLn5&week=1&weekname=Inheritance&theme=I+got+it+from+my+mama&prompt=Prepare+a+five-minute+story+about+something+you+inherited.&angles=Heirlooms,+Traits,+Family+Lore
+- **Story library (demo):** https://24stories.co.za/library.html?id=recj2fKFXLRmGNLn5
+
 ## File Map
 - `index.html` — main site (pricing, FAQ, signup form, resend library link)
 - `begin.html` — subscriber sign-up + PayFast checkout (self or gift path)

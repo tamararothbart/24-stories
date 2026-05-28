@@ -342,7 +342,7 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 ## Netlify Functions (20 total)
 
 **Book production:**
-- `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only, hidden from PDF), title page, portrait, dedication, epigraph, ToC, chapters (ChapterOrder sort), colophon. Typography: Bebas Neue (Google Fonts) for all title/display text; Georgia serif for all body text — NO Cormorant Garamond. Print: A5 148mm × 210mm. Mirror margins (case-bound hardcover): recto 17mm top / 15mm outer / 22mm bottom / 20mm spine; verso 17mm top / 20mm outer / 22mm bottom / 15mm spine. Full-bleed named @page (margin:0, page:full-bleed) for cover/portrait/photo/dedication/epigraph/colophon. Dates never appear in book — StoryCircaDate is sorting only. Images always on own page after chapter text page. Admin page: compile-book.html. Test: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
+- `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only, hidden from PDF), title page, portrait, dedication, epigraph, ToC, chapters (ChapterOrder sort), colophon. Typography: Bebas Neue (Google Fonts) for all title/display text; Georgia serif for all body text — NO Cormorant Garamond. Print: 170 × 240mm portrait (NOT A5). Mirror margins (case-bound hardcover): recto 17mm top / 15mm outer / 22mm bottom / 20mm spine; verso 17mm top / 20mm outer / 22mm bottom / 15mm spine. Full-bleed named @page (margin:0, page:full-bleed) for cover/portrait/photo/dedication/epigraph/colophon. Dates never appear in book — StoryCircaDate is sorting only. Images always on own page after chapter text page. Admin page: compile-book.html. Test: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
 
 **Scheduled (cron):**
 - `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-9 at week 24
@@ -693,7 +693,7 @@ External orderers now receive a dispatch notification. See Session 26 at top of 
 - Author name on cover: Bebas Neue 24px / 15pt, letter-spacing 0.09em, cream #F4F2EE
 - Cover subtitle: Georgia 11px / 7.5pt, "A Collection of Stories", uppercase, faded cream
 
-### Print format — A5 148mm × 210mm
+### Print format — 170 × 240mm portrait (NOT A5 — premium hardcover format, 6.7"×9.4")
 **Mirror margins (standard for case-bound hardcover — spine always wider):**
 - **Recto (odd/right-hand pages):** top 17mm / outer (fore-edge) 15mm / bottom 22mm / inner (spine) 20mm
 - **Verso (even/left-hand pages):** top 17mm / outer (fore-edge) 20mm / bottom 22mm / inner (spine) 15mm
@@ -702,15 +702,16 @@ External orderers now receive a dispatch notification. See Session 26 at top of 
 - CSS `@page :left  { margin: 17mm 20mm 22mm 15mm; }` — verso
 
 **Full-bleed pages (cover, portrait, photo, dedication, epigraph, colophon):**
-- CSS `@page full-bleed { size: 148mm 210mm; margin: 0; }`
+- CSS `@page full-bleed { size: 170mm 240mm; margin: 0; }`
 - CSS `.fixed-page { page: full-bleed; }` in `@media print`
 - These pages have content to the trim edge — no margin
 
 **Screen preview proportions match print exactly:**
-- Screen page: 680×845px, background #F4F2EE
-- Scale factor: ~4.57px per mm
-- Chapter padding screen: 68px top / 69px outer / 89px bottom / 92px inner (matches print margin ratios)
-- Fixed pages: 845px height screen / 210mm print
+- Screen page: 760×1073px, background #F4F2EE
+- Scale factor: ~4.47px per mm
+- Chapter padding screen: 76px top / 67px outer / 98px bottom / 89px inner (matches print margin ratios)
+- Fixed pages: 1073px height screen / 240mm print
+- Chrome PDF export: set paper size to custom 170mm × 240mm (not A5)
 
 ### Dates — NEVER appear in the book
 - StoryCircaDate is used ONLY by GenerateChapterOrder to sort chapters

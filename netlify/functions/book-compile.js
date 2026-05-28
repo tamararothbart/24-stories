@@ -176,11 +176,11 @@ function bookCss() {
 
 /* Recto (odd/right-hand): spine on left. Verso (even/left-hand): spine on right.
    Base rule carries recto margins as fallback if :left/:right are not honoured. */
-@page         { size: 148mm 210mm; margin: 17mm 15mm 22mm 20mm; }
+@page         { size: 170mm 240mm; margin: 17mm 15mm 22mm 20mm; }
 @page :right  { margin: 17mm 15mm 22mm 20mm; }
 @page :left   { margin: 17mm 20mm 22mm 15mm; }
 /* Full-bleed pages (cover, portrait, photos): zero margin, content to trim edge */
-@page full-bleed        { size: 148mm 210mm; margin: 0; }
+@page full-bleed        { size: 170mm 240mm; margin: 0; }
 @page full-bleed :right { margin: 0; }
 @page full-bleed :left  { margin: 0; }
 
@@ -197,23 +197,23 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
     gap: 3px;
   }
   .page {
-    width: 680px;
-    min-height: 845px;
+    width: 760px;
+    min-height: 1073px;
     background: #F4F2EE;
     box-shadow: 0 4px 24px rgba(0,0,0,0.18), 0 1px 4px rgba(0,0,0,0.10);
     position: relative;
     flex-shrink: 0;
     overflow: hidden;
   }
-  .fixed-page { height: 845px; min-height: unset; }
+  .fixed-page { height: 1073px; min-height: unset; }
 }
 
 /* ── PRINT ── */
 @media print {
   body { background: none; padding: 0; display: block; }
   .page {
-    width: 148mm;
-    min-height: 210mm;
+    width: 170mm;
+    min-height: 240mm;
     background: #F4F2EE;
     page-break-before: always;
     break-before: page;
@@ -221,19 +221,19 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
     overflow: hidden;
     box-shadow: none;
   }
-  .fixed-page { height: 210mm; min-height: unset; page: full-bleed; }
+  .fixed-page { height: 240mm; min-height: unset; page: full-bleed; }
   .no-print { display: none !important; }
 }
 
 /* ── TITLE / COVER ── */
 .title-block {
   position: absolute;
-  top: 220px;
-  left: 68px;
+  top: 232px;
+  left: 67px;
 }
 .title-text {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 108px;
+  font-size: 120px;
   line-height: 0.90;
   letter-spacing: 0.01em;
   color: #F4F2EE;
@@ -241,8 +241,8 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 .author-block {
   position: absolute;
-  bottom: 160px;
-  right: 68px;
+  bottom: 170px;
+  right: 67px;
   text-align: right;
 }
 .author-name-cover {
@@ -273,7 +273,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 /* ── PORTRAIT ── */
 .portrait-wrap {
   position: absolute;
-  inset: 52px;
+  inset: 49px;
 }
 .portrait-wrap img {
   width: 100%;
@@ -330,7 +330,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 
 /* ── TABLE OF CONTENTS ── */
-.toc-page { padding: 68px 69px 89px 92px; }
+.toc-page { padding: 76px 67px 98px 89px; }
 .toc-heading {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 38px;
@@ -367,7 +367,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 
 /* ── CHAPTER ── */
-.chapter-page { padding: 68px 69px 89px 92px; }
+.chapter-page { padding: 76px 67px 98px 89px; }
 .chapter-title-block { margin-top: 62px; margin-bottom: 108px; }
 .chapter-title {
   font-family: 'Bebas Neue', sans-serif;
@@ -396,10 +396,10 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 /* ── PHOTO PAGE ── */
 .photo-page-inner {
   position: absolute;
-  top: 76px;
-  left: 76px;
-  right: 76px;
-  height: 530px;
+  top: 74px;
+  left: 74px;
+  right: 74px;
+  height: 514px;
 }
 .photo-page-inner img {
   width: 100%;
@@ -409,9 +409,9 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 }
 .caption {
   position: absolute;
-  top: 660px;
-  left: 76px;
-  right: 76px;
+  top: 640px;
+  left: 74px;
+  right: 74px;
   font-size: 12.5px;
   line-height: 19px;
   font-style: italic;
@@ -426,7 +426,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 /* ── COLOPHON ── */
 .colophon-inner {
   position: absolute;
-  bottom: 60px;
+  bottom: 67px;
   left: 0;
   right: 0;
   text-align: center;
@@ -444,7 +444,7 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 
 /* ── SPEC SHEET (screen only) ── */
 .spec-sheet {
-  width: 680px;
+  width: 760px;
   background: #FFF9EE;
   border: 2px solid #B8976A;
   padding: 24px 28px;

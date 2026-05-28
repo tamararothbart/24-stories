@@ -30,7 +30,7 @@ Total copies: [Total copies — e.g. "2 (1 subscriber + 1 extra)"]
 **PRINT SPECIFICATION — 24 STORIES HARDCOVER BOOK**
 
 **FORMAT**
-Trim size: 148 × 210mm (A5 portrait)
+Trim size: 170 × 240mm portrait
 Orientation: Portrait
 Interior page count: Approximately [estimated pages from alert] pages (exact count from attached PDF)
 
@@ -101,7 +101,7 @@ This specification accompanies every 24 Stories print order. If anything is uncl
 1. Open the HTML attachment from the BOOK COMPILED email in **Chrome** (not Safari, not Mail preview)
 2. Review the complete book top to bottom — content, images, chapter order, chapter titles
 3. **File → Print → Save as PDF**
-   - Paper size: **A5** (148 × 210mm)
+   - Paper size: **Custom — 170 × 240mm** (set manually in Chrome print dialog if not listed; enter 170mm width × 240mm height)
    - Margins: **None** — CSS handles all margins
    - Background graphics: **On**
 4. Save the PDF — this is your print file

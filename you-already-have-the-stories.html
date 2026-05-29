@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>You Already Have the Stories — 24 Stories</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --charcoal: #1A1A1A;
+  --gold:     #B8976A;
+  --cream:    #F7F5F2;
+  --mid:      #555;
+  --light:    #999;
+  --rule:     #E0DDD9;
+}
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--charcoal);
+  background: #ccc;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto 24px;
+  page-break-after: always;
+  background: #fff;
+  overflow: hidden;
+}
+.page:last-child { page-break-after: avoid; }
+
+@media print {
+  body { background: none; }
+  .page { margin: 0; }
+}
+
+
+/* ═══════════════════════════════════
+   COVER
+═══════════════════════════════════ */
+
+.cover {
+  height: 297mm;
+  display: flex;
+  flex-direction: column;
+}
+
+.cover-top {
+  background: var(--charcoal);
+  flex: 0 0 62%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 20mm 14mm;
+}
+
+.cover-brand {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 18px;
+}
+
+.cover-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 54px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.08;
+  margin-bottom: 18px;
+}
+
+.cover-rule {
+  width: 44px;
+  height: 2px;
+  background: var(--gold);
+  margin-bottom: 16px;
+}
+
+.cover-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.7;
+  max-width: 115mm;
+}
+
+.cover-bottom {
+  flex: 1;
+  background: var(--cream);
+  padding: 10mm 20mm 10mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cover-for {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--mid);
+  line-height: 1.7;
+}
+
+.cover-url {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+
+/* ═══════════════════════════════════
+   PAGE HEADER (all content pages)
+═══════════════════════════════════ */
+
+.page-header {
+  padding: 5mm 20mm 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 2px solid var(--gold);
+}
+
+.page-header span {
+  font-family: 'Inter', sans-serif;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--light);
+}
+
+
+/* ═══════════════════════════════════
+   CONTENT AREA
+═══════════════════════════════════ */
+
+.content {
+  padding: 12mm 20mm 14mm;
+}
+
+
+/* ═══════════════════════════════════
+   TYPOGRAPHY
+═══════════════════════════════════ */
+
+.label {
+  font-family: 'Inter', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 7px;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.2;
+  margin-bottom: 13px;
+}
+
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.3;
+  margin-top: 18px;
+  margin-bottom: 9px;
+}
+
+p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16.5px;
+  line-height: 1.85;
+  color: var(--charcoal);
+  margin-bottom: 11px;
+}
+p:last-child { margin-bottom: 0; }
+
+
+/* ═══════════════════════════════════
+   CALLOUT BOX
+═══════════════════════════════════ */
+
+.callout {
+  background: var(--cream);
+  border-left: 3px solid var(--gold);
+  padding: 13px 18px;
+  margin: 16px 0;
+}
+
+.callout .label { margin-bottom: 5px; }
+
+.callout p {
+  font-size: 16px;
+  line-height: 1.75;
+  margin-bottom: 9px;
+}
+.callout p:last-child { margin-bottom: 0; }
+
+
+/* ═══════════════════════════════════
+   NUMBERED LIST (6 places, 5 questions)
+═══════════════════════════════════ */
+
+.numbered-list { margin-top: 13px; }
+
+.numbered-item {
+  display: flex;
+  gap: 13px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.n-num {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 3px;
+}
+
+.n-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--charcoal);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.n-desc {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--mid);
+  margin-bottom: 0;
+}
+
+
+/* ═══════════════════════════════════
+   COMPARISON TABLE (Era/Episode, Too Wide/Small)
+═══════════════════════════════════ */
+
+.compare {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0;
+}
+
+.compare th {
+  font-family: 'Inter', sans-serif;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 9px 13px;
+  text-align: left;
+}
+.compare th.col-a { background: #EDEBE8; color: var(--light); }
+.compare th.col-b { background: var(--cream); color: var(--gold); }
+
+.compare td {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15.5px;
+  line-height: 1.7;
+  padding: 9px 13px;
+  vertical-align: top;
+  border-top: 1px solid var(--rule);
+}
+.compare td.col-a { background: #F5F4F1; color: var(--mid); }
+.compare td.col-b { background: #fff; color: var(--charcoal); }
+
+
+/* ═══════════════════════════════════
+   STORY BANK GRID
+═══════════════════════════════════ */
+
+.story-bank {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 13px 0;
+}
+
+.bank-cell {
+  background: #fff;
+  padding: 10px 12px;
+}
+
+.bank-cell .n-title {
+  font-size: 12.5px;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.bank-cell p {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--mid);
+  margin-bottom: 0;
+}
+
+
+/* ═══════════════════════════════════
+   SENTENCE STARTERS GRID
+═══════════════════════════════════ */
+
+.starters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 18px;
+  margin: 12px 0;
+}
+
+.starter {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  line-height: 1.55;
+  color: var(--charcoal);
+  padding: 7px 0;
+  border-top: 1px solid var(--rule);
+  display: block;
+}
+
+
+/* ═══════════════════════════════════
+   FINAL CTA BLOCK
+═══════════════════════════════════ */
+
+.cta-block {
+  background: var(--charcoal);
+  margin-top: 20px;
+  padding: 18px 22px;
+  text-align: center;
+}
+
+.cta-prompt-line {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 7px;
+}
+
+.cta-body-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15.5px;
+  font-style: italic;
+  color: rgba(255,255,255,0.7);
+  display: block;
+  margin-bottom: 3px;
+}
+
+</style>
+</head>
+<body>
+
+
+<!-- ═══════════════════════
+     PAGE 1 — COVER
+════════════════════════════ -->
+<div class="page">
+  <div class="cover">
+
+    <div class="cover-top">
+      <span class="cover-brand">24 Stories</span>
+      <h1 class="cover-title">You Already<br>Have the Stories</h1>
+      <div class="cover-rule"></div>
+      <p class="cover-sub">A gentle guide to uncovering the memories waiting to be told — one prompt at a time.</p>
+    </div>
+
+    <div class="cover-bottom">
+      <p class="cover-for">For anyone who has ever thought:<br><em>"I don't have 24 stories to tell."</em></p>
+      <a href="https://24stories.co.za" class="cover-url">24stories.co.za</a>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 2 — BEFORE YOU BEGIN
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>Before you begin:<br>this is not a writing test.</h2>
+
+    <p>Most people do not arrive at a life-story project feeling ready. They arrive with a little doubt.</p>
+    <p>They think they need dramatic events. They think they need to write beautifully. They think a story has to begin with a war, a rescue, a scandal, a famous person, or a once-in-a-lifetime adventure.</p>
+    <p>But a life story is usually much smaller and much more human than that.</p>
+    <p>It might be the day you left home with one suitcase. The time you were sure you had failed and then did not. The neighbour who changed your mind. The mistake you still laugh about. The meal you can still smell. Your granny's special recipe. The ordinary morning that, looking back, was not ordinary at all.</p>
+
+    <div class="callout">
+      <span class="label">The Reassurance</span>
+      <p>You don't need Hollywood drama. You need small moments that mean something. You don't need to invent stories. You only need to understand where to look for them.</p>
+    </div>
+
+    <h3>Why "24 stories" sounds scarier than it is</h3>
+
+    <p>When you hear "24 stories", your mind may go blank. That's normal. You may simply be asking yourself the wrong question.</p>
+
+    <div class="callout" style="margin-bottom:12px;">
+      <span class="label">The Scary Question</span>
+      <p>"What are the 24 most important events of my life?"</p>
+    </div>
+    <div class="callout">
+      <span class="label">The Useful Question</span>
+      <p>"What small moments do I still remember — and why have they stayed with me?"</p>
+    </div>
+
+    <p>The first question feels like pressure. The second question opens a door.</p>
+    <p>A story can be five minutes long. It can sit inside one afternoon, one conversation, one journey, one mistake. That is why 24 Stories works prompt by prompt. You are not asked to climb the mountain in one day. You are invited to take one step, then the next.</p>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 3 — THE LIFE STORY MINING SYSTEM
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>The Life Story<br>Mining System</h2>
+
+    <p>You are not mining for riches. You're scanning the surface for rough diamonds — the moments that still glint when you turn your memory toward them.</p>
+    <p>Start in these six places. Do not write the story yet. Just notice what comes up.</p>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="n-num">1</div>
+        <div>
+          <span class="n-title">People</span>
+          <p class="n-desc">Who shaped you, challenged you, saved you, irritated you, loved you, taught you, or surprised you? A story often begins with a person.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">2</div>
+        <div>
+          <span class="n-title">Places</span>
+          <p class="n-desc">Which rooms, streets, schools, offices, kitchens, cars, farms, beaches, hospitals, or churches can you still see clearly? Places hold scenes.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">3</div>
+        <div>
+          <span class="n-title">Firsts and lasts</span>
+          <p class="n-desc">First job. First heartbreak. First home. Last day at school. Last conversation. Last time you saw a place as it used to be.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">4</div>
+        <div>
+          <span class="n-title">Mistakes and recoveries</span>
+          <p class="n-desc">The wrong turn, the bad decision, the misunderstanding, the thing that went embarrassingly wrong — and what it taught you.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">5</div>
+        <div>
+          <span class="n-title">Work and responsibility</span>
+          <p class="n-desc">Not "my career", but the specific day you were tested, promoted, humiliated, brave, trusted, under pressure, or finally sure of yourself.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">6</div>
+        <div>
+          <span class="n-title">Family rituals and ordinary days</span>
+          <p class="n-desc">Sunday lunch, school lifts, bedtime routines, holidays, long drives, favourite meals, repeated sayings. Ordinary patterns often reveal who a family really was.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 4 — THE GOLDEN SHIFT + HOW TO RECOGNISE A STORY
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>The golden shift:<br>choose an episode, not an era</h2>
+
+    <p>This is the most important idea in the whole guide. An era is too big to tell. An episode is small enough to hold.</p>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th class="col-a">Era — too wide</th>
+          <th class="col-b">Episode — just right</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a">"My career in banking."</td>
+          <td class="col-b">"The morning I had to walk into the boardroom and admit the numbers were wrong."</td>
+        </tr>
+        <tr>
+          <td class="col-a">"Our years in Johannesburg."</td>
+          <td class="col-b">"The night we arrived with two children asleep in the back seat."</td>
+        </tr>
+        <tr>
+          <td class="col-a">"Raising children."</td>
+          <td class="col-b">"The afternoon my son disappeared in the supermarket."</td>
+        </tr>
+        <tr>
+          <td class="col-a">"My marriage."</td>
+          <td class="col-b">"The argument that taught us how to forgive."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>An episode does not have to explain everything. It can act like a small tile in a mosaic. One tile cannot show the whole picture, but it can reveal the colour, texture, and pattern of a life.</p>
+    <p>A retired man may look back at his career and think, "What could I possibly say?" He does not need to summarise sixty years. He can tell one day: the day a client trusted him, the day he made the wrong call, the day he chose honesty over comfort. That one day can carry the meaning of the whole career.</p>
+
+    <h3>How to recognise when you have found a story</h3>
+
+    <p>Not every memory needs to become a story. A story usually has a little pulse in it. You may have found one if any of these is true:</p>
+
+    <ul style="margin: 8px 0 10px 16px;">
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:5px; color:var(--charcoal);">You can still see one image from it clearly.</li>
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:5px; color:var(--charcoal);">You remember what someone said, or what you wished you had said.</li>
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:5px; color:var(--charcoal);">Something mattered to you: pride, fear, love, belonging, dignity, freedom, forgiveness.</li>
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:5px; color:var(--charcoal);">It changed how you saw yourself, another person, your family, or the world.</li>
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:5px; color:var(--charcoal);">You have told the anecdote before, and people lean in, laugh, or say, "I never knew that."</li>
+      <li style="font-family:'Cormorant Garamond',serif; font-size:16px; line-height:1.75; margin-bottom:0; color:var(--charcoal);">You are not sure why it matters, but it keeps coming back.</li>
+    </ul>
+
+    <div class="callout">
+      <span class="label">A Simple Test</span>
+      <p>Say the memory aloud in one sentence: <em>"This is the story of the time when..."</em><br>If you can finish that sentence, you probably have a story.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 5 — STORY BANK + SENTENCE STARTERS
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>Make a story bank<br>before you write anything</h2>
+
+    <p>A story bank is just a list of possible stories. You are not committing to them. You are gathering them. Use the prompts below and jot down short phrases. Do not explain. Do not polish. Do not judge. A few words are enough.</p>
+
+    <div class="story-bank">
+      <div class="bank-cell">
+        <span class="n-title">Childhood</span>
+        <p>A room I remember. A rule I broke. A person I adored. A day I was frightened. A game I played. A lesson I learned the hard way.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">School years</span>
+        <p>A teacher. A friend. A humiliation. A triumph. A secret. A time I wanted to belong.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Work</span>
+        <p>A first day. A boss. A risk. A failure. A promotion. A difficult customer. A proud moment.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Love and family</span>
+        <p>A meeting. A proposal. A birth. A loss. A misunderstanding. A reconciliation. A family phrase everyone still uses.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Places</span>
+        <p>A house. A street. A town. A country. A journey. A holiday. A place that no longer exists as it did.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Turning points</span>
+        <p>A decision. A move. An illness. A phone call. A letter. A goodbye. A chance encounter.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Small objects</span>
+        <p>A dress. A car. A watch. A recipe. A photograph. An object that unlocks a whole scene.</p>
+      </div>
+      <div class="bank-cell">
+        <span class="n-title">Later life</span>
+        <p>A surprise. A new friendship. A grandchild. A new skill. A regret that softened. A view that changed with age.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="label">Aim for 40 possible story ideas</span>
+      <p>Most will stay as notes. That is fine. You only need a few to begin.</p>
+    </div>
+
+    <h3>If you still think you have no stories</h3>
+
+    <p>Try these sentence starters. Do not choose the impressive answer. Choose the one that makes a scene appear in your mind.</p>
+
+    <div class="starters">
+      <span class="starter">I remember the day I realised...</span>
+      <span class="starter">I was not supposed to be there when...</span>
+      <span class="starter">The first time I felt grown up was...</span>
+      <span class="starter">The thing nobody knows about that time is...</span>
+      <span class="starter">I thought I had failed when...</span>
+      <span class="starter">The person who changed my life without knowing it was...</span>
+      <span class="starter">I can still smell...</span>
+      <span class="starter">I wish I had asked...</span>
+      <span class="starter">I never expected to miss...</span>
+      <span class="starter">The funniest thing that went wrong was...</span>
+      <span class="starter">I only understood years later that...</span>
+      <span class="starter">The object I would save from the house is...</span>
+    </div>
+
+    <p style="font-size:15px; color:var(--mid); margin-top:10px;">One starter can open ten memories. One memory can become one story. One story at a time becomes a book.</p>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 6 — FROM MEMORY TO STORY + TELL IT FIRST
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>From memory to story:<br>five gentle questions</h2>
+
+    <p>Once you have chosen one episode, these questions help you turn it into a story — without making it feel like a school assignment.</p>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="n-num">1</div>
+        <div>
+          <span class="n-title">Where are we?</span>
+          <p class="n-desc">Begin close to the moment. Put us in the kitchen, the office, the car, the hospital corridor, the classroom, the garden, the airport queue.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">2</div>
+        <div>
+          <span class="n-title">What was happening?</span>
+          <p class="n-desc">Tell the simple action first. Who was there? What were you doing? What had just happened?</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">3</div>
+        <div>
+          <span class="n-title">What mattered to you then?</span>
+          <p class="n-desc">What did you want? What were you afraid of? What could you gain or lose?</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">4</div>
+        <div>
+          <span class="n-title">What changed?</span>
+          <p class="n-desc">Did you understand something, lose something, choose something, forgive someone, become braver, become humbler, or see the truth?</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">5</div>
+        <div>
+          <span class="n-title">What do I know now?</span>
+          <p class="n-desc">You do not have to explain the moral. Trust the reader. Often what you don't say has more power. Think of it like the punch line of a joke — explaining spoils the moment.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <p style="font-size:15px; font-style:italic; color:var(--mid); margin-top:4px;">These are not rules. They are handrails. Use them only to help you move through the memory.</p>
+
+    <h3>Tell it first. Tidy it later.</h3>
+
+    <p>Many people freeze when they try to "write" a story. They sound stiff. They edit themselves too soon. They worry about grammar before the memory has even arrived.</p>
+    <p>So do this instead: tell the story as if you were speaking to someone kind. Let it come out in your own words. Repeat yourself if you need to. Wander a little. Leave the rough edges.</p>
+
+    <div class="callout">
+      <span class="label">Just get it down</span>
+      <p>First, get it all out. Do not stop every sentence to make it better.</p>
+      <p>Then go back and iron the creases. Add the missing detail. Remove what does not belong. Change the ending until it feels true.</p>
+    </div>
+
+    <p>A spoken story has life in it. It carries your rhythm, humour, pauses, and the phrases your family recognises as yours. The best life stories often sound like someone sitting beside you, remembering.</p>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 7 — WHAT COUNTS AS ENOUGH + ONE-PAGE PRACTICE
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>What counts as "enough"<br>for one story?</h2>
+
+    <p>A 24 Stories piece is not a chapter from a giant autobiography. It is a short, complete memory. A good length is the amount you can tell in five minutes — one clear setting, one main incident, one or two important people, a few vivid details, and what changed.</p>
+
+    <table class="compare">
+      <thead>
+        <tr>
+          <th class="col-a">Too wide</th>
+          <th class="col-b">Small enough</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-a">"My mother was a complicated woman and our relationship changed many times over the years."</td>
+          <td class="col-b">"The day my mother packed my suitcase without saying she was proud of me — and slipped money into the side pocket."</td>
+        </tr>
+        <tr>
+          <td class="col-a">"We had a happy childhood."</td>
+          <td class="col-b">"The Saturday my father burned the sausages and we ate ice cream for supper instead."</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>A one-page practice: mine one story now</h3>
+
+    <p>Use this when a prompt arrives and your mind goes blank.</p>
+
+    <div class="numbered-list">
+
+      <div class="numbered-item">
+        <div class="n-num">1</div>
+        <div>
+          <span class="n-title">Choose the broad area</span>
+          <p class="n-desc">Work, childhood, marriage, friendship, travel, loss, money, faith, home, food, school.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">2</div>
+        <div>
+          <span class="n-title">Shrink it to one episode</span>
+          <p class="n-desc">One day, one scene, one conversation, one mistake, one decision, one surprise inside that area.</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">3</div>
+        <div>
+          <span class="n-title">Find the pulse</span>
+          <p class="n-desc">What mattered to me then? What did I want? What was I afraid of? What did I not understand yet?</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">4</div>
+        <div>
+          <span class="n-title">Tell the scene</span>
+          <p class="n-desc">Start close to the action: "I was standing..." "The phone rang..." "My father said..." "The room smelled of..."</p>
+        </div>
+      </div>
+
+      <div class="numbered-item">
+        <div class="n-num">5</div>
+        <div>
+          <span class="n-title">End where something shifts</span>
+          <p class="n-desc">What changed, what you learned, what still makes you laugh, or what you wish someone else could understand.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      <span class="label">The Point</span>
+      <p>That is all. You have not written your whole life. You have found one tile.</p>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     PAGE 8 — HOW 24 STORIES HELPS + INVITATION
+════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span>24 Stories</span>
+    <span>24stories.co.za</span>
+  </div>
+  <div class="content">
+
+    <h2>How 24 Stories helps</h2>
+
+    <p>24 Stories is built around a simple truth: a life story is easier to tell when you are not facing the whole life at once.</p>
+    <p>Each week, you receive one gentle prompt. You write or record a short response — five minutes is enough. Over six months, those responses become a collection: not a stiff autobiography, but a living portrait made from real moments.</p>
+    <p>If you are doing this because your children or grandchildren asked you, you may feel they are asking for too much. That's because you're thinking too far ahead. What they are really asking for is something very simple:</p>
+
+    <div class="callout">
+      <span class="label">What they want</span>
+      <p>Your voice. Your memories. Your version of what happened. The stories only you can tell.</p>
+    </div>
+
+    <p>You do not need to be a writer. You do not need to remember everything. You do not need 24 dramatic events. You only need to begin with one moment.</p>
+
+    <div class="callout">
+      <span class="label">Start here</span>
+      <p>When your first prompt arrives, do not ask: <em>"Is this important enough?"</em></p>
+      <p>Ask: <em>"Can I still see it? Did it matter to me? Did something change?"</em></p>
+      <p>Do that 24 times, and you will have something your family could never find anywhere else: your life, told from the inside.</p>
+    </div>
+
+    <p>Do not wait until you feel ready. Readiness usually arrives after you begin.</p>
+
+    <div class="cta-block">
+      <span class="cta-prompt-line">One prompt. One week. Five minutes.</span>
+      <span class="cta-body-line">For six months.</span>
+      <span class="cta-body-line" style="margin-bottom:12px;">A gift your family will treasure forever.</span>
+      <span style="display:block; font-family:'Inter',sans-serif; font-size:11px; font-weight:500; letter-spacing:0.14em; color:var(--gold);">24stories.co.za</span>
+    </div>
+
+  </div>
+</div>
+
+
+</body>
+</html>

@@ -3081,20 +3081,20 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .founder-crux-key {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(1.55rem, 2.4vw, 2rem);
-    font-weight: 700;
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.3rem, 2vw, 1.65rem);
+    font-weight: 400;
     color: var(--gold);
-    line-height: 1.35;
+    line-height: 1.45;
     margin-bottom: 28px;
 }
 
 .founder-crux-body {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.1rem, 1.6vw, 1.3rem);
-    color: rgba(255,255,255,0.72);
+    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+    color: rgba(255,255,255,0.85);
     line-height: 1.85;
-    font-style: italic;
+    margin-bottom: 24px;
 }
 
 .founder-video-wrap {
@@ -3297,20 +3297,20 @@ h1.hero-heading, .hero-content h1 {
 
 .crux-headline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.35rem, 5vw, 1.65rem);
+    font-size: clamp(1.3rem, 5vw, 1.6rem);
     font-weight: 400;
-    color: var(--charcoal);
-    line-height: 1.55;
+    color: var(--gold);
+    line-height: 1.45;
     margin-bottom: 18px;
 }
 
 .crux-body {
-    font-size: clamp(1.35rem, 5vw, 1.65rem);
-    color: var(--charcoal);
-    line-height: 1.7;
-    max-width: 640px;
-    font-style: italic;
     font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.05rem, 4vw, 1.25rem);
+    color: rgba(26,26,26,0.72);
+    line-height: 1.8;
+    max-width: 640px;
+    margin-bottom: 16px;
 }
 
 .crux-cover-img {

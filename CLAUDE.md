@@ -35,8 +35,11 @@
 ### Pause message
 - Removed from pricing section. Belongs in T&Cs under "Pausing your subscription" — not yet written. Add when ready.
 
-### ⚠ Form fine print still shows monthly wording for lump sum payers
-- index.html and begin.html both show "You authorise R3 500 to be deducted automatically each month" for all buyers. Lump sum buyers see incorrect fine print. Fix: make fine print dynamic based on pendingPaymentType. Deferred — not critical pre-launch.
+### Form fine print — dynamic (FIXED)
+- Both forms on index.html share `id="payment-fine-print"`. Text updates automatically when a pricing card button is clicked.
+- Monthly: "This is a 6-month subscription. You authorise R3 500 to be deducted automatically each month for six months, after which billing stops automatically."
+- Lump sum: "This is a once-off payment of R16 800, covering your full 6-month subscription. No further payments will be taken."
+- Logic lives in `updateFinePrint()` in js/script.js, called from the `[data-payment]` click handler.
 
 ---
 

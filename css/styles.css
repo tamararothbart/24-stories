@@ -3338,21 +3338,22 @@ h1.hero-heading, .hero-content h1 {
 }
 
 .crux-headline {
-    font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.35rem, 5vw, 1.65rem);
-    font-weight: 500;
-    color: var(--gold);
-    line-height: 1.45;
-    margin-bottom: 18px;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.4rem, 5.5vw, 1.75rem);
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1.4;
+    margin-bottom: 20px;
 }
 
 .crux-body {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.2rem, 4.5vw, 1.45rem);
+    font-size: clamp(1.25rem, 5vw, 1.5rem);
+    font-weight: 500;
     color: #1A1A1A;
     line-height: 1.85;
     max-width: 640px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .crux-cover-img {

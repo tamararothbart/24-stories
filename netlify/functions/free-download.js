@@ -27,27 +27,20 @@ exports.handler = async function(event) {
   const MJ_SECRET     = process.env.MAILJET_API_SECRET;
   const mjAuth = Buffer.from(`${MJ_KEY}:${MJ_SECRET}`).toString('base64');
 
-  // 1 — Save lead to Airtable (non-blocking — email must send even if this fails)
-  try {
-    const atRes = await fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${LEADS_TABLE}`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${AIRTABLE_PAT}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ fields: { Name: name, Email: email, Source: source } })
-    });
-    if (!atRes.ok) {
-      const err = await atRes.text();
-      console.error('Airtable error:', err);
-    }
-  } catch (e) {
-    console.error('Airtable fetch threw:', e.message);
-  }
+  // 1 — Save lead to Airtable (fire and forget — never blocks email)
+  fetch(`https://api.airtable.com/v0/${AIRTABLE_BASE}/${LEADS_TABLE}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${AIRTABLE_PAT}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ fields: { Name: name, Email: email, Source: source } })
+  }).catch(e => console.error('Airtable error:', e.message));
 
-  // 2 — Notify Tamara
-  try {
-    await fetch('https://api.mailjet.com/v3.1/send', {
+  // 2 + 3 — Both Mailjet sends in parallel (avoids cold-start timeout)
+  const html = emailHtml(name);
+  await Promise.all([
+    fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',
       headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -58,20 +51,11 @@ exports.handler = async function(event) {
           HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;line-height:1.8;">Someone requested the free download.<br><br><strong>Name:</strong> ${name}<br><strong>Email:</strong> <a href="mailto:${email}">${email}</a><br><strong>Source:</strong> Free Download</p>`
         }]
       })
-    });
-  } catch (e) {
-    console.error('Mailjet notify threw:', e.message);
-  }
+    }).catch(e => console.error('Mailjet notify threw:', e.message)),
 
-  // 3 — Send free download email via Mailjet
-  try {
-    const html = emailHtml(name);
-    const mjRes = await fetch('https://api.mailjet.com/v3.1/send', {
+    fetch('https://api.mailjet.com/v3.1/send', {
       method: 'POST',
-      headers: {
-        'Authorization': `Basic ${mjAuth}`,
-        'Content-Type': 'application/json'
-      },
+      headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         Messages: [{
           From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
@@ -81,14 +65,8 @@ exports.handler = async function(event) {
           HTMLPart: html
         }]
       })
-    });
-    if (!mjRes.ok) {
-      const err = await mjRes.text();
-      console.error('Mailjet send error:', err);
-    }
-  } catch (e) {
-    console.error('Mailjet send threw:', e.message);
-  }
+    }).catch(e => console.error('Mailjet send threw:', e.message))
+  ]);
 
   return {
     statusCode: 200,

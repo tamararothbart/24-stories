@@ -2,6 +2,33 @@
 
 ## ⚠ CLAUDE.MD IS THE ONLY SOURCE OF TRUTH — READ FIRST, EVERY SESSION
 
+---
+
+## Session 28 — Free Download Fix — COMPLETE (2026-05-29)
+
+### Root cause
+`free-download.js` was running three sequential API calls (Airtable write → Mailjet notify Tamara → Mailjet send download). On a cold start, total execution exceeded Netlify's 10-second default timeout. The notification to hello@ always arrived (step 2 completed in time); the download email to the subscriber was cut off at step 3.
+
+### Fix 1 — Parallel Mailjet sends (free-download.js)
+Airtable write now fires without `await` (fire-and-forget). Both Mailjet sends (Tamara notification + subscriber download email) now run simultaneously via `Promise.all`. Cold-start total time dropped from ~10s to ~3s. Commit: 5cbacc1.
+
+### Fix 2 — netlify.toml timeout = 26 added
+`free-download`, `early-interest`, `events-inquiry`, `story-application`, `coaching-inquiry`, and `admin-enroll` all added with `timeout = 26` in netlify.toml. Prevents this class of timeout bug on any function making multiple API calls.
+
+### Fix 3 — Remove data-netlify form attributes (index.html)
+The free-download modal form had `data-netlify="true"` and related Netlify Forms attributes. These caused Netlify to inject a competing form-handling script. Removed — form submits directly to the function via custom JS fetch. Commit: e59395e.
+
+### Fix 4 — PDF copy corrected
+"Imagine 26" → "Imagine 24" on the closing page of free-download.html. Commit: c8ce25b.
+
+### ⚠ Pattern rule — locked
+Any Netlify Function making more than one external API call MUST either:
+- Run calls in parallel with `Promise.all`, or
+- Have `timeout = 26` set in netlify.toml
+Both applied to free-download.js. Apply this pattern to any new functions.
+
+---
+
 **CLAUDE.md is updated every 5–10 minutes during a session. Every action, every confirmed fact, every decision goes here — not in memory files. Memory files are unreliable, go stale, and cause errors. Ignore them. Read CLAUDE.md and the live code files only.**
 
 **Session start protocol: read CLAUDE.md, then read the relevant live files before stating anything as done or not done.**

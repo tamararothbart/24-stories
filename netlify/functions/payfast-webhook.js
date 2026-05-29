@@ -400,7 +400,7 @@ exports.handler = async function(event) {
   // Notify Tamara
   const surnamePart = (fields.StorytellerSurname || '').trim();
   const fullName    = surnamePart ? `${storytellerFirstName} ${surnamePart}` : storytellerFirstName;
-  const typeLabel   = paymentType === 'lump_sum' ? 'Lump sum (R16,770)' : 'Monthly — Payment 1 of 6 (R2,795 × 6)';
+  const typeLabel   = paymentType === 'lump_sum' ? 'Lump sum (R16 800)' : 'Monthly — Payment 1 of 6 (R3 500 × 6)';
   await sendEmail(mjAuth, {
     to:      { Email: 'hello@24stories.co.za', Name: 'Tamara' },
     subject: `NEW SUBSCRIBER — ${fullName}`,

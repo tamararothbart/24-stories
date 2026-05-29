@@ -82,9 +82,9 @@ exports.handler = async function(event) {
     cancel_url:    CANCEL_URL,
     notify_url:    NOTIFY_URL,
     m_payment_id:  recordId,
-    amount:        isMonthly ? '2795.00' : '16770.00',
-    item_name:        '24 Stories — recurring payment, stops automatically after 6 months',
-    item_description: '6 monthly payments of R2,795. Stops automatically after 6 months.',
+    amount:        isMonthly ? '3500.00' : '16800.00',
+    item_name:        isMonthly ? '24 Stories — 6 monthly payments of R3 500, stops automatically' : '24 Stories — once-off payment',
+    item_description: isMonthly ? '6 monthly payments of R3 500. Stops automatically after 6 months.' : 'Once-off payment. Full 6-month subscription included.',
     custom_str1:      recordId,
     custom_str2:      isMonthly ? 'monthly' : 'lump_sum',
     payment_method:   'cc'
@@ -95,7 +95,7 @@ exports.handler = async function(event) {
     const today = new Date().toISOString().slice(0, 10);
     params.subscription_type   = '1';
     params.billing_date        = today;
-    params.recurring_amount    = '2795.00';
+    params.recurring_amount    = '3500.00';
     params.frequency           = '3';   // 3 = monthly
     params.cycles              = '6';   // auto-stop after 6 payments
   }

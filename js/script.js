@@ -68,6 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Netlify function endpoints
     var CHECKOUT_URL = '/.netlify/functions/checkout';
 
+    // Track which payment type the buyer selected from the pricing cards
+    var pendingPaymentType = 'monthly';
+    document.querySelectorAll('[data-payment]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            pendingPaymentType = btn.getAttribute('data-payment') || 'monthly';
+        });
+    });
+
     // Submit a programmatic form to PayFast using server-signed params
     function redirectToPayFast(payfastParams) {
         var form = document.createElement('form');
@@ -360,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : giverName,
                     giftGiverEmail       : giverEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : 'monthly',
+                    paymentType          : pendingPaymentType,
                     returnUrl            : 'https://24stories.co.za/?subscribed=1'
                 })
             })
@@ -456,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     giftGiverName        : storytellerName,
                     giftGiverEmail       : storytellerEmail,
                     familyEmails         : FamilyEmails,
-                    paymentType          : 'monthly',
+                    paymentType          : pendingPaymentType,
                     returnUrl            : 'https://24stories.co.za/?subscribed=1'
                 })
             })

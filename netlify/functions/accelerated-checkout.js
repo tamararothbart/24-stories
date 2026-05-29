@@ -7,7 +7,7 @@ exports.handler = async function(event) {
 
   const qs          = event.queryStringParameters || {};
   const recordId    = qs.id     || '';
-  const amount      = parseFloat(qs.amount) || 16770;
+  const amount      = parseFloat(qs.amount) || 16800;
 
   if (!recordId) {
     return {

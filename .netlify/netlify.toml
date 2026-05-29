@@ -31,6 +31,27 @@ timeout = 26.0
 [functions.cleanup]
 timeout = 26.0
 
+[functions.free-download]
+timeout = 26.0
+
+[functions.early-interest]
+timeout = 26.0
+
+[functions.events-inquiry]
+timeout = 26.0
+
+[functions.story-application]
+timeout = 26.0
+
+[functions.coaching-inquiry]
+timeout = 26.0
+
+[functions.admin-enroll]
+timeout = 26.0
+
+[functions.guide-download]
+timeout = 26.0
+
 [functions.send-weekly-prompts]
 schedule = "0 5 * * 3"
 

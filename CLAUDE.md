@@ -4,6 +4,42 @@
 
 ---
 
+## Session 30 — Pricing Restructure: Two-Card Layout + Payment Wiring — COMPLETE (2026-05-29)
+
+### New pricing model (LOCKED)
+- **Monthly:** R3 500/month × 6 months = R21 000 total (PayFast recurring subscription, auto-stops after 6 payments)
+- **Upfront:** R16 800 once-off (PayFast single payment, AccessEndDate set to +6 months)
+- **Saving:** R4 200 (20% off monthly total) — prominently displayed on upfront card
+- Old prices R2,795/month and R16,770 once-off are GONE. Every file updated.
+
+### Files changed this session
+- **index.html:** Two-card pricing layout (upfront left, monthly right). Pricing eyebrow: "Six months from now, your memoir will be delivered to your door." Features list rewritten: speak-or-type + auto-transcription foregrounded. SA number format (non-breaking space as thousands separator) on all prices. FAQ "How does payment work?" updated to new prices + mentions upfront option. `data-payment="monthly"` added to monthly card buttons.
+- **js/script.js:** `pendingPaymentType` variable reads `data-payment` attribute from whichever pricing card button was clicked. Passed to checkout on form submit. Both gift and self form submit handlers use `pendingPaymentType` instead of hardcoded `'monthly'`.
+- **checkout.js:** Monthly amount R2,795 → R3,500. Lump sum amount R16,770 → R16,800. `recurring_amount` R2,795 → R3,500. `item_name` and `item_description` now dynamic per payment type.
+- **payfast-webhook.js:** Admin alert label updated to new prices.
+- **restart-checkout.js:** amount and recurring_amount R2,795 → R3,500. Item description updated.
+- **accelerated-send.js:** Calculation updated: R16,800 minus (PaymentsCount × R3,500).
+- **accelerated-checkout.js:** Default amount 16770 → 16800.
+- **accelerated-admin.html:** Label updated to R16 800.
+- **begin.html:** All 5 price references updated (intro text, payment summary ×2, fine print ×2).
+- **library.html:** "Give This Gift" button updated to "from R3 500/month".
+- **terms.html:** Payment terms updated; upfront option added.
+- **operations-manual.md + PAYFAST_OPERATIONS_MANUAL.md:** All price references updated.
+- **presentation/index.html:** Hero meta + product card updated.
+
+### How PayFast tells them apart
+- Monthly: `subscription_type=1, frequency=3, cycles=6` params present → PayFast treats as recurring
+- Upfront: no subscription params → PayFast treats as once-off. Webhook sets AccessEndDate +6 months.
+- `data-payment` attribute on pricing card buttons captures buyer's choice before they reach the form.
+
+### Pause message
+- Removed from pricing section. Belongs in T&Cs under "Pausing your subscription" — not yet written. Add when ready.
+
+### ⚠ Form fine print still shows monthly wording for lump sum payers
+- index.html and begin.html both show "You authorise R3 500 to be deducted automatically each month" for all buyers. Lump sum buyers see incorrect fine print. Fix: make fine print dynamic based on pendingPaymentType. Deferred — not critical pre-launch.
+
+---
+
 ## Session 29 — Copy Repositioning + Free Guide + Social Landing Page — COMPLETE (2026-05-29)
 
 ### Strategic repositioning (index.html + styles.css)
@@ -347,7 +383,7 @@ All automation is built on Netlify Functions (serverless). There are no Make sce
 ---
 
 ## The Product
-24 Stories guides a storyteller through 26 weekly prompts, edits each story professionally, delivers them to family by email, and produces a printed linen-bound hardcover book. Pricing: R2,795/month × 6 months (auto-stops), or R16,770 once-off lump sum.
+24 Stories guides a storyteller through 26 weekly prompts, edits each story professionally, delivers them to family by email, and produces a printed linen-bound hardcover book. Pricing: R3 500/month × 6 months (auto-stops), or R16 800 once-off lump sum.
 
 ## Credentials
 - Airtable base: 52stories | Base ID: apprTOobuxs4Od7XB
@@ -481,8 +517,8 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - **20% off first session:** offer appears in the week-1 prompt email (coaching email fires alongside first prompt). NOT on the sign-up page. The sign-up page (begin.html) has no coaching mention.
 
 ## Payment Model
-- Monthly: R2,795/month × 6 cycles (auto-stops). PayFast recurring subscription (subscription_type=1, frequency=3, cycles=6).
-- Lump sum: R16,770 once-off. PayFast single payment. AccessEndDate set to +6 months on activation.
+- Monthly: R3 500/month × 6 cycles (auto-stops). PayFast recurring subscription (subscription_type=1, frequency=3, cycles=6).
+- Lump sum: R16 800 once-off. PayFast single payment. AccessEndDate set to +6 months on activation.
 - Extra copies: R1,200 each (ordered via Story Library).
 - Airtable record created on payment_status = COMPLETE only.
 - Book: physical printed hardcover. SA printer + Courier Guy. Up to 4 weeks delivery.
@@ -642,7 +678,7 @@ After all tests: delete test Airtable records. Resolve PayFast live credential i
 
 ### restart-checkout.js (new function)
 - GET `?id=SUBSCRIBER_RECORD_ID`
-- Verifies Status=Frozen. Builds signed PayFast recurring payment URL (R2,795 × 6 months, same params as checkout.js).
+- Verifies Status=Frozen. Builds signed PayFast recurring payment URL (R3 500 × 6 months, same params as checkout.js).
 - Redirects subscriber directly to PayFast. One-click.
 - return_url and cancel_url both go back to library.html?id=RECORD_ID.
 

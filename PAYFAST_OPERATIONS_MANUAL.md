@@ -6,13 +6,13 @@
 
 | ID | Scenario | How to initiate | Type | Amount |
 |----|----------|----------------|------|--------|
-| PAY-01 | Gift subscription | https://24stories.co.za/#subscribe — gift tab | Monthly recurring | R2,795 × 6 |
-| PAY-02 | Self subscription | https://24stories.co.za/#subscribe — self tab | Monthly recurring | R2,795 × 6 |
-| PAY-03 | Lump sum | WhatsApp arrangement — no public link | Once-off | R16,770 |
-| PAY-04 | Accelerated upgrade | https://24stories.co.za/accelerated-admin.html — enter subscriber email, click Send | Once-off | R16,770 minus payments made |
+| PAY-01 | Gift subscription | https://24stories.co.za/#subscribe — gift tab | Monthly recurring | R3 500 × 6 |
+| PAY-02 | Self subscription | https://24stories.co.za/#subscribe — self tab | Monthly recurring | R3 500 × 6 |
+| PAY-03 | Lump sum | WhatsApp arrangement — no public link | Once-off | R16 800 |
+| PAY-04 | Accelerated upgrade | https://24stories.co.za/accelerated-admin.html — enter subscriber email, click Send | Once-off | R16 800 minus payments made |
 | PAY-05 | Extra copies | https://24stories.co.za/library.html?id=[subscriberID] — Extra Copies section | Once-off | R1,200/copy (R1,000 for 10+) |
 | PAY-06 | Coaching | https://wa.me/27823758320 — manual only, no PayFast | Manual | R1,200 / R3,200 / R5,500 / R18,000 |
-| PAY-07 | Recurring renewals 2–6 | Automatic — PayFast bills monthly, no action needed | Automatic | R2,795 each |
+| PAY-07 | Recurring renewals 2–6 | Automatic — PayFast bills monthly, no action needed | Automatic | R3 500 each |
 
 **All payment links are static and permanent except PAY-04 (generated per subscriber) and PAY-05 (unique per subscriber library URL).**
 
@@ -49,7 +49,7 @@ Log in at https://www.payfast.co.za
 
 **B. PAYFAST CONFIGURATION**
 - Type: Recurring subscription (subscription_type=1, frequency=3 monthly, cycles=6)
-- Amount: R2,795.00 per month
+- Amount: R3 500.00 per month
 - item_name: 24 Stories
 - notify_url: https://24stories.co.za/.netlify/functions/payfast-webhook
 - return_url: https://24stories.co.za/thank-you.html
@@ -88,7 +88,7 @@ Log in at https://www.payfast.co.za
 
 **G. YOUR NOTIFICATIONS**
 - Email to hello@24stories.co.za — subject: "NEW SUBSCRIBER — [Full Name]"
-- Includes: name, email, payment type (Monthly R2,795 × 6), amount
+- Includes: name, email, payment type (Monthly R3 500 × 6), amount
 - Arrives within seconds of payment confirmation
 
 **H. GAPS AND RISKS**
@@ -111,7 +111,7 @@ Identical to PAY-01 in every backend respect. The only difference is the fronten
 
 ---
 
-### PAY-03: Lump sum once-off (R16,770)
+### PAY-03: Lump sum once-off (R16 800)
 
 **A. WHAT THE CLIENT SEES**
 - No public page. This is arranged manually via WhatsApp (082 375 8320) or hello@24stories.co.za.
@@ -120,7 +120,7 @@ Identical to PAY-01 in every backend respect. The only difference is the fronten
 
 **B. PAYFAST CONFIGURATION**
 - Type: Once-off single payment (no subscription fields)
-- Amount: R16,770.00
+- Amount: R16 800.00
 - custom_str2: lump_sum
 - checkout.js supports this via paymentType: 'lump_sum' but no frontend UI exposes it
 - To use: call checkout.js API directly or arrange via PAY-04 accelerated flow
@@ -145,7 +145,7 @@ Identical to PAY-01 in every backend respect. The only difference is the fronten
 **A. YOUR ACTION AS OPERATOR**
 - Go to: https://24stories.co.za/accelerated-admin.html
 - Enter the subscriber's email address
-- Optionally override the amount (default: R16,770 minus payments already made)
+- Optionally override the amount (default: R16 800 minus payments already made)
 - Click "Send payment link"
 - The system emails the subscriber a personalised payment link automatically
 
@@ -158,7 +158,7 @@ Identical to PAY-01 in every backend respect. The only difference is the fronten
 
 **C. PAYFAST CONFIGURATION**
 - Type: Once-off single payment
-- Amount: calculated as R16,770 minus (PaymentsCount × R2,795), or overridden
+- Amount: calculated as R16 800 minus (PaymentsCount × R3 500), or overridden
 - item_name: 24 Stories — Accelerated Subscription
 - custom_str1: subscriber record ID
 - custom_str2: accelerated
@@ -260,7 +260,7 @@ Identical to PAY-01 in every backend respect. The only difference is the fronten
 **No action required from you or the subscriber.** PayFast handles billing automatically.
 
 **What happens:**
-- PayFast charges R2,795 on the same date each month (or the next working day)
+- PayFast charges R3 500 on the same date each month (or the next working day)
 - PayFast sends an ITN to payfast-webhook.js with the subscription token
 - payfast-webhook.js increments PaymentsCount (2, 3, 4, 5, 6)
 - On payment 6: BookOnboardingUnlocked is set to true on the subscriber record
@@ -345,7 +345,7 @@ Do these in order on June 10 before emailing the interest list.
 
 6. Push to GitHub (Claude does this) → Netlify auto-deploys
 7. Wait for deploy confirmation
-8. Go to https://24stories.co.za/#subscribe and complete a test signup with a real card for R2,795
+8. Go to https://24stories.co.za/#subscribe and complete a test signup with a real card for R3 500
 9. Confirm: Airtable activates, emails arrive, hello@ notification arrives
 10. If all confirmed: send to interest list
 

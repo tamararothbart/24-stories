@@ -47,15 +47,15 @@ exports.handler = async function(event) {
     cancel_url:       CANCEL_URL,
     notify_url:       NOTIFY_URL,
     m_payment_id:     subscriberId + '-r' + Date.now(),
-    amount:           '2795.00',
+    amount:           '3500.00',
     item_name:        `24 Stories — ${remainingCycles} ${cycleWord} remaining`,
-    item_description: `Resuming subscription. ${remainingCycles} monthly ${cycleWord} of R2,795. Stops automatically.`,
+    item_description: `Resuming subscription. ${remainingCycles} monthly ${cycleWord} of R3 500. Stops automatically.`,
     custom_str1:      subscriberId,
     custom_str2:      'restart',
     payment_method:   'cc',
     subscription_type: '1',
     billing_date:      today,
-    recurring_amount:  '2795.00',
+    recurring_amount:  '3500.00',
     frequency:         '3',
     cycles:            String(remainingCycles)
   };

@@ -51,7 +51,7 @@ I read every story. I tidy the edges — never change their voice, never correct
 
 Six months later, 26 stories become a real hardcover book. Printed. Bound. Delivered to your door.
 
-One payment. Everything included. Free delivery anywhere in South Africa.
+.
 
 24stories.co.za
 

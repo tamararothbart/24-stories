@@ -819,7 +819,7 @@ If a subscriber has ordered extra copies, the total is shown in email-12. The Ex
 
 ### HOW PAYMENT WORKS
 
-Payment is via PayFast. Subscribers choose monthly (R2,795/month × 6 payments, auto-stops) or lump sum (R16,770 once-off). PayFast sends payment directly to your account and notifies the system via a webhook.
+Payment is via PayFast. Subscribers choose monthly (R3 500/month × 6 payments, auto-stops) or lump sum (R16 800 once-off). PayFast sends payment directly to your account and notifies the system via a webhook.
 
 **You do not need to do anything when a payment comes in.** The system:
 
@@ -855,7 +855,7 @@ If a subscriber emails asking to pay upfront and get all 26 prompts immediately:
 3. Click Send
 4. Done
 
-The system looks up the subscriber, calculates the remaining amount (R16,770 minus whatever they've already paid), and emails them a payment link automatically. You don't touch Airtable or build any URLs.
+The system looks up the subscriber, calculates the remaining amount (R16 800 minus whatever they've already paid), and emails them a payment link automatically. You don't touch Airtable or build any URLs.
 
 If you've agreed on a different amount, type it in the Amount Override field before clicking Send.
 
@@ -1037,7 +1037,7 @@ A refund request will arrive as an email to hello@24stories.co.za from the subsc
 4. Address it to the subscriber (their email is in the request they sent you)
 5. Replace the three placeholders:
    - [FirstName] → their first name
-   - [Amount] → the refund amount in figures (e.g. 2795)
+   - [Amount] → the refund amount in figures (e.g. 3500)
    - [reason] → one short phrase (e.g. "a technical error on our side" or "an exceptional circumstance")
 6. Send from hello@24stories.co.za
 

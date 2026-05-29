@@ -37,10 +37,10 @@ exports.handler = async function(event) {
   const f         = sub.fields;
   const firstName = f.StorytellerFirstName || '';
 
-  // Calculate remaining amount: R16,770 minus payments already made (R2,795 each)
+  // Calculate remaining amount: R16,800 minus payments already made (R3,500 each)
   const paymentsMade = f.PaymentsCount || 0;
-  const paid         = paymentsMade * 2795;
-  const remaining    = Math.max(0, 16770 - paid);
+  const paid         = paymentsMade * 3500;
+  const remaining    = Math.max(0, 16800 - paid);
   const amount       = overrideAmount !== null ? overrideAmount : remaining;
 
   if (amount <= 0) {

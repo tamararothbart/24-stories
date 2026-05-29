@@ -3126,17 +3126,41 @@ h1.hero-heading, .hero-content h1 {
     font-size: 12px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--gold);
+    color: var(--charcoal);
+    background: var(--gold);
     border: 1px solid var(--gold);
     padding: 12px 22px;
     text-decoration: none;
     border-radius: 2px;
-    transition: background 0.15s, color 0.15s;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 
 .founder-download-btn:hover {
+    background: transparent;
+    color: var(--gold);
+}
+
+/* Gold-fill guide CTA button — used wherever guide is promoted on light backgrounds */
+.btn-guide-cta {
+    display: block;
+    text-align: center;
+    padding: 14px 24px;
     background: var(--gold);
     color: var(--charcoal);
+    border: 1px solid var(--gold);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+}
+.btn-guide-cta:hover {
+    background: var(--charcoal);
+    color: #F7F5F2;
+    border-color: var(--charcoal);
 }
 
 .founder-video-wrap {

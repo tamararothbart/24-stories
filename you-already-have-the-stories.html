@@ -478,34 +478,47 @@ body { padding-top: 50px; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 8px 16px;
   z-index: 300;
-  gap: 12px;
+  gap: 8px;
 }
 
-.guide-nav-back {
-  font-family: 'Inter', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  color: var(--charcoal);
-  text-decoration: none;
-}
-.guide-nav-back:hover { color: var(--gold); }
-
+/* Both nav tabs: same size, equal weight, different colours */
+.guide-nav-back,
 .guide-nav-save {
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: #fff;
-  background: var(--charcoal);
-  border: none;
-  padding: 9px 16px;
+  padding: 10px 14px;
   border-radius: 2px;
   cursor: pointer;
   white-space: nowrap;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1;
+}
+
+/* Back tab — gold (exit action) */
+.guide-nav-back {
+  background: var(--gold);
+  color: var(--charcoal);
+}
+.guide-nav-back:hover {
+  background: #a5865d;
+  color: var(--charcoal);
+}
+
+/* Save tab — charcoal (hold/save action) */
+.guide-nav-save {
+  background: var(--charcoal);
+  color: #fff;
+}
+.guide-nav-save:hover {
+  background: #333;
 }
 
 /* Drop-down email form below nav */
@@ -654,7 +667,7 @@ body { padding-top: 50px; }
      STICKY NAV BAR
 ════════════════════════════ -->
 <nav class="guide-nav">
-  <a href="https://24stories.co.za" class="guide-nav-back">&#8592; 24stories.co.za</a>
+  <a href="https://24stories.co.za" class="guide-nav-back" onclick="goBack(); return false;">Back to 24stories.co.za</a>
   <button class="guide-nav-save" onclick="toggleSaveForm()">Read this later</button>
 </nav>
 
@@ -1171,6 +1184,14 @@ body { padding-top: 50px; }
 
 
 <script>
+function goBack() {
+  if (window.history.length > 1) {
+    window.history.back();
+  } else {
+    window.location.href = 'https://24stories.co.za';
+  }
+}
+
 function toggleSaveForm() {
   const drop = document.getElementById('guideEmailDrop');
   drop.classList.toggle('open');

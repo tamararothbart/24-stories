@@ -8,47 +8,56 @@
 
 ### Strategic repositioning (index.html + styles.css)
 - Hero H1: "24 Stories. One Book. Six Months." → "24 Prompts. Six Months. One Book."
-- Concept strip: "Stories told" → "Prompts"
-- Crux section (mobile) + founder video section (desktop): replaced "Each chapter is a self-contained story" copy with:
+- Concept strip label: "Stories told" → "Prompts"
+- Crux section (mobile) + founder video section (desktop): replaced "Each chapter is a self-contained story" with:
   - Problem copy: "Most families never capture their stories. Not because they don't want to. Because no one made it easy enough."
   - Bridge line: "One prompt. One week. Five minutes. That's the ask."
-  - Download box with title + subtitle + button
-- North star sentence: "Your family has questions they forgot to ask. We help you answer them."
-- Hero sub line: marked for rewrite (HTML comment: `<!-- ⚠ HERO SUB — REWRITE THIS LINE -->`)
-- "these stories" → "their stories" (copy fix)
+  - Founder download box: title "You Already Have the Stories" + subtitle "Your stories don't need to be created. They need to be uncovered." + gold CTA button
+- Copy: "these stories" → "their stories" (both crux + founder sections)
+- **North star sentence (locked):** "Your family has questions they forgot to ask. We help you answer them."
+- **Hero sub line: NOT YET REWRITTEN** — marked with `<!-- ⚠ HERO SUB — REWRITE THIS LINE -->` in index.html. Direction: ease/simplicity, not craft. Avoid "told one prompt at a time." Current placeholder still live.
 
-### Typography fixes (styles.css)
-- `founder-crux-key`: Playfair bold → Cormorant Garamond 400, same size as body — cohesive
-- `founder-crux-body`: removed italic, opacity 0.72 → 0.97, margin added
-- `crux-body`: full charcoal #1A1A1A, font-weight:500, bigger — was faded at 72% opacity
-- `crux-headline`: Cormorant+gold → Playfair Display 700 charcoal (gold on cream = 3:1 contrast, unreadable)
+### Typography / legibility fixes (styles.css)
+- `founder-crux-key`: Playfair bold → Cormorant Garamond 400 (cohesive with body)
+- `founder-crux-body`: removed italic, opacity 0.72 → 0.97, slightly bigger
 - `founder-download-title`: opacity 0.92 → #fff
-- All white-on-dark text pushed to 0.97 opacity or #fff throughout
+- `founder-download-btn`: gold border+text on dark → **gold fill at rest**, charcoal on hover (reversed)
+- `crux-body`: font-weight 400 → 500, full #1A1A1A (was 72% faded — Cormorant Garamond is hair-thin at 400 on screens)
+- `crux-headline`: Cormorant+gold → Playfair Display 700 charcoal (#B8976A on #F7F5F2 = ~3:1 contrast, unreadable)
+- `.btn-guide-cta` (new class): gold fill at rest, charcoal on hover — used on all "Get the free guide" buttons
+- Crux section button changed from `.btn-outline-dark` to `.btn-guide-cta` (gold at rest)
+- Global mobile rule in guide: all text forced to #1A1A1A — no opacity-faded text on screens ≤720px
 
 ### Free guide — you-already-have-the-stories.html
-- 8-page redesigned HTML guide: Cormorant Garamond body, Playfair Display headings, Inter labels
-- Charcoal cover, gold-ruled page headers, callout boxes, numbered lists, comparison tables
-- Mobile responsive: fluid pages ≤720px, stacked tables, single-column grids
-- Global mobile rule forces all text to #1A1A1A — no opacity-faded text
-- Floating CTA bar on mobile: fixed bottom bar "Ready to begin? / Start at 24stories.co.za →"
-- Red-bordered "Keep this guide / Save as PDF" box at bottom of last page
-- **Button on website links directly to guide (no email gate) — guide IS the sales pitch**
+- **URL:** `https://24stories.co.za/you-already-have-the-stories.html`
+- 8-page HTML guide — redesigned from original ugly PDF to match 24 Stories aesthetic
+- Content: "You Already Have the Stories" — 10 sections covering story mining, the golden shift, story bank, 5-question method, how 24 Stories helps
+- Opens in **same tab** (no `target="_blank"`) — browser back button returns to exact website scroll position
+- **Sticky top nav (always visible):** two equal tabs:
+  - **[Back to 24stories.co.za]** — gold fill, uses `history.back()` with fallback to homepage. Returns to exact scroll position.
+  - **[Read this later]** — charcoal fill, opens drop-down name+email form → calls `guide-download.js` → "On its way — check your inbox."
+- **Bottom email form:** "Want to read this later? / Send to my inbox" — same function, no technical language, no PDF/print references
+- **Mobile floating bottom bar:** "Ready to begin? / Start at 24stories.co.za →" — fixed to bottom of screen throughout read
+- NO technical instructions anywhere (no "Save as PDF", no "Chrome → Print", no "pinch outward")
+- **On website:** button links directly — no email gate. Guide is the sales pitch.
 
 ### Social landing page — guide-landing.html
-- URL: `https://24stories.co.za/guide-landing.html`
-- LinkedIn/Facebook email capture: name + email → sends guide link by email
-- Thank-you state reveals direct link to guide immediately
-- Connects to `guide-download.js` Netlify function
+- **URL:** `https://24stories.co.za/guide-landing.html` — use this link on LinkedIn + Facebook posts
+- Email capture: name + email → sends guide link by email → thank-you state with direct guide link
+- Connects to `guide-download.js`
 
 ### guide-download.js (new Netlify function)
 - Saves lead to Airtable leads table (tbl4as6w4R2xoICpu), Source = "Guide Download — Social"
-- Parallel Mailjet sends: Tamara alert + subscriber email with guide link
-- `timeout = 26` added to netlify.toml
-- Email sends link to `https://24stories.co.za/you-already-have-the-stories.html`
+- Parallel Mailjet sends: Tamara alert (hello@) + subscriber email with guide link
+- `timeout = 26` in netlify.toml
+- Email subject: "Your free guide — You Already Have the Stories"
+- Link in email: `https://24stories.co.za/you-already-have-the-stories.html`
 
-### Two free downloads now live
-1. **Existing** (`free-download.html` / `free-download.js`): "5 Stories Worth Saving" — on website
-2. **New** (`you-already-have-the-stories.html` / `guide-download.js`): "You Already Have the Stories" — open access on website, email-gated on social
+### Two guides / two delivery modes — LOCKED
+| Guide | File | Delivery on website | Delivery on social |
+|---|---|---|---|
+| 5 Stories Worth Saving | free-download.html | Email-gated modal | — |
+| You Already Have the Stories | you-already-have-the-stories.html | Open access (no gate) | Email-gated via guide-landing.html |
 
 ---
 

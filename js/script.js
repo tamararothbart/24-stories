@@ -70,9 +70,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Track which payment type the buyer selected from the pricing cards
     var pendingPaymentType = 'monthly';
+    var FINE_PRINT_MONTHLY  = 'This is a 6-month subscription. You authorise R3 500 to be deducted automatically each month for six months, after which billing stops automatically.';
+    var FINE_PRINT_LUMP_SUM = 'This is a once-off payment of R16 800, covering your full 6-month subscription. No further payments will be taken.';
+
+    function updateFinePrint() {
+        var els = document.querySelectorAll('#payment-fine-print');
+        var text = pendingPaymentType === 'lump_sum' ? FINE_PRINT_LUMP_SUM : FINE_PRINT_MONTHLY;
+        els.forEach(function(el) { el.textContent = text; });
+    }
+
     document.querySelectorAll('[data-payment]').forEach(function(btn) {
         btn.addEventListener('click', function() {
             pendingPaymentType = btn.getAttribute('data-payment') || 'monthly';
+            updateFinePrint();
         });
     });
 

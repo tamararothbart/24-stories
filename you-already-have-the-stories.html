@@ -43,7 +43,11 @@ body {
 }
 
 @media screen and (max-width: 720px) {
-  body { background: #fff; }
+  /* Force full luminosity on all text — no faded opacity on mobile */
+  body { background: #fff; color: #1A1A1A; }
+  p, li, span, td, th, .n-desc, .starter, .bank-cell p { color: #1A1A1A !important; }
+  .cta-body-line { color: #fff !important; }
+  .page-header span { color: #888 !important; }
   .page { width: 100%; margin: 0 0 2px; min-height: unset; overflow: visible; border-bottom: 6px solid var(--cream); }
   .cover { height: auto; min-height: 100vh; }
   .cover-top { flex: 0 0 auto; padding: 44px 24px 32px; }

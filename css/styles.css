@@ -3339,8 +3339,8 @@ h1.hero-heading, .hero-content h1 {
 
 .crux-headline {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.3rem, 5vw, 1.6rem);
-    font-weight: 400;
+    font-size: clamp(1.35rem, 5vw, 1.65rem);
+    font-weight: 500;
     color: var(--gold);
     line-height: 1.45;
     margin-bottom: 18px;
@@ -3348,11 +3348,11 @@ h1.hero-heading, .hero-content h1 {
 
 .crux-body {
     font-family: 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(1.05rem, 4vw, 1.25rem);
-    color: rgba(26,26,26,0.72);
-    line-height: 1.8;
+    font-size: clamp(1.2rem, 4.5vw, 1.45rem);
+    color: #1A1A1A;
+    line-height: 1.85;
     max-width: 640px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
 }
 
 .crux-cover-img {

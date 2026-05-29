@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>You Already Have the Stories — Free Guide — 24 Stories</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --charcoal: #1A1A1A;
+  --gold:     #B8976A;
+  --cream:    #F7F5F2;
+  --mid:      #555;
+  --light:    #999;
+}
+
+body {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  color: var(--charcoal);
+  background: var(--cream);
+  min-height: 100vh;
+}
+
+/* ── LOGO ── */
+.top-bar {
+  padding: 28px 24px;
+  text-align: center;
+  border-bottom: 1px solid #E0DDD9;
+}
+.top-bar img { height: 52px; width: auto; display: inline-block; }
+
+/* ── LAYOUT ── */
+.wrap {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+/* ── HOOK BLOCK ── */
+.hook {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.hook-eyebrow {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 20px;
+}
+
+.hook-problem {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 4.5vw, 22px);
+  line-height: 1.75;
+  color: var(--mid);
+  margin-bottom: 28px;
+}
+
+.hook-rule {
+  width: 40px;
+  height: 2px;
+  background: var(--gold);
+  margin: 0 auto 28px;
+}
+
+.hook-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(32px, 8vw, 46px);
+  font-weight: 700;
+  color: var(--charcoal);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.hook-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(17px, 4vw, 20px);
+  line-height: 1.75;
+  color: var(--mid);
+  max-width: 400px;
+  margin: 0 auto 24px;
+}
+
+.hook-meta {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--light);
+}
+
+/* ── FORM BOX ── */
+.form-box {
+  background: #fff;
+  border: 1px solid #E0DDD9;
+  padding: 36px 32px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+  .form-box { padding: 28px 20px; }
+}
+
+.form-label-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  display: block;
+  margin-bottom: 7px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 13px 14px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  color: var(--charcoal);
+  background: var(--cream);
+  border: 1px solid #D8D4CE;
+  border-radius: 2px;
+  outline: none;
+  margin-bottom: 16px;
+  -webkit-appearance: none;
+}
+.form-input:focus { border-color: var(--gold); background: #fff; }
+.form-input::placeholder { color: var(--light); }
+
+.form-submit {
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--charcoal);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-bottom: 14px;
+}
+.form-submit:hover { background: #333; }
+.form-submit:disabled { background: #aaa; cursor: default; }
+
+.form-reassurance {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--light);
+  text-align: center;
+  line-height: 1.6;
+}
+
+.form-error {
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  color: #c0392b;
+  margin-top: 10px;
+  display: none;
+}
+
+/* ── THANK YOU ── */
+.thank-you {
+  display: none;
+  text-align: center;
+  padding: 36px 0 0;
+}
+
+.ty-tick {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.ty-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--charcoal);
+  margin-bottom: 14px;
+}
+
+.ty-body {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  line-height: 1.8;
+  color: var(--mid);
+  margin-bottom: 28px;
+}
+
+.ty-btn {
+  display: inline-block;
+  background: var(--gold);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 36px;
+  border-radius: 2px;
+}
+
+/* ── WHAT'S INSIDE ── */
+.inside {
+  margin-top: 40px;
+  padding-top: 36px;
+  border-top: 1px solid #E0DDD9;
+}
+
+.inside-label {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 18px;
+  text-align: center;
+}
+
+.inside-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.inside-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 10px;
+}
+
+.inside-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--charcoal);
+}
+
+/* ── FOOTER ── */
+.foot {
+  text-align: center;
+  padding: 28px 24px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: var(--light);
+  border-top: 1px solid #E0DDD9;
+}
+.foot a { color: var(--gold); text-decoration: none; }
+
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <img src="https://24stories.co.za/logo.png" alt="24 Stories">
+</div>
+
+<div class="wrap">
+
+  <div class="hook">
+    <span class="hook-eyebrow">Free Guide</span>
+    <p class="hook-problem">Most families never capture their stories.<br>Not because they don't want to.<br>Because no one made it easy enough.</p>
+    <div class="hook-rule"></div>
+    <h1 class="hook-title">You Already<br>Have the Stories</h1>
+    <p class="hook-sub">A gentle guide to uncovering the memories waiting to be told — one prompt at a time.</p>
+    <p class="hook-meta">Eight pages &nbsp;&middot;&nbsp; Free &nbsp;&middot;&nbsp; Instant access</p>
+  </div>
+
+  <!-- FORM -->
+  <div class="form-box" id="formBox">
+    <label class="form-label-text" for="name">Your first name</label>
+    <input class="form-input" type="text" id="name" name="name" placeholder="First name" autocomplete="given-name" required>
+
+    <label class="form-label-text" for="email">Your email address</label>
+    <input class="form-input" type="email" id="email" name="email" placeholder="email@example.com" autocomplete="email" required>
+
+    <button class="form-submit" id="submitBtn" type="button" onclick="submitForm()">Send me the free guide</button>
+    <p class="form-reassurance">No spam. One email with your guide.</p>
+    <p class="form-error" id="formError">Something went wrong. Please try again.</p>
+  </div>
+
+  <!-- THANK YOU (shown after submit) -->
+  <div class="thank-you" id="thankYou">
+    <div class="ty-tick">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+        <polyline points="4,11 9,16 18,7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <p class="ty-heading">Your guide is on its way.</p>
+    <p class="ty-body">Check your inbox — we have sent it to you now.<br>Or read it here immediately:</p>
+    <a href="https://24stories.co.za/you-already-have-the-stories.html" target="_blank" class="ty-btn">Read the guide &rarr;</a>
+  </div>
+
+  <!-- WHAT'S INSIDE -->
+  <div class="inside">
+    <span class="inside-label">What's inside</span>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">Why the scary question ("What are my 24 most important events?") is the wrong one to ask</p>
+    </div>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">The Life Story Mining System — six places to look for memories you've forgotten you have</p>
+    </div>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">The golden shift: why an episode always beats an era</p>
+    </div>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">A story bank exercise to generate 40 ideas in one sitting</p>
+    </div>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">Five gentle questions that turn any memory into a story</p>
+    </div>
+    <div class="inside-item">
+      <div class="inside-dot"></div>
+      <p class="inside-text">Sentence starters for the moments when your mind goes blank</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="foot">
+  <a href="https://24stories.co.za">24stories.co.za</a> &nbsp;&middot;&nbsp; hello@24stories.co.za
+</div>
+
+<script>
+async function submitForm() {
+  const name  = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const btn   = document.getElementById('submitBtn');
+  const err   = document.getElementById('formError');
+
+  err.style.display = 'none';
+
+  if (!name || !email) {
+    err.textContent = 'Please enter your name and email address.';
+    err.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('/.netlify/functions/guide-download', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email })
+    });
+
+    if (!res.ok) throw new Error('server error');
+
+    document.getElementById('formBox').style.display = 'none';
+    document.getElementById('thankYou').style.display = 'block';
+    document.getElementById('thankYou').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = 'Send me the free guide';
+    err.textContent = 'Something went wrong. Please try again.';
+    err.style.display = 'block';
+  }
+}
+
+document.getElementById('email').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') submitForm();
+});
+</script>
+
+</body>
+</html>

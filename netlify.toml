@@ -25,6 +25,9 @@
 [functions.admin-enroll]
   timeout = 26
 
+[functions.guide-download]
+  timeout = 26
+
 # Scheduled functions — all times UTC (SAST = UTC+2)
 [functions.send-weekly-prompts]
   schedule = "0 5 * * 3"   # every Wednesday 7am SAST

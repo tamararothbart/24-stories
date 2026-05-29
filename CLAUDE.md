@@ -4,6 +4,54 @@
 
 ---
 
+## Session 29 — Copy Repositioning + Free Guide + Social Landing Page — COMPLETE (2026-05-29)
+
+### Strategic repositioning (index.html + styles.css)
+- Hero H1: "24 Stories. One Book. Six Months." → "24 Prompts. Six Months. One Book."
+- Concept strip: "Stories told" → "Prompts"
+- Crux section (mobile) + founder video section (desktop): replaced "Each chapter is a self-contained story" copy with:
+  - Problem copy: "Most families never capture their stories. Not because they don't want to. Because no one made it easy enough."
+  - Bridge line: "One prompt. One week. Five minutes. That's the ask."
+  - Download box with title + subtitle + button
+- North star sentence: "Your family has questions they forgot to ask. We help you answer them."
+- Hero sub line: marked for rewrite (HTML comment: `<!-- ⚠ HERO SUB — REWRITE THIS LINE -->`)
+- "these stories" → "their stories" (copy fix)
+
+### Typography fixes (styles.css)
+- `founder-crux-key`: Playfair bold → Cormorant Garamond 400, same size as body — cohesive
+- `founder-crux-body`: removed italic, opacity 0.72 → 0.97, margin added
+- `crux-body`: full charcoal #1A1A1A, font-weight:500, bigger — was faded at 72% opacity
+- `crux-headline`: Cormorant+gold → Playfair Display 700 charcoal (gold on cream = 3:1 contrast, unreadable)
+- `founder-download-title`: opacity 0.92 → #fff
+- All white-on-dark text pushed to 0.97 opacity or #fff throughout
+
+### Free guide — you-already-have-the-stories.html
+- 8-page redesigned HTML guide: Cormorant Garamond body, Playfair Display headings, Inter labels
+- Charcoal cover, gold-ruled page headers, callout boxes, numbered lists, comparison tables
+- Mobile responsive: fluid pages ≤720px, stacked tables, single-column grids
+- Global mobile rule forces all text to #1A1A1A — no opacity-faded text
+- Floating CTA bar on mobile: fixed bottom bar "Ready to begin? / Start at 24stories.co.za →"
+- Red-bordered "Keep this guide / Save as PDF" box at bottom of last page
+- **Button on website links directly to guide (no email gate) — guide IS the sales pitch**
+
+### Social landing page — guide-landing.html
+- URL: `https://24stories.co.za/guide-landing.html`
+- LinkedIn/Facebook email capture: name + email → sends guide link by email
+- Thank-you state reveals direct link to guide immediately
+- Connects to `guide-download.js` Netlify function
+
+### guide-download.js (new Netlify function)
+- Saves lead to Airtable leads table (tbl4as6w4R2xoICpu), Source = "Guide Download — Social"
+- Parallel Mailjet sends: Tamara alert + subscriber email with guide link
+- `timeout = 26` added to netlify.toml
+- Email sends link to `https://24stories.co.za/you-already-have-the-stories.html`
+
+### Two free downloads now live
+1. **Existing** (`free-download.html` / `free-download.js`): "5 Stories Worth Saving" — on website
+2. **New** (`you-already-have-the-stories.html` / `guide-download.js`): "You Already Have the Stories" — open access on website, email-gated on social
+
+---
+
 ## Session 28 — Free Download Fix — COMPLETE (2026-05-29)
 
 ### Root cause

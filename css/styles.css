@@ -3097,6 +3097,48 @@ h1.hero-heading, .hero-content h1 {
     margin-bottom: 24px;
 }
 
+.founder-download-box {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(184,151,106,0.45);
+}
+
+.founder-download-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.founder-download-title {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    color: rgba(255,255,255,0.92);
+    line-height: 1.45;
+    margin-bottom: 20px;
+}
+
+.founder-download-btn {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 12px 22px;
+    text-decoration: none;
+    border-radius: 2px;
+    transition: background 0.15s, color 0.15s;
+}
+
+.founder-download-btn:hover {
+    background: var(--gold);
+    color: var(--charcoal);
+}
+
 .founder-video-wrap {
     position: relative;
     width: 100%;

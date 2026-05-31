@@ -59,7 +59,8 @@ exports.handler = async function(event) {
         ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:      [{ Email: email, Name: name }],
         Subject: 'Your 24 Stories Library Link',
-        HTMLPart: libraryLinkEmailHtml(name, libUrl)
+        HTMLPart: libraryLinkEmailHtml(name, libUrl),
+        TextPart: stripHtml(libraryLinkEmailHtml(name, libUrl))
       }]
     })
   });
@@ -71,6 +72,21 @@ exports.handler = async function(event) {
 
   return { statusCode: 200, headers: corsHeaders(), body: JSON.stringify({ success: true }) };
 };
+
+function stripHtml(html) {
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s{2,}/g, '\n')
+    .trim();
+}
 
 function corsHeaders() {
   return {

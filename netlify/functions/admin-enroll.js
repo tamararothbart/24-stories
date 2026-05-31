@@ -117,11 +117,27 @@ async function sendEmail(mjAuth, { to, subject, html }) {
         From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
         To:      [{ Email: to.Email, Name: to.Name }],
         Subject: subject,
-        HTMLPart: html
+        HTMLPart: html,
+        TextPart: stripHtml(html)
       }]
     })
   });
   if (!res.ok) console.error('Mailjet error:', subject, await res.text());
+}
+
+function stripHtml(html) {
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s{2,}/g, '\n')
+    .trim();
 }
 
 function esc(s) {

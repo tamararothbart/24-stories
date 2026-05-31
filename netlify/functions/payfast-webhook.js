@@ -420,13 +420,29 @@ async function sendEmail(mjAuth, { to, subject, html }) {
         ReplyTo:  { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:       [to],
         Subject:  subject,
-        HTMLPart: html
+        HTMLPart: html,
+        TextPart: stripHtml(html)
       }]
     })
   });
   if (!res.ok) {
     console.error('Mailjet error sending to', to.Email, ':', await res.text());
   }
+}
+
+function stripHtml(html) {
+  return html
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s{2,}/g, '\n')
+    .trim();
 }
 
 function email1Html(firstName, giftGiverName, giftGiverEmail, storytellerEmail, storyHelperName, libUrl) {

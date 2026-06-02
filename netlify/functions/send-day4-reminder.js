@@ -89,6 +89,8 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' }, To: [to], Subject: subject, HTMLPart: html, TextPart: stripHtml(html) }]
+      TrackOpens: 'enabled',
+      TrackClicks: 'enabled',
     })
   });
   if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());

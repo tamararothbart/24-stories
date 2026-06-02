@@ -56,6 +56,7 @@ exports.handler = async function(event) {
       body: JSON.stringify({
         Messages: [{
           From:     { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
           To:       [{ Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' }],
           Subject:  'Your Collected Stories — on their way',
           HTMLPart: email12Html(f.StorytellerFirstName, deliveryAddress, totalBooks, bookTitle)

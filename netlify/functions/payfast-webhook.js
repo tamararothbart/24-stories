@@ -410,24 +410,28 @@ exports.handler = async function(event) {
   return { statusCode: 200, body: 'OK' };
 };
 
-async function sendEmail(mjAuth, { to, subject, html }) {
+async function sendEmail(mjAuth, { to, subject, html, replyTo }) {
   const res = await fetch('https://api.mailjet.com/v3.1/send', {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{
-        From:     { Email: 'stories@24stories.co.za', Name: '24 Stories' },
-        ReplyTo:  { Email: 'hello@24stories.co.za', Name: '24 Stories' },
-        To:       [to],
-        Subject:  subject,
-        HTMLPart: html,
-        TextPart: stripHtml(html)
+        From:      { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo:   replyTo || { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+        To:        [to],
+        Subject:   subject,
+        HTMLPart:  html,
+        TextPart:  stripHtml(html),
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled'
       }]
     })
   });
   if (!res.ok) {
     console.error('Mailjet error sending to', to.Email, ':', await res.text());
+    return false;
   }
+  return true;
 }
 
 function stripHtml(html) {

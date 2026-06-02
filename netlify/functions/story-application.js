@@ -44,21 +44,27 @@ exports.handler = async function(event) {
   if (!atRes.ok) console.error('Airtable error:', await atRes.text());
 
   // 2 — Notify Tamara at hello@24stories.co.za
+  const notifyHtml = notificationHtml(name, email, phone, story_about, story_matters, five_minutes, comfort_level);
   const notifyRes = await fetch('https://api.mailjet.com/v3.1/send', {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{
         From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:   [{ Email: 'hello@24stories.co.za', Name: '24 Stories' }],
         Subject: `New Storyteller Application — ${name}`,
-        HTMLPart: notificationHtml(name, email, phone, story_about, story_matters, five_minutes, comfort_level)
+        HTMLPart: notifyHtml,
+        TextPart: stripHtml(notifyHtml),
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled'
       }]
     })
   });
   if (!notifyRes.ok) console.error('Mailjet notify error:', await notifyRes.text());
 
   // 3 — Confirmation to applicant
+  const confirmationHtmlBody = confirmationHtml(name);
   const confirmRes = await fetch('https://api.mailjet.com/v3.1/send', {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
@@ -68,8 +74,10 @@ exports.handler = async function(event) {
         ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:      [{ Email: email, Name: name }],
         Subject: 'We have received your story — 24 Stories Live',
-        HTMLPart: confirmationHtml(name),
-        TextPart: stripHtml(confirmationHtml(name))
+        HTMLPart: confirmationHtmlBody,
+        TextPart: stripHtml(confirmationHtmlBody),
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled'
       }]
     })
   });

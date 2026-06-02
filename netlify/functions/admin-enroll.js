@@ -63,11 +63,22 @@ exports.handler = async function(event) {
   const fullName = surname ? `${fn} ${surname}` : fn;
 
   // Email-1 — storyteller welcome
-  await sendEmail(mjAuth, {
+  const storytellerEmailSent = await sendEmail(mjAuth, {
     to:      { Email: stEmail, Name: fn },
     subject: 'Welcome to 24 Stories',
     html:    email1Html(fn, giftGiverName, ggEmail, stEmail, storyHelperName, libUrl)
   });
+
+  if (!storytellerEmailSent) {
+    await sendEmail(mjAuth, {
+      to:      { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+      subject: `EMAIL FAILED — Welcome to 24 Stories for ${fullName}`,
+      html:    `<p style="font-family:Georgia,serif;font-size:16px;line-height:1.8;color:#1A1A1A;">
+        Unable to deliver the welcome email to ${esc(stEmail)} for complimentary enrolment of ${esc(fullName)}.<br>
+        Please verify the Mailjet response and the subscriber address.
+      </p>`
+    });
+  }
 
   // Email-2 — gift giver confirmation (if different from storyteller)
   if (ggEmail && ggEmail !== stEmail) {
@@ -108,21 +119,28 @@ exports.handler = async function(event) {
   };
 };
 
-async function sendEmail(mjAuth, { to, subject, html }) {
+async function sendEmail(mjAuth, { to, subject, html, replyTo }) {
   const res = await fetch('https://api.mailjet.com/v3.1/send', {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       Messages: [{
         From:    { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo: replyTo || { Email: 'hello@24stories.co.za', Name: '24 Stories' },
         To:      [{ Email: to.Email, Name: to.Name }],
         Subject: subject,
         HTMLPart: html,
-        TextPart: stripHtml(html)
+        TextPart: stripHtml(html),
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled'
       }]
     })
   });
-  if (!res.ok) console.error('Mailjet error:', subject, await res.text());
+  if (!res.ok) {
+    console.error('Mailjet error sending', subject, 'to', to.Email, ':', await res.text());
+    return false;
+  }
+  return true;
 }
 
 function stripHtml(html) {

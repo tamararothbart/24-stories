@@ -1397,15 +1397,37 @@
     <script>
     // Cover colour toggle
     (function () {
+        function encodeImagePath(path) {
+            // Properly encode spaces in the file path for CSS background-image URL
+            return path.replace(/ /g, '%20');
+        }
+        
         var btns = document.querySelectorAll('.cover-swatch-btn');
         var coverFace = document.getElementById('coverFace');
         if (!coverFace) return;
+        
+        function updateCoverImage(imagePath) {
+            // Set background image with proper URL encoding
+            var encodedPath = encodeImagePath(imagePath);
+            coverFace.style.backgroundImage = "url('" + encodedPath + "')";
+        }
+        
         // Initialise with whichever button is marked active
         var activeBtn = document.querySelector('.cover-swatch-btn--active');
-        if (activeBtn) coverFace.style.backgroundImage = "url('" + activeBtn.dataset.cover + "')";
+        if (activeBtn) {
+            updateCoverImage(activeBtn.dataset.cover);
+        } else if (btns.length > 0) {
+            // Fallback to first button if none marked active
+            updateCoverImage(btns[0].dataset.cover);
+        }
+        
+        // Add click listeners to all buttons
         btns.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                coverFace.style.backgroundImage = "url('" + btn.dataset.cover + "')";
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                // Update cover image immediately
+                updateCoverImage(btn.dataset.cover);
+                // Update active state
                 btns.forEach(function (b) { b.classList.remove('cover-swatch-btn--active'); });
                 btn.classList.add('cover-swatch-btn--active');
             });

@@ -867,7 +867,11 @@ FinalStory → EditedText → StoryText
 ### Airtable fields used
 **Subscribers:** StorytellerFirstName, StorytellerSurname, BookTitle, PortraitPhotoURL, DedicationText, EpigraphText, CoverColour, DeliveryAddress, ExtraCopies, BookCompiledDate
 **Stories (per chapter):** ChapterOrder, ChapterTitle, FinalStory, EditedText, StoryText, StoryImageURL, StoryImageCaption
-
+### Recent email deliverability updates
+- Standardized all Mailjet sends in Netlify functions to include `ReplyTo: hello@24stories.co.za`, `TextPart`, `TrackOpens: 'enabled'`, and `TrackClicks: 'enabled'`.
+- Added failure alerting for complimentary onboarding welcome emails so `hello@24stories.co.za` receives a notification if the initial subscriber welcome send fails.
+- Added a new resend endpoint at `netlify/functions/resend-subscriber-email.js` to resend library/welcome messages for subscribers by `subscriberId` or `email`.
+- No Airtable field schema changes were made in this work; the existing subscription-to-book workflow remains intact.
 ### No Airtable schema changes this session — uses existing fields only
 (PortraitCaption exists in Subscribers schema but is intentionally unused — portrait is always full bleed, no caption, by design.)
 

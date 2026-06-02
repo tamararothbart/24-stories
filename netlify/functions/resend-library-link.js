@@ -61,6 +61,8 @@ exports.handler = async function(event) {
         Subject: 'Your 24 Stories Library Link',
         HTMLPart: libraryLinkEmailHtml(name, libUrl),
         TextPart: stripHtml(libraryLinkEmailHtml(name, libUrl))
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled',
       }]
     })
   });

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tell Your Story — 24 Stories</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --charcoal: #1A1A1A;
+            --gold: #B8976A;
+            --cream: #F7F5F2;
+            --white: #FFFFFF;
+            --border: #E0DDD8;
+            --red: #c0392b;
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--cream);
+            color: var(--charcoal);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 40px 20px 80px;
+        }
+
+        .site-logo {
+            display: block;
+            margin: 0 auto 36px;
+            height: 28px;
+            width: auto;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            max-width: 680px;
+            width: 100%;
+            padding: 48px 48px 56px;
+        }
+
+        .week-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .prompt-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 400;
+            line-height: 1.3;
+            color: var(--charcoal);
+            margin-bottom: 12px;
+        }
+
+        .prompt-alternatives {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 32px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .prepare-note {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-style: normal;
+            font-weight: 500;
+            color: var(--charcoal);
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .before-begin {
+            margin-bottom: 28px;
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+        }
+
+        .before-begin-toggle {
+            background: #fff;
+            border: 1px solid var(--border);
+            padding: 16px 24px;
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--charcoal);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .before-begin-arrow {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--red);
+            margin-left: 16px;
+        }
+
+        .mode-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 32px;
+        }
+
+        .mode-tab {
+            background: none;
+            border: none;
+            padding: 12px 0;
+            margin-right: 32px;
+            margin-bottom: -1px;
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: #aaa;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .mode-tab.active {
+            color: var(--charcoal);
+            border-bottom-color: var(--charcoal);
+        }
+
+        /* VOICE UI */
+        .voice-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 24px;
+            padding: 16px 0 8px;
+        }
+
+        .record-btn {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            background: var(--red);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 18px rgba(192,57,43,0.28);
+        }
+
+        .record-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+
+        .record-label {
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: #888;
+        }
+
+        .timer {
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 300;
+            color: var(--charcoal);
+            letter-spacing: 0.04em;
+        }
+
+        .speak-note {
+            font-size: 0.95rem;
+            color: #555;
+            text-align: center;
+            line-height: 1.7;
+            max-width: 380px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 36px 0;
+        }
+
+        .send-row {
+            display: flex;
+            justify-content: flex-end;
+            padding-top: 4px;
+        }
+
+        .btn-send {
+            background: var(--charcoal);
+            color: #fff;
+            border: none;
+            padding: 14px 36px;
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .library-link {
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .library-link a {
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" class="site-logo">
+
+    <div class="card">
+
+        <p class="week-label">Week 1 — Inheritance</p>
+
+        <h1 class="prompt-heading">Prepare a five-minute story about something you inherited — jokes, traditions, taste.</h1>
+
+        <p class="prompt-alternatives">
+            Other angles: Heirlooms &nbsp;·&nbsp; Traits &nbsp;·&nbsp; Family Lore
+        </p>
+
+        <p class="prepare-note">Take a moment before you press record. Let a memory surface. You don't need to start at the beginning.</p>
+
+        <div class="before-begin">
+            <button class="before-begin-toggle">
+                Before you begin — read this first
+                <span class="before-begin-arrow">↓</span>
+            </button>
+        </div>
+
+        <div class="mode-tabs">
+            <button class="mode-tab active">Voice</button>
+            <button class="mode-tab">Type</button>
+        </div>
+
+        <!-- VOICE UI -->
+        <div class="voice-ui">
+            <div class="timer">0:00</div>
+            <button class="record-btn" title="Start recording">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4zm6.5 9a.5.5 0 0 1 1 0 7.5 7.5 0 0 1-15 0 .5.5 0 0 1 1 0 6.5 6.5 0 0 0 13 0zM11.5 20h1v3h-1v-3z"/>
+                </svg>
+            </button>
+            <p class="record-label">Tap to record</p>
+            <p class="speak-note">Speak naturally — as if you're sitting across from someone you love. Your story is automatically transcribed and tidied up for you.</p>
+        </div>
+
+        <hr class="divider">
+
+        <div class="send-row">
+            <button class="btn-send">Send my story →</button>
+        </div>
+
+        <div class="library-link">
+            <a href="#">Open your Story Library →</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -46,6 +46,7 @@ exports.handler = async function(event) {
       body: JSON.stringify({
         Messages: [{
           From: { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' },
           To:   [{ Email: 'hello@24stories.co.za', Name: '24 Stories' }],
           Subject: `Free download request — ${name}`,
           HTMLPart: `<p style="font-family:Georgia,serif;font-size:16px;color:#1A1A1A;line-height:1.8;">Someone requested the free download.<br><br><strong>Name:</strong> ${name}<br><strong>Email:</strong> <a href="mailto:${email}">${email}</a><br><strong>Source:</strong> Free Download</p>`
@@ -63,7 +64,9 @@ exports.handler = async function(event) {
           To:      [{ Email: email, Name: name }],
           Subject: 'Your free download — 5 Stories Worth Saving',
           HTMLPart: html,
-          TextPart: stripHtml(html)
+          TextPart: stripHtml(html),
+        TrackOpens: 'enabled',
+        TrackClicks: 'enabled'
         }]
       })
     }).catch(e => console.error('Mailjet send threw:', e.message))

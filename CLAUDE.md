@@ -4,6 +4,37 @@
 
 ---
 
+## Session 31 — Cover Color Toggle Fix — COMPLETE (2026-06-02)
+
+### Problem
+- Mary Miller sample book cover color buttons on index.html were not responding immediately
+- Not all three color options (Black, Blue, Red) were working reliably
+- Cover image updates had lag or failed to display
+
+### Root cause
+- CSS had hardcoded `background-image: url()` on `.cover-spread-widget` that was not being overridden by JavaScript inline styles
+- File paths with spaces were not being properly URL-encoded when passed to CSS `url()` function
+- No smooth visual feedback on color change
+
+### Solution implemented
+**CSS fix (css/styles.css):**
+- Removed hardcoded `background-image: url('../book-images/THIS%20IS%20THE%20RIGHT%20IMAGE%20FOR%20BOOK%20COVER.png')` from `.cover-spread-widget`
+- Added `transition: background-image 0.2s ease-in-out` for smooth visual feedback when color changes
+
+**JavaScript fix (index.html, lines 1397–1440):**
+- Added `encodeImagePath()` function to properly URL-encode spaces as `%20` in file paths
+- Improved initialization to handle both active buttons and fallback to first button
+- Added `e.preventDefault()` for proper event handling
+- All button clicks now immediately update the cover image with smooth transition
+
+**Result:**
+- ✅ All three color buttons now respond immediately
+- ✅ Smooth visual feedback (0.2s transition) when switching colors
+- ✅ File paths with spaces are properly encoded
+- ✅ No lag or failed image loads
+
+---
+
 ## Session 30 — Pricing Restructure: Two-Card Layout + Payment Wiring — COMPLETE (2026-05-29)
 
 ### New pricing model (LOCKED)

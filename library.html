@@ -650,6 +650,48 @@
         }
 
         /* ---- VOICE RECORDING FEATURE ---- */
+        .voice-select-row {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .voice-select-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .voice-select-cb {
+            margin-top: 3px;
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--gold);
+        }
+
+        .voice-select-cb:disabled { cursor: default; opacity: 0.6; }
+
+        .voice-select-title {
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--charcoal);
+            margin: 0 0 3px;
+            line-height: 1.4;
+        }
+
+        .voice-select-hint {
+            font-size: 0.78rem;
+            color: #aaa;
+            line-height: 1.5;
+            margin: 0;
+        }
+
         .voice-story-row {
             display: flex;
             align-items: flex-start;
@@ -1231,6 +1273,19 @@
 
         var subscriberId = new URLSearchParams(window.location.search).get('id') || '';
 
+        // Module-level store for voice recording state (set in loadLibrary, used by checkbox handlers)
+        var voiceByWeek        = {};
+        var voicePromptsByWeek = {};
+        var voiceConfirmedCount = 0;
+
+        // localStorage helpers — selection persists across refreshes on the same device
+        function getVoiceSelected() {
+            try { return JSON.parse(localStorage.getItem('vs_' + subscriberId) || '[]'); } catch(e) { return []; }
+        }
+        function setVoiceSelected(ids) {
+            try { localStorage.setItem('vs_' + subscriberId, JSON.stringify(ids)); } catch(e) {}
+        }
+
         // ============================================================
         // PREVIEW MODE — remove before go-live
         // Append ?id=PREVIEW to the URL to load mock data without Airtable
@@ -1360,11 +1415,26 @@
                     if (wk) promptsByWeek[wk] = r.fields;
                 });
 
-                // Count confirmed voice recordings before rendering cards
+                // Count confirmed voice recordings and sync confirmed stories into localStorage
                 var confirmedCount = 0;
+                var sel = getVoiceSelected();
+                var selChanged = false;
                 Object.keys(byWeek).forEach(function(w) {
-                    if (byWeek[w].BookVoiceConfirmed) confirmedCount++;
+                    var s = byWeek[w];
+                    if (s.BookVoiceConfirmed) {
+                        confirmedCount++;
+                        if (s._storyId && sel.indexOf(s._storyId) === -1) {
+                            sel.push(s._storyId);
+                            selChanged = true;
+                        }
+                    }
                 });
+                if (selChanged) setVoiceSelected(sel);
+
+                // Set module-level vars so checkbox handlers can re-render without re-fetching
+                voiceByWeek        = byWeek;
+                voicePromptsByWeek = promptsByWeek;
+                voiceConfirmedCount = confirmedCount;
 
                 renderProgress(byWeek, 26, promptsSent);
                 renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount);
@@ -1526,6 +1596,10 @@
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +
                     '<p class="edited-text">' + esc(story.EditedText) + '</p>';
+
+                if (!READ_ONLY_MODE) {
+                    div.appendChild(buildVoiceSelectCheckbox(story));
+                }
             }
             return div;
         }
@@ -1687,39 +1761,39 @@
         }
 
         // ---- VOICE RECORDINGS LIST (in Book Prep section) ----
-        function renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount, promptNumber) {
+        // Shows only the stories the subscriber has ticked (localStorage),
+        // plus any already confirmed (BookVoiceConfirmed) synced in on load.
+        function renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount) {
             var container = document.getElementById('voiceRecordingsList');
             if (!container) return;
             container.innerHTML = '';
 
-            // Collect stories that have EditedText
-            var editedStories = [];
-            Object.keys(byWeek).forEach(function(w) {
-                var story = byWeek[w];
-                if (story && (story.EditedText || story.FinalStory)) {
-                    editedStories.push({ week: parseInt(w, 10), story: story });
-                }
-            });
-            editedStories.sort(function(a, b) { return a.week - b.week; });
+            var sel = getVoiceSelected();
 
-            if (editedStories.length === 0) {
-                container.innerHTML = '<p style="font-size:0.9rem;color:#aaa;font-style:italic;margin:0;">Your edited stories will appear here. Once your first story has been edited, you can begin selecting recordings.</p>';
+            if (sel.length === 0) {
+                container.innerHTML =
+                    '<p style="font-size:0.92rem;color:#888;line-height:1.8;margin:0 0 16px;">' +
+                    'None chosen yet. Open your story cards above, read each one, and tick <strong>Narrate in my voice</strong> on the three you want to record. Your chosen stories will appear here.' +
+                    '</p>' +
+                    '<a href="#storyCards" style="font-size:0.82rem;color:var(--gold);text-decoration:underline;letter-spacing:0.04em;">Go to your stories &uarr;</a>';
                 return;
             }
 
-            // Count badge
-            var badge = document.createElement('p');
-            badge.style.cssText = 'font-size:0.82rem;color:#888;margin:0 0 20px;line-height:1.6;';
-            badge.textContent = confirmedCount + ' of 3 recordings confirmed.';
-            container.appendChild(badge);
+            // Build lookup by storyId
+            var storyById = {};
+            Object.keys(byWeek).forEach(function(w) {
+                var s = byWeek[w];
+                if (s && s._storyId) storyById[s._storyId] = { week: parseInt(w, 10), story: s };
+            });
 
-            editedStories.forEach(function(item) {
-                var week  = item.week;
-                var story = item.story;
+            sel.forEach(function(sid) {
+                var found = storyById[sid];
+                if (!found) return;
+                var week     = found.week;
+                var story    = found.story;
                 var editText = story.FinalStory || story.EditedText || '';
                 var weekName = story.ChapterTitle || (promptsByWeek[week] && promptsByWeek[week].WeekName) || ('Week ' + week);
-                var preview  = editText.length > 100 ? editText.slice(0, 100).replace(/\n/g, ' ') + '…' : editText.replace(/\n/g, ' ');
-                var storyId  = story._storyId || '';
+                var preview  = editText.length > 90 ? editText.slice(0, 90).replace(/\n/g, ' ') + '...' : editText.replace(/\n/g, ' ');
 
                 var row = document.createElement('div');
                 row.className = 'voice-story-row';
@@ -1735,18 +1809,16 @@
 
                 if (story.BookVoiceConfirmed) {
                     action.innerHTML = '<span class="voice-story-confirmed">&#10003; Recorded</span>';
-                } else if (confirmedCount >= 3) {
-                    action.innerHTML = '<span style="font-size:0.72rem;color:#ccc;letter-spacing:0.08em;text-transform:uppercase;">Limit reached</span>';
-                } else if (!READ_ONLY_MODE && storyId) {
+                } else if (!READ_ONLY_MODE && sid) {
                     var btn = document.createElement('button');
                     btn.className = 'btn-record-book';
                     btn.type = 'button';
                     btn.textContent = 'Record edited story';
-                    (function(sid, text, wname) {
+                    (function(id, text, wname) {
                         btn.addEventListener('click', function() {
-                            openVoiceOverlay(sid, text, wname);
+                            openVoiceOverlay(id, text, wname);
                         });
-                    })(storyId, editText, weekName);
+                    })(sid, editText, weekName);
                     action.appendChild(btn);
                 }
 
@@ -1762,7 +1834,7 @@
             promptsByWeek = promptsByWeek || {};
             confirmedCount = confirmedCount || 0;
             var promptNumber = f.PromptNumber || 0;
-            renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount, promptNumber);
+            renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount);
             if (promptNumber < 20) {
                 var bookPrepSection = document.querySelector('.book-prep');
                 if (bookPrepSection) bookPrepSection.classList.add('book-prep-inactive');
@@ -2105,6 +2177,87 @@
         }
 
         // ---- BOOK DISPATCH ----
+
+        // ---- VOICE SELECTION CHECKBOXES ----
+
+        function buildVoiceSelectCheckbox(story) {
+            var storyId     = story._storyId || '';
+            var isConfirmed = !!(story.BookVoiceConfirmed);
+            var sel         = getVoiceSelected();
+            var isSelected  = isConfirmed || sel.indexOf(storyId) !== -1;
+            var atLimit     = sel.length >= 3;
+
+            var row = document.createElement('div');
+            row.className = 'voice-select-row';
+            row.dataset.storyId = storyId;
+
+            var lbl = document.createElement('label');
+            lbl.className = 'voice-select-label';
+
+            var cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.className = 'voice-select-cb';
+            cb.dataset.storyId = storyId;
+            cb.checked  = isSelected;
+            cb.disabled = isConfirmed || (!isSelected && atLimit);
+
+            var info = document.createElement('div');
+            var title = document.createElement('p');
+            title.className = 'voice-select-title';
+            title.textContent = isConfirmed ? 'Narrate in my voice — recorded' : 'Narrate in my voice';
+
+            var hint = document.createElement('p');
+            hint.className = 'voice-select-hint';
+            if (isConfirmed) {
+                hint.textContent = 'Voice recording confirmed for this story.';
+            } else if (!isSelected && atLimit) {
+                hint.textContent = 'You have chosen 3 stories. Untick one to swap.';
+            } else {
+                hint.textContent = 'Tick to include a QR code voice recording in this chapter.';
+            }
+
+            info.appendChild(title);
+            info.appendChild(hint);
+            lbl.appendChild(cb);
+            lbl.appendChild(info);
+            row.appendChild(lbl);
+
+            if (!isConfirmed && storyId) {
+                cb.addEventListener('change', function() {
+                    var current = getVoiceSelected();
+                    if (cb.checked) {
+                        if (current.length >= 3) { cb.checked = false; return; }
+                        if (current.indexOf(storyId) === -1) current.push(storyId);
+                    } else {
+                        current = current.filter(function(id) { return id !== storyId; });
+                    }
+                    setVoiceSelected(current);
+                    updateVoiceCheckboxStates();
+                    renderVoiceRecordingsList(voiceByWeek, voicePromptsByWeek, voiceConfirmedCount);
+                });
+            }
+
+            return row;
+        }
+
+        function updateVoiceCheckboxStates() {
+            var sel     = getVoiceSelected();
+            var atLimit = sel.length >= 3;
+            document.querySelectorAll('.voice-select-cb').forEach(function(cb) {
+                var sid = cb.dataset.storyId;
+                var isSelected = sel.indexOf(sid) !== -1;
+                // Confirmed checkboxes always stay locked — don't touch them
+                if (cb.disabled && cb.checked) return;
+                cb.disabled = !isSelected && atLimit;
+                // Update hint text
+                var hint = cb.closest('.voice-select-row') && cb.closest('.voice-select-row').querySelector('.voice-select-hint');
+                if (hint && !cb.checked) {
+                    hint.textContent = atLimit
+                        ? 'You have chosen 3 stories. Untick one to swap.'
+                        : 'Tick to include a QR code voice recording in this chapter.';
+                }
+            });
+        }
 
         // ---- VOICE RECORDING ----
         var voiceMediaRecorder  = null;

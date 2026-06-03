@@ -649,6 +649,295 @@
             min-height: 1.2em;
         }
 
+        /* ---- VOICE RECORDING FEATURE ---- */
+        .voice-feature-panel {
+            background: #EDEAE6;
+            border-left: 3px solid var(--gold);
+            padding: 24px 28px;
+            margin-bottom: 36px;
+        }
+
+        .voice-feature-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .voice-feature-body {
+            font-size: 0.97rem;
+            color: #444;
+            line-height: 1.8;
+            margin: 0;
+        }
+
+        .btn-record-book {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: none;
+            border: 1.5px solid var(--gold);
+            color: var(--gold);
+            font-family: var(--font-body);
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .btn-record-book:hover { background: var(--gold); color: var(--white); }
+
+        .btn-record-book[disabled] {
+            border-color: #ccc;
+            color: #ccc;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .voice-disabled-msg {
+            margin-top: 16px;
+            font-size: 0.82rem;
+            color: #aaa;
+            font-style: italic;
+        }
+
+        .voice-confirmed-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 16px;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+        }
+
+        .voice-confirmed-badge::before {
+            content: '\2022';
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+
+        /* Recording overlay */
+        .voice-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: #F7F5F2;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .voice-overlay-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 40px 32px 80px;
+        }
+
+        .voice-overlay-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .voice-overlay-title {
+            font-family: var(--font-heading);
+            font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+            font-weight: 400;
+            color: var(--charcoal);
+            line-height: 1.3;
+        }
+
+        .voice-overlay-close {
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            color: #888;
+            cursor: pointer;
+            padding: 4px 8px;
+            flex-shrink: 0;
+            margin-left: 16px;
+            line-height: 1;
+        }
+
+        .voice-overlay-close:hover { color: var(--charcoal); }
+
+        .voice-story-display {
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 32px 36px;
+            margin-bottom: 36px;
+            font-family: var(--font-heading);
+            font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+            line-height: 2.0;
+            color: var(--charcoal);
+            white-space: pre-wrap;
+        }
+
+        .voice-controls {
+            text-align: center;
+            padding: 24px 0;
+        }
+
+        .voice-instruction {
+            font-size: 0.92rem;
+            color: #666;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .btn-voice-start {
+            display: inline-block;
+            background: var(--charcoal);
+            color: var(--white);
+            border: none;
+            padding: 16px 40px;
+            font-family: var(--font-body);
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-voice-start:hover { background: var(--gold); }
+
+        .voice-recording-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .voice-rec-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: var(--red);
+            font-weight: 500;
+        }
+
+        .voice-rec-dot {
+            width: 10px;
+            height: 10px;
+            background: var(--red);
+            border-radius: 50%;
+            animation: voicePulse 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes voicePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.7); }
+        }
+
+        .voice-timer {
+            font-size: 1.1rem;
+            font-family: var(--font-heading);
+            color: var(--charcoal);
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .btn-voice-stop {
+            display: inline-block;
+            background: var(--red);
+            color: var(--white);
+            border: none;
+            padding: 14px 32px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-voice-stop:hover { opacity: 0.85; }
+
+        .voice-review-section {
+            text-align: center;
+        }
+
+        .voice-review-section audio {
+            display: block;
+            margin: 0 auto 24px;
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .voice-review-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn-voice-rerecord {
+            background: none;
+            border: 1.5px solid var(--charcoal);
+            color: var(--charcoal);
+            padding: 14px 28px;
+            font-family: var(--font-body);
+            font-size: 0.73rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-voice-rerecord:hover { background: var(--charcoal); color: var(--white); }
+
+        .btn-voice-confirm {
+            background: var(--gold);
+            color: var(--white);
+            border: none;
+            padding: 14px 36px;
+            font-family: var(--font-body);
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-voice-confirm:hover { opacity: 0.88; }
+        .btn-voice-confirm:disabled { opacity: 0.45; cursor: default; }
+
+        .voice-saving-msg {
+            margin-top: 20px;
+            font-size: 0.88rem;
+            color: var(--gold);
+            font-style: italic;
+        }
+
+        .voice-success-msg {
+            margin-top: 20px;
+            font-size: 0.95rem;
+            color: #4a7c59;
+            line-height: 1.7;
+        }
+
+        .voice-error-msg {
+            margin-top: 16px;
+            font-size: 0.88rem;
+            color: var(--red);
+        }
+
         /* ---- RESPONSIVE ---- */
         @media (max-width: 600px) {
             .library-header { padding: 14px 20px; }
@@ -725,6 +1014,12 @@
             <p class="progress-summary" id="progressSummary"></p>
 
             <hr class="section-divider">
+
+            <!-- VOICE RECORDING FEATURE ANNOUNCEMENT -->
+            <div class="voice-feature-panel">
+                <p class="voice-feature-eyebrow">Your voice in your book</p>
+                <p class="voice-feature-body">When your stories are complete, you can choose three to record in your own voice. We'll add a QR code to those chapters so your family can hear you telling your story — long after the book is printed. Look for the "Record your story for the book" button on each story card when you're ready.</p>
+            </div>
 
             <!-- STORY CARDS -->
             <div id="storyCards"></div>
@@ -905,9 +1200,10 @@
         var CLOUDINARY_CLOUD  = 'dorv3glde';
         var CLOUDINARY_PRESET = '24stories';
 
-        var LIBRARY_READ_URL   = '/.netlify/functions/library-read';
-        var LIBRARY_UPDATE_URL = '/.netlify/functions/library-update';
-        var BOOK_DISPATCH_URL  = '/.netlify/functions/book-dispatch';
+        var LIBRARY_READ_URL        = '/.netlify/functions/library-read';
+        var LIBRARY_UPDATE_URL      = '/.netlify/functions/library-update';
+        var BOOK_DISPATCH_URL       = '/.netlify/functions/book-dispatch';
+        var VOICE_RECORD_CONFIRM_URL = '/.netlify/functions/voice-record-confirm';
 
         var EXTRA_COPIES_CHECKOUT_URL = '/.netlify/functions/extra-copies-checkout';
 
@@ -992,7 +1288,7 @@
             });
 
             renderProgress(byWeek, 26, 3);
-            renderCards(byWeek, promptsByWeek, 3);
+            renderCards(byWeek, promptsByWeek, 3, 0);
             renderBookPrep(f);
             showState('library');
         }
@@ -1035,7 +1331,7 @@
                 var byWeek = {};
                 (stories.records || []).forEach(function(r) {
                     var wk = r.fields.PromptNumber;
-                    if (wk) byWeek[wk] = r.fields;
+                    if (wk) byWeek[wk] = Object.assign({}, r.fields, { _storyId: r.id });
                 });
 
                 var promptsByWeek = {};
@@ -1044,8 +1340,14 @@
                     if (wk) promptsByWeek[wk] = r.fields;
                 });
 
+                // Count confirmed voice recordings before rendering cards
+                var confirmedCount = 0;
+                Object.keys(byWeek).forEach(function(w) {
+                    if (byWeek[w].BookVoiceConfirmed) confirmedCount++;
+                });
+
                 renderProgress(byWeek, 26, promptsSent);
-                renderCards(byWeek, promptsByWeek, promptsSent);
+                renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount);
                 renderBookPrep(f);
                 showState('library');
 
@@ -1125,14 +1427,14 @@
         }
 
         // ---- STORY CARDS ----
-        function renderCards(byWeek, promptsByWeek, promptsSent) {
+        function renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount) {
             var container = document.getElementById('storyCards');
             for (var w = 1; w <= promptsSent; w++) {
-                container.appendChild(buildCard(w, byWeek[w] || null, promptsByWeek[w] || {}));
+                container.appendChild(buildCard(w, byWeek[w] || null, promptsByWeek[w] || {}, confirmedCount));
             }
         }
 
-        function buildCard(week, story, prompt) {
+        function buildCard(week, story, prompt, confirmedCount) {
             var status = getStatus(story);
             var labels = { empty: 'Not yet recorded', awaiting: 'Being edited', story: 'Story complete \u00B7 photo missing', full: 'Story complete \u00B7 photo added' };
 
@@ -1143,10 +1445,12 @@
             // Header
             var header = document.createElement('div');
             header.className = 'story-card-header';
+            var voiceConfirmed = !!(story && story.BookVoiceConfirmed);
             header.innerHTML =
                 '<div class="card-left">' +
                     '<span class="week-badge">Week ' + week + '</span>' +
                     '<span class="card-weekname">' + esc((story && story.ChapterTitle) ? story.ChapterTitle : (prompt.WeekName || '')) + '</span>' +
+                    (voiceConfirmed ? '<span class="voice-confirmed-badge">Voice recorded</span>' : '') +
                 '</div>' +
                 '<div class="card-right">' +
                     '<span class="status-pill st-' + status + '">' + labels[status] + '</span>' +
@@ -1174,7 +1478,7 @@
             body.appendChild(promptEl);
 
             // State content
-            body.appendChild(buildStateContent(week, story, prompt, status));
+            body.appendChild(buildStateContent(week, story, prompt, status, confirmedCount));
 
             // Circa Date
             body.appendChild(buildCircaDateSection(week, story));
@@ -1188,7 +1492,7 @@
             return card;
         }
 
-        function buildStateContent(week, story, prompt, status) {
+        function buildStateContent(week, story, prompt, status, confirmedCount) {
             var div = document.createElement('div');
             if (status === 'empty') {
                 var url = buildTellUrl(week, prompt);
@@ -1202,6 +1506,49 @@
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +
                     '<p class="edited-text">' + esc(story.EditedText) + '</p>';
+
+                // Voice recording button — only when EditedText exists and access is full
+                if (!READ_ONLY_MODE) {
+                    var voiceSection = document.createElement('div');
+                    voiceSection.style.cssText = 'margin-top:24px;padding-top:20px;border-top:1px solid var(--border);';
+
+                    if (story.BookVoiceConfirmed) {
+                        // Already confirmed — show badge only (button not shown)
+                        voiceSection.innerHTML =
+                            '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;">Voice recording</p>' +
+                            '<p style="font-size:0.88rem;color:#888;font-style:italic;margin:0;">Recording confirmed. A QR code has been added to this chapter in your book.</p>';
+                    } else if (confirmedCount >= 3) {
+                        // Three already confirmed elsewhere — disable this button
+                        voiceSection.innerHTML =
+                            '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;">Voice recording</p>' +
+                            '<p class="voice-disabled-msg" style="margin-top:0;">You\'ve recorded your 3 stories for the book.</p>';
+                    } else {
+                        // Available to record
+                        var storyId  = story._storyId || '';
+                        var editText = story.EditedText || story.FinalStory || story.StoryText || '';
+                        var weekName = story.ChapterTitle || prompt.WeekName || ('Week ' + week);
+
+                        var btn = document.createElement('button');
+                        btn.className = 'btn-record-book';
+                        btn.type = 'button';
+                        btn.textContent = 'Record your story for the book';
+                        btn.title = 'Read your edited story aloud and we’ll add a QR code to your book so your family can hear your voice telling it.';
+
+                        (function(sid, text, wname) {
+                            btn.addEventListener('click', function() {
+                                openVoiceOverlay(sid, text, wname);
+                            });
+                        })(storyId, editText, weekName);
+
+                        voiceSection.appendChild(btn);
+
+                        var hint = document.createElement('p');
+                        hint.style.cssText = 'font-size:0.78rem;color:#aaa;margin:10px 0 0;line-height:1.6;';
+                        hint.textContent = 'Read your edited story aloud and we’ll add a QR code to your book so your family can hear your voice telling it.';
+                        voiceSection.appendChild(hint);
+                    }
+                    div.appendChild(voiceSection);
+                }
             }
             return div;
         }
@@ -1708,6 +2055,175 @@
 
         // ---- BOOK DISPATCH ----
 
+        // ---- VOICE RECORDING ----
+        var voiceMediaRecorder  = null;
+        var voiceAudioChunks    = [];
+        var voiceTimerInterval  = null;
+        var voiceTimerSeconds   = 0;
+        var voiceCurrentStoryId = '';
+        var voiceRecordedBlob   = null;
+
+        function openVoiceOverlay(storyId, editedText, weekName) {
+            voiceCurrentStoryId = storyId;
+            document.getElementById('voiceOverlayTitle').textContent = weekName;
+            document.getElementById('voiceStoryText').textContent = editedText;
+            resetVoiceState();
+            document.getElementById('voiceOverlay').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVoiceOverlay() {
+            stopVoiceTimer();
+            if (voiceMediaRecorder && voiceMediaRecorder.state !== 'inactive') {
+                voiceMediaRecorder.stop();
+            }
+            document.getElementById('voiceOverlay').style.display = 'none';
+            document.body.style.overflow = '';
+            voiceMediaRecorder  = null;
+            voiceAudioChunks    = [];
+            voiceRecordedBlob   = null;
+            voiceCurrentStoryId = '';
+        }
+
+        function resetVoiceState() {
+            voiceAudioChunks  = [];
+            voiceRecordedBlob = null;
+            voiceTimerSeconds = 0;
+            showVoiceState('idle');
+            document.getElementById('voiceTimer').textContent = '0:00';
+            document.getElementById('voiceSavingMsg').style.display = 'none';
+            document.getElementById('voiceSuccessMsg').style.display = 'none';
+            document.getElementById('voiceErrorMsg').style.display   = 'none';
+            document.getElementById('btnVoiceConfirm').disabled = false;
+            var playback = document.getElementById('voicePlayback');
+            playback.src = '';
+            playback.style.display = 'none';
+        }
+
+        function showVoiceState(state) {
+            document.getElementById('voiceStateIdle').style.display      = (state === 'idle')      ? '' : 'none';
+            document.getElementById('voiceStateRecording').style.display = (state === 'recording') ? '' : 'none';
+            document.getElementById('voiceStateReview').style.display    = (state === 'review')    ? '' : 'none';
+        }
+
+        function startVoiceTimer() {
+            voiceTimerSeconds = 0;
+            stopVoiceTimer();
+            voiceTimerInterval = setInterval(function() {
+                voiceTimerSeconds++;
+                var m = Math.floor(voiceTimerSeconds / 60);
+                var s = voiceTimerSeconds % 60;
+                document.getElementById('voiceTimer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            }, 1000);
+        }
+
+        function stopVoiceTimer() {
+            if (voiceTimerInterval) { clearInterval(voiceTimerInterval); voiceTimerInterval = null; }
+        }
+
+        document.getElementById('voiceOverlayClose').addEventListener('click', function() {
+            closeVoiceOverlay();
+        });
+
+        document.getElementById('btnVoiceStart').addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                voiceAudioChunks = [];
+                var mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
+                voiceMediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+
+                voiceMediaRecorder.ondataavailable = function(e) {
+                    if (e.data.size > 0) voiceAudioChunks.push(e.data);
+                };
+
+                voiceMediaRecorder.onstop = function() {
+                    stopVoiceTimer();
+                    stream.getTracks().forEach(function(t) { t.stop(); });
+                    var ext      = mimeType.includes('webm') ? 'webm' : 'ogg';
+                    voiceRecordedBlob = new Blob(voiceAudioChunks, { type: mimeType });
+                    var url = URL.createObjectURL(voiceRecordedBlob);
+                    var playback = document.getElementById('voicePlayback');
+                    playback.src = url;
+                    playback.style.display = 'block';
+                    showVoiceState('review');
+                };
+
+                voiceMediaRecorder.start();
+                startVoiceTimer();
+                showVoiceState('recording');
+            })
+            .catch(function(err) {
+                alert('Microphone access is required to record. Please allow microphone access and try again.');
+                console.error('Mic error:', err);
+            });
+        });
+
+        document.getElementById('btnVoiceStop').addEventListener('click', function() {
+            if (voiceMediaRecorder && voiceMediaRecorder.state !== 'inactive') {
+                voiceMediaRecorder.stop();
+            }
+        });
+
+        document.getElementById('btnVoiceRerecord').addEventListener('click', function() {
+            voiceRecordedBlob = null;
+            resetVoiceState();
+        });
+
+        document.getElementById('btnVoiceConfirm').addEventListener('click', function() {
+            if (!voiceRecordedBlob || !voiceCurrentStoryId) return;
+
+            var btn = document.getElementById('btnVoiceConfirm');
+            btn.disabled = true;
+            document.getElementById('voiceSavingMsg').style.display = 'block';
+            document.getElementById('voiceErrorMsg').style.display  = 'none';
+
+            // Upload audio blob to Cloudinary (video endpoint — same pattern as tell.html)
+            var ext = voiceRecordedBlob.type.includes('webm') ? 'webm' : 'ogg';
+            var fd  = new FormData();
+            fd.append('file', voiceRecordedBlob, 'voice-reading.' + ext);
+            fd.append('upload_preset', CLOUDINARY_PRESET);
+            fd.append('folder', 'stories/voice-readings');
+
+            fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/video/upload', {
+                method: 'POST',
+                body: fd
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (!d.secure_url) throw new Error('No URL returned from Cloudinary');
+                var cloudinaryUrl = d.secure_url;
+
+                // POST to voice-record-confirm.js to generate QR + save to Airtable
+                return fetch(VOICE_RECORD_CONFIRM_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        storyId:            voiceCurrentStoryId,
+                        subscriberId:       subscriberId,
+                        cloudinaryAudioUrl: cloudinaryUrl
+                    })
+                });
+            })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                document.getElementById('voiceSavingMsg').style.display = 'none';
+                if (d.success) {
+                    document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to your book for this chapter. Close this panel and refresh to see the update.';
+                    document.getElementById('voiceSuccessMsg').style.display = 'block';
+                    document.getElementById('voiceOverlayClose').textContent = 'Close';
+                } else {
+                    throw new Error(d.error || 'Unknown error');
+                }
+            })
+            .catch(function(err) {
+                document.getElementById('voiceSavingMsg').style.display = 'none';
+                document.getElementById('voiceErrorMsg').textContent    = 'Something went wrong. Please try again, or email hello@24stories.co.za for help.';
+                document.getElementById('voiceErrorMsg').style.display  = 'block';
+                document.getElementById('btnVoiceConfirm').disabled = false;
+                console.error('Voice confirm error:', err);
+            });
+        });
+
         // ---- UTILITIES ----
         function uploadToCloudinary(file, cb) {
             var fd = new FormData();
@@ -1741,6 +2257,48 @@
                 .replace(/"/g,'&quot;');
         }
     </script>
+
+<!-- Voice recording overlay -->
+<div id="voiceOverlay" class="voice-overlay">
+    <div class="voice-overlay-inner">
+        <div class="voice-overlay-header">
+            <p class="voice-overlay-title" id="voiceOverlayTitle">Record your story for the book</p>
+            <button class="voice-overlay-close" id="voiceOverlayClose" type="button" aria-label="Cancel">&times;</button>
+        </div>
+
+        <p class="voice-instruction">Read the story below aloud, at a natural pace. When you're happy with your recording, press Confirm. Once confirmed, this recording is locked for your book.</p>
+
+        <div class="voice-story-display" id="voiceStoryText"></div>
+
+        <div class="voice-controls" id="voiceControls">
+            <!-- State: idle -->
+            <div id="voiceStateIdle">
+                <button class="btn-voice-start" id="btnVoiceStart" type="button">Start recording</button>
+            </div>
+
+            <!-- State: recording -->
+            <div id="voiceStateRecording" style="display:none;">
+                <div class="voice-recording-row">
+                    <span class="voice-rec-indicator"><span class="voice-rec-dot"></span>Recording</span>
+                    <span class="voice-timer" id="voiceTimer">0:00</span>
+                    <button class="btn-voice-stop" id="btnVoiceStop" type="button">Stop</button>
+                </div>
+            </div>
+
+            <!-- State: review -->
+            <div id="voiceStateReview" style="display:none;" class="voice-review-section">
+                <audio id="voicePlayback" controls></audio>
+                <div class="voice-review-actions">
+                    <button class="btn-voice-rerecord" id="btnVoiceRerecord" type="button">Re-record</button>
+                    <button class="btn-voice-confirm" id="btnVoiceConfirm" type="button">Confirm this recording</button>
+                </div>
+                <p class="voice-saving-msg" id="voiceSavingMsg" style="display:none;">Saving your recording...</p>
+                <p class="voice-success-msg" id="voiceSuccessMsg" style="display:none;"></p>
+                <p class="voice-error-msg" id="voiceErrorMsg" style="display:none;"></p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- PayFast redirect overlay -->
 <div id="redirectOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#F7F5F2;z-index:9999;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;">

@@ -53,6 +53,7 @@ exports.handler = async function() {
     const tellUrl     = buildTellUrl(subscriberId, weekNumber, weekName, theme, promptText, otherAngles);
 
     const isWeek1  = weekNumber === 1;
+    const isWeek3  = weekNumber === 3;
     const isWeek21 = weekNumber === 21;
     const isWeek25 = weekNumber === 25;
     const isWeek26 = weekNumber === 26;
@@ -88,12 +89,27 @@ exports.handler = async function() {
       });
     }
 
-    // Week 21: book onboarding intro fires alongside the prompt
+    // Week 3: QR voice recording feature announcement (email-8b)
+    if (isWeek3 && f.StorytellerEmail) {
+      await sendEmail(mjAuth, {
+        to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject: 'A feature we think you\'ll love',
+        html:    email8bHtml(f.StorytellerFirstName, libUrl)
+      });
+    }
+
+    // Week 21: book onboarding intro fires alongside the prompt (email-9)
     if (isWeek21 && f.StorytellerEmail) {
       await sendEmail(mjAuth, {
         to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
         subject: 'Your Legacy Book — time to get it ready',
         html:    email9Html(f.StorytellerFirstName, libUrl)
+      });
+      // Week 21: voice recording reminder fires alongside book onboarding (email-9b)
+      await sendEmail(mjAuth, {
+        to:      { Email: f.StorytellerEmail, Name: f.StorytellerFirstName || '' },
+        subject: 'Time to record your voice',
+        html:    email9bHtml(f.StorytellerFirstName, libUrl)
       });
     }
 
@@ -130,9 +146,16 @@ async function sendEmail(mjAuth, { to, subject, html }) {
     method: 'POST',
     headers: { 'Authorization': `Basic ${mjAuth}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      Messages: [{ From: { Email: 'stories@24stories.co.za', Name: '24 Stories' }, ReplyTo: { Email: 'hello@24stories.co.za', Name: '24 Stories' }, To: [to], Subject: subject, HTMLPart: html, TextPart: stripHtml(html) }]
-      TrackOpens: 'enabled',
-      TrackClicks: 'enabled',
+      Messages: [{
+        From:        { Email: 'stories@24stories.co.za', Name: '24 Stories' },
+        ReplyTo:     { Email: 'hello@24stories.co.za', Name: '24 Stories' },
+        To:          [to],
+        Subject:     subject,
+        HTMLPart:    html,
+        TextPart:    stripHtml(html),
+        TrackOpens:  'enabled',
+        TrackClicks: 'enabled'
+      }]
     })
   });
   if (!res.ok) console.error('Mailjet error to', to.Email, ':', await res.text());
@@ -320,6 +343,50 @@ function coachingEmail0Html(firstName) {
   <p style="font-size:17px;line-height:1.9;margin:0 0 4px;">Tamara Rothbart</p>
   <p style="font-size:13px;color:#555;line-height:1.8;margin:0 0 4px;">Founder, 24 Stories</p>
   <p style="font-size:13px;color:#555;line-height:1.8;margin:0;"><a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+// Email-8b — fires at Week 3 alongside the regular prompt email.
+// Announces the voice recording feature early so subscribers know it's coming.
+function email8bHtml(firstName, libUrl) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">There's a feature coming later in your journey that we think you'll love.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Around week 21, when your stories are complete and your book is being prepared, you'll have the chance to choose three stories and record yourself reading them.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your voice — reading the edited, polished version of your own story — will be embedded in the book as a QR code. Anyone who scans it will hear you telling it, exactly as it reads on the page.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Not a rough recording. Not a raw take. The best version of the story, in your voice.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 36px;">We'll remind you when the time comes.</p>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
+</div></div></body></html>`;
+}
+
+// Email-9b — fires at Week 21 alongside the book onboarding email (email-9).
+// Reminds the subscriber to record their three voice readings in the Story Library.
+function email9bHtml(firstName, libUrl) {
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#E8E4DF;font-family:Georgia,serif;">
+<div style="max-width:640px;margin:40px auto;padding:0 20px 60px;">
+<div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
+  <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
+  <p style="font-size:14px;letter-spacing:0.12em;text-transform:uppercase;color:#B8976A;font-weight:bold;margin:0 0 24px;">Your voice in your book</p>
+  <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.35;">Time to record your voice.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(firstName)},</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your stories are complete. Your book is being prepared. Now it's time to choose your three.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Go to your Story Library, find the three stories you want your family to hear in your voice, and press <strong>Record your story for the book</strong>.</p>
+  <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your edited story will appear on screen — just read it aloud. We'll take care of the rest.</p>
+  <div style="border-left:3px solid #B8976A;padding:16px 24px;margin:32px 0;">
+    <p style="font-size:17px;line-height:1.9;margin:0;color:#333;">Three stories. Three QR codes. Three moments your family will be able to hear, forever.</p>
+  </div>
+  <a href="${esc(libUrl)}" style="display:inline-block;background:#1A1A1A;color:#fff;text-decoration:none;padding:16px 36px;font-size:16px;letter-spacing:0.05em;margin:12px 0 36px;">Go to Your Story Library &#8594;</a>
+  <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">
+  <p style="font-size:17px;line-height:1.9;margin:0 0 10px;">With warmth,<br><strong style="font-size:17px;color:#1A1A1A;">The 24 Stories Team</strong></p>
+  <p style="font-size:15px;color:#444;line-height:1.8;margin:0;">Questions? <a href="mailto:hello@24stories.co.za" style="color:#B8976A;text-decoration:underline;">hello@24stories.co.za</a> &nbsp;|&nbsp; <a href="https://24stories.co.za" style="color:#B8976A;text-decoration:underline;">24stories.co.za</a></p>
 </div></div></body></html>`;
 }
 

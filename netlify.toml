@@ -44,3 +44,16 @@
 [functions.text-edit-queue]
   schedule = "*/5 * * * *"  # every 5 minutes — AI structural editing for newly submitted stories
   timeout = 60
+
+[functions.voice-record-confirm]
+  timeout = 26
+
+[functions.audio-serve]
+  timeout = 10
+
+# QR audio redirect — /audio/:id → audio-serve function
+# The permanent URL printed in every book. Never change the path structure.
+[[redirects]]
+  from = "/audio/:id"
+  to   = "/.netlify/functions/audio-serve?id=:id"
+  status = 200

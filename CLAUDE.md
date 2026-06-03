@@ -4,6 +4,94 @@
 
 ---
 
+## Session 33 — QR Code Audio Feature — COMPLETE (2026-06-03)
+
+### What this feature does
+Subscribers who have completed their story journey can record themselves reading any three edited stories aloud. Each confirmed recording gets a permanent QR code embedded in that chapter of the final book PDF. Family members scan the QR code and hear the storyteller's voice — permanently.
+
+### Architecture (critical — do not change)
+- QR codes in printed books point to **https://24stories.co.za/audio/[storyRecordId]** — never to Cloudinary directly.
+- `audio-serve.js` looks up the story in Airtable, returns 302 to `BookVoiceAudioURL` (the Cloudinary audio URL).
+- If 24 Stories ever migrates away from Cloudinary, only `audio-serve.js` needs updating. Every QR code in every printed book remains valid.
+- This architecture exists because Cloudinary deletes all assets within 30 days of account cancellation — an unacceptable risk for QR codes that will be scanned for decades.
+
+### New Netlify functions
+- **`audio-serve.js`** — GET /.netlify/functions/audio-serve?id=[storyRecordId] → 302 to BookVoiceAudioURL. Also reached via /audio/:id (netlify.toml rewrite). Returns 404 HTML if no recording exists.
+- **`voice-record-confirm.js`** — POST { storyId, subscriberId, cloudinaryAudioUrl } → verifies ownership + confirmed count < 3 → generates QR PNG (qrcode npm package, self-contained) → uploads QR to Cloudinary stories/qrcodes/ → saves BookVoiceAudioURL + BookVoiceQRCodeURL + BookVoiceConfirmed=true to Airtable.
+
+### New Airtable fields (Stories table — fldids for reference)
+- `BookVoiceAudioURL` — singleLineText — fldUtitz7knbxcS13 — Cloudinary URL of voice reading audio
+- `BookVoiceQRCodeURL` — singleLineText — fldOrXWAdTrzRx8st — Cloudinary URL of QR code PNG
+- `BookVoiceConfirmed` — checkbox — fldtqxWj7v9s8zzSW — true = recording locked
+
+### npm dependency added
+- **qrcode ^1.5.4** — generates QR PNG as Buffer server-side. No external calls.
+- `package.json` created at project root. `node_modules/` installed. Netlify bundles automatically on deploy.
+
+### netlify.toml changes
+- `/audio/:id` → `/.netlify/functions/audio-serve?id=:id` (status 200 rewrite) — the permanent URL for QR codes
+- `[functions.voice-record-confirm]` timeout = 26
+- `[functions.audio-serve]` timeout = 10
+
+### library.html changes
+- **Voice feature announcement panel** — permanent, non-dismissible panel above story cards with gold left border. Explains the feature before subscribers encounter the button.
+- **"Record your story for the book" button** — gold-bordered button, visually and functionally distinct from the existing charcoal "Record this story" link to tell.html. Appears on story cards where EditedText exists and BookVoiceConfirmed is not true. Shows tooltip hint text below the button.
+- **Disabled state** — when 3 recordings confirmed, all remaining "Record for book" buttons show "You've recorded your 3 stories for the book." and cannot be clicked.
+- **"Voice recorded" badge** — gold dot + text appears in the card header of any confirmed story. Visible even when the card is collapsed.
+- **Voice recording overlay** — full-screen overlay shows the full EditedText in large readable Georgia serif. Controls: Start recording → (recording state with red pulsing dot + timer + Stop) → (review state with audio playback + Re-record + Confirm). Uploading state disables Confirm button. Success state confirms the QR code has been added. No close button during upload/save.
+- **Three-story limit** — enforced client-side (counted from byWeek before renderCards) and server-side (voice-record-confirm.js checks Airtable before saving).
+- **Story record IDs** — byWeek now stores `_storyId: r.id` so each story card has access to its Airtable record ID for the voice confirm call. Existing code unaffected (extra property on fields object).
+- **VOICE_RECORD_CONFIRM_URL** constant added alongside existing URL constants.
+- `sendEmail` JSON syntax bug fixed (was missing comma in object literal — `TrackOpens`/`TrackClicks` now correctly inside the Messages array item).
+
+### book-compile.js changes
+- `chapters` map now includes `qrCodeUrl: s.fields.BookVoiceQRCodeURL || ''`.
+- `firstName` extracted from subscriber fields and passed to `chapterHtml()`.
+- `chapterHtml(c, firstName)` — if `c.qrCodeUrl` exists, inserts a floated QR block as the first element inside `.chapter-text`. QR image: 94px screen / 25mm print. Text flows to its left (standard typeset book behaviour). Instruction line below: "Listen to this story in [FirstName]'s voice — scan here." in 9px italic. All chapter pages without a QR code render identically to before.
+
+### Email changes (send-weekly-prompts.js)
+- **Email-8b** — subject "A feature we think you'll love" — fires at week 3 alongside email-8 (the regular week 3 prompt). Announces the voice recording feature, tells subscriber to expect a reminder at week 21.
+- **Email-9b** — subject "Time to record your voice" — fires at week 21 alongside email-9 (book onboarding). Direct call to action: go to Story Library, press "Record your story for the book".
+- **Syntax bug fixed** — sendEmail() had a missing comma between Messages array and TrackOpens (JavaScript syntax error). Fixed: TrackOpens and TrackClicks now correctly positioned inside the Messages[0] object.
+
+### Cloudinary storage layout
+- `stories/audio/` — existing raw submission audio (tell.html voice recordings)
+- `stories/voice-readings/` — NEW book voice readings (uploaded by library.html browser-side)
+- `stories/qrcodes/` — NEW QR code PNG images (uploaded by voice-record-confirm.js)
+
+### Flow diagram (complete, for developer handover)
+```
+1. subscriber clicks "Record your story for the book" on story card in library.html
+2. overlay opens → full EditedText shown in large readable font
+3. subscriber records (MediaRecorder API) → stop → review → re-record if needed
+4. subscriber clicks Confirm
+5. browser uploads audio blob to Cloudinary stories/voice-readings/ (video endpoint, same as tell.html)
+6. browser POSTs { storyId, subscriberId, cloudinaryAudioUrl } to voice-record-confirm.js
+7. function: check count < 3 → generate QR PNG (qrcode package) → upload QR to Cloudinary → PATCH Airtable
+8. library.html: shows success message, updates badge on card (reload required for full refresh)
+
+At book compilation:
+9. book-compile.js fetches story records including BookVoiceQRCodeURL
+10. chapterHtml() places QR block inside .chapter-text (floated right) if URL exists
+11. QR image + "Listen in [FirstName]'s voice — scan here." printed in chapter
+
+Family scans QR code (any time in future):
+12. browser loads https://24stories.co.za/audio/[storyRecordId]
+13. netlify.toml rewrites to audio-serve.js
+14. audio-serve.js → Airtable lookup → 302 to BookVoiceAudioURL
+15. audio plays
+```
+
+### What was NOT changed
+- Existing "Record this story" button/link (still links to tell.html for raw submissions)
+- library-read.js (automatically returns new fields — no change needed)
+- All existing Airtable fields
+- All existing Netlify functions (33 total — 2 new added = 35)
+- All existing email flows (emails 1–18 unchanged)
+- PayFast, book dispatch, story submission, any other existing pipeline
+
+---
+
 ## Session 32 — SEO: Guide Page Now Indexable — COMPLETE (2026-06-03)
 
 ### What changed
@@ -518,7 +606,7 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - `begin-email-templates.html` — 3 Gmail copy-paste templates: (1) Begin outreach, (2) Extra copies link, (3) Complimentary subscription
 - `netlify/functions/` — all serverless automation
 
-## Netlify Functions (20 total)
+## Netlify Functions (35 total)
 
 **Book production:**
 - `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only, hidden from PDF), title page, portrait, dedication, epigraph, ToC, chapters (ChapterOrder sort), colophon. Typography: Bebas Neue (Google Fonts) for all title/display text; Georgia serif for all body text — NO Cormorant Garamond. Print: 170 × 240mm portrait (NOT A5). Mirror margins (case-bound hardcover): recto 17mm top / 15mm outer / 22mm bottom / 20mm spine; verso 17mm top / 20mm outer / 22mm bottom / 15mm spine. Full-bleed named @page (margin:0, page:full-bleed) for cover/portrait/photo/dedication/epigraph/colophon. Dates never appear in book — StoryCircaDate is sorting only. Images always on own page after chapter text page. Admin page: compile-book.html. Test: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
@@ -548,6 +636,10 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 
 **Complimentary enrolment:**
 - `admin-enroll.js` — POST: creates Active subscriber record in Airtable, fires emails 1/2/3, sends COMPLIMENTARY ENROLMENT alert to hello@. Called by gifted.html. No PayFast.
+
+**QR code audio (voice recording for book):**
+- `audio-serve.js` — permanent audio redirect. GET /.netlify/functions/audio-serve?id=[storyRecordId] (also /audio/:id via netlify.toml rewrite) → Airtable lookup → 302 to BookVoiceAudioURL. This is the permanent URL encoded in every book QR code. Never changes.
+- `voice-record-confirm.js` — POST { storyId, subscriberId, cloudinaryAudioUrl } → verifies count < 3 → generates QR PNG (qrcode npm) → uploads QR to Cloudinary → saves BookVoiceAudioURL + BookVoiceQRCodeURL + BookVoiceConfirmed=true to Airtable.
 
 **Leads / marketing:**
 - `early-interest.js` — saves interest form lead, notifies Tamara, sends confirmation email

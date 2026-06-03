@@ -140,7 +140,8 @@ function buildBookHtml(sf, stories) {
       title: s.fields.ChapterTitle || '',
       text: s.fields.FinalStory || s.fields.EditedText || s.fields.StoryText || '',
       imageUrl: s.fields.StoryImageURL || '',
-      caption: s.fields.StoryImageCaption || ''
+      caption: s.fields.StoryImageCaption || '',
+      qrCodeUrl: s.fields.BookVoiceQRCodeURL || ''
     };
   });
 
@@ -151,8 +152,9 @@ function buildBookHtml(sf, stories) {
   if (sf.PortraitPhotoURL) parts.push(portraitPageHtml(sf.PortraitPhotoURL, name));
   if (sf.DedicationText)   parts.push(dedicationPageHtml(sf.DedicationText));
   if (sf.EpigraphText)     parts.push(epigraphPageHtml(sf.EpigraphText));
+  const firstName = sf.StorytellerFirstName || name.split(' ')[0] || 'them';
   parts.push(tocHtml(chapters));
-  chapters.forEach(c => parts.push(chapterHtml(c)));
+  chapters.forEach(c => parts.push(chapterHtml(c, firstName)));
   parts.push(colophonHtml(name, year));
 
   return `<!DOCTYPE html>
@@ -370,6 +372,34 @@ body { font-family: Georgia, 'Times New Roman', serif; color: #1A1A1A; }
 /* ── CHAPTER ── */
 .chapter-page { padding: 76px 67px 98px 89px; }
 .chapter-title-block { margin-top: 62px; margin-bottom: 108px; }
+
+/* QR code block — floats top-right within story text when a voice recording exists.
+   Text flows to the left of the image, same as a small illustration in a typeset book. */
+.chapter-qr-block {
+  float: right;
+  margin: 0 0 12px 16px;
+  width: 94px;
+  text-align: center;
+}
+.chapter-qr-img {
+  display: block;
+  width: 94px;
+  height: 94px;
+}
+.chapter-qr-line {
+  font-size: 9px;
+  font-style: italic;
+  color: #666;
+  line-height: 1.4;
+  margin: 4px 0 0;
+  text-align: center;
+}
+@media print {
+  .chapter-qr-block { width: 25mm; margin: 0 0 3mm 4mm; }
+  .chapter-qr-img   { width: 25mm; height: 25mm; }
+  .chapter-qr-line  { font-size: 6pt; margin-top: 1mm; }
+}
+
 .chapter-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 68px;
@@ -565,13 +595,17 @@ function tocHtml(chapters) {
 </div>`;
 }
 
-function chapterHtml(c) {
+function chapterHtml(c, firstName) {
   const titleDisplay = splitTitle(c.title || c.word);
+  // QR block floats top-right within the story text — text flows to its left
+  const qrBlock = c.qrCodeUrl
+    ? `<div class="chapter-qr-block"><img class="chapter-qr-img" src="${esc(c.qrCodeUrl)}" alt="QR code"><p class="chapter-qr-line">Listen to this story in ${esc(firstName || 'their')}’s voice — scan here.</p></div>`
+    : '';
   const textPage = `<div class="page chapter-page">
   <div class="chapter-title-block">
     <div class="chapter-title">${titleDisplay}</div>
   </div>
-  <div class="chapter-text">${textToHtml(c.text)}</div>
+  <div class="chapter-text">${qrBlock}${textToHtml(c.text)}</div>
 </div>`;
   if (!c.imageUrl) return textPage;
   const photoPage = `<div class="page fixed-page">

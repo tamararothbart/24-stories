@@ -4,6 +4,24 @@
 
 ---
 
+## Session 32 — SEO: Guide Page Now Indexable — COMPLETE (2026-06-03)
+
+### What changed
+- **File:** `you-already-have-the-stories.html`
+- Removed `<meta name="robots" content="noindex, nofollow">` — page is now crawlable by Google
+- Title replaced: `You Already Have the Stories — Free Guide to Capturing a Life | 24 Stories South Africa`
+- Meta description added: "Your stories. Your words. Your voice. 100% human-edited memoir — never flattened by AI. One five-minute story a week. A real hardcover book delivered to your door in South Africa."
+- Meta keywords added: 15 South Africa memoir/family story terms
+- Canonical tag added: `https://24stories.co.za/you-already-have-the-stories.html`
+- Body unchanged
+
+### Not changed
+- `guide-landing.html` (social email-capture page) intentionally remains `noindex, nofollow`
+
+### Commit: 752b836
+
+---
+
 ## Session 31 — Cover Color Toggle Fix — COMPLETE (2026-06-02)
 
 ### Problem

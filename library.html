@@ -854,78 +854,76 @@
             margin-bottom: 24px;
         }
 
-        .btn-voice-start {
-            display: inline-block;
-            background: var(--charcoal);
-            color: var(--white);
-            border: none;
-            padding: 16px 40px;
-            font-family: var(--font-body);
-            font-size: 0.82rem;
-            font-weight: 500;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: background 0.2s;
+        /* Recording states — matches tell.html style */
+        .voice-speak-state {
+            text-align: center;
+            padding: 40px 0 28px;
         }
 
-        .btn-voice-start:hover { background: var(--gold); }
-
-        .voice-recording-row {
+        .voice-btn-record {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: none;
+            background: var(--red);
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            margin: 0 auto 20px;
+            transition: background 0.3s ease;
+            box-shadow: 0 4px 16px rgba(192,57,43,0.3);
         }
 
-        .voice-rec-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.88rem;
-            color: var(--red);
-            font-weight: 500;
+        .voice-btn-record:hover { background: #a93226; }
+
+        .voice-btn-pulsing {
+            animation: voiceRecPulse 1.5s infinite;
         }
 
-        .voice-rec-dot {
-            width: 10px;
-            height: 10px;
-            background: var(--red);
-            border-radius: 50%;
-            animation: voicePulse 1s ease-in-out infinite;
-            flex-shrink: 0;
+        @keyframes voiceRecPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(192,57,43,0.4); }
+            50%       { box-shadow: 0 0 0 18px rgba(192,57,43,0); }
         }
 
-        @keyframes voicePulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.7); }
-        }
-
-        .voice-timer {
-            font-size: 1.1rem;
+        .voice-speak-title {
             font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 400;
             color: var(--charcoal);
-            min-width: 48px;
-            text-align: center;
+            margin-bottom: 8px;
         }
 
-        .btn-voice-stop {
-            display: inline-block;
-            background: var(--red);
-            color: var(--white);
+        .voice-speak-sub {
+            font-size: 0.92rem;
+            color: #555;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .voice-record-timer {
+            font-size: 2.2rem;
+            font-weight: 300;
+            color: var(--red);
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .voice-pause-btn {
+            background: none;
             border: none;
-            padding: 14px 32px;
-            font-family: var(--font-body);
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            font-size: 0.85rem;
+            color: #888;
             cursor: pointer;
-            transition: opacity 0.2s;
+            margin-top: 12px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .btn-voice-stop:hover { opacity: 0.85; }
+        .voice-pause-btn:hover { color: var(--charcoal); }
 
         .voice-review-section {
             text-align: center;
@@ -1520,11 +1518,11 @@
         function renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount) {
             var container = document.getElementById('storyCards');
             for (var w = 1; w <= promptsSent; w++) {
-                container.appendChild(buildCard(w, byWeek[w] || null, promptsByWeek[w] || {}, confirmedCount));
+                container.appendChild(buildCard(w, byWeek[w] || null, promptsByWeek[w] || {}, confirmedCount, promptsSent));
             }
         }
 
-        function buildCard(week, story, prompt, confirmedCount) {
+        function buildCard(week, story, prompt, confirmedCount, promptsSent) {
             var status = getStatus(story);
             var labels = { empty: 'Not yet recorded', awaiting: 'Being edited', story: 'Story complete \u00B7 photo missing', full: 'Story complete \u00B7 photo added' };
 
@@ -1577,6 +1575,12 @@
             var photoSec = buildPhotoSection(week, story);
             body.appendChild(photoSec);
 
+            // Voice selection checkbox — always visible, active only at week 21+
+            if (story && !READ_ONLY_MODE) {
+                var active = (promptsSent >= 21);
+                body.appendChild(buildVoiceSelectCheckbox(story, active));
+            }
+
             card.appendChild(header);
             card.appendChild(body);
             return card;
@@ -1596,10 +1600,6 @@
                 div.innerHTML =
                     '<p class="edited-label">Your story</p>' +
                     '<p class="edited-text">' + esc(story.EditedText) + '</p>';
-
-                if (!READ_ONLY_MODE) {
-                    div.appendChild(buildVoiceSelectCheckbox(story));
-                }
             }
             return div;
         }
@@ -2180,7 +2180,7 @@
 
         // ---- VOICE SELECTION CHECKBOXES ----
 
-        function buildVoiceSelectCheckbox(story) {
+        function buildVoiceSelectCheckbox(story, active) {
             var storyId     = story._storyId || '';
             var isConfirmed = !!(story.BookVoiceConfirmed);
             var sel         = getVoiceSelected();
@@ -2199,7 +2199,7 @@
             cb.className = 'voice-select-cb';
             cb.dataset.storyId = storyId;
             cb.checked  = isSelected;
-            cb.disabled = isConfirmed || (!isSelected && atLimit);
+            cb.disabled = !active || isConfirmed || (!isSelected && atLimit);
 
             var info = document.createElement('div');
             var title = document.createElement('p');
@@ -2208,7 +2208,9 @@
 
             var hint = document.createElement('p');
             hint.className = 'voice-select-hint';
-            if (isConfirmed) {
+            if (!active) {
+                hint.textContent = 'Activates at week 21 when book preparation begins.';
+            } else if (isConfirmed) {
                 hint.textContent = 'Voice recording confirmed for this story.';
             } else if (!isSelected && atLimit) {
                 hint.textContent = 'You have chosen 3 stories. Untick one to swap.';
@@ -2222,7 +2224,7 @@
             lbl.appendChild(info);
             row.appendChild(lbl);
 
-            if (!isConfirmed && storyId) {
+            if (active && !isConfirmed && storyId) {
                 cb.addEventListener('change', function() {
                     var current = getVoiceSelected();
                     if (cb.checked) {
@@ -2355,6 +2357,9 @@
                 voiceMediaRecorder.start();
                 startVoiceTimer();
                 showVoiceState('recording');
+                // Show pause button only if browser supports it
+                var pauseBtn = document.getElementById('btnVoicePause');
+                if (pauseBtn) pauseBtn.style.display = (typeof voiceMediaRecorder.pause === 'function') ? 'block' : 'none';
             })
             .catch(function(err) {
                 alert('Microphone access is required to record. Please allow microphone access and try again.');
@@ -2365,6 +2370,17 @@
         document.getElementById('btnVoiceStop').addEventListener('click', function() {
             if (voiceMediaRecorder && voiceMediaRecorder.state !== 'inactive') {
                 voiceMediaRecorder.stop();
+            }
+        });
+
+        document.getElementById('btnVoicePause').addEventListener('click', function() {
+            if (!voiceMediaRecorder) return;
+            if (voiceMediaRecorder.state === 'recording') {
+                voiceMediaRecorder.pause();
+                this.textContent = 'Resume';
+            } else if (voiceMediaRecorder.state === 'paused') {
+                voiceMediaRecorder.resume();
+                this.textContent = 'Pause';
             }
         });
 
@@ -2476,17 +2492,29 @@
 
         <div class="voice-controls" id="voiceControls">
             <!-- State: idle -->
-            <div id="voiceStateIdle">
-                <button class="btn-voice-start" id="btnVoiceStart" type="button">Start recording</button>
+            <div id="voiceStateIdle" class="voice-speak-state">
+                <button class="voice-btn-record" id="btnVoiceStart" type="button" aria-label="Start recording">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <line x1="12" y1="19" x2="12" y2="23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                        <line x1="8" y1="23" x2="16" y2="23" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <p class="voice-speak-title">Tap to begin recording</p>
+                <p class="voice-speak-sub">Read the story above aloud. Take your time.</p>
             </div>
 
             <!-- State: recording -->
-            <div id="voiceStateRecording" style="display:none;">
-                <div class="voice-recording-row">
-                    <span class="voice-rec-indicator"><span class="voice-rec-dot"></span>Recording</span>
-                    <span class="voice-timer" id="voiceTimer">0:00</span>
-                    <button class="btn-voice-stop" id="btnVoiceStop" type="button">Stop</button>
-                </div>
+            <div id="voiceStateRecording" style="display:none;" class="voice-speak-state">
+                <button class="voice-btn-record voice-btn-pulsing" id="btnVoiceStop" type="button" aria-label="Stop recording">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                        <rect x="4" y="4" width="16" height="16" rx="2" fill="#FFFFFF"/>
+                    </svg>
+                </button>
+                <p class="voice-record-timer" id="voiceTimer">0:00</p>
+                <p class="voice-speak-sub">Recording &mdash; tap to stop when you are done</p>
+                <button class="voice-pause-btn" id="btnVoicePause" style="display:none;" type="button">Pause</button>
             </div>
 
             <!-- State: review -->

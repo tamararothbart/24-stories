@@ -1023,7 +1023,7 @@
 
             <h1 class="page-title">Your Story Library</h1>
             <div class="page-intro">
-                <p>You can return to any prompt you have already received to record your story, add a photograph, or update a caption.</p>
+                <p>You can return to any prompt you missed to record your story, add a photograph, or update a caption.</p>
                 <p>Once a story has been edited it cannot be re-recorded.</p>
             </div>
 
@@ -1123,6 +1123,13 @@
                     <p class="field-saved-msg" id="epigraphSaved"></p>
                 </div>
 
+                <!-- YOUR VOICE IN YOUR BOOK -->
+                <div class="book-field" id="voiceRecordingsField">
+                    <p class="book-field-label">Your voice in your book</p>
+                    <p class="book-field-sub">Your stories have been edited. Now choose three to record in your own voice. This is different from recording a prompt — you're reading the finished, polished version aloud. We'll add a QR code to each of those chapters. When your family scans it, they'll hear you telling the story exactly as it reads on the page.</p>
+                    <div id="voiceRecordingsList"></div>
+                </div>
+
                 <!-- DELIVERY ADDRESS -->
                 <div class="book-field">
                     <p class="book-field-label">Delivery address</p>
@@ -1184,13 +1191,6 @@
                 </div>
 
 
-
-                <!-- YOUR VOICE IN YOUR BOOK -->
-                <div class="book-field" id="voiceRecordingsField" style="padding-top:40px;border-top:1px solid var(--border);">
-                    <p class="book-field-label">Your voice in your book</p>
-                    <p class="book-field-sub">Your stories have been edited. Now choose three to record in your own voice. This is different from recording a prompt — you're reading the finished, polished version aloud. We'll add a QR code to each of those chapters. When your family scans it, they'll hear you telling the story exactly as it reads on the page.</p>
-                    <div id="voiceRecordingsList"></div>
-                </div>
 
                 <!-- MARK AS COMPLETE -->
                 <div class="book-field" style="margin-top:52px;padding-top:44px;border-top:1px solid var(--border);">
@@ -1741,7 +1741,7 @@
                     var btn = document.createElement('button');
                     btn.className = 'btn-record-book';
                     btn.type = 'button';
-                    btn.textContent = 'Record';
+                    btn.textContent = 'Record edited story';
                     (function(sid, text, wname) {
                         btn.addEventListener('click', function() {
                             openVoiceOverlay(sid, text, wname);

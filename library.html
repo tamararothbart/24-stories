@@ -650,27 +650,46 @@
         }
 
         /* ---- VOICE RECORDING FEATURE ---- */
-        .voice-feature-panel {
-            background: #EDEAE6;
-            border-left: 3px solid var(--gold);
-            padding: 24px 28px;
-            margin-bottom: 36px;
+        .voice-story-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .voice-feature-eyebrow {
+        .voice-story-row:last-child { border-bottom: none; }
+
+        .voice-story-info {
+            flex: 1;
+        }
+
+        .voice-story-week {
             font-size: 0.68rem;
             font-weight: 600;
-            letter-spacing: 0.16em;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--gold);
-            margin-bottom: 8px;
+            margin-bottom: 4px;
         }
 
-        .voice-feature-body {
-            font-size: 0.97rem;
-            color: #444;
-            line-height: 1.8;
-            margin: 0;
+        .voice-story-preview {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .voice-story-confirmed {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--gold);
+            white-space: nowrap;
+            flex-shrink: 0;
+            padding-top: 2px;
         }
 
         .btn-record-book {
@@ -1015,12 +1034,6 @@
 
             <hr class="section-divider">
 
-            <!-- VOICE RECORDING FEATURE ANNOUNCEMENT -->
-            <div class="voice-feature-panel">
-                <p class="voice-feature-eyebrow">Your voice in your book</p>
-                <p class="voice-feature-body">When your stories are complete, you can choose three to record in your own voice. We'll add a QR code to those chapters so your family can hear you telling your story — long after the book is printed. Look for the "Record your story for the book" button on each story card when you're ready.</p>
-            </div>
-
             <!-- STORY CARDS -->
             <div id="storyCards"></div>
 
@@ -1172,6 +1185,13 @@
 
 
 
+                <!-- YOUR VOICE IN YOUR BOOK -->
+                <div class="book-field" id="voiceRecordingsField" style="padding-top:40px;border-top:1px solid var(--border);">
+                    <p class="book-field-label">Your voice in your book</p>
+                    <p class="book-field-sub">Your stories have been edited. Now choose three to record in your own voice. This is different from recording a prompt — you're reading the finished, polished version aloud. We'll add a QR code to each of those chapters. When your family scans it, they'll hear you telling the story exactly as it reads on the page.</p>
+                    <div id="voiceRecordingsList"></div>
+                </div>
+
                 <!-- MARK AS COMPLETE -->
                 <div class="book-field" style="margin-top:52px;padding-top:44px;border-top:1px solid var(--border);">
                     <p class="book-field-label">Mark as Complete</p>
@@ -1289,7 +1309,7 @@
 
             renderProgress(byWeek, 26, 3);
             renderCards(byWeek, promptsByWeek, 3, 0);
-            renderBookPrep(f);
+            renderBookPrep(f, byWeek, promptsByWeek, 0);
             showState('library');
         }
 
@@ -1348,7 +1368,7 @@
 
                 renderProgress(byWeek, 26, promptsSent);
                 renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount);
-                renderBookPrep(f);
+                renderBookPrep(f, byWeek, promptsByWeek, confirmedCount);
                 showState('library');
 
                 // Show confirmation if returning from extra copies PayFast payment
@@ -1504,51 +1524,8 @@
                     '<p style="font-size:0.95rem;color:#777;line-height:1.7;font-style:italic;">Your story has been received and is being edited. It will appear here once it is ready.</p>';
             } else {
                 div.innerHTML =
-                    '<p class="edited-label">Your story</p>' +
-                    '<p class="edited-text">' + esc(story.EditedText) + '</p>';
-
-                // Voice recording button — only when EditedText exists and access is full
-                if (!READ_ONLY_MODE) {
-                    var voiceSection = document.createElement('div');
-                    voiceSection.style.cssText = 'margin-top:24px;padding-top:20px;border-top:1px solid var(--border);';
-
-                    if (story.BookVoiceConfirmed) {
-                        // Already confirmed — show badge only (button not shown)
-                        voiceSection.innerHTML =
-                            '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;">Voice recording</p>' +
-                            '<p style="font-size:0.88rem;color:#888;font-style:italic;margin:0;">Recording confirmed. A QR code has been added to this chapter in your book.</p>';
-                    } else if (confirmedCount >= 3) {
-                        // Three already confirmed elsewhere — disable this button
-                        voiceSection.innerHTML =
-                            '<p style="font-size:0.68rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin:0 0 6px;">Voice recording</p>' +
-                            '<p class="voice-disabled-msg" style="margin-top:0;">You\'ve recorded your 3 stories for the book.</p>';
-                    } else {
-                        // Available to record
-                        var storyId  = story._storyId || '';
-                        var editText = story.EditedText || story.FinalStory || story.StoryText || '';
-                        var weekName = story.ChapterTitle || prompt.WeekName || ('Week ' + week);
-
-                        var btn = document.createElement('button');
-                        btn.className = 'btn-record-book';
-                        btn.type = 'button';
-                        btn.textContent = 'Record your story for the book';
-                        btn.title = 'Read your edited story aloud and we’ll add a QR code to your book so your family can hear your voice telling it.';
-
-                        (function(sid, text, wname) {
-                            btn.addEventListener('click', function() {
-                                openVoiceOverlay(sid, text, wname);
-                            });
-                        })(storyId, editText, weekName);
-
-                        voiceSection.appendChild(btn);
-
-                        var hint = document.createElement('p');
-                        hint.style.cssText = 'font-size:0.78rem;color:#aaa;margin:10px 0 0;line-height:1.6;';
-                        hint.textContent = 'Read your edited story aloud and we’ll add a QR code to your book so your family can hear your voice telling it.';
-                        voiceSection.appendChild(hint);
-                    }
-                    div.appendChild(voiceSection);
-                }
+                    ‘<p class="edited-label">Your story</p>’ +
+                    ‘<p class="edited-text">’ + esc(story.EditedText) + ‘</p>’;
             }
             return div;
         }
@@ -1709,9 +1686,83 @@
             return sec;
         }
 
+        // ---- VOICE RECORDINGS LIST (in Book Prep section) ----
+        function renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount, promptNumber) {
+            var container = document.getElementById('voiceRecordingsList');
+            if (!container) return;
+            container.innerHTML = '';
+
+            // Collect stories that have EditedText
+            var editedStories = [];
+            Object.keys(byWeek).forEach(function(w) {
+                var story = byWeek[w];
+                if (story && (story.EditedText || story.FinalStory)) {
+                    editedStories.push({ week: parseInt(w, 10), story: story });
+                }
+            });
+            editedStories.sort(function(a, b) { return a.week - b.week; });
+
+            if (editedStories.length === 0) {
+                container.innerHTML = '<p style="font-size:0.9rem;color:#aaa;font-style:italic;margin:0;">Your edited stories will appear here. Once your first story has been edited, you can begin selecting recordings.</p>';
+                return;
+            }
+
+            // Count badge
+            var badge = document.createElement('p');
+            badge.style.cssText = 'font-size:0.82rem;color:#888;margin:0 0 20px;line-height:1.6;';
+            badge.textContent = confirmedCount + ' of 3 recordings confirmed.';
+            container.appendChild(badge);
+
+            editedStories.forEach(function(item) {
+                var week  = item.week;
+                var story = item.story;
+                var editText = story.FinalStory || story.EditedText || '';
+                var weekName = story.ChapterTitle || (promptsByWeek[week] && promptsByWeek[week].WeekName) || ('Week ' + week);
+                var preview  = editText.length > 100 ? editText.slice(0, 100).replace(/\n/g, ' ') + '…' : editText.replace(/\n/g, ' ');
+                var storyId  = story._storyId || '';
+
+                var row = document.createElement('div');
+                row.className = 'voice-story-row';
+
+                var info = document.createElement('div');
+                info.className = 'voice-story-info';
+                info.innerHTML =
+                    '<p class="voice-story-week">Week ' + week + ' &mdash; ' + esc(weekName) + '</p>' +
+                    '<p class="voice-story-preview">' + esc(preview) + '</p>';
+
+                var action = document.createElement('div');
+                action.style.cssText = 'flex-shrink:0;padding-top:2px;';
+
+                if (story.BookVoiceConfirmed) {
+                    action.innerHTML = '<span class="voice-story-confirmed">&#10003; Recorded</span>';
+                } else if (confirmedCount >= 3) {
+                    action.innerHTML = '<span style="font-size:0.72rem;color:#ccc;letter-spacing:0.08em;text-transform:uppercase;">Limit reached</span>';
+                } else if (!READ_ONLY_MODE && storyId) {
+                    var btn = document.createElement('button');
+                    btn.className = 'btn-record-book';
+                    btn.type = 'button';
+                    btn.textContent = 'Record';
+                    (function(sid, text, wname) {
+                        btn.addEventListener('click', function() {
+                            openVoiceOverlay(sid, text, wname);
+                        });
+                    })(storyId, editText, weekName);
+                    action.appendChild(btn);
+                }
+
+                row.appendChild(info);
+                row.appendChild(action);
+                container.appendChild(row);
+            });
+        }
+
         // ---- BOOK PREP ----
-        function renderBookPrep(f) {
+        function renderBookPrep(f, byWeek, promptsByWeek, confirmedCount) {
+            byWeek        = byWeek        || {};
+            promptsByWeek = promptsByWeek || {};
+            confirmedCount = confirmedCount || 0;
             var promptNumber = f.PromptNumber || 0;
+            renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount, promptNumber);
             if (promptNumber < 20) {
                 var bookPrepSection = document.querySelector('.book-prep');
                 if (bookPrepSection) bookPrepSection.classList.add('book-prep-inactive');

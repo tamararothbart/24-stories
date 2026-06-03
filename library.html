@@ -651,9 +651,11 @@
 
         /* ---- VOICE RECORDING FEATURE ---- */
         .voice-select-row {
-            margin-top: 20px;
-            padding-top: 16px;
+            padding: 10px 28px 10px 28px;
             border-top: 1px solid var(--border);
+            background: #faf9f7;
+            display: flex;
+            align-items: flex-start;
         }
 
         .voice-select-label {
@@ -1271,6 +1273,11 @@
 
         var subscriberId = new URLSearchParams(window.location.search).get('id') || '';
 
+        // Clear voice selections from localStorage if ?resetvoice=1 in URL
+        if (new URLSearchParams(window.location.search).get('resetvoice') === '1') {
+            try { localStorage.removeItem('vs_' + (new URLSearchParams(window.location.search).get('id') || '')); } catch(e) {}
+        }
+
         // Module-level store for voice recording state (set in loadLibrary, used by checkbox handlers)
         var voiceByWeek        = {};
         var voicePromptsByWeek = {};
@@ -1575,13 +1582,14 @@
             var photoSec = buildPhotoSection(week, story);
             body.appendChild(photoSec);
 
-            // Voice selection checkbox — always visible, active only at week 21+
+            card.appendChild(header);
+
+            // Voice checkbox sits between header and collapsible body — always visible
             if (story && !READ_ONLY_MODE) {
                 var active = (promptsSent >= 21);
-                body.appendChild(buildVoiceSelectCheckbox(story, active));
+                card.appendChild(buildVoiceSelectCheckbox(story, active));
             }
 
-            card.appendChild(header);
             card.appendChild(body);
             return card;
         }

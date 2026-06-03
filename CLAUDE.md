@@ -4,91 +4,197 @@
 
 ---
 
-## Session 33 — QR Code Audio Feature — COMPLETE (2026-06-03)
+## Session 33 — QR Code Audio Feature — BUILT, IN TESTING (2026-06-03)
+
+### ⚠ STATUS: Built and deployed. UX testing in progress. Final sign-off next session.
+### Test URL: https://24stories.co.za/library.html?id=recF4l3VjHX3c7lSa (PromptNumber=26, 2 test stories)
+### Fresh test URL (clears localStorage): https://24stories.co.za/library.html?id=recF4l3VjHX3c7lSa&resetvoice=1
+
+---
 
 ### What this feature does
-Subscribers who have completed their story journey can record themselves reading any three edited stories aloud. Each confirmed recording gets a permanent QR code embedded in that chapter of the final book PDF. Family members scan the QR code and hear the storyteller's voice — permanently.
+At the book production phase (week 21+), a subscriber chooses exactly three stories and records themselves reading the edited version aloud. Each confirmed recording gets a permanent QR code embedded at the start of that chapter in the printed book. Family members scan and hear the storyteller's voice, forever.
 
-### Architecture (critical — do not change)
-- QR codes in printed books point to **https://24stories.co.za/audio/[storyRecordId]** — never to Cloudinary directly.
-- `audio-serve.js` looks up the story in Airtable, returns 302 to `BookVoiceAudioURL` (the Cloudinary audio URL).
-- If 24 Stories ever migrates away from Cloudinary, only `audio-serve.js` needs updating. Every QR code in every printed book remains valid.
-- This architecture exists because Cloudinary deletes all assets within 30 days of account cancellation — an unacceptable risk for QR codes that will be scanned for decades.
+This is NOT the same as recording raw story submissions via tell.html. That is for capturing stories. This is for narrating polished, edited text for the printed book.
 
-### New Netlify functions
-- **`audio-serve.js`** — GET /.netlify/functions/audio-serve?id=[storyRecordId] → 302 to BookVoiceAudioURL. Also reached via /audio/:id (netlify.toml rewrite). Returns 404 HTML if no recording exists.
-- **`voice-record-confirm.js`** — POST { storyId, subscriberId, cloudinaryAudioUrl } → verifies ownership + confirmed count < 3 → generates QR PNG (qrcode npm package, self-contained) → uploads QR to Cloudinary stories/qrcodes/ → saves BookVoiceAudioURL + BookVoiceQRCodeURL + BookVoiceConfirmed=true to Airtable.
+---
 
-### New Airtable fields (Stories table — fldids for reference)
-- `BookVoiceAudioURL` — singleLineText — fldUtitz7knbxcS13 — Cloudinary URL of voice reading audio
-- `BookVoiceQRCodeURL` — singleLineText — fldOrXWAdTrzRx8st — Cloudinary URL of QR code PNG
-- `BookVoiceConfirmed` — checkbox — fldtqxWj7v9s8zzSW — true = recording locked
+### Architecture — CRITICAL, DO NOT CHANGE
+QR codes in printed books must work permanently — potentially decades after printing.
+- QR codes encode: **https://24stories.co.za/audio/[storyRecordId]** — NEVER the Cloudinary URL directly
+- `audio-serve.js` resolves the story ID → looks up `BookVoiceAudioURL` in Airtable → 302 redirect to Cloudinary
+- If 24 Stories ever changes storage providers: update `audio-serve.js` only. Every printed book QR code stays valid.
+- Cloudinary deletes all assets within 30 days of account cancellation — direct QR → Cloudinary would break every book
 
-### npm dependency added
-- **qrcode ^1.5.4** — generates QR PNG as Buffer server-side. No external calls.
-- `package.json` created at project root. `node_modules/` installed. Netlify bundles automatically on deploy.
+---
 
-### netlify.toml changes
-- `/audio/:id` → `/.netlify/functions/audio-serve?id=:id` (status 200 rewrite) — the permanent URL for QR codes
-- `[functions.voice-record-confirm]` timeout = 26
-- `[functions.audio-serve]` timeout = 10
+### New Netlify Functions (2)
+- **`audio-serve.js`** — permanent redirect. GET via `/audio/:id` (netlify.toml rewrite) or `/.netlify/functions/audio-serve?id=`. Looks up story in Airtable, returns 302 to `BookVoiceAudioURL`. Returns 404 branded HTML if no recording found.
+- **`voice-record-confirm.js`** — POST `{ storyId, subscriberId, cloudinaryAudioUrl }`. Verifies subscriber owns story, confirms count < 3, generates QR PNG (qrcode npm, server-side, no external calls), uploads QR to Cloudinary `stories/qrcodes/`, saves `BookVoiceAudioURL + BookVoiceQRCodeURL + BookVoiceConfirmed=true` to Airtable. Returns `{ success, permanentUrl, qrCodeUrl, confirmedCount }`.
 
-### library.html changes
-- **Voice feature announcement panel** — permanent, non-dismissible panel above story cards with gold left border. Explains the feature before subscribers encounter the button.
-- **"Record your story for the book" button** — gold-bordered button, visually and functionally distinct from the existing charcoal "Record this story" link to tell.html. Appears on story cards where EditedText exists and BookVoiceConfirmed is not true. Shows tooltip hint text below the button.
-- **Disabled state** — when 3 recordings confirmed, all remaining "Record for book" buttons show "You've recorded your 3 stories for the book." and cannot be clicked.
-- **"Voice recorded" badge** — gold dot + text appears in the card header of any confirmed story. Visible even when the card is collapsed.
-- **Voice recording overlay** — full-screen overlay shows the full EditedText in large readable Georgia serif. Controls: Start recording → (recording state with red pulsing dot + timer + Stop) → (review state with audio playback + Re-record + Confirm). Uploading state disables Confirm button. Success state confirms the QR code has been added. No close button during upload/save.
-- **Three-story limit** — enforced client-side (counted from byWeek before renderCards) and server-side (voice-record-confirm.js checks Airtable before saving).
-- **Story record IDs** — byWeek now stores `_storyId: r.id` so each story card has access to its Airtable record ID for the voice confirm call. Existing code unaffected (extra property on fields object).
-- **VOICE_RECORD_CONFIRM_URL** constant added alongside existing URL constants.
-- `sendEmail` JSON syntax bug fixed (was missing comma in object literal — `TrackOpens`/`TrackClicks` now correctly inside the Messages array item).
+---
 
-### book-compile.js changes
-- `chapters` map now includes `qrCodeUrl: s.fields.BookVoiceQRCodeURL || ''`.
-- `firstName` extracted from subscriber fields and passed to `chapterHtml()`.
-- `chapterHtml(c, firstName)` — if `c.qrCodeUrl` exists, inserts a floated QR block as the first element inside `.chapter-text`. QR image: 94px screen / 25mm print. Text flows to its left (standard typeset book behaviour). Instruction line below: "Listen to this story in [FirstName]'s voice — scan here." in 9px italic. All chapter pages without a QR code render identically to before.
+### New Airtable Fields — Stories Table
+| Field | Type | Airtable ID | Purpose |
+|---|---|---|---|
+| `BookVoiceAudioURL` | singleLineText | fldUtitz7knbxcS13 | Cloudinary URL of the voice reading audio file |
+| `BookVoiceQRCodeURL` | singleLineText | fldOrXWAdTrzRx8st | Cloudinary URL of the QR code PNG |
+| `BookVoiceConfirmed` | checkbox | fldtqxWj7v9s8zzSW | true = recording locked, cannot re-record |
 
-### Email changes (send-weekly-prompts.js)
-- **Email-8b** — subject "A feature we think you'll love" — fires at week 3 alongside email-8 (the regular week 3 prompt). Announces the voice recording feature, tells subscriber to expect a reminder at week 21.
-- **Email-9b** — subject "Time to record your voice" — fires at week 21 alongside email-9 (book onboarding). Direct call to action: go to Story Library, press "Record your story for the book".
-- **Syntax bug fixed** — sendEmail() had a missing comma between Messages array and TrackOpens (JavaScript syntax error). Fixed: TrackOpens and TrackClicks now correctly positioned inside the Messages[0] object.
+---
 
-### Cloudinary storage layout
-- `stories/audio/` — existing raw submission audio (tell.html voice recordings)
-- `stories/voice-readings/` — NEW book voice readings (uploaded by library.html browser-side)
-- `stories/qrcodes/` — NEW QR code PNG images (uploaded by voice-record-confirm.js)
+### npm Package Added
+- **qrcode ^1.5.4** in `package.json` (project root). `node_modules/` gitignored, Netlify bundles on deploy. `QRCode.toBuffer(url, { type:'png', width:400, margin:1, color:{dark:'#1A1A1A',light:'#F4F2EE'} })`.
 
-### Flow diagram (complete, for developer handover)
+---
+
+### netlify.toml Changes
 ```
-1. subscriber clicks "Record your story for the book" on story card in library.html
-2. overlay opens → full EditedText shown in large readable font
-3. subscriber records (MediaRecorder API) → stop → review → re-record if needed
-4. subscriber clicks Confirm
-5. browser uploads audio blob to Cloudinary stories/voice-readings/ (video endpoint, same as tell.html)
-6. browser POSTs { storyId, subscriberId, cloudinaryAudioUrl } to voice-record-confirm.js
-7. function: check count < 3 → generate QR PNG (qrcode package) → upload QR to Cloudinary → PATCH Airtable
-8. library.html: shows success message, updates badge on card (reload required for full refresh)
+[[redirects]]
+  from = "/audio/:id"
+  to   = "/.netlify/functions/audio-serve?id=:id"
+  status = 200
 
-At book compilation:
-9. book-compile.js fetches story records including BookVoiceQRCodeURL
-10. chapterHtml() places QR block inside .chapter-text (floated right) if URL exists
-11. QR image + "Listen in [FirstName]'s voice — scan here." printed in chapter
+[functions.voice-record-confirm]
+  timeout = 26
 
-Family scans QR code (any time in future):
-12. browser loads https://24stories.co.za/audio/[storyRecordId]
-13. netlify.toml rewrites to audio-serve.js
-14. audio-serve.js → Airtable lookup → 302 to BookVoiceAudioURL
-15. audio plays
+[functions.audio-serve]
+  timeout = 10
 ```
 
-### What was NOT changed
-- Existing "Record this story" button/link (still links to tell.html for raw submissions)
-- library-read.js (automatically returns new fields — no change needed)
-- All existing Airtable fields
-- All existing Netlify functions (33 total — 2 new added = 35)
-- All existing email flows (emails 1–18 unchanged)
-- PayFast, book dispatch, story submission, any other existing pipeline
+---
+
+### Cloudinary Storage Layout
+- `stories/audio/` — raw submission audio (tell.html, unchanged)
+- `stories/voice-readings/` — book voice readings (uploaded browser-side from library.html)
+- `stories/qrcodes/` — QR code PNG images (uploaded by voice-record-confirm.js)
+
+---
+
+### library.html — Final Implementation
+
+#### Page intro (top of library, always visible)
+- Para 1: "You can return to any prompt you missed to record your story..."
+- Para 2: "Once a story has been edited it cannot be re-recorded."
+- Para 3 (`id="voiceTeaserIntro"`): Gold left-border callout — "When all your stories are complete, you will choose three to narrate in your own voice — a QR code will be added to each of those chapters so your family can hear you reading them. Nothing to do yet. We will let you know when it is time." **Shown before week 21, JS hides it at week 21+.**
+
+#### Story cards — "Narrate in my voice" checkbox
+- **Not shown at all before week 21 (promptsSent < 21).** No greyed state, no hint of the feature on cards.
+- **Shown from week 21+**: a slim strip between the collapsed card header and the expandable body. Visible without clicking. Always visible on every card with an edited story.
+- Layout: `[checkbox] Narrate in my voice / Tick to include a QR code voice recording of this chapter`
+- Max 3 ticked. When 3 reached: remaining checkboxes disabled with "You have chosen 3 stories. Untick one to swap."
+- Confirmed stories (BookVoiceConfirmed=true): checkbox checked + disabled + "Voice recording confirmed for this story."
+- **"Voice recorded" badge** appears in the card header (gold dot + text) when BookVoiceConfirmed=true. Visible even on collapsed card.
+- Selection persists in **localStorage** key `vs_[subscriberId]`. On page load, any confirmed stories are synced into localStorage automatically.
+- `?resetvoice=1` URL param clears localStorage for fresh testing.
+
+#### Book Prep section — "Your voice in your book"
+- Positioned: after Epigraph, before Delivery Address.
+- Muted (opacity 0.35, pointer-events none) when PromptNumber < 20 — same as rest of Book Prep.
+- Shows only the **selected stories** (from localStorage), not all 26.
+- When nothing selected: "None chosen yet. Open your story cards above..." + "Go to your stories ↑" link.
+- When stories selected: each shows week number, story preview, "Record edited story" button (or "✓ Recorded" if confirmed).
+- Book Prep inactive notice (shown when PromptNumber < 20) updated to mention voice narration: "...and the chance to choose three stories to narrate in your own voice for the book."
+
+#### Voice recording overlay
+- Full-screen overlay (white background, z-index 1000).
+- Story title in heading. Full `EditedText` displayed in large Georgia serif — subscriber reads from screen.
+- **Recording UI matches tell.html exactly:**
+  - Idle: large red circular button (96px) with microphone SVG icon. "Tap to begin recording."
+  - Recording: same button pulsing (box-shadow animation `voiceRecPulse`). Large red timer (2.2rem). "Recording — tap to stop when you are done." Pause/Resume button (shown if MediaRecorder.pause supported).
+  - Review: audio playback element + "Re-record" + "Confirm this recording" buttons.
+  - Uploading: "Saving your recording..." (Confirm disabled).
+  - Success: "Recording confirmed. A QR code has been added to your book for this chapter."
+- Close button: labelled "✕" during recording setup, changes to "Close" after success.
+- On close: MediaRecorder stopped, mic stream released, state reset.
+
+#### Module-level variables set in loadLibrary
+- `voiceByWeek`, `voicePromptsByWeek`, `voiceConfirmedCount` — set after data loads, used by checkbox change handlers to re-render voice section without re-fetching.
+
+#### Key JS functions added
+- `getVoiceSelected()` / `setVoiceSelected(ids)` — localStorage helpers
+- `buildVoiceSelectCheckbox(story, active)` — builds the checkbox strip element
+- `updateVoiceCheckboxStates()` — updates disabled/hint state on all checkboxes after a tick change
+- `renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount)` — renders the Book Prep voice section from localStorage selections
+- `openVoiceOverlay(storyId, editedText, weekName)` / `closeVoiceOverlay()` — overlay lifecycle
+- `showVoiceState(state)` — switches between 'idle', 'recording', 'review' states in overlay
+- `startVoiceTimer()` / `stopVoiceTimer()` — elapsed time counter
+
+#### byWeek data structure change
+`byWeek[wk] = Object.assign({}, r.fields, { _storyId: r.id })` — record ID stored alongside fields so checkbox handlers can pass storyId to voice-record-confirm.js. Existing code unaffected.
+
+---
+
+### book-compile.js Changes
+- `chapters` array now includes `qrCodeUrl: s.fields.BookVoiceQRCodeURL || ''`
+- `firstName` extracted from subscriber fields and passed into `chapterHtml(c, firstName)`
+- `chapterHtml()`: if `c.qrCodeUrl` exists, inserts `<div class="chapter-qr-block">` as **first element inside `.chapter-text`** (floated right, 94px screen / 25mm print). Story text flows to its left. Instruction line: "Listen to this story in [FirstName]'s voice — scan here." in 9pt italic.
+- Chapters without QR code: render identically to before.
+
+---
+
+### Email Changes (send-weekly-prompts.js)
+- **Email-8b** — fires week 3 alongside regular prompt. Subject: "A feature we think you'll love." Copy: explains voice recording concept, tells subscriber it activates at week 21, says we'll remind them.
+- **Email-9b** — fires week 21 alongside email-9 (book onboarding). Subject: "Time to record your voice." Copy: stories complete, go to library, tick Narrate in my voice, choose 3, record. Includes library link button.
+- **Syntax bug fixed** — `sendEmail()` had missing comma in JSON object (TrackOpens/TrackClicks were outside Messages array). Fixed: now correctly inside `Messages[0]`.
+
+---
+
+### Complete Flow (for handover)
+```
+WEEK 1-20 (early journey):
+- Story Library loads. Page intro shows voice teaser: "When complete, choose 3 to narrate..."
+- No checkbox visible on story cards. Book Prep muted with notice mentioning voice narration.
+- Week 3: email-8b seeds the idea of voice recordings at week 21.
+
+WEEK 21 (book onboarding begins):
+- email-9 (book onboarding) + email-9b ("Time to record your voice") fire together.
+- Voice teaser in page intro disappears.
+- "Narrate in my voice" checkbox appears on all story cards (between header and body, always visible).
+- Book Prep "Your voice in your book" section becomes active.
+
+SUBSCRIBER CHOOSES 3:
+- Opens cards, reads stories, ticks "Narrate in my voice" on 3 favourites.
+- After 3rd tick: all remaining checkboxes disabled.
+- Chosen stories appear in Book Prep "Your voice in your book" section.
+
+SUBSCRIBER RECORDS:
+- Presses "Record edited story" → full-screen overlay opens with EditedText.
+- Red pulsing mic button → records → stop → playback → re-record if needed → Confirm.
+- Browser uploads audio to Cloudinary stories/voice-readings/ (video endpoint).
+- POSTs { storyId, subscriberId, cloudinaryAudioUrl } to voice-record-confirm.js.
+- Function: generates QR PNG → uploads to Cloudinary stories/qrcodes/ → PATCHes Airtable.
+- Card header shows "Voice recorded" badge. Book Prep shows "✓ Recorded".
+
+BOOK COMPILATION:
+- book-compile.js reads BookVoiceQRCodeURL from each story record.
+- 3 chapters get: QR image (top-right, floated) + "Listen in [Name]'s voice — scan here."
+- 23 chapters render as normal.
+
+FAMILY SCANS QR CODE (decades later):
+- Scans https://24stories.co.za/audio/[storyRecordId]
+- netlify.toml rewrites to audio-serve.js
+- audio-serve.js looks up Airtable → 302 to BookVoiceAudioURL (Cloudinary)
+- Audio plays. If storage ever changes, only audio-serve.js needs updating.
+```
+
+---
+
+### Test Data (clean up after testing)
+- Test subscriber: `recF4l3VjHX3c7lSa` (tamara / Tamara Rothbart, Active, PromptNumber=26)
+- Week 1 story: `recaCcCDyxc1Pk1F5` — has EditedText, no photo
+- Week 2 story: `rec9CqsWTu13hRu6H` — has EditedText, no photo (fake image URL was removed)
+- **Clean up after testing:** Delete test stories + set PromptNumber=0 on test subscriber, or delete subscriber entirely and recreate via gifted.html when needed.
+
+---
+
+### What Was NOT Changed
+- `tell.html` / raw story submission pipeline — completely unchanged
+- `library-read.js` — returns new fields automatically, no code change needed
+- All 33 existing Netlify functions — unchanged
+- All existing Airtable fields and schema
+- All emails 1–18 — unchanged. Email-8b and email-9b are new additions only.
+- PayFast, book dispatch, story queue — all unchanged
 
 ---
 

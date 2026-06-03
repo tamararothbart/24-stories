@@ -1067,6 +1067,7 @@
             <div class="page-intro">
                 <p>You can return to any prompt you missed to record your story, add a photograph, or update a caption.</p>
                 <p>Once a story has been edited it cannot be re-recorded.</p>
+                <p id="voiceTeaserIntro" style="margin-top:12px;padding:14px 18px;background:#EDEAE6;border-left:3px solid #B8976A;font-size:0.92rem;line-height:1.8;color:#444;">When all your stories are complete, you will choose three to narrate in your own voice — a QR code will be added to each of those chapters so your family can hear you reading them. Nothing to do yet. We will let you know when it is time.</p>
             </div>
 
             <!-- PROGRESS -->
@@ -1084,7 +1085,7 @@
                 <p class="book-prep-eyebrow">Your Legacy Book</p>
                 <h2 class="book-prep-heading">Preparing your book</h2>
                 <p class="book-prep-intro">Your book will be designed, printed, and delivered to your door when all twenty-six stories and their captioned photographs are complete. You may add your portrait, choose your cover colour, write your dedication and epigraph, and confirm your delivery address at any time.</p>
-                <p id="bookPrepNotice" style="display:none; font-size:0.88rem; color:#aaa; font-style:italic; line-height:1.75; margin-bottom:32px; margin-top:-28px;">Your story journey is just beginning. This section opens as you approach your final prompts.</p>
+                <p id="bookPrepNotice" style="display:none; font-size:0.88rem; color:#aaa; font-style:italic; line-height:1.75; margin-bottom:32px; margin-top:-28px;">Your story journey is just beginning. This section opens as you approach your final prompts. Inside: your cover colour, dedication, and portrait photograph — and the chance to choose three stories to narrate in your own voice for the book.</p>
 
                 <!-- PORTRAIT -->
                 <div class="book-field">
@@ -1445,6 +1446,9 @@
                 renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount);
                 renderBookPrep(f, byWeek, promptsByWeek, confirmedCount);
                 showState('library');
+                // Hide voice teaser once feature is active (week 21+)
+                var teaserEl = document.getElementById('voiceTeaserIntro');
+                if (teaserEl && promptsSent >= 21) teaserEl.style.display = 'none';
 
                 // Show confirmation if returning from extra copies PayFast payment
                 var orderedQty = parseInt(new URLSearchParams(window.location.search).get('ordered'), 10) || 0;
@@ -1584,10 +1588,9 @@
 
             card.appendChild(header);
 
-            // Voice checkbox sits between header and collapsible body — always visible
-            if (story && !READ_ONLY_MODE) {
-                var active = (promptsSent >= 21);
-                card.appendChild(buildVoiceSelectCheckbox(story, active));
+            // Voice checkbox — only shown from week 21 (book onboarding phase)
+            if (story && !READ_ONLY_MODE && promptsSent >= 21) {
+                card.appendChild(buildVoiceSelectCheckbox(story, true));
             }
 
             card.appendChild(body);

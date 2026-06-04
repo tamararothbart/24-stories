@@ -6,9 +6,10 @@
 
 ## Session 33 — QR Code Audio Feature — BUILT, IN TESTING (2026-06-03)
 
-### ⚠ STATUS: Built and deployed. UX testing in progress. Final sign-off next session.
+### ⚠ STATUS: COMPLETE. End-to-end tested and confirmed working (2026-06-04).
 ### Test URL: https://24stories.co.za/library.html?id=recF4l3VjHX3c7lSa (PromptNumber=26, 2 test stories)
 ### Fresh test URL (clears localStorage): https://24stories.co.za/library.html?id=recF4l3VjHX3c7lSa&resetvoice=1
+### Confirmed: record → QR generated → appears in book compile → phone scans → audio plays ✓
 
 ---
 
@@ -187,6 +188,12 @@ FAMILY SCANS QR CODE (decades later):
 - **Clean up after testing:** Delete test stories + set PromptNumber=0 on test subscriber, or delete subscriber entirely and recreate via gifted.html when needed.
 
 ---
+
+### Critical bugs fixed during testing (all in final commits)
+1. **Voice overlay buttons never worked** — event listeners attached in `<script>` before overlay HTML existed. Fixed: wrapped all 7 overlay `addEventListener` calls in `document.addEventListener('DOMContentLoaded', ...)`.
+2. **iOS recording silent failure** — MIME type fallback used `audio/ogg` (unsupported on iOS). Fixed: now tries `audio/webm;codecs=opus` → `audio/webm` → `audio/mp4` → default, matching tell.html.
+3. **QR PNG upload to Cloudinary failed** — used `URLSearchParams` to send 50KB base64 string (URL-encoding limit). Fixed: switched to `FormData` + `Blob` (proper multipart upload).
+4. **audio-serve.js returned "Story ID missing"** — with `status=200` rewrite in netlify.toml, Netlify passes the original path to the function, not the substituted query string. Fixed: reads ID from both `event.queryStringParameters.id` AND last segment of `event.path`.
 
 ### What Was NOT Changed
 - `tell.html` / raw story submission pipeline — completely unchanged

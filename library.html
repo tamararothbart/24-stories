@@ -2312,6 +2312,10 @@
             document.getElementById('voiceSuccessMsg').style.display = 'none';
             document.getElementById('voiceErrorMsg').style.display   = 'none';
             document.getElementById('btnVoiceConfirm').disabled = false;
+            var reviewActions = document.querySelector('.voice-review-actions');
+            if (reviewActions) reviewActions.style.display = '';
+            var successBlock = document.getElementById('voiceSuccessBlock');
+            if (successBlock) successBlock.style.display = 'none';
             var playback = document.getElementById('voicePlayback');
             playback.src = '';
             playback.style.display = 'none';
@@ -2395,6 +2399,12 @@
             }
         });
 
+        document.getElementById('btnVoiceBackToStories').addEventListener('click', function() {
+            closeVoiceOverlay();
+            var cards = document.getElementById('storyCards');
+            if (cards) cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
         document.getElementById('btnVoiceRerecord').addEventListener('click', function() {
             voiceRecordedBlob = null;
             resetVoiceState();
@@ -2439,9 +2449,11 @@
             .then(function(d) {
                 document.getElementById('voiceSavingMsg').style.display = 'none';
                 if (d.success) {
-                    document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to your book for this chapter. Close this panel and refresh to see the update.';
-                    document.getElementById('voiceSuccessMsg').style.display = 'block';
+                    document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to this chapter in your book.';
+                    document.getElementById('voiceSuccessBlock').style.display = 'block';
                     document.getElementById('voiceOverlayClose').textContent = 'Close';
+                    // Hide review actions — only show the back button
+                    document.querySelector('.voice-review-actions').style.display = 'none';
                 } else {
                     throw new Error(d.error || 'Unknown error');
                 }
@@ -2494,7 +2506,7 @@
     <div class="voice-overlay-inner">
         <div class="voice-overlay-header">
             <p class="voice-overlay-title" id="voiceOverlayTitle">Record your story for the book</p>
-            <button class="voice-overlay-close" id="voiceOverlayClose" type="button" aria-label="Cancel">&times;</button>
+            <button class="voice-overlay-close" id="voiceOverlayClose" type="button">Cancel</button>
         </div>
 
         <p class="voice-instruction">Read the story below aloud, at a natural pace. When you're happy with your recording, press Confirm. Once confirmed, this recording is locked for your book.</p>
@@ -2536,7 +2548,11 @@
                     <button class="btn-voice-confirm" id="btnVoiceConfirm" type="button">Confirm this recording</button>
                 </div>
                 <p class="voice-saving-msg" id="voiceSavingMsg" style="display:none;">Saving your recording...</p>
-                <p class="voice-success-msg" id="voiceSuccessMsg" style="display:none;"></p>
+                <div id="voiceSuccessBlock" style="display:none;text-align:center;margin-top:20px;">
+                    <p class="voice-success-msg" id="voiceSuccessMsg"></p>
+                    <button id="btnVoiceBackToStories" type="button" style="margin-top:20px;background:#1A1A1A;color:#F7F5F2;border:none;padding:16px 36px;font-family:Inter,sans-serif;font-size:0.82rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;">Back to your stories &uarr;</button>
+                    <p style="font-size:0.82rem;color:#888;margin-top:10px;line-height:1.6;">Scroll through your story cards to tick your next story.</p>
+                </div>
                 <p class="voice-error-msg" id="voiceErrorMsg" style="display:none;"></p>
             </div>
         </div>

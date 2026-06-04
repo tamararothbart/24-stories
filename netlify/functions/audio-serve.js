@@ -11,7 +11,11 @@ exports.handler = async function(event) {
   const BASE = 'apprTOobuxs4Od7XB';
   const PAT  = process.env.AIRTABLE_PAT;
 
-  const storyId = (event.queryStringParameters || {}).id || '';
+  // Query param comes through when called directly; path segment comes through via the
+  // netlify.toml rewrite (/audio/:id -> status 200). Support both.
+  const qs       = (event.queryStringParameters || {});
+  const pathSeg  = (event.path || '').split('/').filter(Boolean).pop() || '';
+  const storyId  = qs.id || (pathSeg !== 'audio-serve' ? pathSeg : '') || '';
 
   if (!storyId) {
     return {

@@ -4,6 +4,27 @@
 
 ---
 
+## Session 34 — AGENDA (next session)
+
+### 1. Story Library — final UX sign-off
+- Visual check: checkboxes, overlay, "Voice recorded" badge, Book Prep status panel
+- Clean up test data: delete stories recaCcCDyxc1Pk1F5 + rec9CqsWTu13hRu6H, reset subscriber recF4l3VjHX3c7lSa PromptNumber to 0
+- Any remaining UX fixes from Tamara's review
+
+### 2. index.html — QR voice feature as major selling point
+Tamara's direction: every place on the site that describes what's included in 24 Stories must now loudly feature the voice QR code. This is a significant differentiator — not only do you preserve stories in print, you preserve the storyteller's actual voice. Update:
+- Hero / what's included sections
+- Pricing card features list
+- Book description copy
+- Any "what you get" bullet lists
+Core message: *"Your family won't just read your stories. They'll hear you telling them."*
+The QR code is the hook — a printed book that speaks.
+
+### 3. Visual demonstration of the voice recording flow
+Tamara wants a visual walkthrough/demo of the complete flow — checkbox → record → QR → scan → audio. Format TBD (could be a demo page, a video script brief, or a presentation slide).
+
+---
+
 ## Session 33 — QR Code Audio Feature — BUILT, IN TESTING (2026-06-03)
 
 ### ⚠ STATUS: COMPLETE. End-to-end tested and confirmed working (2026-06-04).

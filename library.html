@@ -836,7 +836,7 @@
             background: var(--white);
             border: 1px solid var(--border);
             padding: 32px 36px;
-            margin-bottom: 36px;
+            margin-bottom: 0;
             font-family: var(--font-heading);
             font-size: clamp(1.15rem, 2.5vw, 1.35rem);
             line-height: 2.0;
@@ -845,8 +845,12 @@
         }
 
         .voice-controls {
+            position: sticky;
+            bottom: 0;
+            background: #F7F5F2;
+            border-top: 1px solid var(--border);
             text-align: center;
-            padding: 24px 0;
+            padding: 24px 0 32px;
         }
 
         .voice-instruction {
@@ -2379,11 +2383,28 @@
         });
 
         document.getElementById('btnVoiceStart').addEventListener('click', function() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+                alert('Audio recording is not supported on this browser. Please use Chrome or Safari on a recent device.');
+                return;
+            }
             navigator.mediaDevices.getUserMedia({ audio: true })
             .then(function(stream) {
                 voiceAudioChunks = [];
-                var mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/ogg';
-                voiceMediaRecorder = new MediaRecorder(stream, { mimeType: mimeType });
+                var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+                    ? 'audio/webm;codecs=opus'
+                    : MediaRecorder.isTypeSupported('audio/webm')
+                    ? 'audio/webm'
+                    : MediaRecorder.isTypeSupported('audio/mp4')
+                    ? 'audio/mp4'
+                    : '';
+                try {
+                    voiceMediaRecorder = mimeType
+                        ? new MediaRecorder(stream, { mimeType: mimeType })
+                        : new MediaRecorder(stream);
+                } catch(e) {
+                    voiceMediaRecorder = new MediaRecorder(stream);
+                    mimeType = '';
+                }
 
                 voiceMediaRecorder.ondataavailable = function(e) {
                     if (e.data.size > 0) voiceAudioChunks.push(e.data);
@@ -2392,7 +2413,7 @@
                 voiceMediaRecorder.onstop = function() {
                     stopVoiceTimer();
                     stream.getTracks().forEach(function(t) { t.stop(); });
-                    var ext      = mimeType.includes('webm') ? 'webm' : 'ogg';
+                    var ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('webm') ? 'webm' : 'ogg';
                     voiceRecordedBlob = new Blob(voiceAudioChunks, { type: mimeType });
                     var url = URL.createObjectURL(voiceRecordedBlob);
                     var playback = document.getElementById('voicePlayback');

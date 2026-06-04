@@ -2383,148 +2383,153 @@
             if (voiceTimerInterval) { clearInterval(voiceTimerInterval); voiceTimerInterval = null; }
         }
 
-        document.getElementById('voiceOverlayClose').addEventListener('click', function() {
-            closeVoiceOverlay();
-        });
-
-        document.getElementById('btnVoiceStart').addEventListener('click', function() {
-            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
-                alert('Audio recording is not supported on this browser. Please use Chrome or Safari on a recent device.');
-                return;
-            }
-            navigator.mediaDevices.getUserMedia({ audio: true })
-            .then(function(stream) {
-                voiceAudioChunks = [];
-                var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
-                    ? 'audio/webm;codecs=opus'
-                    : MediaRecorder.isTypeSupported('audio/webm')
-                    ? 'audio/webm'
-                    : MediaRecorder.isTypeSupported('audio/mp4')
-                    ? 'audio/mp4'
-                    : '';
-                try {
-                    voiceMediaRecorder = mimeType
-                        ? new MediaRecorder(stream, { mimeType: mimeType })
-                        : new MediaRecorder(stream);
-                } catch(e) {
-                    voiceMediaRecorder = new MediaRecorder(stream);
-                    mimeType = '';
-                }
-
-                voiceMediaRecorder.ondataavailable = function(e) {
-                    if (e.data.size > 0) voiceAudioChunks.push(e.data);
-                };
-
-                voiceMediaRecorder.onstop = function() {
-                    stopVoiceTimer();
-                    stream.getTracks().forEach(function(t) { t.stop(); });
-                    var ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('webm') ? 'webm' : 'ogg';
-                    voiceRecordedBlob = new Blob(voiceAudioChunks, { type: mimeType });
-                    var url = URL.createObjectURL(voiceRecordedBlob);
-                    var playback = document.getElementById('voicePlayback');
-                    playback.src = url;
-                    playback.style.display = 'block';
-                    showVoiceState('review');
-                };
-
-                voiceMediaRecorder.start();
-                startVoiceTimer();
-                showVoiceState('recording');
-                // Show pause button only if browser supports it
-                var pauseBtn = document.getElementById('btnVoicePause');
-                if (pauseBtn) pauseBtn.style.display = (typeof voiceMediaRecorder.pause === 'function') ? 'block' : 'none';
-            })
-            .catch(function(err) {
-                alert('Microphone access is required to record. Please allow microphone access and try again.');
-                console.error('Mic error:', err);
+        // Voice overlay event listeners — deferred until DOM is fully parsed
+        // (overlay HTML is after this script tag, so we must wait for DOMContentLoaded)
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('voiceOverlayClose').addEventListener('click', function() {
+                closeVoiceOverlay();
             });
-        });
-
-        document.getElementById('btnVoiceStop').addEventListener('click', function() {
-            if (voiceMediaRecorder && voiceMediaRecorder.state !== 'inactive') {
-                voiceMediaRecorder.stop();
-            }
-        });
-
-        document.getElementById('btnVoicePause').addEventListener('click', function() {
-            if (!voiceMediaRecorder) return;
-            if (voiceMediaRecorder.state === 'recording') {
-                voiceMediaRecorder.pause();
-                this.textContent = 'Resume';
-            } else if (voiceMediaRecorder.state === 'paused') {
-                voiceMediaRecorder.resume();
-                this.textContent = 'Pause';
-            }
-        });
-
-        document.getElementById('btnVoiceBackToStories').addEventListener('click', function() {
-            closeVoiceOverlay();
-            var cards = document.getElementById('storyCards');
-            if (cards) cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
-        document.getElementById('btnVoiceRerecord').addEventListener('click', function() {
-            voiceRecordedBlob = null;
-            resetVoiceState();
-        });
-
-        document.getElementById('btnVoiceConfirm').addEventListener('click', function() {
-            if (!voiceRecordedBlob || !voiceCurrentStoryId) return;
-
-            var btn = document.getElementById('btnVoiceConfirm');
-            btn.disabled = true;
-            document.getElementById('voiceSavingMsg').style.display = 'block';
-                    document.getElementById('voiceOverlayClose').style.display = 'none';
-            document.getElementById('voiceErrorMsg').style.display  = 'none';
-
-            // Upload audio blob to Cloudinary (video endpoint — same pattern as tell.html)
-            var ext = voiceRecordedBlob.type.includes('webm') ? 'webm' : 'ogg';
-            var fd  = new FormData();
-            fd.append('file', voiceRecordedBlob, 'voice-reading.' + ext);
-            fd.append('upload_preset', CLOUDINARY_PRESET);
-            fd.append('folder', 'stories/voice-readings');
-
-            fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/video/upload', {
-                method: 'POST',
-                body: fd
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(d) {
-                if (!d.secure_url) throw new Error('No URL returned from Cloudinary');
-                var cloudinaryUrl = d.secure_url;
-
-                // POST to voice-record-confirm.js to generate QR + save to Airtable
-                return fetch(VOICE_RECORD_CONFIRM_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        storyId:            voiceCurrentStoryId,
-                        subscriberId:       subscriberId,
-                        cloudinaryAudioUrl: cloudinaryUrl
-                    })
+    
+            document.getElementById('btnVoiceStart').addEventListener('click', function() {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || !window.MediaRecorder) {
+                    alert('Audio recording is not supported on this browser. Please use Chrome or Safari on a recent device.');
+                    return;
+                }
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function(stream) {
+                    voiceAudioChunks = [];
+                    var mimeType = MediaRecorder.isTypeSupported('audio/webm;codecs=opus')
+                        ? 'audio/webm;codecs=opus'
+                        : MediaRecorder.isTypeSupported('audio/webm')
+                        ? 'audio/webm'
+                        : MediaRecorder.isTypeSupported('audio/mp4')
+                        ? 'audio/mp4'
+                        : '';
+                    try {
+                        voiceMediaRecorder = mimeType
+                            ? new MediaRecorder(stream, { mimeType: mimeType })
+                            : new MediaRecorder(stream);
+                    } catch(e) {
+                        voiceMediaRecorder = new MediaRecorder(stream);
+                        mimeType = '';
+                    }
+    
+                    voiceMediaRecorder.ondataavailable = function(e) {
+                        if (e.data.size > 0) voiceAudioChunks.push(e.data);
+                    };
+    
+                    voiceMediaRecorder.onstop = function() {
+                        stopVoiceTimer();
+                        stream.getTracks().forEach(function(t) { t.stop(); });
+                        var ext = mimeType.includes('mp4') ? 'mp4' : mimeType.includes('webm') ? 'webm' : 'ogg';
+                        voiceRecordedBlob = new Blob(voiceAudioChunks, { type: mimeType });
+                        var url = URL.createObjectURL(voiceRecordedBlob);
+                        var playback = document.getElementById('voicePlayback');
+                        playback.src = url;
+                        playback.style.display = 'block';
+                        showVoiceState('review');
+                    };
+    
+                    voiceMediaRecorder.start();
+                    startVoiceTimer();
+                    showVoiceState('recording');
+                    // Show pause button only if browser supports it
+                    var pauseBtn = document.getElementById('btnVoicePause');
+                    if (pauseBtn) pauseBtn.style.display = (typeof voiceMediaRecorder.pause === 'function') ? 'block' : 'none';
+                })
+                .catch(function(err) {
+                    alert('Microphone access is required to record. Please allow microphone access and try again.');
+                    console.error('Mic error:', err);
                 });
-            })
-            .then(function(r) { return r.json(); })
-            .then(function(d) {
-                document.getElementById('voiceSavingMsg').style.display = 'none';
-                if (d.success) {
-                    document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to this chapter in your book.';
-                    document.getElementById('voiceSuccessBlock').style.display = 'block';
-                    document.getElementById('voiceOverlayClose').textContent = 'Close';
-                    // Hide review actions — only show the back button
-                    document.querySelector('.voice-review-actions').style.display = 'none';
-                } else {
-                    throw new Error(d.error || 'Unknown error');
-                }
-            })
-            .catch(function(err) {
-                document.getElementById('voiceSavingMsg').style.display = 'none';
-                document.getElementById('voiceErrorMsg').textContent    = 'Something went wrong. Please try again, or email hello@24stories.co.za for help.';
-                document.getElementById('voiceErrorMsg').style.display  = 'block';
-                document.getElementById('btnVoiceConfirm').disabled = false;
-                document.getElementById('voiceOverlayClose').style.display = '';
-                console.error('Voice confirm error:', err);
             });
+    
+            document.getElementById('btnVoiceStop').addEventListener('click', function() {
+                if (voiceMediaRecorder && voiceMediaRecorder.state !== 'inactive') {
+                    voiceMediaRecorder.stop();
+                }
+            });
+    
+            document.getElementById('btnVoicePause').addEventListener('click', function() {
+                if (!voiceMediaRecorder) return;
+                if (voiceMediaRecorder.state === 'recording') {
+                    voiceMediaRecorder.pause();
+                    this.textContent = 'Resume';
+                } else if (voiceMediaRecorder.state === 'paused') {
+                    voiceMediaRecorder.resume();
+                    this.textContent = 'Pause';
+                }
+            });
+    
+            document.getElementById('btnVoiceBackToStories').addEventListener('click', function() {
+                closeVoiceOverlay();
+                var cards = document.getElementById('storyCards');
+                if (cards) cards.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+    
+            document.getElementById('btnVoiceRerecord').addEventListener('click', function() {
+                voiceRecordedBlob = null;
+                resetVoiceState();
+            });
+    
+            document.getElementById('btnVoiceConfirm').addEventListener('click', function() {
+                if (!voiceRecordedBlob || !voiceCurrentStoryId) return;
+    
+                var btn = document.getElementById('btnVoiceConfirm');
+                btn.disabled = true;
+                document.getElementById('voiceSavingMsg').style.display = 'block';
+                        document.getElementById('voiceOverlayClose').style.display = 'none';
+                document.getElementById('voiceErrorMsg').style.display  = 'none';
+    
+                // Upload audio blob to Cloudinary (video endpoint — same pattern as tell.html)
+                var ext = voiceRecordedBlob.type.includes('webm') ? 'webm' : 'ogg';
+                var fd  = new FormData();
+                fd.append('file', voiceRecordedBlob, 'voice-reading.' + ext);
+                fd.append('upload_preset', CLOUDINARY_PRESET);
+                fd.append('folder', 'stories/voice-readings');
+    
+                fetch('https://api.cloudinary.com/v1_1/' + CLOUDINARY_CLOUD + '/video/upload', {
+                    method: 'POST',
+                    body: fd
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    if (!d.secure_url) throw new Error('No URL returned from Cloudinary');
+                    var cloudinaryUrl = d.secure_url;
+    
+                    // POST to voice-record-confirm.js to generate QR + save to Airtable
+                    return fetch(VOICE_RECORD_CONFIRM_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            storyId:            voiceCurrentStoryId,
+                            subscriberId:       subscriberId,
+                            cloudinaryAudioUrl: cloudinaryUrl
+                        })
+                    });
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(d) {
+                    document.getElementById('voiceSavingMsg').style.display = 'none';
+                    if (d.success) {
+                        document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to this chapter in your book.';
+                        document.getElementById('voiceSuccessBlock').style.display = 'block';
+                        document.getElementById('voiceOverlayClose').textContent = 'Close';
+                        // Hide review actions — only show the back button
+                        document.querySelector('.voice-review-actions').style.display = 'none';
+                    } else {
+                        throw new Error(d.error || 'Unknown error');
+                    }
+                })
+                .catch(function(err) {
+                    document.getElementById('voiceSavingMsg').style.display = 'none';
+                    document.getElementById('voiceErrorMsg').textContent    = 'Something went wrong. Please try again, or email hello@24stories.co.za for help.';
+                    document.getElementById('voiceErrorMsg').style.display  = 'block';
+                    document.getElementById('btnVoiceConfirm').disabled = false;
+                    document.getElementById('voiceOverlayClose').style.display = '';
+                    console.error('Voice confirm error:', err);
+                });
+            });
+    
         });
 
         // ---- UTILITIES ----

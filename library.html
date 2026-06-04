@@ -1772,8 +1772,7 @@
         }
 
         // ---- VOICE RECORDINGS LIST (in Book Prep section) ----
-        // Shows only the stories the subscriber has ticked (localStorage),
-        // plus any already confirmed (BookVoiceConfirmed) synced in on load.
+        // Status panel only — the Record action is on the story card checkbox strip.
         function renderVoiceRecordingsList(byWeek, promptsByWeek, confirmedCount) {
             var container = document.getElementById('voiceRecordingsList');
             if (!container) return;
@@ -1783,10 +1782,8 @@
 
             if (sel.length === 0) {
                 container.innerHTML =
-                    '<p style="font-size:0.92rem;color:#888;line-height:1.8;margin:0 0 16px;">' +
-                    'None chosen yet. Open your story cards above, read each one, and tick <strong>Narrate in my voice</strong> on the three you want to record. Your chosen stories will appear here.' +
-                    '</p>' +
-                    '<a href="#storyCards" style="font-size:0.82rem;color:var(--gold);text-decoration:underline;letter-spacing:0.04em;">Go to your stories &uarr;</a>';
+                    '<p style="font-size:0.92rem;color:#888;line-height:1.8;margin:0 0 12px;">None chosen yet. Scroll to your stories above, tick <strong>Narrate in my voice</strong> on the three stories you want to record. The Record button will appear on each ticked story.</p>' +
+                    '<a href="#storyCards" style="font-size:0.82rem;color:var(--gold);text-decoration:underline;">Go to your stories &uarr;</a>';
                 return;
             }
 
@@ -1797,44 +1794,43 @@
                 if (s && s._storyId) storyById[s._storyId] = { week: parseInt(w, 10), story: s };
             });
 
+            var confirmedThisSet = 0;
+            sel.forEach(function(sid) {
+                var found = storyById[sid];
+                if (found && found.story.BookVoiceConfirmed) confirmedThisSet++;
+            });
+
+            var countEl = document.createElement('p');
+            countEl.style.cssText = 'font-size:0.82rem;color:#888;margin:0 0 16px;line-height:1.6;';
+            countEl.textContent = confirmedThisSet + ' of ' + sel.length + ' recording' + (sel.length === 1 ? '' : 's') + ' confirmed.';
+            container.appendChild(countEl);
+
             sel.forEach(function(sid) {
                 var found = storyById[sid];
                 if (!found) return;
                 var week     = found.week;
                 var story    = found.story;
-                var editText = story.FinalStory || story.EditedText || '';
                 var weekName = story.ChapterTitle || (promptsByWeek[week] && promptsByWeek[week].WeekName) || ('Week ' + week);
-                var preview  = editText.length > 90 ? editText.slice(0, 90).replace(/\n/g, ' ') + '...' : editText.replace(/\n/g, ' ');
 
                 var row = document.createElement('div');
-                row.className = 'voice-story-row';
+                row.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--border);';
 
-                var info = document.createElement('div');
-                info.className = 'voice-story-info';
-                info.innerHTML =
-                    '<p class="voice-story-week">Week ' + week + ' &mdash; ' + esc(weekName) + '</p>' +
-                    '<p class="voice-story-preview">' + esc(preview) + '</p>';
+                var label = document.createElement('p');
+                label.style.cssText = 'font-size:0.88rem;color:var(--charcoal);margin:0;';
+                label.textContent = 'Week ' + week + ' — ' + weekName;
 
-                var action = document.createElement('div');
-                action.style.cssText = 'flex-shrink:0;padding-top:2px;';
-
+                var state = document.createElement('span');
+                state.style.cssText = 'font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;flex-shrink:0;margin-left:12px;';
                 if (story.BookVoiceConfirmed) {
-                    action.innerHTML = '<span class="voice-story-confirmed">&#10003; Recorded</span>';
-                } else if (!READ_ONLY_MODE && sid) {
-                    var btn = document.createElement('button');
-                    btn.className = 'btn-record-book';
-                    btn.type = 'button';
-                    btn.textContent = 'Record edited story';
-                    (function(id, text, wname) {
-                        btn.addEventListener('click', function() {
-                            openVoiceOverlay(id, text, wname);
-                        });
-                    })(sid, editText, weekName);
-                    action.appendChild(btn);
+                    state.style.color = 'var(--gold)';
+                    state.textContent = '✓ Recorded';
+                } else {
+                    state.style.color = '#aaa';
+                    state.textContent = 'Awaiting recording';
                 }
 
-                row.appendChild(info);
-                row.appendChild(action);
+                row.appendChild(label);
+                row.appendChild(state);
                 container.appendChild(row);
             });
         }
@@ -2193,6 +2189,7 @@
 
         function buildVoiceSelectCheckbox(story, active) {
             var storyId     = story._storyId || '';
+            var editText    = story.FinalStory || story.EditedText || '';
             var isConfirmed = !!(story.BookVoiceConfirmed);
             var sel         = getVoiceSelected();
             var isSelected  = isConfirmed || sel.indexOf(storyId) !== -1;
@@ -2202,8 +2199,10 @@
             row.className = 'voice-select-row';
             row.dataset.storyId = storyId;
 
+            // Left: checkbox + label
             var lbl = document.createElement('label');
             lbl.className = 'voice-select-label';
+            lbl.style.cssText = 'flex:1;min-width:0;';
 
             var cb = document.createElement('input');
             cb.type = 'checkbox';
@@ -2215,18 +2214,20 @@
             var info = document.createElement('div');
             var title = document.createElement('p');
             title.className = 'voice-select-title';
-            title.textContent = isConfirmed ? 'Narrate in my voice — recorded' : 'Narrate in my voice';
+            title.textContent = isConfirmed ? 'Narrate in my voice' : 'Narrate in my voice';
 
             var hint = document.createElement('p');
             hint.className = 'voice-select-hint';
             if (!active) {
                 hint.textContent = 'Activates at week 21 when book preparation begins.';
             } else if (isConfirmed) {
-                hint.textContent = 'Voice recording confirmed for this story.';
-            } else if (!isSelected && atLimit) {
+                hint.textContent = 'Voice recording confirmed.';
+            } else if (isSelected) {
+                hint.textContent = '';  // button speaks for itself
+            } else if (atLimit) {
                 hint.textContent = 'You have chosen 3 stories. Untick one to swap.';
             } else {
-                hint.textContent = 'Tick to include a QR code voice recording in this chapter.';
+                hint.textContent = 'Tick to select this story for narration.';
             }
 
             info.appendChild(title);
@@ -2235,16 +2236,47 @@
             lbl.appendChild(info);
             row.appendChild(lbl);
 
+            // Right: action area — Record button or Recorded badge
+            var actionDiv = document.createElement('div');
+            actionDiv.className = 'voice-card-action';
+            actionDiv.style.cssText = 'flex-shrink:0;margin-left:12px;align-self:center;';
+
+            function buildActionContent() {
+                actionDiv.innerHTML = '';
+                if (isConfirmed) {
+                    actionDiv.innerHTML = '<span style="font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">&#10003; Recorded</span>';
+                } else if (isSelected && storyId && editText) {
+                    var btn = document.createElement('button');
+                    btn.className = 'btn-record-book';
+                    btn.type = 'button';
+                    btn.textContent = 'Record edited story';
+                    btn.addEventListener('click', function() {
+                        openVoiceOverlay(storyId, editText, story.ChapterTitle || ('Week ' + (story.PromptNumber || '')));
+                    });
+                    actionDiv.appendChild(btn);
+                }
+            }
+
+            buildActionContent();
+            row.appendChild(actionDiv);
+
             if (active && !isConfirmed && storyId) {
                 cb.addEventListener('change', function() {
                     var current = getVoiceSelected();
                     if (cb.checked) {
                         if (current.length >= 3) { cb.checked = false; return; }
                         if (current.indexOf(storyId) === -1) current.push(storyId);
+                        isSelected = true;
                     } else {
                         current = current.filter(function(id) { return id !== storyId; });
+                        isSelected = false;
                     }
                     setVoiceSelected(current);
+                    // Update hint
+                    var newAtLimit = current.length >= 3;
+                    hint.textContent = isSelected ? '' : (newAtLimit ? 'You have chosen 3 stories. Untick one to swap.' : 'Tick to select this story for narration.');
+                    // Show/hide record button
+                    buildActionContent();
                     updateVoiceCheckboxStates();
                     renderVoiceRecordingsList(voiceByWeek, voicePromptsByWeek, voiceConfirmedCount);
                 });
@@ -2416,6 +2448,7 @@
             var btn = document.getElementById('btnVoiceConfirm');
             btn.disabled = true;
             document.getElementById('voiceSavingMsg').style.display = 'block';
+                    document.getElementById('voiceOverlayClose').style.display = 'none';
             document.getElementById('voiceErrorMsg').style.display  = 'none';
 
             // Upload audio blob to Cloudinary (video endpoint — same pattern as tell.html)
@@ -2463,6 +2496,7 @@
                 document.getElementById('voiceErrorMsg').textContent    = 'Something went wrong. Please try again, or email hello@24stories.co.za for help.';
                 document.getElementById('voiceErrorMsg').style.display  = 'block';
                 document.getElementById('btnVoiceConfirm').disabled = false;
+                document.getElementById('voiceOverlayClose').style.display = '';
                 console.error('Voice confirm error:', err);
             });
         });

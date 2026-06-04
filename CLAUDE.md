@@ -198,7 +198,14 @@ FAMILY SCANS QR CODE (decades later):
 
 ---
 
-## Session 32 — SEO: Guide Page Now Indexable — COMPLETE (2026-06-03)
+## Session 32 — SEO: Homepage + Guide Page — COMPLETE (2026-06-04)
+
+### Homepage (index.html) — commit bc51699
+- Title replaced: `24 Stories — Human-Edited Memoir Service | Preserve Family Stories South Africa`
+- Meta description replaced: "Capture a life in 24 stories. One five-minute prompt a week, professionally edited by a human — never flattened by AI. Your stories, your words, your voice. South Africa's memoir service for families who refuse to let the stories disappear."
+- No other head changes. Canonical, Google site verification, stylesheet links all untouched.
+
+### Guide page (you-already-have-the-stories.html) — commit 752b836 — COMPLETE (2026-06-03)
 
 ### What changed
 - **File:** `you-already-have-the-stories.html`

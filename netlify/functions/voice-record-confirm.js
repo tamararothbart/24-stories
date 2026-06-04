@@ -87,25 +87,24 @@ exports.handler = async function(event) {
     return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'QR code generation failed' }) };
   }
 
-  // Upload QR PNG to Cloudinary as a base64 data URI
-  const qrDataUri = 'data:image/png;base64,' + qrBuffer.toString('base64');
-  const CLOUD_NAME   = process.env.CLOUDINARY_CLOUD_NAME || 'dorv3glde';
+  // Upload QR PNG to Cloudinary using multipart FormData (Blob) — more reliable than base64 URLSearchParams
+  const CLOUD_NAME    = process.env.CLOUDINARY_CLOUD_NAME    || 'dorv3glde';
   const UPLOAD_PRESET = process.env.CLOUDINARY_UPLOAD_PRESET || '24stories';
 
-  const qrFormData = new URLSearchParams();
-  qrFormData.append('file', qrDataUri);
-  qrFormData.append('upload_preset', UPLOAD_PRESET);
-  qrFormData.append('folder', 'stories/qrcodes');
+  const qrForm = new FormData();
+  qrForm.append('file', new Blob([qrBuffer], { type: 'image/png' }), 'qrcode.png');
+  qrForm.append('upload_preset', UPLOAD_PRESET);
+  qrForm.append('folder', 'stories/qrcodes');
 
   const qrUploadRes = await fetch(
     `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-    { method: 'POST', body: qrFormData }
+    { method: 'POST', body: qrForm }
   );
 
   if (!qrUploadRes.ok) {
     const err = await qrUploadRes.text();
     console.error('QR Cloudinary upload failed:', err);
-    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'QR upload failed' }) };
+    return { statusCode: 500, headers: corsHeaders(), body: JSON.stringify({ error: 'QR upload failed', detail: err.slice(0, 200) }) };
   }
 
   const qrUploadData = await qrUploadRes.json();

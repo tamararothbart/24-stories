@@ -24,8 +24,8 @@ All sections updated. Changes made:
 - **Book features list** (`book-features` ul): new first bullet — "Three stories narrated in the storyteller's own voice — QR codes printed in the book, scannable forever."
 - **Pricing features list**: new bullet before the hardcover line — "Three stories narrated in the storyteller's own voice — QR codes printed in the book, scannable forever."
 
-### 3. Visual demonstration of the voice recording flow — PENDING
-Tamara wants a visual walkthrough/demo of the complete flow — checkbox → record → QR → scan → audio. Format TBD (could be a demo page, a video script brief, or a presentation slide).
+### 3. Visual demonstration of the voice recording flow — ON HOLD
+Deferred 2026-06-09. Focus shifting to marketing — getting people to engage, inquire, and sign up. Revisit when product video work resumes.
 
 ---
 

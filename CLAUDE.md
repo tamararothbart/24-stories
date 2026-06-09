@@ -4,23 +4,22 @@
 
 ---
 
-## Session 34 — AGENDA (next session)
+## Session 34 — IN PROGRESS (2026-06-09)
 
-### 1. Story Library — final UX sign-off
+### 1. Story Library — final UX sign-off — PENDING
 - Visual check: checkboxes, overlay, "Voice recorded" badge, Book Prep status panel
 - Clean up test data: delete stories recaCcCDyxc1Pk1F5 + rec9CqsWTu13hRu6H, reset subscriber recF4l3VjHX3c7lSa PromptNumber to 0
 - Any remaining UX fixes from Tamara's review
 
-### 2. index.html — QR voice feature as major selling point
-Tamara's direction: every place on the site that describes what's included in 24 Stories must now loudly feature the voice QR code. This is a significant differentiator — not only do you preserve stories in print, you preserve the storyteller's actual voice. Update:
-- Hero / what's included sections
-- Pricing card features list
-- Book description copy
-- Any "what you get" bullet lists
-Core message: *"Your family won't just read your stories. They'll hear you telling them."*
-The QR code is the hook — a printed book that speaks.
+### 2. index.html — QR voice feature as major selling point — COMPLETE (2026-06-09, commit d7b1525)
+All sections updated. Changes made:
+- **New dark band** (between book section and pricing): "Your family won't just read your stories. They'll hear you telling them." Full explanation + "See Pricing" CTA.
+- **Step 05** (desktop + mobile swiper): added voice narration + QR sentence — "You also choose three stories to narrate in your own voice. A QR code is printed inside each of those chapters — your family scans it and hears you. Not once. Forever."
+- **Book section paragraph**: voice narration + QR code added alongside photos and editing.
+- **Book features list** (`book-features` ul): new first bullet — "Three stories narrated in the storyteller's own voice — QR codes printed in the book, scannable forever."
+- **Pricing features list**: new bullet before the hardcover line — "Three stories narrated in the storyteller's own voice — QR codes printed in the book, scannable forever."
 
-### 3. Visual demonstration of the voice recording flow
+### 3. Visual demonstration of the voice recording flow — PENDING
 Tamara wants a visual walkthrough/demo of the complete flow — checkbox → record → QR → scan → audio. Format TBD (could be a demo page, a video script brief, or a presentation slide).
 
 ---
@@ -753,7 +752,7 @@ StorytellerFirstName, StorytellerSurname, StorytellerEmail, StoryHelperName, Sto
 - `book-compile.js` — GET ?id=[recordId] → returns full HTML book (browser preview + PDF export). POST {id} → emails HTML attachment to hello@, sets BookCompiledDate. Triggered from compile-book.html. Uses FinalStory → EditedText → StoryText fallback. Assembles: spec sheet (screen only, hidden from PDF), title page, portrait, dedication, epigraph, ToC, chapters (ChapterOrder sort), colophon. Typography: Bebas Neue (Google Fonts) for all title/display text; Georgia serif for all body text — NO Cormorant Garamond. Print: 170 × 240mm portrait (NOT A5). Mirror margins (case-bound hardcover): recto 17mm top / 15mm outer / 22mm bottom / 20mm spine; verso 17mm top / 20mm outer / 22mm bottom / 15mm spine. Full-bleed named @page (margin:0, page:full-bleed) for cover/portrait/photo/dedication/epigraph/colophon. Dates never appear in book — StoryCircaDate is sorting only. Images always on own page after chapter text page. Admin page: compile-book.html. Test: https://24stories.co.za/.netlify/functions/book-compile?id=recj2fKFXLRmGNLn5
 
 **Scheduled (cron):**
-- `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-9 at week 24
+- `send-weekly-prompts.js` — Wednesday 7am SAST: sends week's prompt to all Active subscribers (emails 4, 8, 25, 26); fires coaching email 0 alongside week 1; fires email-8b ("A feature we think you'll love") alongside week 3; fires email-9 ("Your Legacy Book — time to get it ready") + email-9b ("Time to record your voice") alongside week 21
 - `send-day4-reminder.js` — Saturday 8am SAST: sends reminder (email-5) to subscribers who haven't submitted since Wednesday
 - `book-onboarding-reminder.js` — daily 9am SAST: book onboarding reminders (emails 10, 11), coaching emails 1–4, delivery tracking alerts, pause expiry alerts
 - `send-story-queue.js` — every 2 minutes: processes SendToFamily checkbox (emails 6+7), SendDelayNotification checkbox (email-13), pause confirmations (email-15)
@@ -1148,7 +1147,7 @@ FinalStory → EditedText → StoryText
 
 ### Airtable fields used
 **Subscribers:** StorytellerFirstName, StorytellerSurname, BookTitle, PortraitPhotoURL, DedicationText, EpigraphText, CoverColour, DeliveryAddress, ExtraCopies, BookCompiledDate
-**Stories (per chapter):** ChapterOrder, ChapterTitle, FinalStory, EditedText, StoryText, StoryImageURL, StoryImageCaption
+**Stories (per chapter):** ChapterOrder, ChapterTitle, FinalStory, EditedText, StoryText, StoryImageURL, StoryImageCaption, BookVoiceQRCodeURL
 ### Recent email deliverability updates
 - Standardized all Mailjet sends in Netlify functions to include `ReplyTo: hello@24stories.co.za`, `TextPart`, `TrackOpens: 'enabled'`, and `TrackClicks: 'enabled'`.
 - Added failure alerting for complimentary onboarding welcome emails so `hello@24stories.co.za` receives a notification if the initial subscriber welcome send fails.

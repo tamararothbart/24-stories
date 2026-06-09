@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>24 Stories — Begin Here</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --charcoal:  #1A1A1A;
+            --gold:      #B8976A;
+            --cream:     #F7F5F2;
+            --cream-dark:#EDE9E3;
+            --muted:     #555;
+            --rule:      #DDD8D2;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream);
+            color: var(--charcoal);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── LAYOUT ── */
+        .page {
+            max-width: 660px;
+            margin: 0 auto;
+            padding: 0 clamp(20px, 6vw, 48px) 96px;
+        }
+
+        /* ── LOGO ── */
+        .logo-bar {
+            padding: 36px 0 0;
+            text-align: center;
+        }
+        .logo-bar img {
+            height: 52px;
+            width: auto;
+            display: inline-block;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 72px 0 56px;
+            text-align: center;
+        }
+        .eyebrow {
+            font-family: 'Inter', sans-serif;
+            font-size: 10.5px;
+            font-weight: 400;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 22px;
+        }
+        .hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.2rem, 7vw, 3.4rem);
+            font-weight: 400;
+            line-height: 1.22;
+            color: var(--charcoal);
+            margin-bottom: 26px;
+            letter-spacing: -0.01em;
+        }
+        .hero-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.05rem, 3vw, 1.25rem);
+            font-weight: 300;
+            line-height: 1.85;
+            color: var(--muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* ── GOLD RULE ── */
+        .rule {
+            width: 36px;
+            height: 1px;
+            background: var(--gold);
+            margin: 52px auto;
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            margin-bottom: 56px;
+        }
+        .section-heading {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.25rem, 3.5vw, 1.6rem);
+            font-weight: 400;
+            color: var(--charcoal);
+            line-height: 1.35;
+            margin-bottom: 18px;
+        }
+        .prose p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            line-height: 1.9;
+            color: #3a3a3a;
+            margin-bottom: 1.15em;
+        }
+        .prose p:last-child { margin-bottom: 0; }
+        .prose em {
+            font-style: italic;
+            color: var(--charcoal);
+        }
+
+        /* ── STEPS ── */
+        .steps {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+            counter-reset: steps;
+        }
+        .steps li {
+            counter-increment: steps;
+            display: flex;
+            gap: 22px;
+            margin-bottom: 28px;
+            align-items: flex-start;
+        }
+        .steps li:last-child { margin-bottom: 0; }
+        .steps li::before {
+            content: counter(steps);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1.25;
+            flex-shrink: 0;
+            width: 26px;
+            text-align: right;
+        }
+        .steps li .step-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            line-height: 1.85;
+            color: #3a3a3a;
+        }
+        .steps li .step-text strong {
+            font-weight: 500;
+            color: var(--charcoal);
+        }
+
+        /* ── DARK CALLOUT ── */
+        .callout {
+            background: var(--charcoal);
+            padding: 44px 40px;
+            margin: 56px 0;
+        }
+        .callout-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.15rem, 3vw, 1.45rem);
+            font-weight: 400;
+            color: #fff;
+            line-height: 1.4;
+            margin-bottom: 16px;
+        }
+        .callout-body {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.12rem);
+            line-height: 1.9;
+            color: rgba(247,245,242,0.8);
+        }
+
+        /* ── FEATURES LIST ── */
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0;
+        }
+        .features li {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.1rem);
+            line-height: 1.8;
+            color: #3a3a3a;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--rule);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .features li:first-child {
+            border-top: 1px solid var(--rule);
+        }
+        .features li::before {
+            content: '—';
+            color: var(--gold);
+            flex-shrink: 0;
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.8;
+        }
+
+        /* ── PRICE BLOCK ── */
+        .price-block {
+            text-align: center;
+            border-top: 1px solid var(--rule);
+            border-bottom: 1px solid var(--rule);
+            padding: 32px 0;
+            margin: 52px 0;
+        }
+        .price-main {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.6rem, 4vw, 2.2rem);
+            font-weight: 300;
+            color: var(--charcoal);
+            line-height: 1.25;
+        }
+        .price-alt {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            color: #999;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-top: 8px;
+        }
+
+        /* ── CTA SECTION ── */
+        .cta-block {
+            text-align: center;
+            padding: 56px 0 0;
+        }
+        .cta-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+            font-weight: 300;
+            color: var(--charcoal);
+            line-height: 1.35;
+            margin-bottom: 14px;
+        }
+        .cta-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            line-height: 1.85;
+            color: var(--muted);
+            max-width: 420px;
+            margin: 0 auto 36px;
+        }
+        .btn-wa {
+            display: inline-block;
+            background: var(--charcoal);
+            color: var(--cream);
+            font-family: 'Inter', sans-serif;
+            font-size: 12.5px;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            padding: 18px 52px;
+            border-radius: 2px;
+            transition: background 0.15s;
+            min-width: 280px;
+        }
+        .btn-wa:hover {
+            background: #333;
+        }
+        .email-link {
+            display: block;
+            margin-top: 18px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: #999;
+            text-decoration: none;
+            transition: color 0.15s;
+            letter-spacing: 0.01em;
+        }
+        .email-link:hover {
+            color: var(--charcoal);
+        }
+
+        /* ── CLOSING ── */
+        .closing {
+            text-align: center;
+            margin-top: 56px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-style: italic;
+            color: #bbb;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 560px) {
+            .hero { padding: 52px 0 40px; }
+            .callout { padding: 32px 24px; }
+            .btn-wa {
+                min-width: 0;
+                width: 100%;
+                padding: 18px 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page">
+
+    <!-- Logo -->
+    <header class="logo-bar">
+        <img src="logo.png" alt="24 Stories">
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <p class="eyebrow">For the stories you haven't heard yet</p>
+        <h1>Your family has questions<br>they forgot to ask.</h1>
+        <p class="hero-sub">We help them answer. One guided prompt a week, for six months. A real, printed hardcover book at the end.</p>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- 1. The feeling -->
+    <section>
+        <h2 class="section-heading">The stories are already there.</h2>
+        <div class="prose">
+            <p>Decades of them. The job your father almost didn't take. The night your mother arrived in a new city with nothing. The moment your grandfather knew he was going to marry her.</p>
+            <p>They're not lost. They just haven't been asked for. Not because anyone is unwilling — because no one quite knew how to begin.</p>
+            <p>And then, quietly, the window started to close.</p>
+        </div>
+    </section>
+
+    <!-- 2. What it is -->
+    <section>
+        <h2 class="section-heading">What 24 Stories is.</h2>
+        <div class="prose">
+            <p>A guided storytelling subscription. Each week, your storyteller receives a single, carefully written prompt — a question designed to unlock a real memory. Something specific. Something they haven't thought about in years.</p>
+            <p>They answer in their own words. By voice or by typing. Twenty minutes, usually less.</p>
+            <p>Then Tamara edits every story by hand — shaping it into something your family will actually want to read. Not AI. Not a template. A human editor who cares about the detail.</p>
+            <p>And every Friday, the story goes out to your whole family — your uncle in Durban, your daughter in London, your cousins in Cape Town — for twenty-six weeks.</p>
+        </div>
+    </section>
+
+    <!-- 3. How it works -->
+    <section>
+        <h2 class="section-heading">How it works.</h2>
+        <ol class="steps">
+            <li>
+                <span class="step-text"><strong>Every Tuesday, a new prompt arrives.</strong> A single question, written for real life. Not "describe your childhood" — something more specific. More evocative. Something that opens a door.</span>
+            </li>
+            <li>
+                <span class="step-text"><strong>Your storyteller answers.</strong> By voice note or typed message. Twenty minutes. We transcribe, edit, and shape every word.</span>
+            </li>
+            <li>
+                <span class="step-text"><strong>Every Friday, the story goes out.</strong> To every family member you've named — by email, to as many people as you like.</span>
+            </li>
+            <li>
+                <span class="step-text"><strong>At 26 weeks, a hardcover book arrives at your door.</strong> Their stories. Their words. Their voice. A book your family will keep for generations.</span>
+            </li>
+        </ol>
+    </section>
+
+    <!-- Differentiator callout -->
+    <div class="callout">
+        <p class="callout-title">Your family hears the stories while they're still being told.</p>
+        <p class="callout-body">This isn't an archive. It isn't a project you finish after someone is gone. Every story goes to your family the week it's written — forty, fifty, a hundred people, if you want, reading the same thing at the same time. Calling each other about it. Remembering things they'd forgotten. The book is the ending. The experience starts in week one.</p>
+    </div>
+
+    <!-- 4. What you get -->
+    <section>
+        <h2 class="section-heading">What you get.</h2>
+        <ul class="features">
+            <li>26 original story prompts, written for real life</li>
+            <li>Personal editing by Tamara on every story — not AI, not a template</li>
+            <li>Weekly delivery to your whole family by email</li>
+            <li>Three stories narrated in the storyteller's own voice — QR codes printed in the book, scannable forever</li>
+            <li>A private story library your storyteller can access anytime</li>
+            <li>One professional hardcover book, printed and couriered to your door</li>
+        </ul>
+    </section>
+
+    <!-- 5. Objection: "not a writer" -->
+    <section>
+        <h2 class="section-heading">"But my mum isn't a writer."</h2>
+        <div class="prose">
+            <p>That's exactly why this works.</p>
+            <p>They're not writing. They're answering questions. Questions like: <em>What was the hardest year of your life, and how did you get through it?</em> Or: <em>Describe the home you grew up in. What did it smell like?</em></p>
+            <p>The prompts do the work. Your storyteller just answers honestly. Tamara does the rest.</p>
+        </div>
+    </section>
+
+    <!-- Price -->
+    <div class="price-block">
+        <p class="price-main">R3 500 per month. Six months.</p>
+        <p class="price-alt">Or R16 800 once-off. The book is included in both.</p>
+    </div>
+
+    <!-- 6. Urgency -->
+    <section>
+        <div class="prose">
+            <p>Because Tamara edits every story personally, she can only work with a limited number of storytellers at a time. If you're ready to start — or just want to ask a question — reach out now. She'll answer every question.</p>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="cta-block">
+        <p class="cta-title">Let's begin.</p>
+        <p class="cta-sub">Send Tamara a message on WhatsApp. Tell her who you'd like to capture — or if it's for yourself.</p>
+        <a href="https://wa.me/27823758320?text=Hi%20Tamara%2C%20I%27d%20like%20to%20find%20out%20more%20about%2024%20Stories." class="btn-wa" target="_blank" rel="noopener">Message on WhatsApp</a>
+        <a href="mailto:hello@24stories.co.za" class="email-link">Or email hello@24stories.co.za</a>
+    </div>
+
+    <p class="closing">Some things can't wait.</p>
+
+</div>
+
+</body>
+</html>

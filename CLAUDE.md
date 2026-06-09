@@ -6,10 +6,15 @@
 
 ## Session 34 — IN PROGRESS (2026-06-09)
 
-### 1. Story Library — final UX sign-off — PENDING
-- Visual check: checkboxes, overlay, "Voice recorded" badge, Book Prep status panel
-- Clean up test data: delete stories recaCcCDyxc1Pk1F5 + rec9CqsWTu13hRu6H, reset subscriber recF4l3VjHX3c7lSa PromptNumber to 0
-- Any remaining UX fixes from Tamara's review
+### 1. Story Library — voice UX sign-off — COMPLETE (2026-06-09, commit 4e8db53)
+Five fixes shipped:
+1. **Auto-refresh** — after confirming a recording, Book Prep voice list, checkbox strip, and card header badge all update in-place. No page reload needed.
+2. **Teaser → active instruction at week 21+** — gold panel no longer disappears. At week 21+ it transforms to: "Time to choose your three voice recordings. Browse your stories below and tick *Narrate in my voice* on the three you want to record. Your selections will appear in your Book Prep section at the bottom of this page."
+3. **Counter** — "X of 3 stories chosen for narration." appears below the panel at week 21+. Updates on every tick/untick and after confirmation.
+4. **Checkbox sub-label** — changed from "Tick to select this story for narration." → "Tick to include in your three voice recordings." Makes the 3-story limit clear from first interaction.
+5. **Book Prep voice intro** — "Scroll up to your stories and tick *Narrate in my voice* on three of your favourites. They will appear here once chosen. Record each one when you are ready..."
+
+**Still to clean up:** delete test stories recaCcCDyxc1Pk1F5 + rec9CqsWTu13hRu6H, reset subscriber recF4l3VjHX3c7lSa PromptNumber to 0.
 
 ### 2. index.html — QR voice feature as major selling point — COMPLETE (2026-06-09, commit d7b1525)
 All sections updated. Changes made:

@@ -1077,6 +1077,7 @@
                 <p>You can return to any prompt you missed to record your story, add a photograph, or update a caption.</p>
                 <p>Once a story has been edited it cannot be re-recorded.</p>
                 <p id="voiceTeaserIntro" style="margin-top:12px;padding:14px 18px;background:#EDEAE6;border-left:3px solid #B8976A;font-size:0.92rem;line-height:1.8;color:#444;">When all your stories are complete, you will choose three to narrate in your own voice — a QR code will be added to each of those chapters so your family can hear you reading them. Nothing to do yet. We will let you know when it is time.</p>
+                <p id="voiceSelectionCounter" style="display:none;margin-top:8px;font-size:0.82rem;color:#666;line-height:1.6;"></p>
             </div>
 
             <!-- PROGRESS -->
@@ -1178,7 +1179,7 @@
                 <!-- YOUR VOICE IN YOUR BOOK -->
                 <div class="book-field" id="voiceRecordingsField">
                     <p class="book-field-label">Your voice in your book</p>
-                    <p class="book-field-sub">Your stories have been edited. Now choose three to record in your own voice. This is different from recording a prompt — you're reading the finished, polished version aloud. We'll add a QR code to each of those chapters. When your family scans it, they'll hear you telling the story exactly as it reads on the page.</p>
+                    <p class="book-field-sub">Scroll up to your stories and tick <em>Narrate in my voice</em> on three of your favourites. They will appear here once chosen. Record each one when you are ready — we will add a permanent QR code to that chapter in your printed book. When your family scans it, they will hear your voice telling the story.</p>
                     <div id="voiceRecordingsList"></div>
                 </div>
 
@@ -1455,9 +1456,14 @@
                 renderCards(byWeek, promptsByWeek, promptsSent, confirmedCount);
                 renderBookPrep(f, byWeek, promptsByWeek, confirmedCount);
                 showState('library');
-                // Hide voice teaser once feature is active (week 21+)
+                // Transform voice teaser into active instruction at week 21+
                 var teaserEl = document.getElementById('voiceTeaserIntro');
-                if (teaserEl && promptsSent >= 21) teaserEl.style.display = 'none';
+                if (teaserEl && promptsSent >= 21) {
+                    teaserEl.innerHTML = '<strong>Time to choose your three voice recordings.</strong> Browse your stories below and tick <em>Narrate in my voice</em> on the three you want to record. Your selections will appear in your Book Prep section at the bottom of this page. Record each one when you\'re ready — a permanent QR code will be added to that chapter in your book.';
+                    teaserEl.style.color = '#1A1A1A';
+                    var counterEl = document.getElementById('voiceSelectionCounter');
+                    if (counterEl) { counterEl.style.display = 'block'; updateVoiceCounter(); }
+                }
 
                 // Show confirmation if returning from extra copies PayFast payment
                 var orderedQty = parseInt(new URLSearchParams(window.location.search).get('ordered'), 10) || 0;
@@ -2236,7 +2242,7 @@
             } else if (atLimit) {
                 hint.textContent = 'You have chosen 3 stories. Untick one to swap.';
             } else {
-                hint.textContent = 'Tick to select this story for narration.';
+                hint.textContent = 'Tick to include in your three voice recordings.';
             }
 
             info.appendChild(title);
@@ -2283,15 +2289,23 @@
                     setVoiceSelected(current);
                     // Update hint
                     var newAtLimit = current.length >= 3;
-                    hint.textContent = isSelected ? '' : (newAtLimit ? 'You have chosen 3 stories. Untick one to swap.' : 'Tick to select this story for narration.');
+                    hint.textContent = isSelected ? '' : (newAtLimit ? 'You have chosen 3 stories. Untick one to swap.' : 'Tick to include in your three voice recordings.');
                     // Show/hide record button
                     buildActionContent();
                     updateVoiceCheckboxStates();
+                    updateVoiceCounter();
                     renderVoiceRecordingsList(voiceByWeek, voicePromptsByWeek, voiceConfirmedCount);
                 });
             }
 
             return row;
+        }
+
+        function updateVoiceCounter() {
+            var el = document.getElementById('voiceSelectionCounter');
+            if (!el) return;
+            var sel = getVoiceSelected();
+            el.textContent = sel.length + ' of 3 stories chosen for narration.';
         }
 
         function updateVoiceCheckboxStates() {
@@ -2511,7 +2525,44 @@
                 .then(function(d) {
                     document.getElementById('voiceSavingMsg').style.display = 'none';
                     if (d.success) {
-                        document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to this chapter in your book.';
+                        // Update in-memory data so Book Prep refreshes without a page reload
+                        Object.keys(voiceByWeek).forEach(function(wk) {
+                            if (voiceByWeek[wk] && voiceByWeek[wk]._storyId === voiceCurrentStoryId) {
+                                voiceByWeek[wk].BookVoiceConfirmed = true;
+                            }
+                        });
+                        voiceConfirmedCount++;
+
+                        // Replace the checkbox strip on this card
+                        var oldRow = document.querySelector('.voice-select-row[data-story-id="' + voiceCurrentStoryId + '"]');
+                        if (oldRow) {
+                            Object.keys(voiceByWeek).forEach(function(wk) {
+                                var s = voiceByWeek[wk];
+                                if (s && s._storyId === voiceCurrentStoryId) {
+                                    var newRow = buildVoiceSelectCheckbox(s, true);
+                                    oldRow.parentNode.replaceChild(newRow, oldRow);
+                                }
+                            });
+                        }
+
+                        // Add "Voice recorded" badge to the card header
+                        var updatedRow = document.querySelector('.voice-select-row[data-story-id="' + voiceCurrentStoryId + '"]');
+                        var parentCard = updatedRow ? updatedRow.closest('.story-card') : null;
+                        if (parentCard) {
+                            var cardLeft = parentCard.querySelector('.card-left');
+                            if (cardLeft && !cardLeft.querySelector('.voice-confirmed-badge')) {
+                                var badge = document.createElement('span');
+                                badge.className = 'voice-confirmed-badge';
+                                badge.textContent = 'Voice recorded';
+                                cardLeft.appendChild(badge);
+                            }
+                        }
+
+                        // Re-render Book Prep voice section — no page reload needed
+                        updateVoiceCounter();
+                        renderVoiceRecordingsList(voiceByWeek, voicePromptsByWeek, voiceConfirmedCount);
+
+                        document.getElementById('voiceSuccessMsg').textContent = 'Recording confirmed. A QR code has been added to this chapter. Scroll down to Book Prep to see your recordings.';
                         document.getElementById('voiceSuccessBlock').style.display = 'block';
                         document.getElementById('voiceOverlayClose').textContent = 'Close';
                         // Hide review actions — only show the back button

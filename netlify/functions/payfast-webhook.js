@@ -521,6 +521,7 @@ function email2Html(giftGiverName, storytellerFirstName) {
 }
 
 function email3Html(storyHelperName, storytellerFirstName) {
+  const helperFirstName = (storyHelperName || '').split(/\s+/)[0] || storyHelperName;
   return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -529,7 +530,7 @@ function email3Html(storyHelperName, storytellerFirstName) {
     <div style="background:#F7F5F2;padding:48px 40px;color:#1A1A1A;">
       <img src="https://resilient-eclair-c46b34.netlify.app/logo.png" alt="24 Stories" width="180" height="40" style="display:block;border:0;max-width:100%;height:auto;margin-bottom:36px;margin-left:auto;">
       <p style="font-size:30px;font-weight:normal;margin:0 0 28px;line-height:1.4;">You have been named as <em>${esc(storytellerFirstName)}</em>'s Story Helper.</p>
-      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(storyHelperName)},</p>
+      <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Hello ${esc(helperFirstName)},</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">${esc(storytellerFirstName)} is embarking on the 24 Stories journey towards creating a Legacy Book — and has asked you to help make it a success.</p>
       <p style="font-size:17px;line-height:1.9;margin:0 0 22px;">Your role is simple. You help ${esc(storytellerFirstName)} when stuck, remind ${esc(storytellerFirstName)} when the week slips by, and add the photographs and captions that bring the stories to life.</p>
       <hr style="border:none;border-top:1px solid #D0CCC6;margin:36px 0;">

@@ -212,6 +212,12 @@ document.addEventListener('DOMContentLoaded', () => {
         dynamicCount++;
         appendDynamicSlot(container, namePrefix, dynamicCount, hint);
 
+        // Pre-render a second empty slot so the first keypress doesn't cause a DOM insertion
+        if (remaining > 1 && dynamicCount < max) {
+            dynamicCount++;
+            appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+        }
+
         // Restore previously typed values into open slots
         saved.forEach((email, i) => {
             const slotNum = validAuto.length + 1 + i;
@@ -340,8 +346,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         gHelperEmailInput?.addEventListener('input', refreshGiftRecipients);
-        gGiverEmail?.addEventListener('input', refreshGiftRecipients);
-        gStorytellerEmail?.addEventListener('input', refreshGiftRecipients);
+        gGiverEmail?.addEventListener('blur', refreshGiftRecipients);
+        gStorytellerEmail?.addEventListener('blur', refreshGiftRecipients);
 
         // Initial build
         refreshGiftRecipients();
@@ -443,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         sHelperEmailInput?.addEventListener('input', refreshSelfRecipients);
-        sStorytellerEmail?.addEventListener('input', refreshSelfRecipients);
+        sStorytellerEmail?.addEventListener('blur', refreshSelfRecipients);
 
         // Initial build
         refreshSelfRecipients();

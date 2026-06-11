@@ -35,7 +35,7 @@
         .helper-sub-input { display: block; width: 100%; border: 1px solid var(--border); padding: 11px 14px; font-size: 15px; font-family: Georgia, serif; color: var(--charcoal); margin-bottom: 10px; background: var(--white); outline: none; }
         .helper-sub-input:focus { border-color: var(--gold); }
         .recipient-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .recipient-row input { flex: 1; border: 1px solid var(--border); padding: 11px 14px; font-size: 15px; font-family: Georgia, serif; color: var(--charcoal); background: var(--white); outline: none; }
+        .recipient-row input { flex: 1; border: 1px solid var(--border); padding: 11px 14px; font-size: 16px; font-family: Georgia, serif; color: var(--charcoal); background: var(--white); outline: none; }
         .recipient-row input:focus { border-color: var(--gold); }
         .recipient-row input:disabled { background: #F0EDE8; color: var(--text-light); }
         .recipient-hint { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 14px; }
@@ -270,10 +270,6 @@
                 var exIdx = i - autoCount;
                 inp.value       = existing[exIdx] || '';
                 inp.placeholder = 'e.g. sarah@gmail.com';
-                inp.addEventListener('input', function() {
-                    if (containerId === 'g-recipientFields') refreshGiftRecipients();
-                    else refreshSelfRecipients();
-                });
             }
             row.appendChild(inp);
             container.appendChild(row);

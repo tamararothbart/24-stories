@@ -776,6 +776,12 @@
         dynamicCount++;
         appendDynamicSlot(container, namePrefix, dynamicCount, hint);
 
+        // Pre-render a second empty slot so the first keypress doesn't cause a DOM insertion
+        if (remaining > 1 && dynamicCount < max) {
+            dynamicCount++;
+            appendDynamicSlot(container, namePrefix, dynamicCount, hint);
+        }
+
         saved.forEach(function(email, i) {
             var slotNum = validAuto.length + 1 + i;
             if (slotNum > max) return;
@@ -872,7 +878,7 @@
         });
     });
     if (sHelperEmail)  sHelperEmail.addEventListener('input', refreshSelfRecipients);
-    if (sStorytEmail)  sStorytEmail.addEventListener('input', refreshSelfRecipients);
+    if (sStorytEmail)  sStorytEmail.addEventListener('blur', refreshSelfRecipients);
 
     refreshSelfRecipients();
 
@@ -961,8 +967,8 @@
         });
     });
     if (gHelperEmailInp) gHelperEmailInp.addEventListener('input', refreshGiftRecipients);
-    if (gGiverEmail)     gGiverEmail.addEventListener('input', refreshGiftRecipients);
-    if (gStorytEmail)    gStorytEmail.addEventListener('input', refreshGiftRecipients);
+    if (gGiverEmail)     gGiverEmail.addEventListener('blur', refreshGiftRecipients);
+    if (gStorytEmail)    gStorytEmail.addEventListener('blur', refreshGiftRecipients);
 
     refreshGiftRecipients();
 
